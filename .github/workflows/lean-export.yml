@@ -1,0 +1,43 @@
+name: lean-export
+on:
+  push:
+    paths:
+      - "src/havelock/**"
+      - "lean/Havelock/Tanh/General.lean"
+      - "lean/lakefile.lean"
+      - "lean/lake-manifest.json"
+      - "lean/lean-toolchain"
+      - ".github/workflows/lean-export.yml"
+  workflow_dispatch:
+jobs:
+  export-n8:
+    # spec 9.4: generate the N = 8 tanh certificate with the package and compile it against the Lean library
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -e .
+      - name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Cache Mathlib build cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/mathlib
+          key: mathlib-${{ hashFiles('lean/lake-manifest.json', 'lean/lean-toolchain') }}
+      - name: Fetch Mathlib cache
+        working-directory: lean
+        run: lake exe cache get
+      - name: Build Havelock.Tanh.General
+        working-directory: lean
+        run: lake build +Havelock.Tanh.General
+      - name: Export the N = 8 certificate and compile it
+        run: |
+          havelock cert tanh 8 --json cert8.json --lean "$RUNNER_TEMP/ExportN8.lean" --check --lean-project lean
+          havelock verify cert8.json

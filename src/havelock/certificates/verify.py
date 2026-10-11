@@ -17,10 +17,10 @@ from fractions import Fraction
 import flint
 
 SCHEMA = "havelock-threshold-certificate/1"
-_FAMILY = {"mt": "mt", "sphere": "mt", "plane": "mt", "sinh": "mt"}
-_DOMAIN = {"mt": (Fraction(-1), Fraction(1))}
-_CLOSED = {"mt": (False, True)}          # (lo_closed, hi_closed) of the family domain
-_STABLE = {"mt": "below"}
+_FAMILY = {"mt": "mt", "sphere": "mt", "plane": "mt", "sinh": "mt", "tanh": "tanh"}
+_DOMAIN = {"mt": (Fraction(-1), Fraction(1)), "tanh": (Fraction(0), Fraction(1))}
+_CLOSED = {"mt": (False, True), "tanh": (False, False)}          # (lo_closed, hi_closed) of the family domain
+_STABLE = {"mt": "below", "tanh": "above"}
 # The next two literals mirror havelock.limits.VERIFY_MAX_N and WITNESS_MAX_PRIME; they are not imported, to keep
 # this module independent of the rest of the package.
 _MAX_N = 100000                          # refuse absurd sizes instead of hanging
@@ -65,7 +65,25 @@ def _mt_numerators(N, m):
     return _trim(A), [T], _trim(_sc(T, A)), [0]
 
 
-_REBUILD = {"mt": _mt_numerators}
+def _tanh_numerators(N, m):
+    """(A, B, D, G) of the tanh model (tanh/note_tanh.tex Thm 2 cleared of denominators), constant term first."""
+    X = _mono(N)
+    omx, omX, opx = [1, -1], _add([1], _sc(-1, X)), [1, 1]
+    omX2, omx2 = _mul(omX, omX), _mul(omx, omx)
+    A = _add(_sc(2 * (N - 1), _mul(_mul(opx, omx), omX2)), _sc(-4, _mul(_mono(2), omX2)),
+             _sc(-m * (N - m), _mul(omx2, omX2)), _sc(4 * N, _mul(_mul(_mul(opx, omx), X), omX)),
+             _sc(-2 * N * N, _mul(X, omx2)),
+             _sc(-N, _mul(omx2, _add(_sc(m, _mono(m)), _sc(N - m, _mono(N - m)), _sc(N - m, _mono(N + m)),
+                                     _sc(m, _mono(2 * N - m))))))
+    Wm = _add(_sc(m, _mul(_mono(m), omX)), _sc(N, _mono(m + N)))
+    WNm = _add(_sc(N - m, _mul(_mono(N - m), omX)), _sc(N, _mono(2 * N - m)))
+    B = _add(_sc(m * (N - m), omX2), _sc(2 * N * N, X), _sc(-N, _add(Wm, WNm)))
+    G = _sc(N, _add(Wm, _sc(-1, WNm)))
+    D = _add(_mul(A, B), _sc(-1, _mul(omx2, _mul(G, G))))
+    return _trim(A), _trim(B), _trim(D), _trim(G)
+
+
+_REBUILD = {"mt": _mt_numerators, "tanh": _tanh_numerators}
 
 
 def _ev(p, q: Fraction) -> Fraction:

@@ -18,6 +18,9 @@ $ havelock nonlinear mt 13
 $ havelock simulate sinh 9 -0.05 --t-end 50
 $ havelock cert sinh 8 --json cert.json
 $ havelock verify cert.json
+$ havelock threshold tanh 12
+$ havelock stability tanh 9 0.11287108
+$ havelock cert tanh 8 --json cert8.json --lean CertN8.lean
 $ havelock limits
 ```
 
@@ -40,6 +43,9 @@ s = hv.stability("sinh", 9, "-0.3")  # verdict "EM-stable"; values are used exac
 c = hv.nonlinear("mt", 13)        # c.c4 == Fraction(675, 104), c.verdict == "stable"
 sim = hv.simulate("sinh", 9, "-0.05")  # sim.growth, sim.energy_drift, sim.drift_tolerance (NUMERICAL)
 cert = hv.certificate(t)          # cert.to_json(); hv.Certificate.verify(cert.to_json()).ok
+x = hv.threshold("tanh", 12)      # CERTIFIED; x.exact is the minimal polynomial with an isolating interval
+x8 = hv.certificate(hv.threshold("tanh", 8))
+x8.to_lean("CertN8.lean")         # compile with: cd lean && lake env lean ../CertN8.lean
 ```
 
 Floats are converted to their exact binary value; pass strings such as `"-0.3"` or `"1/7"` for decimal or rational

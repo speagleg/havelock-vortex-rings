@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import time
 from dataclasses import dataclass
+from fractions import Fraction
 from pathlib import Path
 
 from ..certify import certify_threshold
@@ -43,8 +44,33 @@ class Certificate:
 
     def to_lean(self, path) -> Path:
         """Write a Lean 4 module proving the threshold (tanh model only; it imports Havelock.Tanh.General)."""
-        raise InvalidInput("Lean export is available for the tanh model only; MT-family thresholds are proved in "
-                           "the Lean library itself (Havelock.Conj13.bn_spec, Havelock.Sinh)")
+        if self.data["model"] != "tanh":
+            raise InvalidInput("Lean export is available for the tanh model only; MT-family thresholds are proved "
+                               "in the Lean library itself (Havelock.Conj13.bn_spec, Havelock.Sinh)")
+        import flint
+        import mpmath as mp
+
+        from ..blocks import numerators
+        from ..certify import canonical_factors
+        from .lean import emit_tanh_module
+
+        N = self.data["N"]
+        f = canonical_factors(flint.fmpz_poly(self.data["polynomial"]))[self.data["factor_index"]]
+        lo, hi = (Fraction(s) for s in self.data["interval"])
+        with mp.workdps(60):
+            xs = (mp.mpf(lo.numerator) / lo.denominator + mp.mpf(hi.numerator) / hi.denominator) / 2
+
+        def numer(N_, m, kind):
+            nm = numerators("tanh", N_, m)
+            return [int(c) for c in {"A": nm.A, "B": nm.B}[kind].coeffs()]
+
+        try:
+            text = emit_tanh_module(N, numer, [int(c) for c in f.coeffs()], xs)
+        except ValueError as e:
+            raise CertificationFailed(f"Lean emitter: {e}") from None
+        path = Path(path)
+        path.write_text(text, encoding="utf-8")
+        return path
 
     @classmethod
     def verify(cls, data) -> VerifyReport:

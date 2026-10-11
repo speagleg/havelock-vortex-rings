@@ -83,6 +83,18 @@ and a `basis` string that says why. Certified thresholds can be exported as mach
     .venv/bin/havelock threshold sinh 12
     .venv/bin/python -m pytest -q
 
+What 0.1.0 covers:
+
+- **MT family** (`mt`, `sphere`, `plane`, `sinh`): thresholds, critical mode and the quartic coefficient c4 are PROVED
+  for n >= 4 (n = 2, 3 on the sphere raise `OutOfValidityRange`).
+- **tanh model** (`tanh`): block formulas PROVED; thresholds CERTIFIED at run time for N <= 64 (exact Sturm counts and
+  Arb root isolation; "Lean-checked" for 8 <= N <= 16); stability verdicts CERTIFIED from exact signs; c4 NUMERICAL and
+  for even N only. The certified tanh threshold is the spectral one; for odd N the energy–momentum threshold lies
+  strictly above it, in a Krein window where the ring is linearly stable and nonlinear stability is undecided.
+- **Simulation** (`simulate`): NUMERICAL, all models.
+- **Certificates**: JSON threshold certificates for every model, re-checked by an independent exact verifier
+  (`havelock verify`); Lean 4 export for tanh (`havelock cert tanh 8 --lean CertN8.lean`).
+
 See [docs/quickstart.md](docs/quickstart.md), [docs/models.md](docs/models.md) and
 [docs/certificates.md](docs/certificates.md). The package does not import the research scripts in `conj13/`, `tanh/`
 and `sinh/`; it ports their logic, and its tests compare against their recorded outputs.

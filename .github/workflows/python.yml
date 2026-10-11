@@ -16,7 +16,7 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: pytest -q
   slow:
-    # large-N certification, long simulations, tanh c4 at N = 10: manual dispatch only
+    # slow tier (pytest --runslow): large-N certification (tanh N = 64), long simulations, tanh c4 at N = 10; manual dispatch only
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 120
