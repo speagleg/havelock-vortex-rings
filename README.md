@@ -66,16 +66,26 @@ and on any main theorem that depends on an axiom other than `propext`, `Classica
 | `tanh/` | The tanh model: derivation, block and certification scripts, `irreducibility/`, `boatto_check/`, the Lean certificate generator in `lean_gen/`, and the note |
 | `sinh/` | The sinh-model note and its checks |
 | `lean/` | Lean 4 + Mathlib library `Havelock` ([docs/lean.md](docs/lean.md)) |
-| `docs/` | [results.md](docs/results.md): every claim with its status. [lean.md](docs/lean.md). `design/`: the design spec for the planned Python package |
+| `docs/` | [results.md](docs/results.md): every claim with its status. [lean.md](docs/lean.md). `design/`: the design spec for the Python package |
+| `src/` | The `havelock` Python package (`src/havelock`) |
+| `tests/` | The package's pytest suite |
 | `literature.md` | What we read, and how much of it (full text or abstract only) |
 | `directions-2026-10-10.md` | Working notes on further directions, dated. Some items have since been resolved; for example, Conjecture 13 is item 7 |
 
-## Coming next: the `havelock` Python package
+## Using the `havelock` Python package
 
-A library and CLI is planned; its design is in [docs/design/](docs/design/). It will answer, for any N and any of the
-four models, where the ring loses stability, which mode goes first, and whether the ring is nonlinearly stable at that
-point. Every answer will carry its PROVED, CERTIFIED or NUMERICAL label and can be exported as a machine-checkable
-certificate. It is not built yet.
+The `havelock` package (`src/havelock`, version 0.1.0) answers four questions about the regular N-vortex ring in a
+given model: where it loses stability, which Fourier mode goes first, whether it is nonlinearly stable at the
+bifurcation point, and what the motion looks like. Every answer carries a status (PROVED, CERTIFIED or NUMERICAL)
+and a `basis` string that says why. Certified thresholds can be exported as machine-checkable certificates.
+
+    python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
+    .venv/bin/havelock threshold sinh 12
+    .venv/bin/python -m pytest -q
+
+See [docs/quickstart.md](docs/quickstart.md), [docs/models.md](docs/models.md) and
+[docs/certificates.md](docs/certificates.md). The package does not import the research scripts in `conj13/`, `tanh/`
+and `sinh/`; it ports their logic, and its tests compare against their recorded outputs.
 
 ## Citing and contact
 
