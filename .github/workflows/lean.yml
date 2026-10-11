@@ -1,0 +1,54 @@
+name: lean
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  build:
+    # Private-repo ubuntu-latest runners have 2 CPUs and 8 GB of RAM. The tanh certificates are split into
+    # modules (lean/Havelock/Tanh/) that are built ONE AT A TIME below: a plain parallel `lake build` would
+    # check several large modules at once and can run out of memory.
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    defaults:
+      run:
+        shell: bash   # bash -eo pipefail: a failing command is not masked by `tee`
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check no sorry / admit / native_decide / axiom (comments excluded)
+        run: python3 .github/scripts/check_no_sorry.py lean
+      - name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Cache Mathlib build cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/mathlib
+          key: mathlib-${{ hashFiles('lean/lake-manifest.json', 'lean/lean-toolchain') }}
+      - name: Fetch Mathlib cache
+        working-directory: lean
+        run: lake exe cache get
+      - name: Build (one module at a time)
+        working-directory: lean
+        run: |
+          free -h
+          # The Havelock.Tanh.* modules in the (dependency) order in which TanhAlgebra.lean imports them.
+          mapfile -t tanh < <(sed -nE 's/^import (Havelock\.Tanh\.[A-Za-z0-9_]+)$/\1/p' Havelock/TanhAlgebra.lean)
+          [ "${#tanh[@]}" -gt 0 ] || { echo "no Havelock.Tanh imports found"; exit 1; }
+          mods=(Havelock.SinhArithmetic Havelock.Conj13Algebra "${tanh[@]}" Havelock.TanhAlgebra Havelock)
+          : > build.log
+          for m in "${mods[@]}"; do
+            echo "::group::lake build +$m"
+            start=$SECONDS
+            lake build "+$m" 2>&1 | tee -a build.log
+            echo "$m: $((SECONDS - start)) s"
+            echo "::endgroup::"
+          done
+          lake build 2>&1 | tee -a build.log   # the default target; must be a no-op by now
+          if grep -n "declaration uses 'sorry'" build.log; then echo "sorry in build log"; exit 1; fi
+      - name: Axiom gate
+        working-directory: lean
+        run: |
+          lake env lean AxiomAudit.lean 2>&1 | tee axioms.log
+          bash ../.github/scripts/check_axioms.sh axioms.log AxiomAudit.lean

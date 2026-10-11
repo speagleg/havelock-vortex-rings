@@ -80,7 +80,24 @@ NOT FORMALISED (taken as input from the paper / sympy scripts)
 * All of sec:nonlinear (Lemmas A, B1–B4, thm:abstract: the energy–momentum / Lyapunov argument), the dynamics,
   the reduction `J⁻¹(μ)/K` as a manifold, and the numerical integrations.
 -/
-import Mathlib
+import Mathlib.Algebra.Order.Ring.Star
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Algebra.Ring.IsFormallyReal
+import Mathlib.Analysis.InnerProductSpace.Basic
+import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
+import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+import Mathlib.Analysis.SpecialFunctions.Sqrt
+import Mathlib.Data.Int.Star
+import Mathlib.RingTheory.RootsOfUnity.Complex
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Algebra.Module.ModuleTopology
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.IntervalCases
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.Ring
 
 namespace Havelock.Conj13
 

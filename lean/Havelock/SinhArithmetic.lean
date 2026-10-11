@@ -25,7 +25,18 @@ Formalised here (no `sorry`):
 NOT formalised: the dynamics (Hessian, Fourier block-diagonalisation, C₁ formula), and the converse
 "ξ* algebraic integer ⇒ c ∈ ℤ" for irrational ξ* (minimal-polynomial argument, on paper).
 -/
-import Mathlib
+import Mathlib.Algebra.Order.Ring.Star
+import Mathlib.Analysis.Real.Sqrt
+import Mathlib.Data.Int.Star
+import Mathlib.Data.Rat.Star
+import Mathlib.RingTheory.DedekindDomain.Basic
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.IntervalCases
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.Ring
 
 namespace Havelock.Sinh
 
