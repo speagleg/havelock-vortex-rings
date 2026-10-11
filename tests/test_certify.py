@@ -72,15 +72,14 @@ def test_isolated_root_str():
 
 
 def test_sturm_count_raises_on_inverted_interval():
-    """Test that sturm_count raises ValueError if lo > hi."""
-    from havelock.errors import CertificationFailed
+    """Test that sturm_count raises ValueError if lo > hi. (M5)"""
     p = x**2 - 2
     with pytest.raises(ValueError, match="lo.*hi"):
         sturm_count(p, F(2), F(0))
 
 
 def test_certify_threshold_interval_clear_records_checks():
-    """Test that certify_threshold records the interval_clear field with roots checked."""
+    """Test that certify_threshold records the interval_clear field with roots checked. (M6.1 + I1)"""
     dom = get_model("mt").family_domain
     c = certify_threshold("mt", 8, dom, "below")
     assert c.interval_clear is not None
@@ -92,23 +91,43 @@ def test_certify_threshold_interval_clear_records_checks():
 
 
 def test_certify_no_threshold_closed_endpoint_mt_n2():
-    """Test that certify_no_threshold correctly fails at MT N=2 with a closed endpoint at b=1."""
-    from havelock.errors import CertificationFailed
+    """Test that certify_no_threshold correctly fails at MT N=2 with a closed endpoint at b=1. (M6.3 + I2)"""
     # At N=2, A_1(1) = 0, so certify_no_threshold should fail if we include the endpoint
     dom_closed_at_hi = (F(-1), F(1), False, True)  # (-1, 1]
     result = certify_no_threshold("mt", 2, dom_closed_at_hi)
     assert result is False, "At N=2, b=1 is a root of A_1, so certify_no_threshold must return False"
 
 
-def test_certify_threshold_error_message_includes_ladder():
-    """Test that CertificationFailed message includes the ladder that was tried."""
+def test_certify_threshold_stable_side_above():
+    """Test certify_threshold with stable_side 'above'. (M6.2)"""
     from havelock.errors import CertificationFailed
-    # Construct a polynomial with two very close roots to force Arb to need higher precision
-    # Use a tiny interval in MT domain
-    tight_dom = (F(-9999999999, 10000000000), F(-9999999998, 10000000000), False, False)
-    try:
-        certify_threshold("mt", 8, tight_dom, "below", start_bits=8)
-        # If it doesn't fail, that's OK - the test just checks the error message if it does
-    except CertificationFailed as e:
-        # Verify that the error message includes "ladder" and "bits"
-        assert "ladder" in str(e).lower() and "bits" in str(e).lower()
+    # MT N=8 is stable below, so asking for stable_side "above" should raise
+    # because the sign pattern won't match (all A_m, B_m > 0 above the threshold)
+    dom = get_model("mt").family_domain
+    with pytest.raises(CertificationFailed, match="sign pattern"):
+        certify_threshold("mt", 8, dom, "above")
+
+
+def test_certify_threshold_other_block_no_root_passes(monkeypatch):
+    """Test that interval_clear records 0 for a block with no root inside (L, U]. (M6.3)"""
+    from havelock import certify as certify_module
+    from havelock.blocks import Numerators
+
+    original_numerators = certify_module.numerators
+
+    def fake_numerators(family, N, m):
+        nm = original_numerators(family, N, m)
+        # For m=1, make B_1 = x^2 + 1 (no real roots)
+        if family == "mt" and N == 8 and m == 1:
+            B_1_modified = x**2 + 1
+            return Numerators(A=nm.A, B=B_1_modified, D=nm.D, G=nm.G, den_a=nm.den_a, den_b=nm.den_b)
+        return nm
+
+    monkeypatch.setattr(certify_module, "numerators", fake_numerators)
+
+    dom = get_model("mt").family_domain
+    # This should succeed and record interval_clear with 0 for B_1
+    c = certify_threshold("mt", 8, dom, "below")
+    assert c is not None
+    assert c.interval_clear is not None
+    assert c.interval_clear.get("B_1") == 0

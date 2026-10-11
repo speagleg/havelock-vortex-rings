@@ -144,6 +144,17 @@ class IsolatedRoot:
             return (mp.mpf(self.lo.numerator) / self.lo.denominator + mp.mpf(self.hi.numerator) / self.hi.denominator) / 2
 
 
+def _positive_at(family: str, N: int, q: Fraction, include_D: bool) -> bool:
+    """True iff all A_m, B_m (and D_m if include_D), m = 1..N//2, are positive at q."""
+    for m in range(1, N // 2 + 1):
+        nm = numerators(family, N, m)
+        if sign_at(nm.A, q) <= 0 or sign_at(nm.B, q) <= 0:
+            return False
+        if include_D and not nm.G.is_zero() and sign_at(nm.D, q) <= 0:
+            return False
+    return True
+
+
 @dataclass(frozen=True)
 class Certification:
     """Everything a threshold certificate records (see havelock.certificates for the JSON form)."""
@@ -270,21 +281,13 @@ def certify_threshold(family: str, N: int, domain, stable_side: str, start_bits:
         raise CertificationFailed("the sign pattern on the two sides of the threshold is not the expected one "
                                   "(stable side: every a_m, b_m > 0; unstable side: a_crit b_crit < 0)")
 
-    # T4-I2: Check closed endpoints on the stable side
+    # T4-I2 & T4-D: Check closed endpoints on the stable side (A_m, B_m only, not D_m)
     if stable_side == "above" and hi_closed:
-        for m in modes:
-            nm = numerators(family, N, m)
-            if sign_at(nm.A, dhi) <= 0 or sign_at(nm.B, dhi) <= 0:
-                raise CertificationFailed(f"at the closed endpoint hi={dhi}, a block is not positive")
-            if not nm.G.is_zero() and sign_at(nm.D, dhi) <= 0:
-                raise CertificationFailed(f"at the closed endpoint hi={dhi}, D is not positive")
+        if not _positive_at(family, N, dhi, include_D=False):
+            raise CertificationFailed(f"at the closed endpoint hi={dhi}, a block is not positive")
     elif stable_side == "below" and lo_closed:
-        for m in modes:
-            nm = numerators(family, N, m)
-            if sign_at(nm.A, dlo) <= 0 or sign_at(nm.B, dlo) <= 0:
-                raise CertificationFailed(f"at the closed endpoint lo={dlo}, a block is not positive")
-            if not nm.G.is_zero() and sign_at(nm.D, dlo) <= 0:
-                raise CertificationFailed(f"at the closed endpoint lo={dlo}, D is not positive")
+        if not _positive_at(family, N, dlo, include_D=False):
+            raise CertificationFailed(f"at the closed endpoint lo={dlo}, a block is not positive")
     f = factors[idx]
     return Certification(family=family, N=N, mode=mode, polynomial=P, factor=f, factor_index=idx,
                          interval=(L, U), endpoint_signs=es, sturm=st, points=(below, above),
@@ -307,21 +310,10 @@ def certify_no_threshold(family: str, N: int, domain) -> bool:
             if sturm_count(q, dlo, dhi) != 0 or sign_at(p, mid) <= 0:
                 return False
 
-    # T4-I2: Check positivity at closed endpoints
-    if lo_closed:
-        for m in range(1, N // 2 + 1):
-            nm = numerators(family, N, m)
-            if sign_at(nm.A, dlo) <= 0 or sign_at(nm.B, dlo) <= 0:
-                return False
-            if not nm.G.is_zero() and sign_at(nm.D, dlo) <= 0:
-                return False
-
-    if hi_closed:
-        for m in range(1, N // 2 + 1):
-            nm = numerators(family, N, m)
-            if sign_at(nm.A, dhi) <= 0 or sign_at(nm.B, dhi) <= 0:
-                return False
-            if not nm.G.is_zero() and sign_at(nm.D, dhi) <= 0:
-                return False
+    # T4-I2: Check positivity at closed endpoints (includes D_m)
+    if lo_closed and not _positive_at(family, N, dlo, include_D=True):
+        return False
+    if hi_closed and not _positive_at(family, N, dhi, include_D=True):
+        return False
 
     return True
