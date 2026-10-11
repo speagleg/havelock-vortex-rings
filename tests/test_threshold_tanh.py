@@ -128,3 +128,44 @@ def test_certificate_refuses_real_fallback_above_cap():
     t = threshold("tanh", 65, strict=False)
     with pytest.raises(hv.CertificationFailed, match="no certificate for a NUMERICAL result"):
         hv.certificate(t)
+
+
+KREIN = "for odd N the energy-momentum threshold xi_EM lies strictly above (Krein window: linearly stable, nonlinear stability undecided)"
+
+
+def test_basis_states_spectral_threshold_and_krein_window():
+    odd, even = threshold("tanh", 9), threshold("tanh", 10)
+    assert "spectral threshold xi* (note_tanh Theorem 7" in odd.basis and KREIN in odd.basis
+    assert "spectral threshold xi*" in even.basis and "Krein" not in even.basis
+    assert "Theorem 7(b)" in odd.basis and "Thm 6" not in odd.basis
+
+
+def test_small_ring_basis_cites_theorem_7a():
+    b = threshold("tanh", 5).basis
+    assert "Theorem 7(a)" in b and "Thm 6" not in b
+
+
+def test_fallback_reason_does_not_advise_strict_false():
+    t = threshold("tanh", 65, strict=False)
+    assert "size cap" in t.basis and "use strict=False" not in t.basis
+
+
+@pytest.mark.parametrize("strict", [True, False])
+def test_small_ring_fails_closed_when_checks_disagree(monkeypatch, strict):
+    import sys
+    th = sys.modules["havelock.threshold"]
+    monkeypatch.setattr(th, "certify_no_threshold", lambda *a, **k: False)
+    monkeypatch.setattr(th, "certify_threshold", lambda *a, **k: None)
+    if strict:
+        with pytest.raises(hv.CertificationFailed):
+            th.threshold("tanh", 5)
+    else:
+        # N = 5 has no sign change for the NUMERICAL fallback to find, so it raises too; it never returns CERTIFIED
+        with pytest.raises(hv.CertificationFailed, match="no sign change"):
+            th.threshold("tanh", 5, strict=False)
+
+
+def test_review_focus_n33():
+    t = threshold("tanh", 33)
+    assert t.status == hv.Status.CERTIFIED and t.mode == 16
+    assert len(t.exact.poly) - 1 == 64       # 2N - 2 for odd N (eq. deg)

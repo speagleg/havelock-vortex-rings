@@ -86,20 +86,23 @@ def _tanh_numerical(N: int):
 
 def _tanh_threshold(mdl, N, t0, inputs, strict, precision):
     if N > TANH_EXACT_MAX_N:
-        msg = (f"N = {N} exceeds the exact-certification size cap N <= {TANH_EXACT_MAX_N} (hv.limits()); "
-               "use strict=False for a NUMERICAL value")
         if strict:
-            raise CertificationFailed(msg)
-        return _tanh_fallback(mdl, N, t0, inputs, msg)
+            raise CertificationFailed(f"N = {N} exceeds the exact-certification size cap N <= {TANH_EXACT_MAX_N} "
+                                      "(hv.limits()); use strict=False for a NUMERICAL value")
+        return _tanh_fallback(mdl, N, t0, inputs,
+                              f"N = {N} exceeds the exact-certification size cap N <= {TANH_EXACT_MAX_N}")
     try:
         if N <= 7 and certify_no_threshold("tanh", N, mdl.family_domain):
             return NoThreshold(status=Status.CERTIFIED,
                                basis=("exact Sturm counts: a_m, b_m and a_m b_m - g_m^2 have no root in (0, 1) and are "
-                                      "positive (tanh/note_tanh.tex Thm 6(a)); Lean-checked: "
+                                      "positive (note_tanh Theorem 7(a) (thm:cert)); Lean-checked: "
                                       f"Havelock.Tanh.stable_N{N}"),
                                provenance=make_provenance("threshold", inputs, t0), model="tanh", N=N,
                                verdict="stable at every radius", geometry="H2")
         c = certify_threshold("tanh", N, mdl.family_domain, "above", start_bits=precision, witness=True)
+        if c is None and N <= 7:     # fail closed: the two exact checks disagree, so claim nothing
+            raise CertificationFailed(f"N = {N}: the exact checks for 'stable at every radius' disagree; "
+                                      "no certified verdict")
     except CertificationFailed as e:
         if strict:
             raise
@@ -113,8 +116,10 @@ def _tanh_threshold(mdl, N, t0, inputs, strict, precision):
     with mp.workdps(WORK_DPS):
         value = exact.approx(WORK_DPS)
         r, cosh_r = mdl.radius(value), mdl.cosh_r(value)
-    lean = f"; Lean-checked: Havelock.Tanh.cert_N{N}" if 8 <= N <= 16 else ""
-    basis = (f"CERTIFIED at run time: Arb root isolation ({c.bits} bits) inside an exact rational interval of width "
+    lean = f"; Lean-checked: Havelock.Tanh.cert_N{N} (note_tanh Theorem 7(b))" if 8 <= N <= 16 else ""
+    krein = ("; for odd N the energy-momentum threshold xi_EM lies strictly above (Krein window: linearly stable, "
+             "nonlinear stability undecided)" if N % 2 else "")
+    basis = (f"spectral threshold xi* (note_tanh Theorem 7 (thm:cert)){krein}. CERTIFIED at run time: Arb root isolation ({c.bits} bits) inside an exact rational interval of width "
              f"< 2^-{c.bits - 8}, exact Sturm count 1, no B_m and no A_m (m != {c.mode}) vanishing in the interval "
              f"(exact Sturm counts), exact signs of every block on both sides, and no root of any "
              f"a_m, b_m on ({float(hi):.6g}, 1); blocks of tanh/note_tanh.tex Thm 2 (PROVED); critical mode {c.mode}"
