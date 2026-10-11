@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "havelock"
+version = "0.1.0"
+description = "Stability thresholds, nonlinear verdicts, simulations and certificates for regular N-vortex rings"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "Gordon Speagle"}]
+# Floors: the oldest releases with every API the package uses (bolzakit's CI runs the same floors on
+# Python 3.10-3.13). Versions the plan was tested with: mpmath 1.3.0, sympy 1.14.0, numpy 2.5.3,
+# scipy 1.18.1, python-flint 0.9.0 (requirements.txt).
+dependencies = ["mpmath>=1.3", "sympy>=1.12", "numpy>=1.24", "scipy>=1.10", "python-flint>=0.6"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+havelock = "havelock.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
