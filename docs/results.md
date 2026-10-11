@@ -5,7 +5,7 @@ Every claim in this repository carries one of these labels:
 | Label | Meaning |
 |---|---|
 | **PROVED** | A pen-and-paper proof in one of the papers. Where marked, its algebra is also checked in Lean (CI-built). |
-| **CERTIFIED** | Established by an exact or interval computation whose output can be re-checked: Arb ball arithmetic, exact Sturm sequences, PARI/GP factorisation, or a Lean certificate. |
+| **CERTIFIED** | Established by a rigorous computation: exact rational root isolation (sympy), Arb ball arithmetic, PARI/GP factorisation, or a Lean certificate. Only the Lean and PARI results leave a certificate that can be re-checked without re-running the computation. The others are re-run by `scripts/reproduce.py`; see the Certificates section of [REPRODUCE.md](../REPRODUCE.md). |
 | **NUMERICAL** | High-precision computation with no rigorous error bound. |
 
 No human specialist has reviewed any of this yet. Independent AI readers and the computer checks listed below are the
@@ -52,8 +52,8 @@ qualitative picture are hers. Hwang–Kim (2013) is closed access and unread; it
 |---|---|
 | In log-polar coordinates the energy–momentum Hessian splits into 2×2 Fourier blocks whose entries are explicit rational functions of ξ = tanh²(r/2) | PROVED (note, Thm 2); the block identities are Lean-checked |
 | Reciprocity: under ξ ↦ 1/ξ, a_m and b_m are invariant and g_m changes sign | PROVED; Lean-checked |
-| N ≤ 7: the ring is stable at every radius | CERTIFIED (exact Sturm), and Lean-checked |
-| N = 8–16: the threshold ξ*(N) is the unique root of an explicit integer polynomial f_N in (0, 1), and the critical mode is ⌊N/2⌋ | CERTIFIED (Arb + Sturm, 25 digits), and Lean-checked (interval of width 10⁻²⁰) |
+| N ≤ 7: the ring is stable at every radius | CERTIFIED (exact rational root isolation), and Lean-checked (Bernstein certificates) |
+| N = 8–16: the threshold ξ*(N) is the unique root of an explicit integer polynomial f_N in (0, 1), and the critical mode is ⌊N/2⌋ | CERTIFIED (exact root isolation plus Arb enclosure, 25 digits), and Lean-checked (uniqueness, sign change and an interval of width 10⁻²⁰) |
 | f_N is irreducible and palindromic; degrees 10, 16, 12, 20, 16, 24, 18, 28, 22 for N = 8–16 | CERTIFIED (PARI/GP `polisirreducible`, plus a second check by factorisation patterns mod p; `tanh/irreducibility/`). Not in Lean |
 | ξ*(8) is an algebraic unit of degree 10; ξ*(9)–ξ*(16) are not algebraic integers | Unit property: Lean. Degree and non-integrality: PARI |
 | For odd N, a "Krein window" lies between the spectral threshold and the energy–momentum threshold. In it the ring is linearly (spectrally) stable; nonlinear stability is undecided. Width 3.22×10⁻⁸ at N = 9. | Non-emptiness for N = 9, 11, 13, 15 is Lean-checked; the widths are CERTIFIED |

@@ -51,7 +51,7 @@ The sinh model, whose thresholds Montaldi and Tokieda already know, is written u
 | Check | How | Time |
 |---|---|---|
 | Lean formalisation of the exact algebra | `cd lean && lake exe cache get && lake build`, then `lake env lean AxiomAudit.lean`. See [docs/lean.md](docs/lean.md). | about 25 min |
-| Re-run the computations behind the papers | `pip install -r requirements.txt`, then `python scripts/reproduce.py`. See [REPRODUCE.md](REPRODUCE.md). | fast tier: minutes |
+| Re-run the computations behind the papers | `pip install -r requirements.txt`, then `python scripts/reproduce.py --tier fast`. See [REPRODUCE.md](REPRODUCE.md). All 72 recorded outputs reproduce byte for byte. | fast tier ~25 min; medium ~2 h |
 | Irreducibility certificates (tanh) | `cd tanh/irreducibility && gp -q irreducibility.gp` | seconds |
 | Boatto comparison | [tanh/boatto_check/RESULT.md](tanh/boatto_check/RESULT.md) | — |
 
