@@ -108,26 +108,80 @@ def test_certify_threshold_stable_side_above():
         certify_threshold("mt", 8, dom, "above")
 
 
-def test_certify_threshold_other_block_no_root_passes(monkeypatch):
-    """Test that interval_clear records 0 for a block with no root inside (L, U]. (M6.3)"""
+def test_certify_threshold_ladder_exhaustion(monkeypatch):
+    """Test that CertificationFailed message includes the ladder tried when exhausted. (M6.2)"""
+    from havelock.errors import CertificationFailed
+    from havelock import certify as certify_module
+
+    # Monkeypatch real_root_balls to always raise _Unresolved to force ladder exhaustion
+    original_real_root_balls = certify_module.real_root_balls
+
+    def fake_real_root_balls(p, lo, hi, bits):
+        raise certify_module._Unresolved()
+
+    monkeypatch.setattr(certify_module, "real_root_balls", fake_real_root_balls)
+
+    dom = get_model("mt").family_domain
+    # This must raise CertificationFailed with the ladder in the message
+    with pytest.raises(CertificationFailed) as exc_info:
+        certify_threshold("mt", 8, dom, "below")
+
+    error_msg = str(exc_info.value)
+    # Verify the ladder is mentioned in the error message
+    assert "ladder" in error_msg.lower()
+    # Verify the precision values from PRECISION_LADDER appear in the message
+    assert "128" in error_msg or "256" in error_msg or "bits" in error_msg
+
+
+def test_certify_threshold_another_block_root_inside_raises(monkeypatch):
+    """Test that CertificationFailed is raised when another B_1 shares the threshold root. (M6.3 raise)"""
+    from havelock.errors import CertificationFailed
     from havelock import certify as certify_module
     from havelock.blocks import Numerators
 
-    original_numerators = certify_module.numerators
-
+    # Create a fake family with A = 1 - 3x (root at 1/3) and B_1 = (3x - 1)(x^2 + 1) (shares root)
     def fake_numerators(family, N, m):
-        nm = original_numerators(family, N, m)
-        # For m=1, make B_1 = x^2 + 1 (no real roots)
-        if family == "mt" and N == 8 and m == 1:
-            B_1_modified = x**2 + 1
-            return Numerators(A=nm.A, B=B_1_modified, D=nm.D, G=nm.G, den_a=nm.den_a, den_b=nm.den_b)
-        return nm
+        if family == "fake" and m == 1:
+            A = 1 - 3 * x
+            B = (3 * x - 1) * (x**2 + 1)
+            G = flint.fmpz_poly([0])  # no coupling
+            D = flint.fmpz_poly([0])
+            return Numerators(A=A, B=B, G=G, D=D, den_a=flint.fmpz_poly([1]), den_b=flint.fmpz_poly([1]))
+        return None
 
     monkeypatch.setattr(certify_module, "numerators", fake_numerators)
 
-    dom = get_model("mt").family_domain
-    # This should succeed and record interval_clear with 0 for B_1
-    c = certify_threshold("mt", 8, dom, "below")
+    # Use domain (0, 1) open, stable_side "below" (where A > 0)
+    dom = (F(0), F(1), False, False)
+    # This must raise because B_1 has a root at 1/3 inside the threshold interval
+    with pytest.raises(CertificationFailed, match="B_1"):
+        certify_threshold("fake", 2, dom, "below")
+
+
+def test_certify_threshold_another_block_no_root_passes(monkeypatch):
+    """Test that certify_threshold succeeds and records interval_clear when B_1 has no shared roots. (M6.3 pass)"""
+    from havelock import certify as certify_module
+    from havelock.blocks import Numerators
+
+    # Create a fake family with A = 1 - 3x (root at 1/3) and B_1 = x^2 + 1 (no real roots)
+    def fake_numerators(family, N, m):
+        if family == "fake" and m == 1:
+            A = 1 - 3 * x
+            B = x**2 + 1
+            G = flint.fmpz_poly([0])  # no coupling
+            D = flint.fmpz_poly([0])
+            return Numerators(A=A, B=B, G=G, D=D, den_a=flint.fmpz_poly([1]), den_b=flint.fmpz_poly([1]))
+        return None
+
+    monkeypatch.setattr(certify_module, "numerators", fake_numerators)
+
+    # Use domain (0, 1) open, stable_side "below" (where A > 0)
+    dom = (F(0), F(1), False, False)
+    # This should succeed
+    c = certify_threshold("fake", 2, dom, "below")
     assert c is not None
-    assert c.interval_clear is not None
-    assert c.interval_clear.get("B_1") == 0
+    # interval_clear should record exactly {"B_1": 0}
+    assert c.interval_clear == {"B_1": 0}
+    # The interval must bracket 1/3 (this proves the monkeypatch took effect)
+    L, U = c.interval
+    assert L < F(1, 3) <= U
