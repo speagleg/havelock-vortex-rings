@@ -45,6 +45,8 @@ def strip_roots(p: flint.fmpz_poly, roots) -> flint.fmpz_poly:
 
 def sturm_count(p: flint.fmpz_poly, lo: Fraction, hi: Fraction) -> int:
     """Number of distinct real roots of p in the half-open interval (lo, hi] (exact Sturm sequence)."""
+    if lo > hi:
+        raise ValueError(f"sturm_count: lo={lo} > hi={hi}")
     if p.degree() <= 0:
         return 0
     s0 = flint.fmpq_poly(squarefree(p).coeffs())
@@ -160,11 +162,12 @@ class Certification:
     stable_side: dict
     bits: int
     irreducibility_witness: dict | None = field(default=None)
+    interval_clear: dict | None = field(default=None)
 
 
 def _domain_points(dom):
-    lo, hi, _, _ = dom
-    return Fraction(lo), Fraction(hi)
+    lo, hi, lo_closed, hi_closed = dom
+    return Fraction(lo), Fraction(hi), lo_closed, hi_closed
 
 
 def coupled(family: str, N: int) -> bool:
@@ -190,10 +193,12 @@ def certify_threshold(family: str, N: int, domain, stable_side: str, start_bits:
     across the interval and has exactly one root in it (Sturm); (4) signs of A_m, B_m (and D_m when g != 0) at
     the rational points 2 lo - hi and 2 hi - lo; (5) on the stable side of the interval no A_m or B_m has a root
     (Sturm), and all of them are positive there. Raises CertificationFailed if a check fails."""
-    dlo, dhi = _domain_points(domain)
+    dlo, dhi, lo_closed, hi_closed = _domain_points(domain)
     modes = range(1, N // 2 + 1)
     ladder = [b for b in PRECISION_LADDER if start_bits is None or b >= start_bits] or [start_bits]
+    tried_ladder = []
     for bits in ladder:
+        tried_ladder.append(bits)
         try:
             balls = []
             for m in modes:
@@ -213,7 +218,7 @@ def certify_threshold(family: str, N: int, domain, stable_side: str, start_bits:
             continue
     else:
         raise CertificationFailed(f"Arb root isolation did not separate the roots for N={N} "
-                                  f"(ladder {list(PRECISION_LADDER)} bits)")
+                                  f"(ladder {tried_ladder} bits)")
     P = numerators(family, N, mode).A
     factors = canonical_factors(P)
     carrying = [i for i, f in enumerate(factors) if sign_at(f, L) * sign_at(f, U) < 0]
@@ -226,6 +231,24 @@ def certify_threshold(family: str, N: int, domain, stable_side: str, start_bits:
     st = sturm_count(P, L, U)
     if st != 1:
         raise CertificationFailed(f"Sturm count of A_crit in the interval is {st}, expected 1")
+
+    # T4-I1: Check that no other blocks have roots in (L, U]
+    interval_clear = {}
+    for m in modes:
+        nm = numerators(family, N, m)
+        # Check B_m has no roots in (L, U]
+        B_count = sturm_count(strip_roots(nm.B, (dlo, dhi)), L, U)
+        if B_count != 0:
+            raise CertificationFailed(f"B_{m} has {B_count} root(s) in ({L}, {U}], violating the interval gap")
+        interval_clear[f"B_{m}"] = B_count
+
+        # Check other A_m (m != mode) have no roots in (L, U]
+        if m != mode:
+            A_count = sturm_count(strip_roots(nm.A, (dlo, dhi)), L, U)
+            if A_count != 0:
+                raise CertificationFailed(f"A_{m} (m != mode) has {A_count} root(s) in ({L}, {U}], violating the interval gap")
+            interval_clear[f"A_{m}"] = A_count
+
     w = U - L
     below, above = L - w, U + w
     if not (dlo < below and above < dhi):
@@ -246,18 +269,35 @@ def certify_threshold(family: str, N: int, domain, stable_side: str, start_bits:
     if not (ok_stable and ok_unstable and ok_counts):
         raise CertificationFailed("the sign pattern on the two sides of the threshold is not the expected one "
                                   "(stable side: every a_m, b_m > 0; unstable side: a_crit b_crit < 0)")
+
+    # T4-I2: Check closed endpoints on the stable side
+    if stable_side == "above" and hi_closed:
+        for m in modes:
+            nm = numerators(family, N, m)
+            if sign_at(nm.A, dhi) <= 0 or sign_at(nm.B, dhi) <= 0:
+                raise CertificationFailed(f"at the closed endpoint hi={dhi}, a block is not positive")
+            if not nm.G.is_zero() and sign_at(nm.D, dhi) <= 0:
+                raise CertificationFailed(f"at the closed endpoint hi={dhi}, D is not positive")
+    elif stable_side == "below" and lo_closed:
+        for m in modes:
+            nm = numerators(family, N, m)
+            if sign_at(nm.A, dlo) <= 0 or sign_at(nm.B, dlo) <= 0:
+                raise CertificationFailed(f"at the closed endpoint lo={dlo}, a block is not positive")
+            if not nm.G.is_zero() and sign_at(nm.D, dlo) <= 0:
+                raise CertificationFailed(f"at the closed endpoint lo={dlo}, D is not positive")
     f = factors[idx]
     return Certification(family=family, N=N, mode=mode, polynomial=P, factor=f, factor_index=idx,
                          interval=(L, U), endpoint_signs=es, sturm=st, points=(below, above),
                          mode_signs=mode_signs,
                          stable_side={"side": stable_side, "interval": (side_lo, side_hi), "root_counts": counts},
-                         bits=bits, irreducibility_witness=mod_p_witness(f) if witness else None)
+                         bits=bits, irreducibility_witness=mod_p_witness(f) if witness else None,
+                         interval_clear=interval_clear)
 
 
 def certify_no_threshold(family: str, N: int, domain) -> bool:
     """True iff every A_m, B_m (and D_m when g != 0), m = 1..N//2, has no root inside the domain and is positive
     at its midpoint (exact Sturm counts): the ring is stable, with positive-definite blocks, at every radius."""
-    dlo, dhi = _domain_points(domain)
+    dlo, dhi, lo_closed, hi_closed = _domain_points(domain)
     mid = (dlo + dhi) / 2
     for m in range(1, N // 2 + 1):
         nm = numerators(family, N, m)
@@ -266,4 +306,22 @@ def certify_no_threshold(family: str, N: int, domain) -> bool:
             q = strip_roots(p, (dlo, dhi))
             if sturm_count(q, dlo, dhi) != 0 or sign_at(p, mid) <= 0:
                 return False
+
+    # T4-I2: Check positivity at closed endpoints
+    if lo_closed:
+        for m in range(1, N // 2 + 1):
+            nm = numerators(family, N, m)
+            if sign_at(nm.A, dlo) <= 0 or sign_at(nm.B, dlo) <= 0:
+                return False
+            if not nm.G.is_zero() and sign_at(nm.D, dlo) <= 0:
+                return False
+
+    if hi_closed:
+        for m in range(1, N // 2 + 1):
+            nm = numerators(family, N, m)
+            if sign_at(nm.A, dhi) <= 0 or sign_at(nm.B, dhi) <= 0:
+                return False
+            if not nm.G.is_zero() and sign_at(nm.D, dhi) <= 0:
+                return False
+
     return True

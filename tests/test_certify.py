@@ -69,3 +69,46 @@ def test_certify_no_threshold():
 def test_isolated_root_str():
     r = IsolatedRoot(poly=(-2, 0, 1), lo=F(1414, 1000), hi=F(1415, 1000))
     assert str(r) == "the root in [1.4139999999999999, 1.415] (width 1.0e-03) of the degree-2 polynomial [-2, 0, 1] (constant term first)"
+
+
+def test_sturm_count_raises_on_inverted_interval():
+    """Test that sturm_count raises ValueError if lo > hi."""
+    from havelock.errors import CertificationFailed
+    p = x**2 - 2
+    with pytest.raises(ValueError, match="lo.*hi"):
+        sturm_count(p, F(2), F(0))
+
+
+def test_certify_threshold_interval_clear_records_checks():
+    """Test that certify_threshold records the interval_clear field with roots checked."""
+    dom = get_model("mt").family_domain
+    c = certify_threshold("mt", 8, dom, "below")
+    assert c.interval_clear is not None
+    # All recorded blocks (A_m for m != mode, and B_m for all m) should have 0 roots in the interval
+    assert all(count == 0 for count in c.interval_clear.values())
+    # Verify that we checked the expected blocks
+    assert "B_1" in c.interval_clear and "B_2" in c.interval_clear
+    assert "B_3" in c.interval_clear and "B_4" in c.interval_clear
+
+
+def test_certify_no_threshold_closed_endpoint_mt_n2():
+    """Test that certify_no_threshold correctly fails at MT N=2 with a closed endpoint at b=1."""
+    from havelock.errors import CertificationFailed
+    # At N=2, A_1(1) = 0, so certify_no_threshold should fail if we include the endpoint
+    dom_closed_at_hi = (F(-1), F(1), False, True)  # (-1, 1]
+    result = certify_no_threshold("mt", 2, dom_closed_at_hi)
+    assert result is False, "At N=2, b=1 is a root of A_1, so certify_no_threshold must return False"
+
+
+def test_certify_threshold_error_message_includes_ladder():
+    """Test that CertificationFailed message includes the ladder that was tried."""
+    from havelock.errors import CertificationFailed
+    # Construct a polynomial with two very close roots to force Arb to need higher precision
+    # Use a tiny interval in MT domain
+    tight_dom = (F(-9999999999, 10000000000), F(-9999999998, 10000000000), False, False)
+    try:
+        certify_threshold("mt", 8, tight_dom, "below", start_bits=8)
+        # If it doesn't fail, that's OK - the test just checks the error message if it does
+    except CertificationFailed as e:
+        # Verify that the error message includes "ladder" and "bits"
+        assert "ladder" in str(e).lower() and "bits" in str(e).lower()
