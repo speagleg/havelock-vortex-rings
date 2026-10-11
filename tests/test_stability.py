@@ -94,3 +94,12 @@ def test_negative_definite_block_is_explained():
 def test_unstable_verdict_gets_no_annotation():
     from havelock.stability import _annotate
     assert _annotate("BASIS", _annotate_cases()["neg"], "unstable") == "BASIS"
+
+
+def test_mt_views_report_r():
+    import mpmath as mp
+    s = stability("sinh", 9, "-0.3")
+    assert "r" in s.to_dict() and stability("plane", 7, 0).r == 1
+    with mp.workdps(50):
+        assert abs(s.r - 2 * mp.atanh(mp.sqrt(mp.mpf(3) / 10))) < mp.mpf("1e-40")
+        assert abs(stability("sphere", 4, "1/4").r - 2 * mp.atan(mp.mpf(1) / 2)) < mp.mpf("1e-40")

@@ -7,7 +7,8 @@
 | `tanh` | Kimura's Hamiltonian −Σ ln tanh(d/2) on H² | `xi` = tanh²(r/2) ∈ (0, 1) | above ξ* |
 
 Every threshold also reports the geodesic ring radius `r` (curvature normalised to ±1; the chart radius 1 for the
-plane), and on H² also `xi` = tanh²(r/2) and `cosh_r`.
+plane), and on H² also `xi` = tanh²(r/2) and `cosh_r`. `stability()` and `simulate()` report `r` at their parameter
+value, and `nonlinear()` at the bifurcation point (the threshold's `r`).
 
 ## Montaldi–Tokieda family (`mt`, `sphere`, `plane`, `sinh`)
 
@@ -37,17 +38,21 @@ plane), and on H² also `xi` = tanh²(r/2) and `cosh_r`.
   every radius (CERTIFIED). Above N = 64 (`hv.limits()["tanh_exact_max_N"]`) `strict=True` raises
   `CertificationFailed`; `strict=False` returns a NUMERICAL value with `fallback_from = CERTIFIED`.
 - **Spectral versus energy–momentum threshold.** The certified threshold ξ* is the *spectral* one: the value above
-  which every block has a_m, b_m > 0 and below which the critical mode has a_m b_m < 0. For even N it is also the
-  energy–momentum (EM) threshold. For odd N the EM threshold lies strictly above ξ*: on the Krein window
-  (ξ*, ξ_EM) the ring is linearly stable (a_m, b_m > 0) but the critical block has determinant D_m = a_m b_m − g_m² < 0,
-  so the Hessian is indefinite there; nonlinear stability on that window is undecided by this package. At ξ* itself
-  a_m = 0, so the critical block is indefinite (D_m = −g_m² < 0).
+  which every block has a_m, b_m > 0 and below which the critical mode has a_m b_m < 0. For even N <= 16 it is also
+  the energy–momentum (EM) threshold (note_tanh Theorem 7); for N > 16 only the spectral threshold is certified. For
+  odd N the EM threshold can lie strictly above ξ* (the note proves this for N = 9, 11, 13, 15): on the Krein window
+  (ξ*, ξ_EM) the ring is linearly stable (a_m, b_m > 0) but the critical block has determinant
+  D_m = a_m b_m − g_m² < 0, so the Hessian is indefinite there; nonlinear stability on that window is undecided by
+  this package. The threshold's basis states this gap only when the certificate proves it: the exact sign of D_crit
+  is negative at the rational point just above the threshold interval. At ξ* itself a_m = 0, so the critical block is indefinite (D_m = −g_m² < 0). For N > 16 the basis cites
+  note_tanh Theorem 7 as "proved there for N <= 16"; the certification itself is done at run time.
 - **stability(): CERTIFIED** (exact signs). For odd N the window (ξ*, ξ_EM) gives the verdict
   "spectrally-stable-only".
 - **c4: NUMERICAL** (level-set engine), even N only. Odd N raises OutOfValidityRange: at ξ* the critical block is
   indefinite (Krein window, above), so the quartic test does not apply. No closed form is known.
 - **simulate(): NUMERICAL** always.
 - **Lean export:** `Certificate.to_lean(path)` writes a module importing `Havelock.Tanh.General` and proving
-  `Havelock.Tanh.cert_N{N}` (8 <= N <= 16 emitted and tested; the N = 8 export is byte-identical to the committed
-  `lean/Havelock/Tanh/CertN8.lean` body and is compiled in CI, `.github/workflows/lean-export.yml`). MT-family
+  `Havelock.Tanh.cert_N{N}`, for tanh N = 8..16 only; other N raise `CertificationFailed` (from N = 17 the emitter's
+  proof template does not apply). N = 8..16 are emitted and tested (the N = 8 export is byte-identical to the
+  committed `lean/Havelock/Tanh/CertN8.lean` body and is compiled in CI, `.github/workflows/lean-export.yml`). MT-family
   certificates raise `InvalidInput`: those thresholds are proved in the Lean library itself.

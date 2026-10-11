@@ -89,11 +89,15 @@ What 0.1.0 covers:
   for n >= 4 (n = 2, 3 on the sphere raise `OutOfValidityRange`).
 - **tanh model** (`tanh`): block formulas PROVED; thresholds CERTIFIED at run time for N <= 64 (exact Sturm counts and
   Arb root isolation; "Lean-checked" for 8 <= N <= 16); stability verdicts CERTIFIED from exact signs; c4 NUMERICAL and
-  for even N only. The certified tanh threshold is the spectral one; for odd N the energy–momentum threshold lies
-  strictly above it, in a Krein window where the ring is linearly stable and nonlinear stability is undecided.
+  for even N only. The certified tanh threshold is the spectral one. For even N <= 16 it is also the
+  energy–momentum threshold (note_tanh); for N > 16 only the spectral threshold is certified. For odd N the
+  energy–momentum threshold can lie strictly above it, in a Krein window where the ring is linearly stable and
+  nonlinear stability is undecided (the note proves the window non-empty for N = 9, 11, 13, 15); the result's basis
+  states this gap only when the certificate proves it (exact sign D_crit < 0 just above the threshold interval).
 - **Simulation** (`simulate`): NUMERICAL, all models.
 - **Certificates**: JSON threshold certificates for every model, re-checked by an independent exact verifier
-  (`havelock verify`); Lean 4 export for tanh (`havelock cert tanh 8 --lean CertN8.lean`).
+  (`havelock verify`); Lean 4 export for tanh N = 8..16 only (`havelock cert tanh 8 --lean CertN8.lean`); other N
+  raise `CertificationFailed`.
 
 See [docs/quickstart.md](docs/quickstart.md), [docs/models.md](docs/models.md) and
 [docs/certificates.md](docs/certificates.md). The package does not import the research scripts in `conj13/`, `tanh/`

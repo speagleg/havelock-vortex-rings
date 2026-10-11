@@ -7,6 +7,7 @@ import pytest
 
 import havelock as hv
 from havelock.nonlinear import c4_level_set, nonlinear
+from havelock.threshold import threshold as threshold_
 
 REPO = Path(__file__).resolve().parents[1]
 
@@ -40,7 +41,7 @@ def test_reproduces_recorded_table_check():
     # research reproduction (spec 9.7): conj13/paper/table_check.out records the closed-form c4 for each n
     text = (REPO / "conj13/paper/table_check.out").read_text()
     rows = re.findall(r"^n=(\d+) b_n=\S+ c4\(float\)=\S+ formula=(\d+(?:/\d+)?)=", text, re.M)
-    assert len(rows) >= 15
+    assert len(rows) == 22 and sorted(int(n) for n, _ in rows) == list(range(4, 26))   # exactly n = 4..25
     for n, frac in rows:
         assert nonlinear("mt", int(n)).c4 == Fraction(frac)
 
@@ -58,3 +59,10 @@ def test_level_set_engine_odd_n():
     # n = 7 (plane): verified while planning, |engine - 9/14| = 3.3e-17 at dps 50
     with mp.workdps(50):
         assert abs(c4_level_set("mt", 7, 0, dps=50) - mp.mpf(9) / 14) < mp.mpf("1e-12")
+
+
+def test_mt_nonlinear_reports_r_at_the_bifurcation_point():
+    nl, t = nonlinear("sinh", 8), threshold_("sinh", 8)
+    with mp.workdps(50):
+        assert nl.r == t.r and abs(nl.r - 2 * mp.atanh(mp.sqrt(-t.value))) < mp.mpf("1e-40")
+    assert nonlinear("plane", 7).r == 1 and "r" in nl.to_dict()

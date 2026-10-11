@@ -127,3 +127,22 @@ def test_tanh_nonlinear_odd_n_message_explains_the_krein_window():
 def test_lean_export_refuses_mt_cleanly(tmp_path):
     with pytest.raises(hv.InvalidInput, match="tanh model only"):
         certificate(threshold("mt", 5)).to_lean(tmp_path / "x.lean")
+
+
+# ---- final review F4: Lean export range is tanh N = 8..16 ----
+def test_lean_export_refuses_n17_with_a_clear_message(tmp_path):
+    with pytest.raises(hv.CertificationFailed, match=r"tanh N = 8\.\.16 only"):
+        certificate(threshold("tanh", 17)).to_lean(tmp_path / "C17.lean")
+    assert not (tmp_path / "C17.lean").exists()
+
+
+# ---- final review F7: r on Stability / Nonlinear / Simulation (tanh) ----
+def test_tanh_results_report_r():
+    with mp.workdps(50):
+        r = 2 * mp.atanh(mp.sqrt(mp.mpf(3) / 10))
+        s = hv.stability("tanh", 8, "0.3")
+        assert abs(s.r - r) < mp.mpf("1e-40") and "r" in s.to_dict()
+        sim = simulate("tanh", 8, "0.3", t_end=1.0)
+        assert abs(sim.r - r) < mp.mpf("1e-40") and "r" in sim.to_dict()
+    nl = nonlinear("tanh", 8)
+    assert nl.r == threshold("tanh", 8).r and abs(nl.r - mp.mpf("0.5312104560")) < mp.mpf("1e-9")

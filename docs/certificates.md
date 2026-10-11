@@ -1,7 +1,7 @@
 # Threshold certificates
 
 `hv.certificate(threshold)` (CLI: `havelock cert MODEL N --json PATH`) produces a JSON object. `havelock verify PATH`
-re-checks every field with exact integer and rational arithmetic only (python-flint factorisation and Sturm
+re-checks every mathematical field with exact integer and rational arithmetic only (python-flint factorisation and Sturm
 sequences, `fractions.Fraction` evaluation). The verifier rebuilds the block numerators from the closed forms itself;
 it does not use the code that produced the certificate.
 
@@ -17,7 +17,7 @@ unreadable or non-UTF-8 file exits with code 2 and a message.
 | field | meaning | how `verify` checks it |
 |---|---|---|
 | `schema` | format version | equality |
-| `model`, `N` | model name (`mt`, `sphere`, `plane`, `sinh`, `tanh`) and number of vortices | known model, N >= 2; the block numerators are rebuilt from the closed forms in the verifier itself (for tanh: note Thm 2) |
+| `model`, `N` | model name (`mt`, `sphere`, `plane`, `sinh`, `tanh`) and number of vortices | known model, 2 <= N <= 100000 (tanh: N <= 64, the exact-certification size cap); the block numerators are rebuilt from the closed forms in the verifier itself (for tanh: note Thm 2). The model's view must contain the certified root: sphere (0, 1], plane {0}, sinh (−1, 0), mt (−1, 1], tanh (0, 1). For `plane`, `polynomial` must vanish at 0 and lo < 0 < hi; for the other views, `interval` must lie inside the view |
 | `mode` | critical Fourier mode | 1 <= mode <= N//2 |
 | `polynomial` | integer numerator A_mode of a_mode (constant term first) | equals the rebuilt numerator |
 | `factor_index` | which irreducible factor carries the threshold (factors primitive, leading coefficient > 0, sorted by degree then coefficients) | the factor changes sign on `interval` |
@@ -29,7 +29,7 @@ unreadable or non-UTF-8 file exits with code 2 and a message.
 | `mode_signs` | for every mode m: signs of A_m, B_m (and D_m = numerator of a_m b_m − g_m², when some g_m ≠ 0) at both points | recomputed; A_m and B_m are positive for every m on the stable side, and a_mode b_mode < 0 on the other. D_m is recorded but not required to be positive: for tanh with odd N, D_m < 0 for the critical mode just above the threshold interval (the Krein window, see docs/models.md), because the certified threshold is the spectral one |
 | `stable_side` | the open interval between the threshold interval and the domain end on the stable side, with the number of roots of every A_m and B_m in it | recomputed (Sturm); all zero. If the domain endpoint on the stable side is closed, the blocks must also be positive there |
 | `irreducibility_witness` | optional prime p with the factor irreducible mod p | p prime, p ∤ lead, factorisation degrees mod p equal [deg] |
-| `provenance` | package version, inputs, timing | not checked |
+| `provenance` | package version, inputs, timing | not checked (not a mathematical field) |
 
 Together these prove: the ring is spectrally stable on the whole stable side (every a_m, b_m > 0 there; for the
 tanh model this is the spectral claim, and D_m > 0 holds only outside the odd-N Krein window), the critical mode is

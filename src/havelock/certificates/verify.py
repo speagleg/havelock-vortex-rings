@@ -21,10 +21,16 @@ _FAMILY = {"mt": "mt", "sphere": "mt", "plane": "mt", "sinh": "mt", "tanh": "tan
 _DOMAIN = {"mt": (Fraction(-1), Fraction(1)), "tanh": (Fraction(0), Fraction(1))}
 _CLOSED = {"mt": (False, True), "tanh": (False, False)}          # (lo_closed, hi_closed) of the family domain
 _STABLE = {"mt": "below", "tanh": "above"}
-# The next two literals mirror havelock.limits.VERIFY_MAX_N and WITNESS_MAX_PRIME; they are not imported, to keep
-# this module independent of the rest of the package.
+# Geometry view of each model name: (lo, hi, lo_closed, hi_closed) of lam_r2 (MT family) or xi (tanh). The certified
+# root must lie in the view, so a certificate relabelled to a view that does not contain the threshold is INVALID.
+_VIEW = {"mt": (Fraction(-1), Fraction(1), False, True), "sphere": (Fraction(0), Fraction(1), False, True),
+         "plane": (Fraction(0), Fraction(0), True, True), "sinh": (Fraction(-1), Fraction(0), False, False),
+         "tanh": (Fraction(0), Fraction(1), False, False)}
+# The next three literals mirror havelock.limits.VERIFY_MAX_N, WITNESS_MAX_PRIME and TANH_EXACT_MAX_N; they are not
+# imported, to keep this module independent of the rest of the package (tests enforce the mirror).
 _MAX_N = 100000                          # refuse absurd sizes instead of hanging
 _MAX_PRIME = 20000                       # largest irreducibility-witness prime accepted
+_TANH_MAX_N = 64                         # tanh certificates exist only for N <= 64; larger N would stall
 _RATIONAL = re.compile(r"-?[0-9]{1,5000}(/[0-9]{1,5000})?")
 
 
@@ -196,7 +202,8 @@ class VerifyReport:
 
 
 def verify_dict(d: dict) -> VerifyReport:
-    """Re-check every field of a certificate dict; returns a report listing every failed check."""
+    """Re-check every mathematical field of a certificate dict (and that the model's view contains the certified
+    root); provenance is not checked. Returns a report listing every failed check."""
     fails, n = [], 0
 
     def check(cond, msg):
@@ -220,6 +227,9 @@ def verify_dict(d: dict) -> VerifyReport:
                      f"N and mode must be integers with 2 <= N <= {_MAX_N} and 1 <= mode <= N//2"):
             return VerifyReport(False, fails, n)
         fam = _FAMILY[model]
+        if not check(fam != "tanh" or N <= _TANH_MAX_N,
+                     f"tanh certificates are limited to N <= {_TANH_MAX_N} (the exact-certification size cap)"):
+            return VerifyReport(False, fails, n)
         dlo, dhi = _DOMAIN[fam]
         lo_closed, hi_closed = _CLOSED[fam]
         nums = {m: _REBUILD[fam](N, m) for m in range(1, N // 2 + 1)}
@@ -228,6 +238,16 @@ def verify_dict(d: dict) -> VerifyReport:
             return VerifyReport(False, fails, n)
         lo, hi = _frac_pair(d["interval"], "interval")
         check(dlo < lo < hi < dhi, "interval must satisfy domain_lo < lo < hi < domain_hi")
+        # F1: the certified root (the unique root of `polynomial` in (lo, hi), checked below) must lie in the view
+        vlo, vhi, vlc, vhc = _VIEW[model]
+        if vlo == vhi:     # a one-point view (the plane, lam_r2 = 0): the root must be exactly that point
+            check(lo < vlo < hi and _ev(poly, vlo) == 0,
+                  f"the threshold is not in the {model!r} view {{{vlo}}}: need lo < {vlo} < hi and "
+                  f"polynomial({vlo}) = 0")
+        else:              # vlo <= lo < root < hi <= vhi: the root is strictly inside the view
+            check(vlo <= lo and hi <= vhi,
+                  f"the threshold interval ({lo}, {hi}) is not inside the {model!r} view "
+                  f"{'[' if vlc else '('}{vlo}, {vhi}{']' if vhc else ')'}")
         factors = _canonical_factors(_fz(poly))
         k = _int(d["factor_index"], "factor_index")
         if check(0 <= k < len(factors), "factor_index out of range"):

@@ -162,7 +162,7 @@ def _mt_nonlinear(mdl, N, t, t0, inputs):
              "Lean Havelock.Conj13.c4_at_bn (the algebra downstream of the series coefficients)")
     return Nonlinear(status=Status.PROVED, basis=basis, provenance=make_provenance("nonlinear", inputs, t0),
                      model=mdl.name, N=N, value=t.value, mode=t.mode, c4=c4, verdict="stable",
-                     method="closed form")
+                     method="closed form", r=t.r)
 
 
 def _tanh_nonlinear(mdl, N, t, t0, inputs):
@@ -181,7 +181,7 @@ def _tanh_nonlinear(mdl, N, t, t0, inputs):
              "this model, and any stability conclusion is modulo SO(2,1). No closed form for tanh c4 is known")
     return Nonlinear(status=Status.NUMERICAL, basis=basis, provenance=make_provenance("nonlinear", inputs, t0),
                      model=mdl.name, N=N, value=t.value, mode=t.mode, c4=c4, verdict=verdict,
-                     method="level-set engine")
+                     method="level-set engine", r=t.r)
 
 
 _HANDLERS = {"mt": _mt_nonlinear, "tanh": _tanh_nonlinear}

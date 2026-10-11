@@ -64,7 +64,8 @@ def stability(model: str, N: int, value) -> Stability:
     v = to_fraction(value)
     mdl.check_value(v)
     with mp.workdps(WORK_DPS):
-        kappa0 = mdl.kappa0(mp.mpf(v.numerator) / v.denominator)
+        vm = mp.mpf(v.numerator) / v.denominator
+        kappa0, radius = mdl.kappa0(vm), mdl.radius(vm)
     blocks = []
     for m in range(1, N // 2 + 1):
         a, b, g = blocks_exact(mdl.family, N, m, v)
@@ -77,4 +78,5 @@ def stability(model: str, N: int, value) -> Stability:
     status = Status.PROVED if mdl.family == "mt" else Status.CERTIFIED
     return Stability(status=status, basis=basis,
                      provenance=make_provenance("stability", {"model": mdl.name, "N": N, "value": str(v)}, t0),
-                     model=mdl.name, N=N, value=v, verdict=verdict, geometry=mdl.geometry(v), blocks=tuple(blocks))
+                     model=mdl.name, N=N, value=v, verdict=verdict, geometry=mdl.geometry(v), blocks=tuple(blocks),
+                     r=radius)

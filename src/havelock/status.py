@@ -149,17 +149,22 @@ class ModeBlock:
 
 @dataclass(kw_only=True)
 class Stability(Result):
+    """Verdict at one parameter value. `r` is the geodesic ring radius there (curvature normalised to +-1; the
+    chart radius 1 for the plane)."""
+
     model: str
     N: int
     value: Fraction
     verdict: str
     geometry: str
     blocks: tuple
+    r: Any
 
 
 @dataclass(kw_only=True)
 class Nonlinear(Result):
-    """Quartic coefficient c4 of the reduced Hamiltonian along the kernel at the bifurcation point."""
+    """Quartic coefficient c4 of the reduced Hamiltonian along the kernel at the bifurcation point. `r` is the
+    geodesic ring radius at the bifurcation point (the threshold's r)."""
 
     model: str
     N: int
@@ -168,13 +173,15 @@ class Nonlinear(Result):
     c4: Any
     verdict: str
     method: str
+    r: Any
 
 
 @dataclass(kw_only=True)
 class Simulation(Result):
     """Direct integration of the 2N-dimensional system (always NUMERICAL). `trajectory[i, k]` is vortex k at
     `times[i]` in the model's chart. Deviation is measured by the model's pair invariant (a function of the
-    geodesic distance), so it is blind to rigid motions."""
+    geodesic distance), so it is blind to rigid motions. `r` is the geodesic ring radius at `value` (curvature
+    normalised to +-1; the chart radius 1 for the plane)."""
 
     model: str
     N: int
@@ -187,3 +194,4 @@ class Simulation(Result):
     energy_drift: float
     momentum_drift: float
     drift_tolerance: float
+    r: Any

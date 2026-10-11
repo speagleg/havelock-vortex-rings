@@ -54,3 +54,11 @@ def test_invalid_arguments(kw):
 def test_long_run_stays_bounded():
     s = simulate("sinh", 9, "-0.3", t_end=2000.0)
     assert s.growth < 1.5 and s.energy_drift < s.drift_tolerance
+
+
+def test_simulation_reports_r():
+    import mpmath as mp
+    s = simulate("sinh", 9, "-0.3", t_end=1.0)
+    assert "r" in s.to_dict()
+    with mp.workdps(50):
+        assert abs(s.r - 2 * mp.atanh(mp.sqrt(mp.mpf(3) / 10))) < mp.mpf("1e-40")

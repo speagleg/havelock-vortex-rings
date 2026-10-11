@@ -6,11 +6,12 @@ from __future__ import annotations
 import math
 import time
 
+import mpmath as mp
 import numpy as np
 from scipy.integrate import solve_ivp
 
 from .errors import InvalidInput
-from .limits import DRIFT_FACTOR, SIM_SAMPLES
+from .limits import DRIFT_FACTOR, SIM_SAMPLES, WORK_DPS
 from .models import check_N, get_model, to_fraction
 from .status import Simulation, Status, make_provenance
 
@@ -41,6 +42,8 @@ def simulate(model: str, N: int, value, *, perturb: float = 1e-4, t_end: float =
     if seed is not None and (isinstance(seed, bool) or not isinstance(seed, int)):
         raise InvalidInput(f"seed must be an int or None, got {seed!r}")
     vf = float(v)
+    with mp.workdps(WORK_DPS):
+        radius = mdl.radius(mp.mpf(v.numerator) / v.denominator)
     dH, winv, H, J, pairq = mdl.numpy_kernel(N, vf)
     rho = float(mdl.chart_radius(vf))
     phi = 2 * np.pi * np.arange(N) / N
@@ -77,4 +80,4 @@ def simulate(model: str, N: int, value, *, perturb: float = 1e-4, t_end: float =
                                                               "seed": seed}, t0),
                       model=mdl.name, N=N, value=v, times=sol.t, trajectory=Z, initial_deviation=float(D[0]),
                       max_deviation=float(D.max()), growth=growth, energy_drift=e_drift, momentum_drift=j_drift,
-                      drift_tolerance=DRIFT_FACTOR * rtol)
+                      drift_tolerance=DRIFT_FACTOR * rtol, r=radius)

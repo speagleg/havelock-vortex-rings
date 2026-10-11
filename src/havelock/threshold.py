@@ -100,26 +100,29 @@ def _tanh_threshold(mdl, N, t0, inputs, strict, precision):
                                provenance=make_provenance("threshold", inputs, t0), model="tanh", N=N,
                                verdict="stable at every radius", geometry="H2")
         c = certify_threshold("tanh", N, mdl.family_domain, "above", start_bits=precision, witness=True)
-        if c is None and N <= 7:     # fail closed: the two exact checks disagree, so claim nothing
-            raise CertificationFailed(f"N = {N}: the exact checks for 'stable at every radius' disagree; "
-                                      "no certified verdict")
+        if c is None:   # fail closed (any N): no a_m sign change proves no EM claim, and N <= 7 was not certified
+            raise CertificationFailed(f"N = {N}: no a_m changes sign in (0, 1), but 'stable at every radius' was "
+                                      "not certified (certify_no_threshold); no certified verdict")
     except CertificationFailed as e:
         if strict:
             raise
         return _tanh_fallback(mdl, N, t0, inputs, str(e))
-    if c is None:
-        return NoThreshold(status=Status.CERTIFIED, basis="exact Sturm counts: no a_m changes sign in (0, 1)",
-                           provenance=make_provenance("threshold", inputs, t0), model="tanh", N=N,
-                           verdict="stable at every radius", geometry="H2")
     lo, hi = c.interval
     exact = IsolatedRoot(poly=tuple(int(a) for a in c.factor.coeffs()), lo=lo, hi=hi)
     with mp.workdps(WORK_DPS):
         value = exact.approx(WORK_DPS)
         r, cosh_r = mdl.radius(value), mdl.cosh_r(value)
     lean = f"; Lean-checked: Havelock.Tanh.cert_N{N} (note_tanh Theorem 7(b))" if 8 <= N <= 16 else ""
-    krein = ("; for odd N the energy-momentum threshold xi_EM lies strictly above (Krein window: linearly stable, "
-             "nonlinear stability undecided)" if N % 2 else "")
-    basis = (f"spectral threshold xi* (note_tanh Theorem 7 (thm:cert)){krein}. CERTIFIED at run time: Arb root isolation ({c.bits} bits) inside an exact rational interval of width "
+    cite = ("note_tanh Theorem 7 (thm:cert)" if N <= 16
+            else "as in note_tanh Theorem 7 (proved there for N <= 16); certified here at run time")
+    # odd N: claim the Krein gap only when the certificate proves it, i.e. the exact sign of D_crit = a b - g^2 is
+    # negative at the rational point just above the interval (there the ring is not EM-stable, so xi_EM > xi*)
+    above_signs = c.mode_signs.get(c.mode, {}).get("above", {})
+    krein = (f"; the energy-momentum threshold xi_EM lies strictly above xi* (exact D_{c.mode} < 0 at the rational "
+             f"point {float(c.points[1]):.6g} just above the interval; Krein window: linearly stable, nonlinear "
+             "stability undecided)" if N % 2 and above_signs.get("D") == -1 else "")
+    basis = (f"spectral threshold xi* ({cite}){krein}. CERTIFIED at run time: Arb root isolation ({c.bits} bits) "
+             f"inside an exact rational interval of width "
              f"< 2^-{c.bits - 8}, exact Sturm count 1, no B_m and no A_m (m != {c.mode}) vanishing in the interval "
              f"(exact Sturm counts), exact signs of every block on both sides, and no root of any "
              f"a_m, b_m on ({float(hi):.6g}, 1); blocks of tanh/note_tanh.tex Thm 2 (PROVED); critical mode {c.mode}"

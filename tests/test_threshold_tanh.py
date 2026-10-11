@@ -1,3 +1,4 @@
+import copy
 import re
 from fractions import Fraction
 from pathlib import Path
@@ -130,7 +131,7 @@ def test_certificate_refuses_real_fallback_above_cap():
         hv.certificate(t)
 
 
-KREIN = "for odd N the energy-momentum threshold xi_EM lies strictly above (Krein window: linearly stable, nonlinear stability undecided)"
+KREIN = "the energy-momentum threshold xi_EM lies strictly above xi* (exact D_"
 
 
 def test_basis_states_spectral_threshold_and_krein_window():
@@ -169,3 +170,53 @@ def test_review_focus_n33():
     t = threshold("tanh", 33)
     assert t.status == hv.Status.CERTIFIED and t.mode == 16
     assert len(t.exact.poly) - 1 == 64       # 2N - 2 for odd N (eq. deg)
+
+
+# ---- final review F2: no certified verdict when certify_threshold returns None, for any N ----
+@pytest.mark.parametrize("strict", [True, False])
+def test_n8_fails_closed_when_no_sign_change_is_reported(monkeypatch, strict):
+    import sys
+    th = sys.modules["havelock.threshold"]
+    monkeypatch.setattr(th, "certify_threshold", lambda *a, **k: None)
+    if strict:
+        with pytest.raises(hv.CertificationFailed, match="no certified verdict"):
+            th.threshold("tanh", 8)
+    else:
+        t = th.threshold("tanh", 8, strict=False)
+        assert isinstance(t, hv.Threshold) and t.status == hv.Status.NUMERICAL
+        assert t.fallback_from == hv.Status.CERTIFIED and "no certified verdict" in t.basis
+
+
+# ---- final review F3: Krein sentence only when D_crit < 0 is certified; citation scoped to N <= 16 ----
+def test_n17_basis_states_the_krein_gap_and_the_n_above_16_citation():
+    t = threshold("tanh", 17)
+    c = t._certification
+    assert c.mode_signs[c.mode]["above"]["D"] == -1
+    assert KREIN in t.basis and "Krein window" in t.basis
+    assert "as in note_tanh Theorem 7 (proved there for N <= 16); certified here at run time" in t.basis
+
+
+def test_n20_basis_carries_the_n_above_16_citation():
+    t = threshold("tanh", 20)
+    assert "proved there for N <= 16" in t.basis and "Krein" not in t.basis and "Lean-checked" not in t.basis
+
+
+def test_n9_basis_cites_theorem_7_directly():
+    assert "proved there for N <= 16" not in threshold("tanh", 9).basis
+
+
+def test_krein_sentence_omitted_when_d_is_not_certified_negative(monkeypatch):
+    import dataclasses
+    import sys
+    th = sys.modules["havelock.threshold"]
+    real = th.certify_threshold
+
+    def fake(*a, **k):
+        c = real(*a, **k)
+        ms = copy.deepcopy(c.mode_signs)
+        ms[c.mode]["above"]["D"] = 1
+        return dataclasses.replace(c, mode_signs=ms)
+
+    monkeypatch.setattr(th, "certify_threshold", fake)
+    t = th.threshold("tanh", 9)
+    assert t.status == hv.Status.CERTIFIED and "Krein" not in t.basis and "xi_EM" not in t.basis

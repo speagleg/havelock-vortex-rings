@@ -9,7 +9,7 @@ from havelock.certificates import SCHEMA, Certificate, certificate
 from havelock.threshold import threshold
 
 
-@pytest.mark.parametrize("model,N", [("mt", 4), ("plane", 7), ("sinh", 8), ("mt", 9), ("sinh", 25)])
+@pytest.mark.parametrize("model,N", [("mt", 4), ("sphere", 5), ("plane", 7), ("sinh", 8), ("mt", 9), ("sinh", 25)])
 def test_roundtrip(model, N):
     c = certificate(threshold(model, N))
     d = json.loads(c.to_json())
@@ -201,8 +201,9 @@ def test_certificate_refuses_n_above_verify_max():
 
 def test_verifier_literals_mirror_limits():
     from havelock.certificates import verify as V
-    from havelock.limits import VERIFY_MAX_N, WITNESS_MAX_PRIME
+    from havelock.limits import TANH_EXACT_MAX_N, VERIFY_MAX_N, WITNESS_MAX_PRIME
     assert V._MAX_N == VERIFY_MAX_N and V._MAX_PRIME == WITNESS_MAX_PRIME
+    assert V._TANH_MAX_N == TANH_EXACT_MAX_N     # final F5: raising the tanh cap must update the verifier mirror
 
 
 def test_json_parse_limits_are_invalid_not_a_crash():
@@ -225,3 +226,41 @@ def test_strict_types_in_mode_signs_counts_degrees():
     assert not Certificate.verify(d).ok
     d = copy.deepcopy(base); d["irreducibility_witness"]["degrees"] = [2.0]
     assert not Certificate.verify(d).ok
+
+
+# ---- final review F1: the model's view must contain the certified root ----
+@pytest.mark.parametrize("view", ["sphere", "plane"])
+def test_relabelled_view_not_containing_the_threshold_is_invalid(view):
+    d = copy.deepcopy(certificate(threshold("mt", 9)).data)       # b_9 < 0: threshold("sphere"|"plane", 9) has none
+    assert Certificate.verify(d).ok
+    d["model"] = view
+    rep = Certificate.verify(d)
+    assert not rep.ok and any(f"{view!r} view" in f for f in rep.failures), rep.failures
+
+
+def test_relabelled_sphere_threshold_to_sinh_or_plane_is_invalid():
+    d = copy.deepcopy(certificate(threshold("mt", 4)).data)       # b_4 > 0
+    for view in ("sinh", "plane"):
+        e = dict(d, model=view)
+        rep = Certificate.verify(e)
+        assert not rep.ok and any(f"{view!r} view" in f for f in rep.failures), rep.failures
+    assert Certificate.verify(dict(d, model="sphere")).ok
+
+
+def test_plane_view_requires_the_root_zero():
+    d = certificate(threshold("plane", 7)).data
+    assert Certificate.verify(d).ok and Certificate.verify(dict(d, model="mt")).ok
+    assert not Certificate.verify(dict(d, model="sinh")).ok and not Certificate.verify(dict(d, model="sphere")).ok
+
+
+# ---- final review F5: the verifier caps tanh N ----
+def test_verifier_refuses_tanh_n_above_cap_quickly():
+    import time
+    d = copy.deepcopy(certificate(threshold("tanh", 8)).data)
+    d["N"] = 100000
+    t0 = time.perf_counter()
+    rep = Certificate.verify(d)
+    assert time.perf_counter() - t0 < 5
+    assert not rep.ok and any("limited to N <= 64" in f for f in rep.failures), rep.failures
+    d["N"] = 65
+    assert any("limited to N <= 64" in f for f in Certificate.verify(d).failures)

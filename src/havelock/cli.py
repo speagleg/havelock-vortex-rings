@@ -159,7 +159,9 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("model"), s.add_argument("N", type=int)
     s.add_argument("--json", nargs="?", const="-", default=None, metavar="PATH",
                    help="write the certificate to PATH (stdout if PATH is omitted)")
-    s.add_argument("--lean", default=None, metavar="PATH", help="write a Lean 4 module proving the threshold (tanh only; other models exit 2)")
+    s.add_argument("--lean", default=None, metavar="PATH",
+                   help="write a Lean 4 module proving the threshold (tanh N = 8..16 only; other N raise "
+                        "CertificationFailed and other models InvalidInput, both exit 2)")
     s.add_argument("--check", action="store_true", help="compile the Lean module with `lake env lean`")
     s.add_argument("--lean-project", default="lean", help="Lean project directory (default: ./lean)")
     s = add("verify", _cmd_verify, "re-check a certificate exactly")
