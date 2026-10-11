@@ -490,7 +490,8 @@ $p\approx2^{61}$ with $p\equiv1\pmod{4n}$, at both algebraic conjugates of $b_n$
 computation confirms three things exactly: the kernel eigenvalue vanishes, the cubic term vanishes, and
 $c_4$ equals the tabulated rational number. A deliberately perturbed value is rejected (negative control).
 Agreement modulo three primes of size $2^{61}$ is overwhelming evidence, though strictly it is not a proof
-over $\mathbb Q$. The proofs are Theorems~\ref{thm:even} and~\ref{thm:odd}. The same engine in 40-digit
+over $\mathbb Q$. The reduction from the printed coefficients to every table entry is, however, verified
+exactly over $\mathbb Q$ in Lean (see Section~\ref{sec:limits}). The proofs are Theorems~\ref{thm:even} and~\ref{thm:odd}. The same engine in 40-digit
 floating point, with the real root $b_n$, agrees to $10^{-37}$ or better. A separate 40-digit constrained
 minimisation in the original chart gives the same values to 15 digits or better for
 $n=4,\dots,13,15,17,19,21,25$; its linear-slice values are also shown.
@@ -846,8 +847,7 @@ normalisation used there. This is therefore an unverified consistency remark, no
 already cover $n=4,5,6$ at the critical latitude.
 
 \paragraph{What is computer-assisted.} All computations are exact symbolic (sympy) or exact modular unless
-labelled numerical. Paths are relative to \code{items/01-h2-vortex-thresholds/work/conj13/} in the
-accompanying repository.
+labelled numerical. Paths are relative to \code{conj13/} in the accompanying repository.
 \begin{itemize}
 \item \emph{Even-$n$ closed form} (Theorem~\ref{thm:even}). The expansion of $H$ on
 $\operatorname{Fix}(D_M)\cap J^{-1}(\mu)$, symbolic in $M$ and $\lambda$, and its reduction modulo~\eqref{eq:bn}
@@ -874,8 +874,25 @@ $n=4,\dots,9$, the minimum of $V-V_0$ on spheres of radius $\varepsilon$ in $S$ 
 The parts of the proof that use a computer are the algebraic simplifications in Theorems~\ref{thm:even}
 and~\ref{thm:odd}: series expansion, residue sums, and reduction modulo a quadratic relation. Each was
 reproduced by an independent route. The structural steps (Proposition~\ref{prop:spectral},
-Section~\ref{sec:nonlinear}) are pen-and-paper. A formal (proof-assistant) verification has not been
-attempted.
+Section~\ref{sec:nonlinear}) are pen-and-paper.
+
+\paragraph{Formal verification (Lean 4).} The exact-algebra layer is formalised in Lean~4 with Mathlib,
+in \code{lean/Havelock/Conj13Algebra.lean}, with no unproved steps and only the standard axioms. It
+covers the following.
+\begin{itemize}
+\item The threshold $b_n$ for all $n\ge4$: its closed form, its uniqueness in $(-1,1]$, and its sign
+pattern.
+\item The spectral algebra of Proposition~\ref{prop:spectral}. This includes the Fej\'er sum identity
+for all $n$ and the eigenvalues $3/2$ ($n=4$) and $8/3$ ($n=5$).
+\item The reductions in Theorems~\ref{thm:even} and~\ref{thm:odd}, from the printed coefficients
+$h_2,h_4,f_2,E_{ij}$ to the closed forms. These hold symbolically in $n$, and $c_4>0$ at $b_n$ for every
+$n\ge4$.
+\item Every entry of Table~\ref{tab:c4}, exactly over $\mathbb Q$.
+\item The comparisons in P1 and the completing-the-square lemma behind P2.
+\end{itemize}
+The printed coefficients themselves come from the series expansions and residue sums. Lean takes them as
+inputs, and they remain computer algebra, checked as described above. Section~\ref{sec:nonlinear} is not
+formalised.
 
 \paragraph{Scope.} The result concerns the family~\eqref{eq:H} of~\cite{MT}, i.e.\ the ``sinh'' model in
 the hyperbolic case. It says nothing about the image (``tanh'') hyperbolic model or the flat disk with a

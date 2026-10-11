@@ -76,8 +76,8 @@ PROPOSITION 1. Let n >= 4 and lam r0^2 = b_n, in all three geometries. The Hessi
 Hamiltonian h_mu on M_mu = J^{-1}(mu)/SO(2) at the ring is positive semidefinite. Its kernel is exactly
 the radial part of V_floor(n/2): dimension 1 for even n (mode n/2), dimension 2 for odd n (modes
 (n+-1)/2). It is positive definite on a complement. The smallest nonzero eigenvalue in (s,theta)-Euclidean
-normalisation is min over m != floor(n/2) of {a_m, b_m, mode-1 value} = 1 (n even) or 2 (n odd) for
-5 <= n <= 15 (n = 4: 3/2).
+normalisation is min over m != floor(n/2) of {a_m, b_m, mode-1 value} = 1 (n even) or 2 (n odd, n >= 7) for
+5 <= n <= 15 (n = 4: 3/2; n = 5: 8/3, the V_1' eigenvalue -- corrected 2026-10-11, see main.tex and lean/Havelock/Conj13Algebra.lean).
 
 Numerical check (spectral_check.py / spectral_check.out; sympy derivatives, mpmath 40 digits, independent
 of engine.py and c4_levelset.py). It builds the full 2n x 2n Hessian of F at b_n, transforms it to

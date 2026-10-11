@@ -37,7 +37,7 @@ $\kappa_\infty\approx0.1343122$, whereas $\cosh r_*\sim\sqrt N/2$ in the sinh mo
 \end{abstract}
 
 \section{Scope and status labels}
-This note completes claim C5 (``tanh closed form'') of item 01. The companion note \texttt{work/note.tex}
+The companion note \texttt{sinh/note.tex}
 treats the sinh model, where everything is known~\cite{MT}. We use these labels:
 \begin{center}
 \begin{tabular}{p{0.30\textwidth}p{0.62\textwidth}}\toprule
@@ -46,6 +46,14 @@ treats the sinh model, where everything is known~\cite{MT}. We use these labels:
 \textbf{CERTIFIED for $N\le16$} & $b_m>0$ on $(0,1)$; critical mode $\lfloor N/2\rfloor$; the value of $\xi_*(N)$ and the sign change of
 $a_{\rm crit}$ at $\xi_*$; irreducible \emph{palindromic} minimal polynomials and their degree pattern; $\xi_*(8)$ a unit;
 $N\le7$ stable for all $r$; odd-$N$ energy--momentum threshold strictly above $\xi_*$.\\
+\textbf{Lean-verified} & In \texttt{lean/Havelock/TanhAlgebra.lean}, with no unproved steps and only the standard axioms.
+Taking the block formulas of Thm.~\ref{thm:blocks} as definitions, Lean proves the following.
+(i)~Reciprocity and the even-$N$ threshold equation.
+(ii)~For every $2\le N\le16$, the statements of Thm.~\ref{thm:cert} on positivity, sign change and critical mode,
+with $\xi_*$ located to within $10^{-20}$ in a rational interval.
+(iii)~$\xi_*(8)$ is an algebraic integer and a unit.
+(iv)~The odd-$N$ Krein window is non-empty for $N=9,11,13,15$.
+Lean does \emph{not} verify irreducibility (hence the degrees), the derivation of the blocks, or the dynamics.\\
 \textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$; $b_m>0$ and critical mode
 $\lfloor N/2\rfloor$ for all $N$.\\
 \textbf{NUMERICAL} & large-$N$ constant $\kappa_\infty$ and the fits in \S\ref{sec:asym}; critical mode up to $N=800$.\\\bottomrule
@@ -316,7 +324,7 @@ Cartesian spectra and found agreement to $\ge43$ digits. A grid scan of the full
 $\max|\mathrm{Re}\,\sigma|\le4\cdot10^{-19}$ (NUMERICAL).
 
 \paragraph{Structure of the numerator.} For even $N\in\{8,\dots,16\}$, $A_{N/2}$ factors over $\mathbb Q$ as
-$(\xi-1)^4(\xi^{N/2}+1)$, times $(\xi+1)^2$ when $N\equiv2\pmod4$, times the minimal polynomial of $\xi_*$. The cyclotomic factor has roots on $|\xi|=1$ and is spurious.
+a constant times $(\xi-1)^4(\xi^{N/2}+1)$, times one further factor $(\xi+1)$ when $N\equiv2\pmod4$, times the minimal polynomial of $\xi_*$. So $(\xi+1)^2$ divides $A_{N/2}$ exactly when $N\equiv2\pmod4$, with one copy of $(\xi+1)$ coming from $\xi^{N/2}+1$. (An earlier draft counted this copy twice; the corrected form is checked in Lean, \texttt{A\_crit\_factor\_N8}--\texttt{N16}.) These cyclotomic factors have roots on $|\xi|=1$ and are spurious.
 
 \subsection{$N=8$: an algebraic unit}
 \begin{corollary}[CERTIFIED]
@@ -431,7 +439,7 @@ odd-$N$ Krein window and at the threshold itself.
 \end{itemize}
 
 \section*{Files}
-\texttt{work/tanh/}: \texttt{derivation.txt} (full derivation), \texttt{blocks.py}, \texttt{exact.py},
+\texttt{tanh/}: \texttt{derivation.txt} (full derivation), \texttt{blocks.py}, \texttt{exact.py},
 \texttt{check\_jacobian.py/.out}, \texttt{identities.py/.out}, \texttt{certify\_v2.py/.out} (certification),
 \texttt{asymptotics.py/.out}, and \texttt{review/} (second reader).
 

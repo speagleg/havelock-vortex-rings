@@ -1,0 +1,61 @@
+/-
+Havelock — Vortex rings on H² in the tanh (Kimura) model, H = −Σ ln tanh(d/2): the exact-algebra layer.
+
+Source: tanh/note_tanh.tex (theorem numbers below are the LaTeX
+counter values: Lemma 1 = lem:re, Thm 2 = thm:blocks, Prop 3 = prop:lin, Prop 5 = prop:recip,
+Thm 6 = thm:cert, Cor 7 = "N = 8: an algebraic unit", Prop 9 = "Odd N: the Krein window"),
+derivation.txt, exact.py, identities.py, certify_v2.py.
+
+Conventions. ξ = tanh²(r/2) ∈ (0,1), X = ξ^N, c = (1+ξ)/(1−ξ) (`cR`). The Fourier-block entries
+are DEFINED here by the closed forms of note Thm 2 (`aBlock`, `bBlock`, `gBlock`, with `W` the closed
+form of W_k). Integer polynomials are coefficient lists, constant term first, evaluated by `peval`.
+
+FORMALISED (no `sorry`):
+§1 Rational-function identities (all N, all m ≤ N, unless stated)
+* `W_hasSum`        : Σ_{q≥0} (k+qN) ξ^{k+qN} = k ξ^k/(1−X) + N ξ^{k+N}/(1−X)²  (W_k closed form, §3.1);
+                      `W_self`: W_N = N X/(1−X)².
+* `Vpp_eq`          : 2ξ/(1−ξ)² − 2c·Ωκ₀ = (N−1)c − (c−1)²/2 + 2NcX/(1−X), with Ωκ₀ from Lemma 1
+                      (proof of Thm 2, one-body terms).
+* `aSum_eq_aBlock`  : V''(0) − m(N−m)/2 − N W_N − (N/2)(W_m+W_{N−m}) equals the compact a_m of Thm 2
+                      (the "expanding over the common denominator" step; identities.py).
+* `aBlock_symm`, `bBlock_symm`, `gBlock_symm`, `gBlock_half` : a_{N−m}=a_m, b_{N−m}=b_m, g_{N−m}=−g_m,
+                      g_{N/2}=0 (Thm 2, last sentence).
+* `aBlock_even`     : even-N threshold form, note eq. (even), with y = ξ^{N/2}.
+* `aBlock_recip`    : reciprocity a_m(1/ξ) = a_m(ξ) (Prop 5);
+  `numerA_recip`    : A_m(1/ξ) = ξ^{−(2N+2)} A_m(ξ) for A_m = 2(1−ξ)²(1−X)² a_m (§5, after Prop 5).
+* `charpoly_block`  : det(J M_m − λ) = (λ + i g_m)² + a_m b_m (Prop 3, eigenvalue formula).
+* `tanh_relations`  : for ξ = tanh²(r/2): c = cosh r and ξ + 1/ξ = 2 + 4/sinh² r (§5, natural invariant).
+§2 Certified statements for N = 2..16 (exact Bernstein-basis positivity certificates, checked by
+   `ring` + `positivity`; IVT + strict monotonicity via the derivative for the threshold root)
+* `stable_N2` … `stable_N7` : Thm 6(a): for every ξ ∈ (0,1) and 1 ≤ m ≤ N−1:
+                      a_m > 0, b_m > 0, a_m b_m − g_m² > 0.
+* `cert_N8` … `cert_N16`    : Thm 6(b): ∃! ξ* ∈ (0,1) root of f_N, enclosed in a rational interval of
+                      width 10⁻²⁰ that matches Table 1; for all ξ ∈ (0,1): every b_m > 0; a_{⌊N/2⌋} < 0
+                      for ξ < ξ* (unstable mode ⌊N/2⌋); every a_m > 0 for ξ > ξ* (spectrally stable).
+                      Uniqueness = f_N has no other root in (0,1).
+* `A_crit_factor_N8` … `_N16` : exact factorisation of the critical numerator
+                      2(1−ξ)²(1−X)² a_{⌊N/2⌋} = −k (ξ−1)⁴ · [ (ξ^{N/2}+1) (ξ+1)^{[N≡2 mod 4]} for even N ] · f_N(ξ)
+                      (k = 2 for N ≡ 0 mod 4, 1 otherwise). NOTE the single factor (ξ+1), see DISCREPANCY.
+* `fN_data`         : f_N is palindromic, has the degree and leading coefficient of Table 1.
+* `krein_N9, _N11, _N13, _N15` : Prop 9 (qualitative): just above ξ* there is a rational point where
+                      all a_m, b_m > 0 (spectrally stable) but a b − g² < 0 on the critical block,
+                      hence ξ_EM > ξ*.
+§3 N = 8 (Cor 7)
+* `P8_monic`, `P8_natDegree`, `aeval_P8` : P_8 = x¹⁰−12x⁹−…−12x+1 ∈ ℤ[X] is monic of degree 10 and is f_8.
+* `f8_root_unit`, `xi8_unit` : ξ*(8) is an algebraic integer whose inverse is an algebraic integer
+                      (a unit); C = ξ*+1/ξ* satisfies C⁵−12C⁴−42C³−24C²+32C+32 = 0 (`f8_C_poly`).
+
+NOT FORMALISED (on paper / numerical only):
+* The derivation of the Hessian and its Fourier block-diagonalisation (Thm 2 itself: the power-sum
+  decomposition (eq:decomp), the series for ln|1−w|, the root-of-unity filter Σ_k w^{(j−k)p} w^{mk}
+  = N w^{mj}[p ≡ m], the pair-term Hessian from note.tex). Here the blocks are taken as definitions;
+  only the algebra connecting the three contributions and the closed forms is checked.
+* Lemma 1 (relative equilibrium) and the dynamics; Prop 3's stability criteria beyond the
+  characteristic polynomial; Remark 4 (energy–momentum modulo SO(2,1)); nonlinear stability.
+* Irreducibility of f_N over ℚ (hence "minimal polynomial", "degree of ξ*", the degree pattern
+  (eq:deg), and "ξ*(N) not an algebraic integer for N = 9..16" are NOT formalised; only that ξ*(N)
+  is a root of the stated palindromic f_N with the stated degree/leading coefficient).
+* The Krein-window gap sizes and the location of ξ_EM; even-N coincidence of the two thresholds.
+* Large-N asymptotics (κ∞) and all numerical fits (§7); the Arb balls and 50-digit values (we give
+  20-digit rational enclosures).
+-/

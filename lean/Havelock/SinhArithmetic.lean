@@ -1,5 +1,5 @@
 /-
-Item 01 — Vortex-ring stability thresholds on H² (sinh model): the arithmetic core.
+Havelock — Vortex-ring stability thresholds on H² (sinh model): the arithmetic core.
 
 Setting (proved on paper in sinh/note.tex, NOT formalised here):
 for the sinh model the N-ring is marginally stable at cosh² r* = q(N) with
