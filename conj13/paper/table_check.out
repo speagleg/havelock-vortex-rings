@@ -1,0 +1,44 @@
+n=4 b_n=0.267949192431 c4(float)=0.25 formula=1/4=0.25 diff=-5.7e-42 nu1=6.5e-42
+n=4 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 1/4 : True [0s]
+n=5 b_n=0.171572875254 c4(float)=0.225 formula=9/40=0.225 diff=5.7e-42 nu1=9.8e-41
+n=5 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 9/40 : True [1s]
+n=6 b_n=0.0557280900008 c4(float)=0.7666666666666666666666667 formula=23/30=0.7666666666666666666666667 diff=9.2e-41 nu1=1.4e-40
+n=6 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 23/30 : True [1s]
+n=7 b_n=0.0 c4(float)=0.6428571428571428571428571 formula=9/14=0.6428571428571428571428571 diff=-2.2e-40 nu1=1.0e-41
+n=7 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 9/14 : True [1s]
+n=8 b_n=-0.0627460668062 c4(float)=1.696428571428571428571429 formula=95/56=1.696428571428571428571429 diff=2.3e-41 nu1=6.2e-41
+n=8 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 95/56 : True [2s]
+n=9 b_n=-0.101020514434 c4(float)=1.583333333333333333333333 formula=19/12=1.583333333333333333333333 diff=1.1e-40 nu1=5.7e-40
+n=9 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 19/12 : True [2s]
+n=10 b_n=-0.142857142857 c4(float)=3.266666666666666666666667 formula=49/15=3.266666666666666666666667 diff=9.2e-41 nu1=1.6e-41
+n=10 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 49/15 : True [3s]
+n=11 b_n=-0.171572875254 c4(float)=3.409090909090909090909091 formula=75/22=3.409090909090909090909091 diff=-1.9e-39 nu1=0.0e+00
+n=11 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 75/22 : True [3s]
+n=12 b_n=-0.202410864032 c4(float)=5.719696969696969696969697 formula=755/132=5.719696969696969696969697 diff=-3.7e-40 nu1=2.4e-40
+n=12 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 755/132 : True [3s]
+n=13 b_n=-0.225148226554 c4(float)=6.490384615384615384615385 formula=675/104=6.490384615384615384615385 diff=-2.9e-39 nu1=0.0e+00
+n=13 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 675/104 : True [4s]
+n=14 b_n=-0.24927759541 c4(float)=9.302197802197802197802198 formula=1693/182=9.302197802197802197802198 diff=-1.1e-39 nu1=2.2e-40
+n=14 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 1693/182 : True [4s]
+n=15 b_n=-0.267949192431 c4(float)=11.2 formula=56/5=11.2 diff=2.9e-39 nu1=0.0e+00
+n=15 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 56/5 : True [4s]
+n=16 b_n=-0.287595092738 c4(float)=14.2625 formula=1141/80=14.2625 diff=-1.1e-39 nu1=1.7e-41
+n=16 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 1141/80 : True [5s]
+n=17 b_n=-0.30333704529 c4(float)=17.91176470588235294117647 formula=609/34=17.91176470588235294117647 diff=1.1e-39 nu1=0.0e+00
+n=17 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 609/34 : True [7s]
+n=18 b_n=-0.319793829577 c4(float)=20.84967320261437908496732 formula=3190/153=20.84967320261437908496732 diff=0.0e+00 nu1=2.7e-42
+n=18 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 3190/153 : True [10s]
+n=19 b_n=-0.333333333333 c4(float)=27.0 formula=27=27.0 diff=-7.3e-40 nu1=0.0e+00
+n=19 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 27 : True [11s]
+n=20 b_n=-0.347416435746 c4(float)=29.31315789473684210526316 formula=11139/380=29.31315789473684210526316 diff=1.1e-39 nu1=2.5e-40
+n=20 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 11139/380 : True [10s]
+n=21 b_n=-0.359245517966 c4(float)=38.83928571428571428571429 formula=2175/56=38.83928571428571428571429 diff=2.4e-38 nu1=0.0e+00
+n=21 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 2175/56 : True [11s]
+n=22 b_n=-0.371499824062 c4(float)=39.9025974025974025974026 formula=6145/154=39.9025974025974025974026 diff=-7.3e-40 nu1=1.2e-40
+n=22 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 6145/154 : True [13s]
+n=23 b_n=-0.38196601125 c4(float)=53.80434782608695652173913 formula=2475/46=53.80434782608695652173913 diff=8.2e-38 nu1=0.0e+00
+n=23 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 2475/46 : True [16s]
+n=24 b_n=-0.392772515175 c4(float)=52.86775362318840579710145 formula=29183/552=52.86775362318840579710145 diff=-7.3e-40 nu1=3.0e-40
+n=24 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 29183/552 : True [15s]
+n=25 b_n=-0.40212983115 c4(float)=72.27 formula=7227/100=72.27 diff=-7.5e-38 nu1=0.0e+00
+n=25 EXACT GF(p) (3 primes x conjugates): threshold, no cubic, c4 == 7227/100 : True [23s]

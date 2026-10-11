@@ -1,0 +1,13 @@
+n= 4 b=  0.267949192431 |{H,J}|=1.21e-40 {J1,J2}=1.154700538 (pred 1.154700538) |dF|=8.46e-41 dim W=4 zero=1 neg=0 min+=1.5 max|ev-pred|=2.76e-40 radial mode-1 a_1=1.0
+n= 5 b=  0.171572875254 |{H,J}|=5.51e-40 {J1,J2}=1.767766953 (pred 1.767766953) |dF|=1.15e-40 dim W=6 zero=2 neg=0 min+=2.666666667 max|ev-pred|=2.76e-40 radial mode-1 a_1=2.0
+n= 6 b= 0.0557280900008 |{H,J}|=3.67e-40 {J1,J2}=2.683281573 (pred 2.683281573) |dF|=1.38e-40 dim W=8 zero=1 neg=0 min+=1.0 max|ev-pred|=3.67e-40 radial mode-1 a_1=4.0
+n= 7 b=             0.0 |{H,J}|=1.84e-40 {J1,J2}=3.5 (pred 3.5) |dF|=3.44e-40 dim W=10 zero=2 neg=0 min+=2.0 max|ev-pred|=1.1e-39 radial mode-1 a_1=6.0
+n= 8 b=-0.0627460668062 |{H,J}|=5.51e-40 {J1,J2}=4.535573676 (pred 4.535573676) |dF|=2.69e-40 dim W=12 zero=1 neg=0 min+=1.0 max|ev-pred|=2.02e-39 radial mode-1 a_1=9.0
+n= 9 b= -0.101020514434 |{H,J}|=5.51e-40 {J1,J2}=5.511351921 (pred 5.511351921) |dF|=3.67e-40 dim W=14 zero=2 neg=0 min+=2.0 max|ev-pred|=2.2e-39 radial mode-1 a_1=12.0
+n=10 b= -0.142857142857 |{H,J}|=9.18e-40 {J1,J2}=6.666666667 (pred 6.666666667) |dF|=5.51e-40 dim W=16 zero=1 neg=0 min+=1.0 max|ev-pred|=2.57e-39 radial mode-1 a_1=16.0
+n=11 b= -0.171572875254 |{H,J}|= 1.1e-39 {J1,J2}=7.778174593 (pred 7.778174593) |dF|=1.1e-39 dim W=18 zero=2 neg=0 min+=2.0 max|ev-pred|=1.84e-39 radial mode-1 a_1=20.0
+n=12 b= -0.202410864032 |{H,J}|=5.51e-40 {J1,J2}=9.045340337 (pred 9.045340337) |dF|=7.35e-40 dim W=20 zero=1 neg=0 min+=1.0 max|ev-pred|=2.2e-39 radial mode-1 a_1=25.0
+n=13 b= -0.225148226554 |{H,J}|=1.84e-39 {J1,J2}=10.2774024 (pred 10.2774024) |dF|=1.38e-39 dim W=22 zero=2 neg=0 min+=2.0 max|ev-pred|=3.77e-39 radial mode-1 a_1=30.0
+n=14 b=  -0.24927759541 |{H,J}|=1.47e-39 {J1,J2}=11.64870412 (pred 11.64870412) |dF|=1.47e-39 dim W=24 zero=1 neg=0 min+=1.0 max|ev-pred|=4.41e-39 radial mode-1 a_1=36.0
+n=15 b= -0.267949192431 |{H,J}|=1.84e-39 {J1,J2}=12.99038106 (pred 12.99038106) |dF|=1.1e-39 dim W=26 zero=2 neg=0 min+=2.0 max|ev-pred|=4.59e-39 radial mode-1 a_1=42.0
+ALL CHECKS PASS

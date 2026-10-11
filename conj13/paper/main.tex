@@ -1,0 +1,897 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}{Conjecture}
+\renewcommand{\theconjecture}{13}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\floor}[1]{\lfloor #1\rfloor}
+\usepackage{url}
+\newcommand{\code}[1]{\path{#1}}
+
+\title{Stability of the regular $n$-gon of point vortices at its bifurcation point:\\
+a proof of the Montaldi--Tokieda conjecture}
+\author{Gordon Speagle\\
+Independent Researcher, Boise, ID, USA\\
+\texttt{gspeagle@gmail.com}}
+\date{Draft, 10 October 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Montaldi and Tokieda studied a one-parameter family of point-vortex systems on the sphere, the plane and
+the hyperbolic plane, and showed that a regular ring of $n\ge4$ identical vortices loses stability at an
+explicit bifurcation value $b_n$ of the curvature parameter. They conjectured that the ring is still
+stable \emph{at} $b_n$ (their Conjecture~13), and proved it for even $n$ and for $n=3,5,7,9,11$. We prove it
+for every $n$. The ring at $b_n$ is Lyapunov stable modulo rotations about its centre, for all small
+perturbations, including those that change the momentum. The proof has three parts.
+(i) A spectral computation. In log-polar coordinates the reduced Hessian at $b_n$ is block-diagonal and
+independent of the geometry, and its kernel is exactly the critical Fourier mode.
+(ii) The effective quartic coefficient $c_4$ of the reduced Hamiltonian along that kernel, computed on the
+momentum level set. We find
+$c_4=(n-2)(m^4+40m^2+48m+16)/(192n(n-1))$ with $m=n-2$ for even $n$, and
+$c_4=(n-1)(n-3)(n^2-9n+38)/(128n)$ for odd $n$. Both are positive.
+(iii) A self-contained energy--momentum argument for degenerate (quartic) minima. It works for the
+noncompact groups $SE(2)$ and $PSL(2,\R)$, and for the plane's affine momentum map.
+Along the way we point out that the published argument evaluates the quartic on a linear slice rather than
+on the level set, and that this changes its value (for example $6/7$ versus $9/14$ at $n=7$). Montaldi and
+Tokieda's conclusions are nevertheless correct. All verification so far has been by AI readers and
+computer checks; no human specialist has yet reviewed the argument.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Introduction}\label{sec:intro}
+%======================================================================
+
+\paragraph{The family.} Montaldi and Tokieda~\cite{MT} put point vortices on the sphere, the plane and the
+hyperbolic plane into one smooth family. In a uniform chart $z\in\C$ they use the surface $M_\lambda$ of
+curvature $4\lambda$, with
+\[
+\sigma(z)=1+\lambda|z|^2,\qquad \Omega_\lambda=\frac{2}{\sigma^2}\,dx\wedge dy
+\quad\text{(\cite[(1.8)]{MT})},\qquad
+J_\lambda(z)=\frac1\sigma\big(z,|z|^2\big)\quad\text{(\cite[(1.9)]{MT})},
+\]
+and the pair interaction~\cite[(1.12)]{MT}
+\[
+G(z;w)=\log\frac{|z-w|^2}{(1+\lambda|z|^2)(1+\lambda|w|^2)} .
+\]
+For $\lambda>0$ this is the standard sphere (stereographic chart). For $\lambda=0$ it is the plane. For
+$\lambda<0$ it is the hyperbolic plane with the ``sinh'' interaction, i.e.\ $G=2\log\sinh(d/2)$ up to
+constants, where $d$ is hyperbolic distance. The symmetry group $G_\lambda$ is $SO(3)$, $SE(2)$ or
+$PSL(2,\R)$ respectively. For $n$ identical unit vortices at distinct points $z_1,\dots,z_n$ we use
+\begin{equation}\label{eq:H}
+H=-\sum_{i<j}\log\frac{|z_i-z_j|^2}{\sigma_i\sigma_j},\qquad
+\Omega=\sum_k\frac{2}{\sigma_k^2}dx_k\wedge dy_k,\qquad
+J=(J_1,J_2,J_3)=\sum_k\Big(\frac{x_k}{\sigma_k},\frac{y_k}{\sigma_k},\frac{|z_k|^2}{\sigma_k}\Big),
+\end{equation}
+with $\sigma_k=\sigma(z_k)$. This is the Hamiltonian of~\cite{MT} without the positive factor $\kappa^2/4\pi$.
+That factor rescales time and does not affect any statement below.
+
+\paragraph{Rings and the bifurcation point.} The regular ring $z_k=r_0e^{2\pi ik/n}$ is a relative
+equilibrium for every $r_0$ and $\lambda$. By scaling we may take $r_0=1$, so the only parameter is
+$b=\lambda r_0^2\in(-1,1]$. Montaldi--Tokieda~\cite[Thm.~6]{MT} prove that for $n\ge4$ the ring is
+stable for $\lambda r_0^2<b_n$, where $b_n$ is the unique root in $(-1,1]$ of
+\begin{equation}\label{eq:bn}
+\frac{1+b_n^2}{(1+b_n)^2}=\frac{1}{2(n-1)}\Big\lfloor\frac{n^2}{4}\Big\rfloor
+\qquad\text{(\cite[(3.6)]{MT})}.
+\end{equation}
+Above $b_n$ the ring is spectrally unstable, and a pitchfork bifurcation occurs. Explicitly,
+\[
+b_n=\frac{4(n-2)\sqrt{n-1}-n^2}{n^2-8n+8}\ \ (n\text{ even}),\qquad
+b_n=\frac{4\sqrt{n-3}-(n+1)}{n-7}\ \ (n\text{ odd},\ n\ne7),\qquad b_7=0 .
+\]
+So $b_4=2-\sqrt3$, $b_5$ and $b_6=9-4\sqrt5$ are positive (sphere). The value $b_7=0$ is the plane, where
+this is the Thomson heptagon. For $n\ge8$, $b_n<0$ (hyperbolic plane); for example $b_8=-(8-3\sqrt7)$.
+Throughout, $|b_n|<1$.
+
+\paragraph{The conjecture.} Montaldi and Tokieda define stability as follows~\cite[p.~9]{MT}:
+``The precise sense of stability we are adopting is like the ordinary one of Lyapunov stability, but in
+terms of $G_\mu$-invariant open sets, where $\mu$ is the momentum value at the trajectory and $G_\mu$ is
+the stabilizer of $\mu$: in detail, for every $G_\mu$-invariant neighbourhood $V$ of the trajectory, there
+exists a $G_\mu$-invariant neighbourhood $U\subseteq V$ such that every trajectory starting in $U$ remains
+in $V$ for all time.'' Before Theorem~6 they add~\cite[p.~15]{MT}: ``Stability means Lyapunov stability
+modulo rotations (same as orbital stability in our situation).'' Then, on p.~23:
+
+\begin{quote}
+\textbf{Conjecture 13.} \emph{For all values of $n$, the $n$-gon is stable at the bifurcation point.}\\
+Above, we have proved this for all even $n$ and for $n = 3, 5, 7, 9, 11$.
+\end{quote}
+
+\paragraph{What was known.} For odd $n$ the argument in~\cite{MT} rests on numerical evaluation of
+three Taylor coefficients $\beta,\gamma,\delta$ for $n=5,7,9,11$. The authors write that ``the awkward
+trigonometric expressions prevented us (and Maple) from reaching closed forms for $\gamma$ and $\delta$''.
+So odd $n\ge13$ (all in the hyperbolic plane) remained open. The case $n=7$ is the Thomson heptagon. Its
+nonlinear stability was proved by Kurakin and Yudovich~\cite{KY} (we have read only the abstract) and by
+Schmidt~\cite{Schmidt}; Montaldi--Tokieda recover it~\cite[Cor.~7]{MT}. For the sphere at the critical
+latitude ($n=4,5,6$), Borisov and Kilin~\cite{BK} wrote that the problem ``requires separate analysis with
+respect to nonlinear terms and remains unsolved to the present day''. Kurakin~\cite{Kurakin03,Kurakin04}
+later gave necessary and sufficient conditions for nonlinear stability of regular vortex systems on the
+sphere. We have not read those papers and make no claim about their content.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+\item A proof of Conjecture~13 for all $n$ (Theorem~\ref{thm:main}), in Montaldi--Tokieda's sense, and
+for perturbations of arbitrary (nearby) momentum.
+\item Closed forms for the effective quartic coefficient on the momentum level set, for every even and
+every odd $n$ (Theorems~\ref{thm:even} and~\ref{thm:odd}). The odd case answers the closed-form question
+left open in~\cite{MT}.
+\item A self-contained nonlinear-stability argument for degenerate minima that covers the noncompact groups
+involved, including the plane with its affine momentum map (Section~\ref{sec:nonlinear}).
+\item Three precise remarks on the published argument (Section~\ref{sec:remarks}). None of them changes
+any conclusion of~\cite{MT}.
+\end{enumerate}
+
+%======================================================================
+\section{Main result}\label{sec:main}
+%======================================================================
+
+\begin{theorem}\label{thm:main}
+Let $n\ge4$. Consider $n$ identical point vortices on $M_\lambda$ with Hamiltonian~\eqref{eq:H}, in a
+regular ring at the bifurcation point $\lambda r_0^2=b_n$. This means the sphere for $n=4,5,6$, the plane
+for $n=7$ and the hyperbolic plane for $n\ge8$. Let $K\cong SO(2)$ be the group of rotations about the ring
+centre, so that $K=G_\mu$ for $\mu=J(\text{ring})$. Then the ring is Lyapunov stable modulo $K$. That is,
+for every $\varepsilon>0$ there is $\delta>0$ such that every solution with
+$\operatorname{dist}(x(0),K\cdot x_0)<\delta$ exists for all $t\in\R$ and satisfies
+$\operatorname{dist}(x(t),K\cdot x_0)<\varepsilon$. No restriction is placed on the momentum of $x(0)$.
+\end{theorem}
+
+Since $K$ is compact, $K$-invariant neighbourhoods of the (compact) relative-equilibrium orbit $K\cdot x_0$
+are cofinal among all of its neighbourhoods. So Theorem~\ref{thm:main} is exactly stability in the sense
+of~\cite[p.~9]{MT} quoted above. It also implies stability modulo the full group $G_\lambda$.
+
+\begin{corollary}
+Conjecture~13 of~\cite{MT} holds for every $n\ge4$. Together with the case $n=3$, which~\cite{MT} state is
+always nonlinearly stable, it holds for all $n$.
+\end{corollary}
+
+For $n=3$, equation~\eqref{eq:bn} has its only root at $b=1$ (the equator), where Montaldi--Tokieda's
+statement applies; we do not re-prove it. The new content is odd $n\ge13$, together with complete proofs
+for the other $n$ (see Section~\ref{sec:remarks}).
+
+\paragraph{Structure of the proof.} Section~\ref{sec:setup} shows that the reduced Hessian at $b_n$ is
+positive semidefinite, with kernel equal to the radial part of the critical Fourier mode
+(Proposition~\ref{prop:spectral}). Section~\ref{sec:quartic} computes the quartic coefficient of the
+reduced Hamiltonian along this kernel, after the transverse directions are eliminated, and shows it is
+positive (Theorems~\ref{thm:even} and~\ref{thm:odd}). Section~\ref{sec:nonlinear} turns ``degenerate strict
+minimum of the reduced Hamiltonian'' into Lyapunov stability modulo $K$ in the full phase space
+(Theorem~\ref{thm:abstract}).
+
+%======================================================================
+\section{Setup: Fourier blocks and the reduced space}\label{sec:setup}
+%======================================================================
+
+\subsection{Log-polar coordinates and the Fourier blocks}
+
+Write $z_k=e^{s_k+i(\phi_k+\theta_k)}$ with $\phi_k=2\pi k/n$, so the ring is $s=\theta=0$. Then
+\[
+\log|z_j-z_k|^2=s_j+s_k+\log\big(2\cosh(s_j-s_k)-2\cos(\phi_j-\phi_k+\theta_j-\theta_k)\big),
+\]
+which does not involve $\lambda$. All dependence on $\lambda$ is in one-body terms that depend on the
+$s_k$ alone. These are $(n-1)\sum_k\log(1+b\,e^{2s_k})$ in $H$, and
+$J_3=\sum_k g(e^{2s_k})$ with $g(u)=u/(1+bu)$.
+
+Let $F=H-\omega_0J_3$, with $\omega_0$ chosen so that $dF(\text{ring})=0$. With
+$D_\phi=2-2\cos\phi$, the pair logarithm has no linear $\Delta s$ term and no
+$\Delta s\,\Delta\theta$ term at second order; its quadratic part is $(\Delta s^2-\Delta\theta^2)/D_\phi$.
+The Fej\'er-type identity
+\begin{equation}\label{eq:fejer}
+\sum_{l=1}^{n-1}\frac{1-\cos(2\pi ml/n)}{1-\cos(2\pi l/n)}=m(n-m)\qquad(0\le m\le n)
+\end{equation}
+(equivalent to~\cite[(2.4)]{MT}) diagonalises the pair part on each Fourier mode. Its proof is one line:
+with $w=e^{2\pi il/n}$ the summand is $|1+w+\dots+w^{m-1}|^2$, then sum over $l$.
+
+The one-body part of $F$ is $\sum_k\varphi(s_k)$ with
+$\varphi(s)=-(n-1)s+(n-1)\log(1+be^{2s})-\omega_0\,e^{2s}/(1+be^{2s})$. The condition $\varphi'(0)=0$ gives
+$\omega_0=-(n-1)(1-b^2)/2$, and then
+\[
+C_1:=\varphi''(0)=\frac{4(n-1)b}{(1+b)^2}+\frac{(n-1)(1-b^2)}2\cdot\frac{4(1-b)}{(1+b)^3}
+=\frac{2(n-1)(1+b^2)}{(1+b)^2}.
+\]
+Let $V_m$ ($0\le m\le\floor{n/2}$) be the real Fourier spaces, spanned by
+$(\cos m\phi_k,\sin m\phi_k)$ in $s$ and in $\theta$. The space $V_m$ has dimension $4$ for
+$0<m<n/2$, and dimension $2$ for $m=0$ and for $m=n/2$.
+
+\begin{proposition}[Fourier blocks]\label{prop:blocks}
+For every $b\in(-1,1)$, $d^2F(\text{ring})$ is block-diagonal over the $V_m$, with no radial--tangential
+coupling. Its eigenvalues are
+\[
+a_m=C_1-m(n-m)\ \ \text{(radial)},\qquad b_m=m(n-m)\ \ \text{(tangential)},
+\]
+with respect to the Euclidean structure $\sum_k(ds_k^2+d\theta_k^2)$. At $b=b_n$ we have
+$C_1=\floor{n^2/4}=\max_m m(n-m)$, which is~\eqref{eq:bn}.
+\end{proposition}
+
+\noindent
+This is~\cite[(2.6)]{MT} up to normalisation. We have $a_m\ge0$ at $b_n$, with equality iff
+$m=\floor{n/2}$, because $m(n-m)$ is strictly increasing for $1\le m\le n/2$. For odd $n$, the modes
+$(n\pm1)/2$ form the single real space $V_{(n-1)/2}$.
+
+\subsection{The reduced space}
+
+Let $x_0$ be the ring and $\mu=J(x_0)=(0,0,\mu_3)$ with $\mu_3=n/(1+b)$. The stabiliser $G_\mu$ is the group
+$K$ of rotations about the origin, because $|b|<1$ excludes the equator. Let $t$ denote the rotation
+direction, $\theta_k=1$ for all $k$.
+
+\begin{enumerate}
+\item[(a)] $dJ_3=2(1+b)^{-2}\sum_kds_k$ is nonzero exactly on the radial part of $V_0$.
+\item[(b)] Let $J_+=J_1+iJ_2$, and let $R$ be the rotation by $2\pi/n$ composed with the relabelling
+$k\mapsto k+1$. Then $R$ fixes the ring and $J_+\circ R=e^{2\pi i/n}J_+$. So $dJ_+(x_0)$ vanishes on $V_m$
+for $m\ne1$. Explicitly $dJ_+=\sum_ke^{i\phi_k}(A\,ds_k+iB\,d\theta_k)$, with $A=(1-b)/(1+b)^2$ and
+$B=1/(1+b)$. It has real rank $2$ on $V_1$; let $V_1'=V_1\cap\ker dJ_+$, which has dimension $2$.
+\item[(c)] The other two generators $\xi_1,\xi_2$ of $G_\lambda$ are rotations about horizontal axes,
+translations, or boosts. They span a $2$-plane in $V_1$ that is \emph{not} in $\ker dJ$, because
+$\det\big(dJ_i(\xi_j)\big)_{i,j=1,2}=\{J_1,J_2\}(x_0)^2$ and
+\begin{equation}\label{eq:bracket}
+\{J_1,J_2\}=\tfrac n2-\lambda J_3,\qquad \{J_1,J_2\}(x_0)=\frac{n(1-b)}{2(1+b)}\ne0 .
+\end{equation}
+For $\lambda=0$ the bracket is the constant $n/2$. This is the central term of the affine (non-equivariant)
+momentum map of $SE(2)$. Our argument never uses equivariance, only that $J_1,J_2,J_3$ are Hamiltonians
+for the generators and the value~\eqref{eq:bracket}. For $\lambda\ne0$, $J-(0,0,n/(2\lambda))$ is equivariant.
+\end{enumerate}
+
+Hence $\ker dJ(x_0)=\R t\oplus V_1'\oplus V_2\oplus\dots\oplus V_{\floor{n/2}}$. The $G_\lambda$-orbit meets
+$\ker dJ$ only in $\R t$. The reduced space $M_\mu=J^{-1}(\mu)/K$ is a smooth manifold near $[x_0]$ ($K$
+acts freely on labelled rings), and
+\[
+\dim M_\mu=2n-4 .
+\]
+Three dimensions are removed by constraints (the radial part of $V_0$, and two directions in $V_1$), and one by
+the gauge direction $t$.
+
+\subsection{Gap (i): spectral positivity off the kernel}
+
+Let $h_\mu$ be the reduced Hamiltonian. On $J^{-1}(\mu)$ we have $H=F+\omega_0\mu_3$. For any curve $c$
+in $J^{-1}(\mu)$ through $x_0$, $(F\circ c)''(0)=d^2F(c',c')+dF(c'')=d^2F(c',c')$, because $dF(x_0)=0$. So
+$d^2h_\mu([x_0])$ is $d^2F(x_0)$ restricted to $\ker dJ(x_0)$, with $t$ in its radical.
+
+\begin{proposition}\label{prop:spectral}
+Let $n\ge4$ and $\lambda r_0^2=b_n$, in any of the three geometries. The Hessian of $h_\mu$ at $[x_0]$ is
+positive semidefinite. Its kernel is exactly the radial part of $V_{\floor{n/2}}$, of dimension $1$ for
+even $n$ and $2$ for odd $n$. It is positive definite on the complement
+$E=V_1'\oplus\bigoplus_{2\le m\le\floor{n/2}}(\text{tangential }V_m)\oplus\bigoplus_{2\le m<\floor{n/2}}
+(\text{radial }V_m)$.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:blocks} the restriction is block-diagonal.
+\emph{Mode $1$:} on all of $V_1$, $d^2F=\operatorname{diag}(a_1I,b_1I)$ with $b_1=n-1>0$ and
+$a_1=\floor{n^2/4}-(n-1)>0$ for $n\ge4$. So $d^2F$ is positive definite on every subspace of $V_1$,
+in particular on $V_1'$. Nothing about $A$ or $B$ is needed.
+\emph{Modes $m\ge2$:} $b_m>0$, and $a_m>0$ unless $m=\floor{n/2}$, where $a_m=0$.
+\emph{Mode $0$:} its radial part is removed by $J_3=\mu_3$ and its tangential part is the gauge direction.
+\end{proof}
+
+\noindent
+The smallest nonzero eigenvalue (in the $(s,\theta)$-Euclidean normalisation) is $1$ for even $n\ge6$
+($a_{n/2-1}=1$) and $2$ for odd $n\ge7$ ($a_{(n-3)/2}=2$). For $n=4,5$ the next mode is $m=1$, where
+$V_1'$ mixes radial and tangential parts; the values are $3/2$ and $8/3$. An independent 40-digit computation of the full
+$2n\times2n$ Hessian, compressed onto $\ker dJ\cap t^\perp$, agrees with these predictions for $n=4,\dots,15$
+to $5\cdot10^{-39}$. A bordered-inertia check at $n=5,7,\dots,25,31$ finds exactly the predicted kernel and
+no negative eigenvalue (Section~\ref{sec:limits}).
+
+%======================================================================
+\section{The effective quartic on the level set}\label{sec:quartic}
+%======================================================================
+
+\subsection{Why the level set, and not a linear slice}
+
+Let $K_0$ be the kernel in Proposition~\ref{prop:spectral}, with coordinates $(a,b)\in K_0\times E$ on
+$M_\mu$. Let $\beta(a)$ be the slaving map, the critical point of $b\mapsto h_\mu(a,b)$, and let
+$g(a)=h_\mu(a,\beta(a))-h_\mu(0)$. Because the Hessian vanishes on $K_0$, the leading term of $g$ is of
+order $4$ (the cubic term vanishes by symmetry; see below). It is built from three ingredients: the quartic
+derivative of $H$ along $a$, the cubic coupling of $a^2$ to the slaved $O(|a|^2)$ displacement, and the
+quadratic energy of that displacement.
+
+The slaved displacement must keep the curve on $J^{-1}(\mu)$. Moving a distance $\varepsilon$ along a
+kernel vector changes $J_3$, and through $J_+$ also the mode-$1$ momenta, at order $\varepsilon^2$. So a
+curve in the level set has an $O(\varepsilon^2)$ component along directions \emph{not} in
+$\ker dJ(x_0)$, chiefly the radial part of $V_0$. This component has Hessian weight $a_0=C_1\ne0$ and
+couples to $a^2$ at cubic order, so it contributes at order $\varepsilon^4$.
+
+When the Hessian is nondegenerate, $O(\varepsilon^4)$ is negligible next to the quadratic term, and the
+curvature of the level set is invisible. When the Hessian is degenerate, $\varepsilon^4$ is the leading
+order, and the curvature of $J^{-1}(\mu)$ enters the decisive coefficient. A computation on the linear
+slice $x_0+N$ ($N$ a symplectic normal space) therefore does not in general give the quartic coefficient
+of the reduced Hamiltonian. Section~\ref{sec:remarks} quantifies this.
+
+\begin{definition}\label{def:c4}
+Let $e\in\R^{2n}\cong\C^n$ be the Euclidean-unit radial kernel vector in the chart:
+$e_k=n^{-1/2}(-1)^k\hat z_k$ for even $n$, and $e_k=(2/n)^{1/2}\cos(l\phi_k)\hat z_k$ with
+$l=(n-1)/2$ for odd $n$. Here $\hat z_k$ is the outward unit vector at the $k$-th vortex. For odd $n$, let
+$e'$ be the same with $\sin$ in place of $\cos$. Define
+\begin{multline*}
+f_{\rm eff}(\varepsilon)=\min\big\{H(q)-H(x_0):\ J(q)=\mu,\ \langle q-x_0,e\rangle=\varepsilon,\\
+\langle q-x_0,e'\rangle=0\ (n\text{ odd}),\ \langle q-x_0,t\rangle=0,\ q\text{ near }x_0\big\}.
+\end{multline*}
+Then $f_{\rm eff}(\varepsilon)=c_4\varepsilon^4+O(\varepsilon^5)$, and $c_4$ is the \emph{level-set
+effective quartic}.
+\end{definition}
+
+\noindent
+$f_{\rm eff}$ is $g$ restricted to a ray in $K_0$, written in a different chart. Positivity of the quartic
+term does not depend on the chart: a change of chart acts on $K_0$ by an invertible linear map to leading
+order. By symmetry, $g$ has no cubic term and its quartic term is $c_4|a|^4$:
+\begin{itemize}
+\item For even $n$, the generator of $\Z_n$ acts by $-1$ on $K_0=\text{radial }V_{n/2}$, so $g$ is even.
+\item For odd $n$, $\Z_n$ acts on $K_0\cong\C$ by $a\mapsto e^{2\pi il/n}a$ with $\gcd(l,n)=1$. The
+monomial $a^p\bar a^q$ is invariant iff $n\mid p-q$. For $p+q\le4<n$ ($n\ge5$) this forces $p=q$. So there
+is no cubic, and the only quartic is $|a|^4$, as in~\cite[Prop.~12]{MT}.
+\end{itemize}
+Since $h_\mu$, $J$ and the Fourier splitting are $\Z_n$-equivariant, $g$ is $\Z_n$-invariant.
+
+\subsection{Even $n$: symmetric criticality and product formulas}
+
+\begin{theorem}\label{thm:even}
+For even $n=2M\ge4$ at $b=b_n$,
+\[
+c_4=\frac{(n-2)\,(m^4+40m^2+48m+16)}{192\,n\,(n-1)},\qquad m=n-2 .
+\]
+In particular $c_4>0$, and $c_4=\tfrac14,\tfrac{23}{30},\tfrac{95}{56},\tfrac{49}{15},\tfrac{755}{132}$ for
+$n=4,6,8,10,12$.
+\end{theorem}
+
+\begin{proof}
+\emph{Symmetric criticality.} The kernel vector $e$ is fixed by the subgroup $D_M\subset D_n$ generated by
+rotation by $2\pi/M$ and the reflection fixing vortex $0$. For fixed $\varepsilon$ the slaved problem is a
+strictly convex minimisation near $x_0$ (Proposition~\ref{prop:spectral} and the implicit function
+theorem). It is $D_M$-equivariant, so its unique minimiser is $D_M$-invariant. The level set and the
+constraints are also $D_M$-invariant. Hence the minimiser lies in $\operatorname{Fix}(D_M)\cap J^{-1}(\mu)$.
+Up to rotation, this set is the curve of configurations made of two staggered regular $M$-gons,
+\[
+\{\rho_+\eta^j\}_{j<M}\cup\{\rho_-\zeta\eta^j\}_{j<M},\qquad \eta=e^{2\pi i/M},\ \zeta=e^{i\pi/M},
+\]
+with radii constrained by $J_3=\mu_3$. ($J_1=J_2=0$ holds automatically.) So $f_{\rm eff}$ is, to all orders,
+the restriction of $H$ to this curve.
+
+\emph{Product formulas.} Put $u_\pm=\rho_\pm^2$. Within one $M$-gon,
+$\sum_{i<j}\log|z_i-z_j|^2=\binom M2\log u_\pm+\text{const}$. Between the two,
+\[
+\sum_{j,k}\log|\rho_+\eta^j-\rho_-\zeta\eta^k|^2=M\log\Big|\prod_{\omega^M=-1}(\rho_+-\rho_-\omega)\Big|^2
+=2M\log\big(u_+^{M/2}+u_-^{M/2}\big),
+\]
+using $\prod_{\omega^M=-1}(x-y\omega)=x^M+y^M$. With $\sigma_\pm=1+\lambda u_\pm$, this gives
+\[
+H=-\tbinom M2(\log u_++\log u_-)-2M\log\big(u_+^{M/2}+u_-^{M/2}\big)+(n-1)M(\log\sigma_++\log\sigma_-)
++\text{const}.
+\]
+\emph{Expansion on the constraint.} The constraint is $g(u_+)+g(u_-)=2g(1)$ with $g(u)=u/(1+\lambda u)$.
+Parametrise it by $g(u_\pm)=g(1)\pm\tau$. The swap $\tau\mapsto-\tau$ is a rotation by $\pi/M$, so $H$ is
+even in $\tau$: $H=H_0+h_2\tau^2+h_4\tau^4+O(\tau^6)$. Direct expansion gives
+\[
+h_2=-\frac M4(1+\lambda)^2\big[M^2(1+\lambda)^2-(4M-2)(1+\lambda^2)\big].
+\]
+This vanishes exactly when $(1+\lambda^2)/(1+\lambda)^2=M^2/(2(2M-1))=n^2/(8(n-1))$, which is~\eqref{eq:bn}
+for even $n$. The expansion also gives
+\[
+h_4=\frac{M(1+\lambda)^4}{96}\Big[M^4(1+\lambda)^4-16M^2(1+\lambda)(1+\lambda^3)+24(2M-1)(1+\lambda^4)\Big].
+\]
+The $e$-component of the displacement is $\varepsilon=\tfrac{\sqrt n}{2}(\rho_+-\rho_-)+O(\rho-1)^2$, and
+$\tau=\tfrac{2}{(1+\lambda)^2}\,\tfrac{\rho_+-\rho_-}2+O(\cdot)^2$. Since $h_2=0$, only the leading linear
+relation matters, and
+\[
+c_4=h_4\Big(\frac{2}{(1+\lambda)^2}\Big)^4\frac1{n^2}.
+\]
+Reducing modulo the quadratic relation~\eqref{eq:bn} gives the stated rational function of $n$. The
+reduction was done symbolically in $M$ and $\lambda$, by two independent scripts
+(Section~\ref{sec:limits}). Positivity is clear: $n-2>0$ and $m^4+40m^2+48m+16>0$.
+\end{proof}
+
+\subsection{Odd $n$: canonical coordinates, root-of-unity sums and residues}
+
+\begin{theorem}\label{thm:odd}
+For odd $n\ge5$ at $b=b_n$,
+\[
+c_4=\frac{(n-1)(n-3)(n^2-9n+38)}{128\,n}.
+\]
+In particular $c_4>0$, because $n^2-9n+38$ has discriminant $-71$. Also $c_4(7)=9/14$.
+\end{theorem}
+
+\begin{proof}
+\emph{Canonical coordinates.} Put $w=|z|^2/\sigma$ and $\vartheta=\arg z$. Then
+$\Omega=\sum_kdw_k\wedge d\vartheta_k$, because $2\,dx\wedge dy/\sigma^2=du\wedge d\vartheta/\sigma^2$ with
+$u=|z|^2$, and $dw=du/\sigma^2$. In these coordinates
+\[
+J_3=\sum_kw_k,\qquad J_1+iJ_2=\sum_k\sqrt{P(w_k)}\,e^{i\vartheta_k},\qquad P(w)=w(1-\lambda w),
+\]
+\[
+\frac{|z_i-z_j|^2}{\sigma_i\sigma_j}=w_i+w_j-2\lambda w_iw_j-2\sqrt{P(w_i)P(w_j)}\cos(\vartheta_i-\vartheta_j).
+\]
+So $H$ has no one-body term, and $J_3$ is linear. The ring is $w_k=w_0=1/(1+\lambda)$,
+$\vartheta_k=\phi_k$.
+
+\emph{Ansatz.} Write $w_k=w_0+\delta_k$ and $\vartheta_k=\phi_k+\psi_k$. On $J^{-1}(\mu)$ we have
+$\sum\delta_k=0$ \emph{exactly}, because $J_3$ is linear. Fix the gauge by $\sum\psi_k=0$, and take the
+kernel direction $\delta_k=A\cos(l\phi_k)$, $l=(n-1)/2$. Since $2l\equiv-1\pmod n$, $a^2$ lies in Fourier
+modes $0$ and $\pm1$, so only these modes are slaved at order $A^2$. Mode $0$ is removed, as just said. The
+reflection $k\mapsto-k$ fixes the kernel vector, so the slaved mode-$1$ part has the form
+\[
+\delta_k=A\cos(l\phi_k)+A^2p\cos\phi_k,\qquad \psi_k=A^2s\sin\phi_k .
+\]
+Corrections of order $A^3$ do not affect the $A^4$ coefficient. The partial gradient $\partial_bh_\mu$ at
+the $O(A^2)$-truncated slaved point is $O(A^3)$, and pairing it with an $O(A^3)$ correction gives
+$O(A^6)$. Modes $m\ge2$ have no $a^2$ coupling, so their slaved amplitude is $O(A^3)$ and contributes
+$O(A^6)$ as well.
+
+\emph{Constraint.} $J_2=0$ holds by reflection symmetry. At order $A^2$, the condition $J_1=0$ reads
+\[
+\tfrac n2A^2\big[Q'(w_0)p-Q(w_0)s+\tfrac14Q''(w_0)\big]=0,\qquad Q=\sqrt P,
+\]
+with $Q(w_0)=1/(1+\lambda)$, $Q'(w_0)=(1-\lambda)/2$ and $Q''(w_0)=-(1+\lambda)^3/4$. Here we used
+$\sum_k\cos^2(l\phi_k)\cos\phi_k=n/4$. The inhomogeneous term $\tfrac14Q''$ is the curvature of the level
+set, which in these coordinates sits in $J_1$ rather than $J_3$.
+
+\emph{Sums over roots of unity.} Expanding $H$ along the ansatz requires sums over $k$ of rational
+functions of $e^{i\phi}$ and $e^{il\phi}$ for offsets $\phi=2\pi m/n$. Put $t=e^{i\pi m/n}$. Then
+$e^{i\phi}=t^2$ and $e^{il\phi}=(-1)^m/t$, and $\sum_{m=1}^{n-1}$ becomes half the sum over the $2n$-th
+roots of unity $t\ne\pm1$. For each sign $\varsigma=t^n=\pm1$, the sum $\sum_{t^n=\varsigma}R(t)$ is
+evaluated by residues of $R(t)\,nt^{n-1}/(t^n-\varsigma)$. The finite poles of $R$ are only at $t=\pm1$
+(and possibly $0$). Every piece has Laurent degree $\le0$ at $0$ and at $\infty$, so the residue at $0$
+vanishes and the residue at $\infty$ is $-n$ times the constant term of $R$ at $\infty$. The residues at
+$\pm1$ are computed from binomial expansions of $t^n$ about $\pm1$, which are polynomials in $n$. Every
+sum is therefore an explicit rational function of $n$ and $\lambda$, valid for all odd $n\ge5$. This is the
+step that replaces the numerical evaluation in~\cite{MT}.
+
+\emph{Result.} The $A^2$ coefficient of $H$ along the kernel is
+\[
+f_2=-\frac{n(n-1)(1+\lambda)^2}{64}\big[(n-7)(1+\lambda^2)+2(n+1)\lambda\big],
+\]
+which vanishes exactly at $b_n$; for odd $n$,~\eqref{eq:bn} reads $(1+\lambda^2)/(1+\lambda)^2=(n+1)/8$.
+The $A^3$ coefficient vanishes. The $A^4$ coefficient is
+$E(p,s)=E_{00}+E_{10}p+E_{01}s+E_{20}p^2+E_{02}s^2$ (there is no $ps$ term), with
+\begin{align*}
+E_{20}&=\tfrac1{16}n(n-1)(1-\lambda)^2(1+\lambda)^2, &
+E_{02}&=\tfrac14n(n-1), \\
+E_{10}&=\tfrac1{64}n(n-1)(1-\lambda)(1+\lambda)^3\big[(n-5)(1+\lambda^2)+2(n-1)\lambda\big],&
+E_{01}&=\tfrac1{64}n(n-1)^2(1+\lambda)^4,
+\end{align*}
+\begin{multline*}
+E_{00}=\tfrac{n(n-1)(1+\lambda)^4}{8192}\Big[(n^3+n^2-69n+291)(1+\lambda^4)\\
++4(n^3+n^2-21n-13)(\lambda+\lambda^3)+(6n^3+6n^2-30n+82)\lambda^2\Big].
+\end{multline*}
+Eliminate $s$ with the $J_1$ constraint. The coefficient of $p^2$ in what remains is
+$a_2=\tfrac18n(n-1)(1-\lambda)^2(1+\lambda)^2>0$, so the slaved $p$ is a minimum. Normalising
+$\delta_k=A\cos(l\phi_k)$ to the unit vector $e$ gives $A=\varepsilon\,(2/n)^{1/2}\,2/(1+\lambda)^2$, so
+\[
+c_4=\frac{64}{n^2(1+\lambda)^8}\min_p E\big(p,s(p)\big).
+\]
+Reducing modulo the threshold relation $(n-7)(1+\lambda^2)+2(n+1)\lambda=0$ gives the stated formula for
+$n\ne7$. The denominator does not vanish modulo the relation unless $n=7$. Direct substitution
+$\lambda=0$, $n=7$ gives $9/14$, which agrees with the formula.
+\end{proof}
+
+\begin{remark}
+The odd-$n$ derivation was done symbolically in $n$ and $\lambda$ by a second AI reader. It was then audited
+step by step by a third reader: the coordinate change, the decoupling, completeness of the ansatz
+(including the absence of aliasing at $n=5,7$), the slaved modes, the $J_1$ constraint, the residues and
+Laurent degrees, and the invariant theory. The third reader also checked it by an independent exact route,
+described next.
+\end{remark}
+
+\subsection{Exact values and independent verification}
+
+Table~\ref{tab:c4} lists $c_4$ for $n=4,\dots,25$ from the closed forms. Every value has been checked
+independently of the derivations above. The check is an order-by-order KKT expansion of the level-set
+minimisation in \emph{Cartesian} coordinates, with all $2n$ coordinates unknown and no Fourier ansatz, no
+symmetry reduction and no residue sums. It is carried out exactly over $\mathrm{GF}(p)$ for three primes
+$p\approx2^{61}$ with $p\equiv1\pmod{4n}$, at both algebraic conjugates of $b_n$. In every case the
+computation confirms three things exactly: the kernel eigenvalue vanishes, the cubic term vanishes, and
+$c_4$ equals the tabulated rational number. A deliberately perturbed value is rejected (negative control).
+Agreement modulo three primes of size $2^{61}$ is overwhelming evidence, though strictly it is not a proof
+over $\mathbb Q$. The proofs are Theorems~\ref{thm:even} and~\ref{thm:odd}. The same engine in 40-digit
+floating point, with the real root $b_n$, agrees to $10^{-37}$ or better. A separate 40-digit constrained
+minimisation in the original chart gives the same values to 15 digits or better for
+$n=4,\dots,13,15,17,19,21,25$; its linear-slice values are also shown.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{rrlrrl}
+\toprule
+$n$ & $b_n$ & geometry & $c_4$ (level set) & decimal & linear slice (numerical)\\
+\midrule
+4 & $0.2679491924$ & sphere & $1/4$ & $0.25$ & $0.2306624$\\
+5 & $0.1715728753$ & sphere & $9/40$ & $0.225$ & $0.2046573$\\
+6 & $0.0557280900$ & sphere & $23/30$ & $0.7666667$ & $0.8245485$\\
+7 & $0$ & plane & $9/14$ & $0.6428571$ & $6/7=0.8571429$\\
+8 & $-0.0627460668$ & $H^2$ & $95/56$ & $1.6964286$ & $2.2779413$\\
+9 & $-0.1010205144$ & $H^2$ & $19/12$ & $1.5833333$ & $2.5781463$\\
+10 & $-0.1428571429$ & $H^2$ & $49/15$ & $3.2666667$ & $4.9125$\\
+11 & $-0.1715728753$ & $H^2$ & $75/22$ & $3.4090909$ & $5.7955980$\\
+12 & $-0.2024108640$ & $H^2$ & $755/132$ & $5.7196970$ & $9.0145599$\\
+13 & $-0.2251482266$ & $H^2$ & $675/104$ & $6.4903846$ & $10.9142245$\\
+14 & $-0.2492775954$ & $H^2$ & $1693/182$ & $9.3021978$ & --\\
+15 & $-0.2679491924$ & $H^2$ & $56/5$ & $11.2$ & $18.3284096$\\
+16 & $-0.2875950927$ & $H^2$ & $1141/80$ & $14.2625$ & --\\
+17 & $-0.3033370453$ & $H^2$ & $609/34$ & $17.9117647$ & $28.4269777$\\
+18 & $-0.3197938296$ & $H^2$ & $3190/153$ & $20.8496732$ & --\\
+19 & $-0.3333333333$ & $H^2$ & $27$ & $27$ & $41.5953947$\\
+20 & $-0.3474164357$ & $H^2$ & $11139/380$ & $29.3131579$ & --\\
+21 & $-0.3592455180$ & $H^2$ & $2175/56$ & $38.8392857$ & $58.2169269$\\
+22 & $-0.3714998241$ & $H^2$ & $6145/154$ & $39.9025974$ & --\\
+23 & $-0.3819660113$ & $H^2$ & $2475/46$ & $53.8043478$ & --\\
+24 & $-0.3927725152$ & $H^2$ & $29183/552$ & $52.8677536$ & --\\
+25 & $-0.4021298312$ & $H^2$ & $7227/100$ & $72.27$ & $103.3451777$\\
+\bottomrule
+\end{tabular}
+\caption{Level-set effective quartic $c_4$ (Definition~\ref{def:c4}; $r_0=1$, $H$ as in~\eqref{eq:H},
+Euclidean-unit kernel vector). All 22 rational values were confirmed by the exact $\mathrm{GF}(p)$
+Cartesian KKT computation. The last column is the quartic on the linear slice (the quantity used
+in~\cite{MT}; see Section~\ref{sec:remarks}). It differs from $c_4$ in every case.}
+\label{tab:c4}
+\end{table}
+
+%======================================================================
+\section{Nonlinear stability for a degenerate minimum}\label{sec:nonlinear}
+%======================================================================
+
+The classical energy--momentum criteria assume a definite Hessian, a compact group, or both. Here the
+Hessian is only semidefinite, and the group is $SE(2)$ or $PSL(2,\R)$ for $n\ge7$. We therefore give a
+self-contained argument. It uses no stability theorem from the literature. The construction (a cross-section,
+then an energy--momentum function with a penalty $(J_3-\mu_3)^2$) is classical in spirit, and we claim no
+novelty for it.
+
+\paragraph{Abstract setting.} Let $(P,\Omega)$ be a symplectic manifold and $H$ a smooth function. A Lie
+group $G$ acts by symplectomorphisms preserving $H$. Functions $J_1,J_2,J_3$ are Hamiltonians for
+generators $\xi_1,\xi_2,\xi_3$, where $\xi_3$ generates a circle action $K\cong SO(2)$, and
+$\operatorname{span}(\xi_1,\xi_2)$ is $\operatorname{Ad}_K$-invariant. Let $x_0$ be a relative equilibrium,
+$dF(x_0)=0$ for $F=H-\omega_0J_3$. Fix a $K$-invariant Riemannian metric on $P$. Assume:
+\begin{itemize}
+\item[(A1)] $J_1(x_0)=J_2(x_0)=0$, $K$ rotates the pair $(J_1,J_2)$, and $\{J_1,J_2\}(x_0)\ne0$.
+\item[(A2)] $K$ acts freely near $x_0$.
+\item[(A3)] There is a smooth curve $j\mapsto x_j$ of relative equilibria through $x_0$ with
+$J_1=J_2=0$ and $J_3(x_j)=\mu_3+j$, with smooth angular velocities $\omega(j)$ and $\omega(0)=\omega_0$.
+\item[(A4)] On $M_\mu=J^{-1}(\mu)/K$, the reduced Hamiltonian $h$ has positive semidefinite Hessian at
+$[x_0]$, with kernel $K_0$ and positive definite on a complement $E$. The function $g(a)=h(a,\beta(a))-h(0)$
+($\beta$ the slaving map) has vanishing cubic Taylor term and positive definite quartic Taylor term $q_4$.
+\end{itemize}
+Each $J_i$ is conserved, since $\{H,J_i\}=dH(\xi_i)=0$.
+
+\begin{lemma}[Lemma A: cross-section]\label{lem:A}
+Near $x_0$, $S:=\{J_1=J_2=0\}$ is a $K$-invariant symplectic submanifold of codimension $2$. It is invariant
+under the flow of $H$, and the flow on $S$ is the Hamiltonian flow of $H|_S$. There is a $K$-invariant
+neighbourhood $U$ of the whole orbit $K\cdot x_0$, and a continuous map $\gamma:U\to G$ with
+$\gamma(x)\cdot x\in S$, $\gamma|_{K\cdot x_0}=e$ and $\gamma(kx)=k\gamma(x)k^{-1}$ for $k\in K$.
+\end{lemma}
+
+\begin{proof}
+Since $\{J_1,J_2\}(x_0)\ne0$, $dJ_1$ and $dJ_2$ are independent. Moreover
+$TS^\Omega=\operatorname{span}(X_{J_1},X_{J_2})$ with $\Omega(X_{J_1},X_{J_2})\ne0$, so $TS^\Omega$ and
+$TS$ are complementary and $\Omega|_S$ is nondegenerate. Because $J_1,J_2$ are conserved, $X_H$ is tangent
+to $S$, and $\Omega|_S(X_H,v)=dH(v)$ for $v\in TS$ gives $X_H|_S=X_{H|_S}$. $S$ is $K$-invariant because
+$K$ rotates $(J_1,J_2)$.
+
+For $\gamma$, let $\Psi(x,s_1,s_2)=(J_1,J_2)(\exp(s_1\xi_1+s_2\xi_2)\cdot x)$. At $(x_0,0)$, its derivative
+in $(s_1,s_2)$ is the matrix $dJ_i(\xi_j(x_0))=\pm\{J_i,J_j\}(x_0)$, which is invertible by (A1). The
+implicit function theorem gives $\varrho>0$, a neighbourhood $U_0$ of $x_0$, and a smooth $s(x)$ on $U_0$,
+such that $s(x)$ is the \emph{unique} solution of $\Psi(x,s)=0$ with $|s|<\varrho$, and $s(x_0)=0$. Put
+$\gamma(x)=\exp(s_1(x)\xi_1+s_2(x)\xi_2)$.
+
+To extend to the whole orbit, note the following. For $k\in K$,
+$k\exp(s\cdot\xi)k^{-1}=\exp(\operatorname{Ad}_k(s\cdot\xi))$ with $\operatorname{Ad}_k(s\cdot\xi)
+\in\operatorname{span}(\xi_1,\xi_2)$, and $|\operatorname{Ad}_k s|=|s|$ for a $K$-invariant norm. Also
+$S$ is $K$-invariant. So for $x\in kU_0$, the element $k\gamma(k^{-1}x)k^{-1}$ is the unique element
+$\exp(s'\cdot\xi)$ with $|s'|<\varrho$ carrying $x$ into $S$. This uniqueness shows that the definitions on
+overlapping translates $kU_0\cap k'U_0$ agree. Hence $\gamma$ is well defined and continuous on the
+$K$-invariant neighbourhood $U=K\cdot U_0$, and it is $K$-equivariant.
+\end{proof}
+
+\begin{lemma}[Lemma B1: quartic lower bound on $M_\mu$]\label{lem:B1}
+Under (A4), in coordinates $w=(a,b)\in K_0\times E$ centred at $[x_0]$, there are $\kappa,\varrho>0$ with
+\[
+h(a,b)-h(0)\ \ge\ \kappa\big(|a|^4+|b|^2\big)\qquad\text{for }|w|<\varrho .
+\]
+\end{lemma}
+
+\begin{proof}
+Let $f=h-h(0)$, so $d^2f(0)=\operatorname{diag}(0,B)$ with $B>0$. By the implicit function theorem there is a
+smooth $\beta$ with $\partial_bf(a,\beta(a))=0$ and $\beta(0)=0$. Moreover $d\beta(0)=0$, because the cross
+block vanishes, so $|\beta(a)|\le L|a|^2$. Taylor's theorem in $b$ about $\beta(a)$ gives
+$f(a,b)-g(a)\ge\tfrac14\lambda_{\min}(B)|b-\beta(a)|^2$ for small $(a,b)$.
+
+Next, $f(a,\beta(a))-f(a,0)=O(|a|^2)\cdot O(|a|^2)$, since $\partial_bf(a,0)=O(|a|^2)$ and $\beta=O(|a|^2)$.
+So the Taylor terms of $g$ of order $\le3$ are those of $f|_{K_0}$. These vanish: order $2$ by (A4) and order
+$3$ by assumption. Hence $g(a)\ge\tfrac12\min_{|a|=1}q_4\,|a|^4$ for small $a$. Finally
+$|b|^2\le2|b-\beta|^2+2L^2|a|^4$.
+\end{proof}
+
+\begin{lemma}[Lemma B2: uniformity in nearby momentum]\label{lem:B2}
+By (A2), $S/K$ is a manifold near $[x_0]$. Choose coordinates $(j,w)$ on it with $j=J_3-\mu_3$; this is
+possible because $dJ_3\ne0$ on $S/K$, since $X_{J_3}\ne0$ and $\Omega|_S$ is nondegenerate. Choose them so
+that $\{w=0\}$ is the curve $[x_j]$ of (A3), and $\{j=0\}=M_\mu$ with the coordinates of
+Lemma~\ref{lem:B1}. Let $\Phi(j,w)=H(j,w)-H(j,0)$. Then there are $C,\varrho>0$ with
+\[
+\Phi(j,w)\ \ge\ \tfrac\kappa2\big(|a|^4+|b|^2\big)-Cj^2\qquad(|j|,|w|<\varrho).
+\]
+\end{lemma}
+
+\begin{proof}
+We have $\Phi(j,0)=0$. Also $\partial_w\Phi(j,0)=0$ for every $j$, because $x_j$ is a critical point of
+$H$ on $\{J_3=\mu_3+j\}\cap S$. Differentiating these identities in $j$ gives $\partial_j\Phi(0,0)=0$ and
+$\partial_w\partial_j\Phi(0,0)=0$. Hence $|\partial_j\Phi(0,w)|\le L'|w|^2=L'(|a|^2+|b|^2)$. Note that
+there are no terms linear in $a$ or $b$ multiplied by $j$. Taylor's theorem in $j$ gives
+\[
+\Phi(j,w)\ge\Phi(0,w)-L'|j|\,(|a|^2+|b|^2)-C_2j^2 .
+\]
+For $\Phi(0,w)=h(w)-h(0)$ use Lemma~\ref{lem:B1}. The term $j|a|^2$ is handled by AM--GM: with
+$X=\sqrt\kappa\,|a|^2$ and $Y=L'|j|/\sqrt\kappa$,
+\[
+L'|j|\,|a|^2=XY\le\tfrac12X^2+\tfrac12Y^2=\tfrac\kappa2|a|^4+\tfrac{L'^2}{2\kappa}j^2 .
+\]
+The term $j|b|^2$ is absorbed directly: $L'|j|\,|b|^2\le\tfrac\kappa2|b|^2$ once $|j|\le\kappa/(2L')$.
+Altogether $\Phi\ge\tfrac\kappa2(|a|^4+|b|^2)-(L'^2/(2\kappa)+C_2)j^2$.
+\end{proof}
+
+\begin{remark}[The minimum does not persist at nearby momentum]\label{rem:nonpersist}
+Lemma~\ref{lem:B2} only bounds how deep $\Phi$ can go below zero; it does not say $\Phi\ge0$. In fact the
+strict minimum does \emph{not} persist. On the unstable side ($j<0$, slightly smaller ring), the kernel
+eigenvalue of the reduced Hessian at $\mu_3+j$ is negative and of order $|j|$. The ring is then a saddle of
+the reduced Hamiltonian, and the bifurcated minima sit at amplitude of order $|j|^{1/2}$ with depth of
+order $j^2$.
+
+We computed this numerically on the $D_{n/2}$-invariant family. For $n=8$, $\min\Phi/j^2$ equals
+$-0.0022841$, $-0.0022845$ and $-0.0022845$ at $j=-10^{-2},-10^{-3},-10^{-4}$, and the minimiser satisfies
+$\tau^*/\sqrt{|j|}\to0.1542$. For $n=12$, $\min\Phi/j^2\to-0.013679$ and $\tau^*/\sqrt{|j|}\to0.2007$. On
+the stable side ($j>0$) the minimum is exactly $0$, attained at the ring.
+
+So there is no neighbourhood on which the reduced Hamiltonians at all nearby momenta have uniform strict
+minima. The step in Morse-lemma-based proofs that relies on such uniformity genuinely fails here. The
+penalty function in Lemma~\ref{lem:B3} replaces it.
+\end{remark}
+
+\begin{lemma}[Lemma B3: conserved function with a strict minimum modulo $K$]\label{lem:B3}
+On $S$ let $V=H-\omega_0J_3+K_c(J_3-\mu_3)^2$. Then $V$ is conserved and $K$-invariant. For $K_c$
+large enough, the function it induces on $S/K$ has a strict local minimum at $[x_0]$.
+\end{lemma}
+
+\begin{proof}
+Write $V(j,w)-V(0,0)=\Phi(j,w)+\psi(j)+K_cj^2$ with $\psi(j)=H(x_j)-H(x_0)-\omega_0j$. Along the family,
+$d(H-\omega(j)J_3)(x_j)=0$ gives $\tfrac{d}{dj}H(x_j)=\omega(j)$. So $\psi(0)=\psi'(0)=0$ and
+$|\psi(j)|\le C_3j^2$. By Lemma~\ref{lem:B2},
+\[
+V-V(0,0)\ge\tfrac\kappa2(|a|^4+|b|^2)+(K_c-C-C_3)j^2,
+\]
+which is positive for $(j,w)\ne0$ once $K_c>C+C_3$.
+\end{proof}
+
+\begin{lemma}[Lemma B4: Lyapunov stability on $S$]\label{lem:B4}
+The orbit $K\cdot x_0$ is Lyapunov stable for the flow on $S$.
+\end{lemma}
+
+\begin{proof}
+$K\cdot x_0$ is compact, and $V-V_0>0$ on a punctured $K$-invariant tubular neighbourhood $N_r$ of
+$K\cdot x_0$ in $S$ (Lemma~\ref{lem:B3}). Given $\varepsilon<r$, let
+$m=\min\{V-V_0:\ x\in S,\ \operatorname{dist}(x,K\cdot x_0)=\varepsilon\}$. This is a minimum over a
+compact set, so $m>0$. Choose $\delta$ such that $V-V_0<m$ on the $\delta$-neighbourhood. Since $V$ is
+conserved, a trajectory starting there never reaches distance $\varepsilon$. It stays in a compact,
+collision-free set, so it exists for all time.
+\end{proof}
+
+\begin{theorem}\label{thm:abstract}
+Under (A1)--(A4), $x_0$ is Lyapunov stable modulo $K$ in the full phase space $P$, with no restriction on
+the momentum of the perturbation.
+\end{theorem}
+
+\begin{proof}
+Let $x(0)$ be close to $K\cdot x_0$, put $\gamma=\gamma(x(0))$ (Lemma~\ref{lem:A}), and let
+$y(t)=\gamma\cdot x(t)$. Since $G$ acts symplectically and preserves $H$, it commutes with the flow, so
+$y(t)$ is the trajectory through $y(0)=\gamma\cdot x(0)\in S$. Moreover $y(0)\to K\cdot x_0$ and
+$\gamma\to e$ as $x(0)\to K\cdot x_0$. By Lemma~\ref{lem:B4}, $y(t)$ stays within $\varepsilon'$ of
+$K\cdot x_0$. Then
+\[
+\operatorname{dist}(x(t),K\cdot x_0)\le d(\gamma^{-1}y(t),y(t))+\operatorname{dist}(y(t),K\cdot x_0)
+\le\omega(\gamma)+\varepsilon',
+\]
+where $\omega(\gamma)=\sup\{d(\gamma^{-1}y,y)\}$ over a fixed compact neighbourhood of $K\cdot x_0$. This
+tends to $0$ as $\gamma\to e$ by continuity of the action.
+\end{proof}
+
+\paragraph{Proof of Theorem~\ref{thm:main}.} We verify (A1)--(A4) for the ring at $b_n$, $n\ge4$, in all
+three geometries.
+\begin{itemize}
+\item (A1): $J_+(x_0)=0$ by $\Z_n$ symmetry, and a rotation by $\psi$ multiplies $J_+$ by $e^{i\psi}$.
+$\{J_1,J_2\}(x_0)=n(1-b_n)/(2(1+b_n))\ne0$ by~\eqref{eq:bracket}, since $|b_n|<1$. The span of
+$\xi_1,\xi_2$ is $\operatorname{Ad}_K$-invariant in $\mathfrak{so}(3)$, $\mathfrak{se}(2)$ and
+$\mathfrak{sl}(2,\R)$.
+\item (A2): a nontrivial rotation moves a labelled ring.
+\item (A3): the concentric rings of radius $r$ are relative equilibria for every $r$~\cite[(2.1)]{MT}, with
+$J_+=0$, and $J_3=nr^2/(1+\lambda r^2)$ is strictly increasing in $r$.
+\item (A4): Proposition~\ref{prop:spectral} gives the Hessian and its kernel. By the symmetry argument after
+Definition~\ref{def:c4}, $q_4=c_4|a|^4$ in a chart, and $c_4>0$ by Theorems~\ref{thm:even}
+and~\ref{thm:odd}.
+\end{itemize}
+Theorem~\ref{thm:abstract} now gives Theorem~\ref{thm:main}. \qed
+
+%======================================================================
+\section{Relation to the literature}\label{sec:lit}
+%======================================================================
+
+\paragraph{Patrick--Roberts--Wulff.} The following is an independent confirmation for the sphere and the
+hyperbolic plane. Patrick, Roberts and Wulff~\cite{PRW} consider a free action with
+$\operatorname{Ad}^*$-equivariant momentum map. Their Theorem~4.2 states that $p_e$ is $G$-stable if
+$H^{-1}(H(p_e))\cap J^{-1}(T_2^{U_{\mu_e}}(\mu_e))\cap U_S=\{p_e\}$ for some neighbourhoods $U_S$ (in a slice)
+and $U_{\mu_e}$. No Hessian condition is required. When $\mathfrak g^*/G$ is Hausdorff at $\mu_e$, which
+holds if $\mu_e$ is regular~\cite[Prop.~4.10(1)]{PRW}, this condition is equivalent to $p_e$ being isolated
+in its energy level within the reduced space. A strict local minimum (Lemma~\ref{lem:B1}) is isolated.
+Their Corollary~5.4 then upgrades $G$-stability to $G^o_{\mu_e}$-stability whenever there is a
+$G^o_{\mu_e}$-invariant inner product on $\mathfrak g^*$, which is automatic here since $G_\mu=SO(2)$ is
+compact.
+
+For $SO(3)$ ($\mu\ne0$) and $PSL(2,\R)$ ($\mu$ timelike), $\mu$ is regular, and the action is free and
+proper on a neighbourhood of the labelled ring. With $J$ shifted to its equivariant form (for
+$\lambda\ne0$), these results therefore give $G_\mu$-stability of the ring at $b_n$ for $n\ne7$, once the
+strict minimum of the reduced Hamiltonian is known, i.e.\ once Sections~\ref{sec:setup}
+and~\ref{sec:quartic} are in hand.
+
+\paragraph{The plane.} For $\lambda=0$ the momentum map of $SE(2)$ is equivariant only for an affine
+action (equation~\eqref{eq:bracket}: $\{J_1,J_2\}=n/2$ is a cocycle). In the central extension that makes
+it equivariant, the centre acts trivially, so the action is not free. So~\cite{PRW} does not apply
+verbatim, and the self-contained Theorem~\ref{thm:abstract} is what covers $n=7$.
+
+\paragraph{Montaldi 1997.} Montaldi--Tokieda's Proposition~9 relies on~\cite{Montaldi97}, whose setting
+is a compact group. For the sphere it applies, provided it is used on the reduced Hamiltonian, i.e.\ with
+the level-set quartic, rather than on the linear slice. We have read only that paper's abstract and the way
+it is quoted in~\cite[p.~9]{MT}; we rely on it nowhere. Montaldi and Rodr\'\i guez-Olmos~\cite{MRO} treat
+noncompact groups, but under formal stability (a definite Hessian on the symplectic normal space), so the
+degenerate case is not covered verbatim. As stated, the published route covers neither $SE(2)$ nor
+$PSL(2,\R)$, nor the degenerate case.
+
+%======================================================================
+\section{Remarks on the published argument}\label{sec:remarks}
+%======================================================================
+
+Montaldi and Tokieda's conclusions (stability at $b_n$ for even $n$ and for $n=3,5,7,9,11$) are correct,
+and our results confirm them. Their framework (the deformation family, the Fourier blocks, the identification
+of $b_n$ and the critical modes, the invariant-theoretic Proposition~12) is what makes the present proof
+possible. The three points below concern intermediate steps only. We record them so that the argument can
+be cited with confidence.
+
+\paragraph{P1: linear slice versus level set.} In~\cite[Prop.~9]{MT}, Lemma~8 is applied to the augmented
+Hamiltonian on a symplectic slice $N$. The proof states that ``the hypotheses of Lemma~8 applied on $M_\mu$
+are equivalent to the same hypotheses applied on $N$''. This holds to second order. Beyond second order it
+fails when the kernel is degenerate, for the reason explained in Section~\ref{sec:quartic}: a curve in
+$M_\mu$ lifts to a curve tangent to $N$, but its second-order part leaves $N$ along the radial mode-$0$
+direction. Lemma~10 and Proposition~12(iii) of~\cite{MT} discard that direction because $V_0\cap N=\{0\}$.
+The effect on the quartic is not small:
+\[
+n=7:\ \ c_4=\tfrac9{14}\ \text{(level set)}\ \text{vs.}\ \tfrac67\ \text{(linear slice)};\qquad
+n=8:\ \ c_4=\tfrac{95}{56}=1.6964\ \text{vs.}\ 2.2779 .
+\]
+Table~\ref{tab:c4} shows the difference for all $n$ computed. The linear-slice value is smaller for
+$n=4,5$ and larger for $n\ge6$, so a linear-slice computation could in principle report ``stable'' when
+the reduced Hamiltonian is not a minimum. For the vortex ring both quantities turn out positive, so no
+conclusion of~\cite{MT} changes.
+
+\paragraph{P2: the factor $3$ in (3.9).} Lemma~8 of~\cite{MT} requires
+$Da^4+6Ca^2b+3Bb^2>0$. In (3.9), the completed square is written as
+$\delta|z|^4+2\gamma\operatorname{Re}(z^2w)+\beta|w|^2$, with positivity iff $\beta\delta>\gamma^2$. With
+the normalisations of $\beta,\gamma,\delta$ used for the printed values, the weights of Lemma~8 give the
+criterion $\delta-3\gamma^2/\beta>0$, i.e.\ $\beta\delta>3\gamma^2$.
+
+Here is the check. With the printed $n=7$ values $\beta=21/2$, $\gamma=63/4$, $\delta=1071/8$ (in units
+of $\pi r_0^k$), $(\delta-3\gamma^2/\beta)/\delta=8/17$. Independently, our engine computes the ratio of the
+linear-slice minimum to the unslaved straight-line quartic as $(6/7)/(51/28)=8/17$ exactly. The printed
+combination $\delta-\gamma^2/\beta$ would give $14/17$. With the factor $3$, MT's numbers for $n=5,9,11$
+give $\beta\delta-3\gamma^2\approx341$, $687$ and $4015$ in their units, still positive. So the stated
+conclusions survive.
+
+\paragraph{P3: the printed even-$n$ coefficient $T$.} We recomputed symbolically the straight-line
+expansion $z_j=(r_0+(-1)^jt)e^{2\pi ij/n}$ of~\cite[\S3.5.1]{MT}. Our $t^4$ coefficient agrees with an
+independent 40-digit evaluation to 15 digits, but differs from the printed bracket $T$ by a small relative
+amount: $+0.10\%$ at $n=8$, $+0.49\%$ at $n=10$, $+0.06\%$ at $n=6$ and $-1.8\%$ at $n=4$ (printed value
+relative to ours). This looks like a transcription issue. It changes no sign, and the even-$n$ conclusion
+is in any case re-proved by Theorem~\ref{thm:even}.
+
+%======================================================================
+\section{Numerical confirmation}\label{sec:numerics}
+%======================================================================
+
+We integrated the $n=8$ ring in the hyperbolic plane directly. This is a check on the theory, not part of
+the proof. The code is independent of that used for $c_4$. It uses the Poincar\'e disk with area form
+$4\,dx\wedge dy/(1-|z|^2)^2$, DOP853 with relative tolerance $10^{-12}$, and final time $T=2000$, which is
+more than six periods of the nonlinear oscillation at amplitude $10^{-4}$.
+
+The initial data are the ring at $\xi=\xi^*(1+\mathrm{rel})$, where $\xi=|z|^2$ and $\xi^*=-b_8$ is the
+threshold, plus the critical mode $|z_k|=\sqrt\xi(1+\delta(-1)^k)$. Here $\mathrm{rel}>0$ is the stable
+side. The diagnostic is $D(t)=\max_{i<j}|d_{ij}(t)-d_{ij}^{\rm ring}|$ in hyperbolic distance, which is
+invariant under the whole group. Energy and momentum are conserved to $10^{-8}$ and $6\cdot10^{-10}$, and the
+unperturbed ring drifts by less than $6\cdot10^{-12}$.
+
+\begin{center}\small
+\begin{tabular}{lrrrrr}
+\toprule
+$\max_tD(t)/D(0)$ & rel $=-10^{-2}$ & $-10^{-3}$ & $0$ & $+10^{-3}$ & $+10^{-2}$\\
+\midrule
+$\delta=10^{-3}$ & 29.34 & 9.13 & 1.000 & 1.000 & 1.000\\
+$\delta=10^{-4}$ & 293.6 & 91.86 & 1.000 & 1.000 & 1.000\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Below threshold the deviation saturates at an amplitude independent of $\delta$: about $0.029$ for
+rel $=-10^{-2}$ and $0.0091$ for rel $=-10^{-3}$. Their ratio is close to $\sqrt{10}$. This is the
+$\sqrt{\Delta}$ signature of a supercritical pitchfork: the orbit wanders near the stable bifurcated pair of
+$n/2$-gons. At threshold and above it, $D(t)$ never exceeds $D(0)$. It oscillates, spends $38$--$42\%$ of
+the time below $D(0)/2$ at threshold, and shows no secular growth. If the quartic were negative, threshold
+runs would leave the $\delta$-neighbourhood on the nonlinear time scale. The same behaviour was observed for
+the image (``tanh'') hyperbolic model, which is not part of Conjecture~13.
+
+%======================================================================
+\section{Limitations, status and computer-assisted parts}\label{sec:limits}
+%======================================================================
+
+\paragraph{Review status.} This draft has been checked only by independent AI readers (separate model
+instances that re-derived the results with their own code before reading the candidate argument) and by
+computer calculations. \textbf{No human specialist has reviewed it.} Its claims should be treated
+accordingly until such a review has taken place.
+
+\paragraph{Literature not read.} We have not read Kurakin--Yudovich~\cite{KY} beyond its abstract, nor
+Kurakin~\cite{Kurakin03,Kurakin04}. We make no claim that our results agree with, extend, or differ from
+theirs. One unverified observation: if $H=-\sum\log|z_i-z_j|$ and a per-vortex radial amplitude are used,
+our level-set value at $n=7$ rescales to $\tfrac9{14}\cdot\tfrac{49}8=\tfrac{63}{16}$ (the linear-slice
+value would rescale to $21/4$). The number $63/16$ has been attributed to~\cite{KY} as the heptagon's
+quartic coefficient in secondary notes we started from, but we have not verified that attribution or the
+normalisation used there. This is therefore an unverified consistency remark, not a claim of agreement. Kurakin's sphere results may
+already cover $n=4,5,6$ at the critical latitude.
+
+\paragraph{What is computer-assisted.} All computations are exact symbolic (sympy) or exact modular unless
+labelled numerical. Paths are relative to \code{items/01-h2-vortex-thresholds/work/conj13/} in the
+accompanying repository.
+\begin{itemize}
+\item \emph{Even-$n$ closed form} (Theorem~\ref{thm:even}). The expansion of $H$ on
+$\operatorname{Fix}(D_M)\cap J^{-1}(\mu)$, symbolic in $M$ and $\lambda$, and its reduction modulo~\eqref{eq:bn}
+were done twice, independently: \code{even_exact.py}, \code{even_formula.py} and
+\code{review/even_check.py}. The product formulas were checked by resultants for $M\le6$.
+\item \emph{Odd-$n$ closed form} (Theorem~\ref{thm:odd}). The symbolic derivation in $n$ and $\lambda$,
+including the residue evaluation of root-of-unity sums with Laurent-degree checks, is in
+\code{review/odd_general.py}, \code{review/odd_general_run.py} and \code{review/odd_assemble.py}. The
+human-readable steps are reproduced above. The output coefficients $f_2$, $E_{ij}$ and $a_2$ are printed in
+the proof so that they can be re-derived by hand or with another system.
+\item \emph{Independent exact check of Table~\ref{tab:c4}.} Cartesian order-by-order KKT over
+$\mathrm{GF}(p)$, with no ansatz: \code{review3/kkt_exact.py} and \code{review3/run_exact.py} (odd $n$ and
+$n=8$), and \code{paper/table_check.py} (all $n=4,\dots,25$, with a negative control; output in
+\code{paper/table_check.out}).
+\item \emph{Spectral checks} (Proposition~\ref{prop:spectral}, numerical, 40 digits):
+\code{gaps/spectral_check.py}, plus the bordered inertia in \code{review3/hess_check.py}.
+\item \emph{Lemma~\ref{lem:B3} sanity check} (numerical): \code{gaps/review/indep_check.py}. For
+$n=4,\dots,9$, the minimum of $V-V_0$ on spheres of radius $\varepsilon$ in $S$ scales as $c_4\varepsilon^4$.
+\item \emph{Remark~\ref{rem:nonpersist}}: \code{gaps/nearby_momentum.py}.
+\emph{P1--P3}: \code{engine.py}, \code{reduced_quartic*.py}, \code{review/c4_levelset.py},
+\code{review/p2_check.py}, \code{review/p3_check.py}, \code{mt_n7_check.py}.
+\emph{Integrations}: \code{integrate.py} with outputs in \code{out/}.
+\end{itemize}
+The parts of the proof that use a computer are the algebraic simplifications in Theorems~\ref{thm:even}
+and~\ref{thm:odd}: series expansion, residue sums, and reduction modulo a quadratic relation. Each was
+reproduced by an independent route. The structural steps (Proposition~\ref{prop:spectral},
+Section~\ref{sec:nonlinear}) are pen-and-paper. A formal (proof-assistant) verification has not been
+attempted.
+
+\paragraph{Scope.} The result concerns the family~\eqref{eq:H} of~\cite{MT}, i.e.\ the ``sinh'' model in
+the hyperbolic case. It says nothing about the image (``tanh'') hyperbolic model or the flat disk with a
+wall. The stability obtained is Lyapunov stability modulo $SO(2)$. We do not address stability on
+exponentially long times for perturbations of the full system, KAM-type questions, or the bifurcated
+branches beyond what~\cite[Remark~11]{MT} states.
+
+\section*{Acknowledgements and disclosure of AI assistance}
+This work was developed with substantial assistance from an AI system (Claude, Anthropic). The AI
+assistance covered the derivations, the computer-algebra and numerical code, the independent re-derivations
+used as ``readers'', and the drafting of this manuscript. The author directed the work and takes
+responsibility for the content. As stated in Section~\ref{sec:limits}, no human expert has yet checked the
+mathematics, and we welcome corrections. We thank James Montaldi and Tadashi Tokieda, whose paper posed
+the problem and supplied the framework used here.
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

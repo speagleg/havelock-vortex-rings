@@ -1,0 +1,87 @@
+N=2: b_m>0, a_m>0, det>0 on all of (0,1) for every m  => spectrally AND energy-momentum stable for all r (certified, exact Sturm)
+N=3: b_m>0, a_m>0, det>0 on all of (0,1) for every m  => spectrally AND energy-momentum stable for all r (certified, exact Sturm)
+N=4: b_m>0, a_m>0, det>0 on all of (0,1) for every m  => spectrally AND energy-momentum stable for all r (certified, exact Sturm)
+N=5: b_m>0, a_m>0, det>0 on all of (0,1) for every m  => spectrally AND energy-momentum stable for all r (certified, exact Sturm)
+N=6: b_m>0, a_m>0, det>0 on all of (0,1) for every m  => spectrally AND energy-momentum stable for all r (certified, exact Sturm)
+N=7: b_m>0, a_m>0, det>0 on all of (0,1) for every m  => spectrally AND energy-momentum stable for all r (certified, exact Sturm)
+N=8 critical mode m=4; modes with a_m<0 somewhere in (0,1): [3, 4]; b_m>0 all m; other modes cross strictly earlier: certified
+   xi*  = 0.06735622300408126226843747656623557439402511756974286746   (Arb radius 2.6e-154; Arb ball contained in exact rational isolating interval of width 5.6e-46: certified)
+   A_crit sign change at xi*: A_crit(a)<0<A_crit(b) exactly, unique root in (0,1) => unstable on (0,xi*), stable on (xi*,1): certified
+   r_E* = 0.259530774676301658567576158011   r* = 2 artanh sqrt(xi*) = 0.531210456012023385214243542006
+   minpoly deg 10, leading coeff 1, palindromic True, algebraic integer(<=>unit) True
+   c=xi*+1/xi* = 2+4/sinh^2 r* has minpoly deg 5: c**5 - 12*c**4 - 42*c**3 - 24*c**2 + 32*c + 32
+   minpoly(xi*) = x**10 - 12*x**9 - 37*x**8 - 72*x**7 - 84*x**6 - 88*x**5 - 84*x**4 - 72*x**3 - 37*x**2 - 12*x + 1
+   disc(minpoly xi*) = 196849739893859235810770944
+   energy-momentum (Hessian PD) threshold: mode [4], xi_EM = 0.0673562230040812622684374765662  (diff from xi* = 0.000e+00); equal to xi* (same irreducible factor; g_crit = 0 for even N)
+N=9 critical mode m=4; modes with a_m<0 somewhere in (0,1): [3, 4]; b_m>0 all m; other modes cross strictly earlier: certified
+   xi*  = 0.1128710632366027404396940190565054155465126211997598489   (Arb radius 6.8e-154; Arb ball contained in exact rational isolating interval of width 1.4e-46: certified)
+   A_crit sign change at xi*: A_crit(a)<0<A_crit(b) exactly, unique root in (0,1) => unstable on (0,xi*), stable on (xi*,1): certified
+   r_E* = 0.335962889671765295762213496244   r* = 2 artanh sqrt(xi*) = 0.699069539555759847775923773987
+   minpoly deg 16, leading coeff 4, palindromic True, algebraic integer(<=>unit) False
+   c=xi*+1/xi* = 2+4/sinh^2 r* has minpoly deg 8: 4*c**8 - 24*c**7 - 112*c**6 + 8*c**5 + 336*c**4 + 205*c**3 - 194*c**2 - 216*c - 88
+   minpoly(xi*) = 4*x**16 - 24*x**15 - 80*x**14 - 160*x**13 - 224*x**12 - 259*x**11 - 306*x**10 - 361*x**9 - 420*x**8 - 361*x**7 - 306*x**6 - 259*x**5 - 224*x**4 - 160*x**3 - 80*x**2 - 24*x + 4
+   disc(minpoly xi*) = 117098340093187494405213099342571819882112055785252349542400000
+   energy-momentum (Hessian PD) threshold: mode [4], xi_EM = 0.112871095435130867829042255257  (diff from xi* = 3.220e-08); strictly above xi*: rational intervals disjoint, [3.220e-08, 3.220e-08] above
+N=10 critical mode m=5; modes with a_m<0 somewhere in (0,1): [3, 4, 5]; b_m>0 all m; other modes cross strictly earlier: certified
+   xi*  = 0.1661142415262391180817586997848971841127721310135217286   (Arb radius 5.7e-154; Arb ball contained in exact rational isolating interval of width 9.9e-46: certified)
+   A_crit sign change at xi*: A_crit(a)<0<A_crit(b) exactly, unique root in (0,1) => unstable on (0,xi*), stable on (xi*,1): certified
+   r_E* = 0.407571149035648888729962405309   r* = 2 artanh sqrt(xi*) = 0.865390125634572852679131397106
+   minpoly deg 12, leading coeff 7, palindromic True, algebraic integer(<=>unit) False
+   c=xi*+1/xi* = 2+4/sinh^2 r* has minpoly deg 6: 7*c**6 - 29*c**5 - 96*c**4 + 27*c**3 + 112*c**2 + 51*c + 25
+   minpoly(xi*) = 7*x**12 - 29*x**11 - 54*x**10 - 118*x**9 - 167*x**8 - 158*x**7 - 187*x**6 - 158*x**5 - 167*x**4 - 118*x**3 - 54*x**2 - 29*x + 7
+   disc(minpoly xi*) = 54067788996860022638567547207680000000000000
+   energy-momentum (Hessian PD) threshold: mode [5], xi_EM = 0.166114241526239118081758699785  (diff from xi* = 0.000e+00); equal to xi* (same irreducible factor; g_crit = 0 for even N)
+N=11 critical mode m=5; modes with a_m<0 somewhere in (0,1): [3, 4, 5]; b_m>0 all m; other modes cross strictly earlier: certified
+   xi*  = 0.2046011768826692906355358331548029981500666180946277148   (Arb radius 1.0e-153; Arb ball contained in exact rational isolating interval of width 2.6e-46: certified)
+   A_crit sign change at xi*: A_crit(a)<0<A_crit(b) exactly, unique root in (0,1) => unstable on (0,xi*), stable on (xi*,1): certified
+   r_E* = 0.452328616033375994317394542376   r* = 2 artanh sqrt(xi*) = 0.975248046577553841288057925277
+   minpoly deg 20, leading coeff 10, palindromic True, algebraic integer(<=>unit) False
+   c=xi*+1/xi* = 2+4/sinh^2 r* has minpoly deg 10: 10*c**10 - 20*c**9 - 186*c**8 - 4*c**7 + 728*c**6 + 343*c**5 - 814*c**4 - 470*c**3 + 56*c**2 - 41*c - 58
+   minpoly(xi*) = 10*x**20 - 20*x**19 - 86*x**18 - 184*x**17 - 310*x**16 - 405*x**15 - 454*x**14 - 519*x**13 - 596*x**12 - 681*x**11 - 770*x**10 - 681*x**9 - 596*x**8 - 519*x**7 - 454*x**6 - 405*x**5 - 310*x**4 - 184*x**3 - 86*x**2 - 20*x + 10
+   disc(minpoly xi*) = 584924378699452103816695304968813794692889334069485739302940598655882828196085760000000
+   energy-momentum (Hessian PD) threshold: mode [5], xi_EM = 0.204601301313693124209019442065  (diff from xi* = 1.244e-07); strictly above xi*: rational intervals disjoint, [1.244e-07, 1.244e-07] above
+N=12 critical mode m=6; modes with a_m<0 somewhere in (0,1): [3, 4, 5, 6]; b_m>0 all m; other modes cross strictly earlier: certified
+   xi*  = 0.2474177768040677091739650887199179457129297666808108510   (Arb radius 8.1e-154; Arb ball contained in exact rational isolating interval of width 5.5e-46: certified)
+   A_crit sign change at xi*: A_crit(a)<0<A_crit(b) exactly, unique root in (0,1) => unstable on (0,xi*), stable on (xi*,1): certified
+   r_E* = 0.497411074267619929489491685563   r* = 2 artanh sqrt(xi*) = 1.09172035452538261891777496407
+   minpoly deg 16, leading coeff 7, palindromic True, algebraic integer(<=>unit) False
+   c=xi*+1/xi* = 2+4/sinh^2 r* has minpoly deg 8: 7*c**8 - 8*c**7 - 99*c**6 - 40*c**5 + 233*c**4 + 120*c**3 - 117*c**2 + 24*c + 24
+   minpoly(xi*) = 7*x**16 - 8*x**15 - 43*x**14 - 96*x**13 - 165*x**12 - 248*x**11 - 278*x**10 - 296*x**9 - 302*x**8 - 296*x**7 - 278*x**6 - 248*x**5 - 165*x**4 - 96*x**3 - 43*x**2 - 8*x + 7
+   disc(minpoly xi*) = -374383111719265890007397496948902180213008518770394660864
+   energy-momentum (Hessian PD) threshold: mode [6], xi_EM = 0.247417776804067709173965088720  (diff from xi* = 0.000e+00); equal to xi* (same irreducible factor; g_crit = 0 for even N)
+N=13 critical mode m=6; modes with a_m<0 somewhere in (0,1): [3, 4, 5, 6]; b_m>0 all m; other modes cross strictly earlier: certified
+   xi*  = 0.2798613886439066870299965646856616022348139775529566969   (Arb radius 1.5e-153; Arb ball contained in exact rational isolating interval of width 7.3e-46: certified)
+   A_crit sign change at xi*: A_crit(a)<0<A_crit(b) exactly, unique root in (0,1) => unstable on (0,xi*), stable on (xi*,1): certified
+   r_E* = 0.529019270578971146641585453061   r* = 2 artanh sqrt(xi*) = 1.17756463023779857025237344116
+   minpoly deg 24, leading coeff 18, palindromic True, algebraic integer(<=>unit) False
+   c=xi*+1/xi* = 2+4/sinh^2 r* has minpoly deg 12: 18*c**12 - 12*c**11 - 302*c**10 - 68*c**9 + 1482*c**8 + 740*c**7 - 2890*c**6 - 1481*c**5 + 2360*c**4 + 622*c**3 - 946*c**2 + 7*c - 10
+   minpoly(xi*) = 18*x**24 - 12*x**23 - 86*x**22 - 200*x**21 - 350*x**20 - 532*x**19 - 664*x**18 - 729*x**17 - 814*x**16 - 915*x**15 - 1028*x**14 - 1149*x**13 - 1274*x**12 - 1149*x**11 - 1028*x**10 - 915*x**9 - 814*x**8 - 729*x**7 - 664*x**6 - 532*x**5 - 350*x**4 - 200*x**3 - 86*x**2 - 12*x + 18
+   disc(minpoly xi*) = 87181874812574997322323605878145027048198998589337080438283140756773981523911636086067425994006885032115738509312
+   energy-momentum (Hessian PD) threshold: mode [6], xi_EM = 0.279861566357513266090979734182  (diff from xi* = 1.777e-07); strictly above xi*: rational intervals disjoint, [1.777e-07, 1.777e-07] above
+N=14 critical mode m=7; modes with a_m<0 somewhere in (0,1): [3, 4, 5, 6, 7]; b_m>0 all m; other modes cross strictly earlier: certified
+   xi*  = 0.3149389631155066233935054633810836766939603932829221397   (Arb radius 1.5e-153; Arb ball contained in exact rational isolating interval of width 5.0e-46: certified)
+   A_crit sign change at xi*: A_crit(a)<0<A_crit(b) exactly, unique root in (0,1) => unstable on (0,xi*), stable on (xi*,1): certified
+   r_E* = 0.561194229403249141600577287101   r* = 2 artanh sqrt(xi*) = 1.26914945986922521251980968149
+   minpoly deg 18, leading coeff 23, palindromic True, algebraic integer(<=>unit) False
+   c=xi*+1/xi* = 2+4/sinh^2 r* has minpoly deg 9: 23*c**9 - 29*c**8 - 261*c**7 + 82*c**6 + 784*c**5 - 27*c**4 - 815*c**3 + 71*c**2 + 342*c - 49
+   minpoly(xi*) = 23*x**18 - 29*x**17 - 54*x**16 - 150*x**15 - 215*x**14 - 347*x**13 - 444*x**12 - 431*x**11 - 500*x**10 - 459*x**9 - 500*x**8 - 431*x**7 - 444*x**6 - 347*x**5 - 215*x**4 - 150*x**3 - 54*x**2 - 29*x + 23
+   disc(minpoly xi*) = -45700220756615164364834056879299204876063897440524583874562822721257134132035584
+   energy-momentum (Hessian PD) threshold: mode [7], xi_EM = 0.314938963115506623393505463381  (diff from xi* = 0.000e+00); equal to xi* (same irreducible factor; g_crit = 0 for even N)
+N=15 critical mode m=7; modes with a_m<0 somewhere in (0,1): [3, 4, 5, 6, 7]; b_m>0 all m; other modes cross strictly earlier: certified
+   xi*  = 0.3424585835121702566010226386713207317144169141137213274   (Arb radius 2.1e-153; Arb ball contained in exact rational isolating interval of width 2.1e-46: certified)
+   A_crit sign change at xi*: A_crit(a)<0<A_crit(b) exactly, unique root in (0,1) => unstable on (0,xi*), stable on (xi*,1): certified
+   r_E* = 0.585199609972674414974640833300   r* = 2 artanh sqrt(xi*) = 1.34066819864031649007048736026
+   minpoly deg 28, leading coeff 28, palindromic True, algebraic integer(<=>unit) False
+   c=xi*+1/xi* = 2+4/sinh^2 r* has minpoly deg 14: 28*c**14 - 472*c**12 - 208*c**11 + 2736*c**10 + 1696*c**9 - 7240*c**8 - 4839*c**7 + 9514*c**6 + 5932*c**5 - 6432*c**4 - 3340*c**3 + 2008*c**2 + 672*c - 304
+   minpoly(xi*) = 28*x**28 - 80*x**26 - 208*x**25 - 380*x**24 - 592*x**23 - 840*x**22 - 1015*x**21 - 1098*x**20 - 1205*x**19 - 1332*x**18 - 1475*x**17 - 1630*x**16 - 1793*x**15 - 1960*x**14 - 1793*x**13 - 1630*x**12 - 1475*x**11 - 1332*x**10 - 1205*x**9 - 1098*x**8 - 1015*x**7 - 840*x**6 - 592*x**5 - 380*x**4 - 208*x**3 - 80*x**2 + 28
+   disc(minpoly xi*) = 23881604327700229755397081446957996062117144217525096599861984624826258066020245593233817600000000000000000000000000000000000000000000000000
+   energy-momentum (Hessian PD) threshold: mode [7], xi_EM = 0.342458772105162433966317795213  (diff from xi* = 1.886e-07); strictly above xi*: rational intervals disjoint, [1.886e-07, 1.886e-07] above
+N=16 critical mode m=8; modes with a_m<0 somewhere in (0,1): [3, 4, 5, 6, 7, 8]; b_m>0 all m; other modes cross strictly earlier: certified
+   xi*  = 0.3716818139060454566367287813218700082934780664483868026   (Arb radius 1.8e-153; Arb ball contained in exact rational isolating interval of width 2.9e-46: certified)
+   A_crit sign change at xi*: A_crit(a)<0<A_crit(b) exactly, unique root in (0,1) => unstable on (0,xi*), stable on (xi*,1): certified
+   r_E* = 0.609657128151591004291307940502   r* = 2 artanh sqrt(xi*) = 1.41675095994167797545252505862
+   minpoly deg 22, leading coeff 17, palindromic True, algebraic integer(<=>unit) False
+   c=xi*+1/xi* = 2+4/sinh^2 r* has minpoly deg 11: 17*c**11 + 4*c**10 - 224*c**9 - 144*c**8 + 886*c**7 + 664*c**6 - 1384*c**5 - 1024*c**4 + 872*c**3 + 672*c**2 - 128*c - 128
+   minpoly(xi*) = 17*x**22 + 4*x**21 - 37*x**20 - 104*x**19 - 195*x**18 - 308*x**17 - 441*x**16 - 592*x**15 - 648*x**14 - 688*x**13 - 712*x**12 - 720*x**11 - 712*x**10 - 688*x**9 - 648*x**8 - 592*x**7 - 441*x**6 - 308*x**5 - 195*x**4 - 104*x**3 - 37*x**2 + 4*x + 17
+   disc(minpoly xi*) = 42864138494957068389305546405683438616033124980458905672515449326617454101372776727594401792
+   energy-momentum (Hessian PD) threshold: mode [8], xi_EM = 0.371681813906045456636728781322  (diff from xi* = 0.000e+00); equal to xi* (same irreducible factor; g_crit = 0 for even N)

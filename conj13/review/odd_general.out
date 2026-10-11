@@ -1,0 +1,31 @@
+[11s] Taylor coefficients done: 21
+[15s]   A^2 term (0, 2, 0) done
+[16s]   A^2 term (1, 1, 0) done
+[17s]   A^2 term (2, 0, 0) done
+[17s] A^2 p^0 s^0 : -n*(lam + 1)**2*(n - 1)*(lam**2*n - 7*lam**2 + 2*lam*n + 2*lam + n - 7)/64
+[19s]   A^4 term (0, 2, 0) done
+[20s]   A^4 term (0, 3, 0) done
+[23s]   A^4 term (0, 4, 0) done
+[24s]   A^4 term (1, 1, 0) done
+[25s]   A^4 term (1, 2, 0) done
+[28s]   A^4 term (1, 3, 0) done
+[29s]   A^4 term (2, 0, 0) done
+[30s]   A^4 term (2, 1, 0) done
+[33s]   A^4 term (2, 2, 0) done
+[34s]   A^4 term (3, 0, 0) done
+[36s]   A^4 term (3, 1, 0) done
+[39s]   A^4 term (4, 0, 0) done
+[39s]   A^4 term (0, 1, 1) done
+[40s]   A^4 term (0, 2, 1) done
+[40s]   A^4 term (1, 0, 1) done
+[41s]   A^4 term (1, 1, 1) done
+[42s]   A^4 term (2, 0, 1) done
+[42s]   A^4 term (0, 0, 2) done
+[42s] A^4 p^2 s^0 : n*(lam - 1)**2*(lam + 1)**2*(n - 1)/16
+[42s] A^4 p^1 s^0 : -n*(lam - 1)*(lam + 1)**3*(n - 1)*(lam**2*n - 5*lam**2 + 2*lam*n - 2*lam + n - 5)/64
+[42s] A^4 p^0 s^0 : n*(lam + 1)**4*(n - 1)*(lam**4*n**3 + lam**4*n**2 - 69*lam**4*n + 291*lam**4 + 4*lam**3*n**3 + 4*lam**3*n**2 - 84*lam**3*n - 52*lam**3 + 6*lam**2*n**3 + 6*lam**2*n**2 - 30*lam**2*n + 82*lam**2 + 4*lam*n**3 + 4*lam*n**2 - 84*lam*n - 52*lam + n**3 + n**2 - 69*n + 291)/8192
+[42s] A^4 p^1 s^1 : 0
+[42s] A^4 p^0 s^1 : n*(lam + 1)**4*(n - 1)**2/64
+[42s] A^4 p^0 s^2 : n*(n - 1)/4
+[42s] max Laurent degree at 0/inf over all pieces: 0  (residue formula valid for n > 0 )
+[42s] done

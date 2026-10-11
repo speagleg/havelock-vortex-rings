@@ -1,0 +1,14 @@
+n=8 b=-0.06274606681
+  j=   0.01: min_tau phi = 0 at tau = 0 (ring is the reduced minimum)
+  j=  -0.01: tau*=0.01539972  min phi=-2.284079545e-7  min phi/j^2=-0.002284079545  tau*/sqrt|j|=0.1539972
+  j=  0.001: min_tau phi = 0 at tau = 0 (ring is the reduced minimum)
+  j= -0.001: tau*=0.0048756079  min phi=-2.284490372e-9  min phi/j^2=-0.002284490372  tau*/sqrt|j|=0.15418026
+  j= 0.0001: min_tau phi = 0 at tau = 0 (ring is the reduced minimum)
+  j=-0.0001: tau*=0.0015419857  min phi=-2.284531466e-11  min phi/j^2=-0.002284531466  tau*/sqrt|j|=0.15419857
+n=12 b=-0.202410864
+  j=   0.01: min_tau phi = 0 at tau = 0 (ring is the reduced minimum)
+  j=  -0.01: tau*=0.020053548  min phi=-1.367616761e-6  min phi/j^2=-0.01367616761  tau*/sqrt|j|=0.20053548
+  j=  0.001: min_tau phi = 0 at tau = 0 (ring is the reduced minimum)
+  j= -0.001: tau*=0.0063462563  min phi=-1.367901343e-8  min phi/j^2=-0.01367901343  tau*/sqrt|j|=0.20068624
+  j= 0.0001: min_tau phi = 0 at tau = 0 (ring is the reduced minimum)
+  j=-0.0001: tau*=0.0020070132  min phi=-1.367929812e-10  min phi/j^2=-0.01367929812  tau*/sqrt|j|=0.20070132

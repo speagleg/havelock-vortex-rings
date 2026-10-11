@@ -1,0 +1,168 @@
+Item 01 / C5-B3: ring thresholds in the tanh (Kimura) model on H^2
+=====================================================================
+2026-10-10. Status: derivation complete. Every formula is checked exactly (sympy) or against the
+full Cartesian Hessian/Jacobian at 50 digits. Thresholds for N = 8..16 are certified (exact rational
+root isolation plus Arb balls). Asymptotics are NUMERICAL. Second reader: none yet.
+
+0. Model
+--------
+Poincare disk with area form 4 dx^dy/(1-|z|^2)^2 (curvature -1). N identical vortices.
+Moment map J = sum (1+|z_k|^2)/(1-|z_k|^2), the same as for the sinh model.
+
+  H_tanh = - sum_{j<k} ln tanh(d_jk/2) = sum_{j<k} [ -ln|z_j - z_k| + ln|1 - z_j conj(z_k)| ].
+
+G(d) = -(1/2pi) ln tanh(d/2) is THE Green's function of the Laplace-Beltrami operator on H^2 that
+vanishes at infinity. The check is f = ln tanh(d/2): f'' + coth(d) f' = 0 for d > 0.
+H^2 is homogeneous, so the Robin function (regular part of G at the diagonal, in the intrinsic metric)
+is constant. Hence there is NO self-interaction term in the dynamics.
+This is the model that six secondary sources attribute to Kimura 1999 (see ../review_1.md §4):
+M-T 2013 §4.2, M-NG 2014 eq. (12), Nava-Gaxiola eq. (4.18), Boatto (14)/(17), Garra (3-3), and
+Drivas et al. 2026 (11).
+The sinh model is H_sinh = -sum ln sinh(d/2) = H_tanh - sum_{j<k} ln cosh(d_jk/2).
+Since Delta_{H^2} ln cosh(d/2) = 1/2, each sinh vortex carries a uniform compensating (background)
+vorticity.
+
+1. Power-series decomposition (the triage sketch, now verified)
+---------------------------------------------------------------
+Let P_p = sum_j z_j^p. From ln|1-w| = -Re sum_p w^p/p and
+sum_{j != k} (z_j conj z_k)^p = |P_p|^2 - sum_j |z_j|^{2p}:
+
+  H_tanh = -sum_{j<k} ln|z_j-z_k| - (1/2) sum_j ln(1-|z_j|^2) - (1/2) sum_{p>=1} |P_p|^2 / p
+         = H_sinh - (N/2) sum_j ln(1-|z_j|^2) - (1/2) sum_p |P_p|^2/p.
+
+The power-sum term Phi = -(1/2) sum |P_p|^2/p is what makes the problem look "intractable".
+On a ring it is Fourier-diagonal: P_p has nonzero mean only when N | p, and its first variation
+picks out the Fourier mode p mod N.
+
+2. Fourier blocks (log-polar coordinates)
+-----------------------------------------
+Write z_j = sqrt(xi) w^j e^{s_j + i theta_j}, with w = e^{2 pi i/N} and xi = r_E^2 = tanh^2(r/2).
+Then ds^theta carries kappa = 4 xi/(1-xi)^2, F = H - Omega J, and c := cosh r = (1+xi)/(1-xi).
+Define
+  W_k = sum_{p>=1, p = k mod N} p xi^p = k xi^k/(1-X) + N xi^{k+N}/(1-X)^2   (1<=k<=N),   X = xi^N.
+Relative equilibrium (any xi): Omega * 4xi/(1-xi)^2 = -(N-1)/2 + xi/(1-xi) - N X/(1-X).
+
+The Hessian of F at the ring is block-circulant. On Fourier mode m (1 <= m <= N-1) it is the Hermitian
+2x2 matrix [[a_m, i g_m], [-i g_m, b_m]] in (s, theta), with
+  a_m = (N-1)c - (c-1)^2/2 - m(N-m)/2 + 2N c X/(1-X) - N^2 X/(1-X)^2
+        - (N/2) [m xi^m + (N-m) xi^{N-m} + (N-m) xi^{N+m} + m xi^{2N-m}] / (1-X)^2,
+  b_m = m(N-m)/2 + N W_N - (N/2)(W_m + W_{N-m}),
+  g_m = (N/2)(W_m - W_{N-m}).
+Mode 0 gives b_0 = 0 (rotation) and g_0 = 0.
+Compare the sinh model: a_m = (N-1)(1+c^2)/2 - m(N-m)/2, b_m = m(N-m)/2, g_m = 0.
+
+Derivation sketch.
+- Pair term -ln|z_j-z_k| gives ∓m(N-m)/2 on ss/thth, exactly as in note.tex Lemma 1.
+- The one-body terms -(1/2)ln(1-u) - Omega J(u), with u = xi e^{2s}, give V'' = 2xi/(1-xi)^2 - 2E(1+xi)/(1-xi).
+- Phi: d^2/dx_0 dx_k of e^{p eps_0 + p conj(eps_k)} gives p^2 [[1,-i],[i,1]].
+  Summing over k with w^{mk} selects p = ±m mod N, which produces W_m and W_{N-m}.
+  The diagonal second derivatives multiply P_p^(0), which is nonzero only for N | p; this produces W_N.
+NEW FEATURE: an s-theta coupling g_m != 0, because W_m != W_{N-m}. It is absent in the sinh model.
+
+Linearisation: kappa sigma = -i g_m ± sqrt(-a_m b_m).
+So the ring is spectrally unstable iff some a_m b_m < 0; the coupling only Doppler-shifts frequencies.
+The energy-momentum (Lyapunov, sufficient) test needs a_m > 0 and a_m b_m - g_m^2 > 0.
+This is sufficient because positive-definiteness on all modes 1..N-1 implies it on the symplectic slice.
+Checks (check_jacobian.out): the blocks equal the Fourier symbol of the exact Cartesian Hessian
+(sympy second derivatives, Omega solved numerically) to <= 2e-48. The full 2N x 2N Jacobian spectrum
+equals the prediction to <= 2e-23. Grid: N in {3,5,7,8,9,10,12,13,16}, xi in {0.02,0.09,0.3,0.75}.
+The compact form of a_m is checked exactly against the block formula for N = 3..16, all m (identities.out).
+
+All blocks are RATIONAL in xi. There are no logs or polylogs.
+
+3. Threshold equation and algebraic structure
+---------------------------------------------
+b_m > 0 on (0,1) for all m (certified N <= 16). So instability is always in the radial (a) branch,
+and the threshold is a_{floor(N/2)}(xi) = 0. For even N, set y = xi^{N/2} = tanh^N(r/2):
+  (N-1)c - (c-1)^2/2 + 2N c y^2/(1-y^2) = N^2/8 + N^2 y/(2(1-y)^2).
+For odd N, use the general a_m with m = (N-1)/2.
+
+Symmetry: a_m(1/xi) = a_m(xi) for all N and m. Proof: c -> -c, X -> 1/X; the term 2NcX/(1-X) absorbs
+the change of the one-body part, and the last bracket is xi^{2N}-reciprocal.
+(The analogous symmetry holds in the sinh model.)
+So the minimal polynomial of xi* is palindromic. The natural invariant is
+  C := xi* + 1/xi* = 2 + 4/sinh^2 r*,
+of half the degree. In the sinh model C = 2 + 4/(q-1) is rational.
+Here (certified, exact factorisation; for even N, numerator = (x-1)^4 (x^{N/2}+1) [(x+1)] * irreducible):
+  deg xi* = 2N-2 (N odd), 3N/2-2 (N = 0 mod 4), 3N/2-3 (N = 2 mod 4) for N = 8..16.
+  N = 8 : xi* is a UNIT. Its minimal polynomial is
+          x^10-12x^9-37x^8-72x^7-84x^6-88x^5-84x^4-72x^3-37x^2-12x+1,
+          and C satisfies C^5-12C^4-42C^3-24C^2+32C+32 = 0.
+  N = 9..16: leading coefficients 4, 7, 10, 7, 18, 23, 28, 17, so xi* is not an algebraic integer.
+  The full polynomials and discriminants are in certify.out.
+The cyclotomic factor x^{N/2}+1 is "almost" a root of the y-equation. It is spurious (|x| = 1).
+
+4. Certified values (certify.py -> certify.out)
+-----------------------------------------------
+Method:
+- Exact integer numerators A_m, B_m, D_m = A_m B_m - (1-x)^2 G_m^2.
+- Sympy exact rational root isolation on (0,1) (refined to 1e-15) shows: B_m has no root; every A_m
+  with m != floor(N/2) has all its roots strictly below xi*; A_crit has a single simple root.
+- Arb (python-flint 0.9, 400-bit acb roots of the irreducible factor) gives balls of radius < 3e-153.
+- An exact rational isolating interval of width < 1e-45 independently contains the Arb midpoint.
+
+  N   xi*  (50 digits)                                          r_E*=sqrt(xi*)   r* (hyperbolic)
+  8   0.06735622300408126226843747656623557439402511756974   0.2595307747     0.5312104560
+  9   0.11287106323660274043969401905650541554651262119976   0.3359628897     0.6990695396
+ 10   0.16611424152623911808175869978489718411277213101352   0.4075711490     0.8653901256
+ 11   0.20460117688266929063553583315480299815006661809463   0.4523286160     0.9752480466
+ 12   0.24741777680406770917396508871991794571292976668081   0.4974110743     1.0917203545
+ 13   0.27986138864390668702999656468566160223481397755296   0.5290192706     1.1775646302
+ 14   0.31493896311550662339350546338108367669396039328292   0.5611942294     1.2691494599
+ 15   0.34245858351217025660102263867132073171441691411372   0.5851996100     1.3406681986
+ 16   0.37168181390604545663672878132187000829347806644839   0.6096571282     1.4167509599
+- N <= 7: a_m, b_m and a_m b_m - g_m^2 are > 0 on all of (0,1) for every m (exact Sturm).
+  So N <= 7 is spectrally AND energy-momentum stable for all r. This is unchanged from the sinh model.
+- For N >= 8 the unstable band (0, xi*) involves modes 3..N-3; the critical mode is floor(N/2) (certified).
+- Odd N: g_crit != 0, so the energy-momentum threshold lies slightly above xi*:
+  N = 9: +3.2e-8; 11: +1.2e-7; 13: +1.8e-7; 15: +1.9e-7.
+  On (xi*, xi_EM) the ring is spectrally stable, but the Hessian is indefinite on the critical block
+  (opposite Krein signatures). Nonlinear stability there is not decided by this method.
+- Even N: the two thresholds coincide.
+
+5. Asymptotics (NUMERICAL, asymptotics.out, N <= 800)
+-----------------------------------------------------
+Set c = kappa N. Then xi^{N/2} -> u = e^{-1/kappa}, and a_crit/N^2 -> 0 gives
+  kappa - kappa^2/2 + 2 kappa u^2/(1-u^2) - 1/8 - u/(2(1-u)^2) = 0.
+Its root is kappa_inf = 0.1343122142726281390560..., compared with the "algebraic part" 1 - sqrt3/2 = 0.13397.
+This is a transcendental constant.
+Fits: cosh r* = kappa_inf N + 0.541/N + O(N^-2), so r* = ln(2 kappa_inf N) + o(1) = ln(0.26862 N),
+and 1 - xi* ~ 2/(kappa_inf N) = 14.89/N.
+Compare:
+- sinh: cosh^2 r* = q(N) ~ N/4, so cosh r* ~ sqrt(N)/2, r* ~ (1/2) ln N, and 1 - xi* ~ 4/sqrt N.
+- flat hard-wall disk (Euclidean area, images plus Robin term): N >= 7 unstable for every radius
+  (Havelock 1931 / Kurakin; README C5.3).
+The tanh model needs a larger ring than the sinh model for every N tested (8..800); asymptotically
+r*_tanh / r*_sinh -> 2.
+The critical mode stays floor(N/2) and b_m > 0 near threshold for all N tested (<= 800, numerical).
+
+6. Interpretation
+-----------------
+The two models differ by the pair term ln cosh(d/2), whose Laplacian is the constant 1/2. So the sinh
+model = tanh model + a uniform neutralising background vorticity attached to each vortex.
+This is the continuation of the sphere model, where Gauss's law forces it; Montaldi-Tokieda use it to
+deform smoothly through curvature 0.
+- sinh model: the background term gives the radial stiffness C1 = (N-1)(1+c^2)/2. It grows like
+  cosh^2 r and beats the Thomson destabilisation N^2/8 already at cosh r ~ sqrt N/2.
+- tanh model: the interaction decays like e^{-d} beyond one curvature radius ("screening by curvature").
+  The radial stiffness is only (N-1)c - (c-1)^2/2 + exponentially small image terms.
+  This is linear, not quadratic, in cosh r, so stabilisation needs cosh r ~ 0.134 N.
+- Neither model has a Robin self-interaction: homogeneity makes the Robin function constant.
+  That term only appears in the flat disk, where it plus the Euclidean area form destroys stability
+  for N >= 7.
+- Physical fit:
+  - The tanh model is the point-vortex limit of the incompressible Euler equations on H^2 with
+    velocity decaying at infinity (Kimura's model). It is the candidate for any genuinely hyperbolic
+    ideal fluid or superfluid film with constant K < 0.
+  - The sinh model describes vortices with a compensating uniform background vorticity, a
+    "Gauss-law" or jellium-like model. No physical realisation of it is claimed here.
+  - Neither model is the flat-bottom hard-wall BEC (README §3 item 1).
+
+7. Caveats / what a second reader should check
+----------------------------------------------
+- Lyapunov stability modulo SO(2,1) (momentum-type slice, m = ±1 modes) is not analysed.
+  Positive-definiteness on all modes is used as a sufficient condition only.
+- Irreducibility and degree formulas are certified only for N = 8..16. The general-N degree pattern
+  is a conjecture.
+- Section 5 constants are numerical fits.
+- Kimura 1999 itself remains unread. The "Kimura = tanh" attribution is secondary (six sources).

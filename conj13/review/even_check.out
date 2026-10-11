@@ -1,0 +1,9 @@
+product formulas OK for M=2..6
+ pair-sum formula M=2 diff 8.8818e-16
+ pair-sum formula M=3 diff 0.0
+ pair-sum formula M=4 diff 0.0
+ pair-sum formula M=5 diff 0.0
+h2 = -M*(lam + 1)**2*(M**2*lam**2 + 2*M**2*lam + M**2 - 4*M*lam**2 - 4*M + 2*lam**2 + 2)/4
+h4 = M*(lam + 1)**4*(M**4*lam**4 + 4*M**4*lam**3 + 6*M**4*lam**2 + 4*M**4*lam + M**4 - 16*M**2*lam**4 - 16*M**2*lam**3 - 16*M**2*lam - 16*M**2 + 48*M*lam**4 + 48*M - 24*lam**4 - 24)/96
+h2 numerator rem crit: 0
+c4 - formula (mod b_n relation) = 0

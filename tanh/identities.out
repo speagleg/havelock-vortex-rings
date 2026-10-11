@@ -1,0 +1,11 @@
+W_m closed form (series to x^79, N=2..12, all residues): True
+compact a_m form and even-N critical form agree with block formula, N=3..16, all m: True
+8 A_crit palindromic up to sign: True
+9 A_crit palindromic up to sign: True
+10 A_crit palindromic up to sign: True
+11 A_crit palindromic up to sign: True
+12 A_crit palindromic up to sign: True
+13 A_crit palindromic up to sign: True
+14 A_crit palindromic up to sign: True
+15 A_crit palindromic up to sign: True
+16 A_crit palindromic up to sign: True

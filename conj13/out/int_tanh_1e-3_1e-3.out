@@ -1,0 +1,1 @@
+N=8 tanh xi*=0.06735622300408126 rel=+1e-03 delta=1e-03 T=2000: unperturbed-ring drift 3.4e-12; max D/D0 = 1.000; per quarter: [1.0, 1.0, 1.0, 1.0]; |dH|=2.0e-09 |dJ|=1.8e-10 nfev=1946189

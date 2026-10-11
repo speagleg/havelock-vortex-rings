@@ -1,0 +1,36 @@
+PASS pair quadratic part of ln|z_j-z_k|^2 = (ds^2 - dth^2)/D   (no ds*dth cross term)
+PASS pair linear part has no ds term (only dth)
+PASS Omega = -(N-1)(1+xi)(1-xi)/(8 xi)
+PASS W''(0) = -2(N-1)xi/(1-xi)^2
+PASS J''(0) = 8xi(1+xi)/(1-xi)^3
+PASS C1 := W'' - Omega J'' = (N-1)(1+xi^2)/(1-xi)^2
+PASS Fourier lemma m(N-m) for 2<=N<=80, 0<=m<=N (50-digit numerics) []
+a_m = (-N*m*xi**2 + 2*N*m*xi - N*m + 2*N*xi**2 + 2*N + m**2*xi**2 - 2*m**2*xi + m**2 - 2*xi**2 - 2)/(2*(xi - 1)**2)    b_m = m*(N - m)/2    sigma_m^2 = m*(-N + m)*(xi - 1)**2*(-N*m*xi**2 + 2*N*m*xi - N*m + 2*N*xi**2 + 2*N + m**2*xi**2 - 2*m**2*xi + m**2 - 2*xi**2 - 2)/(64*xi**2)
+PASS cosh r = (1+xi)/(1-xi) when xi = tanh^2(r/2)
+PASS (1+xi^2)/(1-xi)^2 = (1+cosh^2 r)/2
+PASS odd N: T=floor(N/2)ceil(N/2)/2, q = 2T/(N-1)-1 = closed form
+PASS odd N: m(N-m)/2 at m=floor(N/2) equals T
+PASS even N: T=floor(N/2)ceil(N/2)/2, q = 2T/(N-1)-1 = closed form
+PASS even N: m(N-m)/2 at m=floor(N/2) equals T
+PASS xi* = (sqrt q -1)/(sqrt q +1) solves (1+xi)/(1-xi) = sqrt q
+PASS xi* + 1/xi* = 2 + 4/(q-1)
+PASS odd N: 4/(q-1) = 16/(N-7)
+PASS even N: 4/(q-1) = 16(N-1)/(N^2-8N+8)
+PASS xi*(8) = 8 - 3 sqrt 7
+PASS 8-3sqrt7 is a root of x^2-16x+1
+PASS xi*(10) = 1/7 (rational, not an algebraic integer)
+PASS unit thresholds for 8<=N<3000: [(8, 16), (9, 10), (11, 6), (15, 4), (23, 3)]
+PASS N^2-8N+8 - 16(N-1) = N^2-24N+24
+N^2-24N+24 at N=22,23: -20 1 (<=0 at 22, >0 and increasing for N>=23; so 0<16(N-1)/(N^2-8N+8)<1 for N>=23)
+
+N  q(N)      xi*(N) (30 digits)                    r_E* = sqrt(xi*)   hyperbolic r* = 2 atanh r_E*
+8 9/7 0.0627460668062282284951527390822 0.250491650172672 0.511874615093674
+9 3/2 0.101020514433643803605431850588 0.317837245195782 0.658478948462408
+10 16/9 0.142857142857142857142857142857 0.377964473009227 0.795365461223906
+11 2 0.171572875253809902396622551581 0.414213562373095 0.881373587019543
+12 25/11 0.202410864031857250632190902378 0.449900949134204 0.969152167644315
+13 5/2 0.225148226554413778667404303712 0.474497867808080 1.03171853444778
+14 36/13 0.249277595410092542720406295233 0.499277072786336 1.09668541083015
+15 3 0.267949192431122706472553658494 0.517638090205041 1.14621583478059
+
+ALL PASS

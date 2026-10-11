@@ -1,0 +1,6 @@
+== model=MT n=15 lam*r0^2=-0.26794919243112270647  omega=-6.49742261192856
+   kernel eigs: ['-1.52e-39', '2.25e-39'];  min of the other 24 eigs: 2.0
+   constrained J=mu  dir e1: c2=-2.7379e-26  c3=1.1325e-29  c4=11.2
+   constrained J=mu  dir (e1+e2)/sqrt2: c2=-2.7379e-26  c3=1.0114e-29  c4=11.2
+   linear-slice (MT) dir e1: c2=1.3117e-26  c3=3.3735e-29  c4=18.3284095865996
+   linear-slice (MT) dir (e1+e2)/sqrt2: c2=1.3117e-26  c3=2.795e-29  c4=18.3284095865996

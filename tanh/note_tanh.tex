@@ -1,0 +1,450 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,mathtools}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\D}{\mathbb D}
+\title{Stability thresholds of $N$-vortex rings on the hyperbolic plane\\
+(tanh model): rational Fourier blocks, palindromic threshold polynomials,\\
+and a certified table for $N\le16$}
+\author{Gordon Speagle\\Independent Researcher, Boise, ID, USA\\[2pt]\small DRAFT --- AI-reviewed only; no human specialist review}
+\date{2026-10-10}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We consider $N$ identical point vortices on the hyperbolic plane $\mathbb H^2$ (curvature $-1$) with the
+pair interaction $-\ln\tanh(d/2)$, which is the Green's function of the Laplace--Beltrami operator that
+vanishes at infinity. Secondary sources attribute this Hamiltonian to Kimura (1999). Montaldi and Tokieda
+called the stability of the regular $N$-ring in this model ``no longer tractable analytically''. We show
+that in log-polar coordinates the Hessian of the augmented Hamiltonian at the ring splits into $2\times2$
+Hermitian Fourier blocks whose entries are \emph{rational functions} of $\xi=\tanh^2(r/2)$, where $r$ is
+the hyperbolic ring radius. Unlike the ``sinh'' model, the blocks have a radial--tangential coupling. The blocks are
+invariant under $\xi\mapsto1/\xi$. Consequently the linear-stability threshold $\xi_*(N)$ is an explicit
+algebraic number, the root of an exact rational equation. For $N=8,\dots,16$ we certify $\xi_*(N)$ by exact
+rational root isolation combined with Arb ball arithmetic. We also certify the critical mode $\lfloor N/2\rfloor$,
+the positivity of the tangential entries, and the minimal polynomials of $\xi_*(N)$. These are irreducible and
+palindromic, and $\xi_*(8)$ is an algebraic unit of degree $10$. Rings with $N\le7$ are stable at every radius.
+For odd $N$, the energy--momentum (Hessian-definiteness) threshold lies strictly above the spectral threshold.
+The gap between them is a Krein window. Numerically, $\cosh r_*\sim\kappa_\infty N$ with
+$\kappa_\infty\approx0.1343122$, whereas $\cosh r_*\sim\sqrt N/2$ in the sinh model.
+\end{abstract}
+
+\section{Scope and status labels}
+This note completes claim C5 (``tanh closed form'') of item 01. The companion note \texttt{work/note.tex}
+treats the sinh model, where everything is known~\cite{MT}. We use these labels:
+\begin{center}
+\begin{tabular}{p{0.30\textwidth}p{0.62\textwidth}}\toprule
+\textbf{PROVED} (all $N$) & Fourier-block theorem (Thm.~\ref{thm:blocks}); linearisation and stability criteria
+(Prop.~\ref{prop:lin}); reciprocity $a_m(1/\xi)=a_m(\xi)$ (Prop.~\ref{prop:recip}); threshold equation and even-$N$ form.\\
+\textbf{CERTIFIED for $N\le16$} & $b_m>0$ on $(0,1)$; critical mode $\lfloor N/2\rfloor$; the value of $\xi_*(N)$ and the sign change of
+$a_{\rm crit}$ at $\xi_*$; irreducible \emph{palindromic} minimal polynomials and their degree pattern; $\xi_*(8)$ a unit;
+$N\le7$ stable for all $r$; odd-$N$ energy--momentum threshold strictly above $\xi_*$.\\
+\textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$; $b_m>0$ and critical mode
+$\lfloor N/2\rfloor$ for all $N$.\\
+\textbf{NUMERICAL} & large-$N$ constant $\kappa_\infty$ and the fits in \S\ref{sec:asym}; critical mode up to $N=800$.\\\bottomrule
+\end{tabular}
+\end{center}
+Nonlinear (Lyapunov) stability is claimed only in the form ``positive-definite Hessian on the non-rotational
+modes''. The passage from this to Lyapunov stability holds \emph{modulo $SO(2,1)$}; see Remark~\ref{rem:em}. We have not checked
+the hypotheses of an energy--momentum theorem for this model against a source.
+
+\section{The model}
+\subsection{Hamiltonian}
+We use the Poincar\'e disk $\D=\{|z|<1\}$ with the metric $4|dz|^2/(1-|z|^2)^2$ and the area (symplectic) form
+$\omega=\sum_k\lambda(z_k)\,dx_k\wedge dy_k$, $\lambda(z)=4/(1-|z|^2)^2$. The geodesic distance satisfies
+$\tanh(d(z,w)/2)=|z-w|/|1-z\bar w|$. For $N$ unit vortices, take
+\begin{equation}\label{H}
+H=-\sum_{j<k}\ln\tanh\frac{d_{jk}}2=\sum_{j<k}\Big(-\ln|z_j-z_k|+\ln|1-z_j\bar z_k|\Big),
+\qquad J=\sum_k\frac{1+|z_k|^2}{1-|z_k|^2}=\sum_k\cosh r_k .
+\end{equation}
+Here $J$ generates rotations about $0$, and Hamilton's equations are $\dot x_k=\lambda^{-1}\partial_{y_k}H$,
+$\dot y_k=-\lambda^{-1}\partial_{x_k}H$, as in \texttt{note.tex}. The function $f(d)=\ln\tanh(d/2)$ satisfies
+$f''+\coth d\,f'=0$ for $d>0$ (since $f'=1/\sinh d$). So $G(d)=-\frac1{2\pi}\ln\tanh(d/2)$ is the Green's function of
+$\Delta_{\mathbb H^2}$ that vanishes as $d\to\infty$.
+
+\paragraph{Attribution (secondary only).} Montaldi--Tokieda~\cite[\S4.2]{MT} state that the image Green's function
+$\log|z-w|^2/|1+\lambda z\bar w|^2$ ``on the hyperbolic plane $\lambda<0$ \dots\ reduces to the Hamiltonian adopted by
+Kimura''. Montaldi--Nava-Gaxiola~\cite[eq.~(12)]{MNG} write Kimura's Hamiltonian as
+$-\frac1{4\pi}\sum\Gamma_i\Gamma_j\ln\frac{\langle X_i,X_j\rangle+1}{\langle X_i,X_j\rangle-1}$ with $\langle X,Y\rangle=-\cosh d$,
+which equals $-\frac1{4\pi}\sum\ln\tanh^2(d/2)$. We have \emph{not} read Kimura~\cite{Kimura}. Hence (\ref{H}) is ``the
+model attributed to Kimura'', and we quote nothing from Kimura directly. Montaldi--Tokieda add that the stability
+calculations for this choice ``get so complicated'' that they are ``no longer tractable analytically''~\cite[\S4.2]{MT}.
+
+\paragraph{No Robin term (intrinsic remark).} $\mathbb H^2$ is homogeneous, so the regular part of $G$ at the diagonal,
+measured in the intrinsic metric, is the constant $\lim_{d\to0}(G(d)+\frac1{2\pi}\ln d)=\frac1{2\pi}\ln2$. The
+Robin (self-interaction) function is therefore constant, and (\ref{H}) has no one-body self-term. This contrasts with the flat
+disk with a hard wall (\S\ref{sec:compare}), where the Robin function $\frac1{2\pi}\ln(1-|z|^2)$ is not constant and,
+combined with the Euclidean area form, changes the dynamics. In conformal coordinates, a one-body term
+$-\frac12\sum\ln(1-|z_k|^2)$ does appear in (\ref{eq:decomp}) below. That term comes from the $j\neq k$ image sums, not
+from a self-interaction.
+
+\paragraph{Relation to the sinh model.} Since $\sinh(d/2)=\tanh(d/2)\cosh(d/2)$,
+$H_{\sinh}=-\sum\ln\sinh(d_{jk}/2)=H-\sum_{j<k}\ln\cosh(d_{jk}/2)$. A direct computation gives
+$\Delta_{\mathbb H^2}\ln\cosh(d/2)=\frac12$. So the sinh model is the tanh model plus a uniform compensating background
+vorticity attached to each vortex. This is the continuation to $\mathbb H^2$ of the sphere model, where Gauss's law forces such a
+term. The sinh model is the $\lambda<0$ member of Montaldi--Tokieda's family~\cite[(1.12)]{MT}.
+
+\subsection{Power-sum decomposition}
+Let $P_p=\sum_j z_j^p$. Using $\ln|1-u|=-\operatorname{Re}\sum_{p\ge1}u^p/p$ and
+$\sum_{j\ne k}(z_j\bar z_k)^p=|P_p|^2-\sum_j|z_j|^{2p}$, we get
+\begin{equation}\label{eq:decomp}
+H=-\sum_{j<k}\ln|z_j-z_k|\;-\;\frac12\sum_j\ln(1-|z_j|^2)\;-\;\frac12\sum_{p\ge1}\frac{|P_p|^2}{p}.
+\end{equation}
+The series converges absolutely on $\D^N$. The last term $\Phi:=-\frac12\sum_p|P_p|^2/p$ is the source of the
+apparent intractability. On a ring it is diagonal in the Fourier modes.
+
+\section{Fourier blocks}
+\subsection{Coordinates and the relative equilibrium}
+Let $w=e^{2\pi i/N}$ and write $z_j=\sqrt\xi\,w^j e^{s_j+i\theta_j}$, so the ring of Euclidean radius $\sqrt\xi$ is
+$s=\theta=0$. Then $\omega=\sum_j\kappa(s_j)\,ds_j\wedge d\theta_j$ with $\kappa(s)=4\xi e^{2s}/(1-\xi e^{2s})^2$, and
+$\kappa_0:=\kappa(0)=4\xi/(1-\xi)^2$. Set
+\[
+c:=\cosh r=\frac{1+\xi}{1-\xi},\qquad X:=\xi^N,\qquad
+W_k:=\sum_{\substack{p\ge1\\ p\equiv k\ (N)}}p\,\xi^p=\frac{k\xi^k}{1-X}+\frac{N\xi^{k+N}}{(1-X)^2}\quad(1\le k\le N).
+\]
+In particular $W_N=NX/(1-X)^2$. Let $F=H-\Omega J$.
+
+\begin{lemma}\label{lem:re}
+The ring is a relative equilibrium for every $\xi\in(0,1)$, with
+$\displaystyle \Omega\kappa_0=-\frac{N-1}2+\frac{\xi}{1-\xi}-\frac{NX}{1-X}$.
+At the ring, $dF=0$ in all $2N$ variables.
+\end{lemma}
+\begin{proof}
+All $\theta$-derivatives vanish by the dihedral symmetry. For $s_j$: the pair term contributes
+$-\frac{N-1}2$ (its linear part is $-\frac12\sum_{j<k}(s_j+s_k)$; see \texttt{note.tex}, \S2). The one-body part is
+$V(s)=-\frac12\ln(1-u)-\Omega\frac{1+u}{1-u}$ with $u=\xi e^{2s}$, and $V'(0)=\frac{\xi}{1-\xi}-\Omega\kappa_0$. For $\Phi$, write
+$|P_p|^2=\xi^p\sum_{j,k}w^{(j-k)p}e^{p\epsilon_j+p\bar\epsilon_k}$ with $\epsilon_j=s_j+i\theta_j$. Then
+$\partial_{s_j}|P_p|^2\big|_0=2p\,\xi^p\operatorname{Re}\sum_kw^{(j-k)p}=2pN\xi^p[N\mid p]$, so
+$\partial_{s_j}\Phi|_0=-N\sum_{q\ge1}X^q=-NX/(1-X)$. Setting the sum to zero gives $\Omega$.
+\end{proof}
+
+\subsection{The block theorem}
+\begin{theorem}[Fourier blocks; PROVED]\label{thm:blocks}
+In the coordinates $(s,\theta)$, the Hessian of $F$ at the ring is block-circulant. On the Fourier mode
+$(s_j,\theta_j)=(S,T)\,w^{mj}$, $1\le m\le N-1$, it acts as the Hermitian matrix
+\[
+M_m=\begin{pmatrix}a_m& i g_m\\ -ig_m& b_m\end{pmatrix},
+\]
+where
+\begin{align*}
+a_m&=(N-1)c-\tfrac12(c-1)^2-\tfrac{m(N-m)}2+\frac{2NcX}{1-X}-\frac{N^2X}{(1-X)^2}\\
+&\quad-\frac N2\,\frac{m\xi^m+(N-m)\xi^{N-m}+(N-m)\xi^{N+m}+m\xi^{2N-m}}{(1-X)^2},\\
+b_m&=\tfrac{m(N-m)}2+NW_N-\tfrac N2\,(W_m+W_{N-m}),\qquad
+g_m=\tfrac N2\,(W_m-W_{N-m}).
+\end{align*}
+On mode $0$, $b_0=g_0=0$. All entries are rational functions of $\xi$ with rational coefficients. Moreover
+$a_{N-m}=a_m$, $b_{N-m}=b_m$, $g_{N-m}=-g_m$, and $g_{N/2}=0$ for even $N$.
+\end{theorem}
+For comparison, the sinh model has $a_m=(N-1)(1+c^2)/2-m(N-m)/2$, $b_m=m(N-m)/2$ and $g_m=0$
+(\texttt{note.tex}, Prop.~2).
+
+\begin{proof}
+Since $dF=0$ at the ring (Lemma~\ref{lem:re}), the Hessian is well defined. We add the three contributions in
+(\ref{eq:decomp}) and the term $-\Omega J$.
+
+\emph{Pair term.} As in \texttt{note.tex} (Lemma~1 and the expansion before it), $-\sum_{j<k}\ln|z_j-z_k|$ has
+Hessian $-\frac{m(N-m)}2$ in $ss$ and $+\frac{m(N-m)}2$ in $\theta\theta$ on mode $m$, with no $s\theta$ coupling.
+
+\emph{One-body terms.} $V(s)$ from the proof of Lemma~\ref{lem:re} does not depend on $\theta$. Using
+$\frac{d}{ds}=2u\frac{d}{du}$,
+\[
+V''(0)=\frac{2\xi}{(1-\xi)^2}-\frac{8\Omega\xi(1+\xi)}{(1-\xi)^3}
+=\frac{2\xi}{(1-\xi)^2}-2c\,\Omega\kappa_0 .
+\]
+Substituting $\Omega\kappa_0$ and using $c-1=2\xi/(1-\xi)$, so that $\frac{2\xi}{(1-\xi)^2}-\frac{2c\xi}{1-\xi}=-\frac12(c-1)^2$,
+gives $V''(0)=(N-1)c-\frac12(c-1)^2+\frac{2NcX}{1-X}$. This term is the same on every mode and lies in the $ss$ entry.
+
+\emph{Power sums.} The second-order part of $e^{p\epsilon_j+p\bar\epsilon_k}$ is
+$\frac{p^2}2(\epsilon_j^2+2\epsilon_j\bar\epsilon_k+\bar\epsilon_k^2)$. Summing with the weight $w^{(j-k)p}$:
+(i) the squares give $p^2N[N\mid p]\sum_j\operatorname{Re}\epsilon_j^2=p^2N[N\mid p]\sum_j(s_j^2-\theta_j^2)$;
+(ii) the cross term gives $p^2\big|\sum_jw^{jp}\epsilon_j\big|^2$. Hence the quadratic part of $\Phi$ is
+\[
+\Phi_2=-\frac N2W_N\sum_j(s_j^2-\theta_j^2)\;-\;\frac12\sum_{p\ge1}p\,\xi^p\Big|\sum_jw^{jp}(s_j+i\theta_j)\Big|^2 .
+\]
+The first piece contributes $-NW_N$ to $ss$ and $+NW_N$ to $\theta\theta$. For the second, expand
+$|\sum_jw^{jp}\epsilon_j|^2$ as a real quadratic form. It equals $\sum_{j,k}\cos\phi_{jk}(s_js_k+\theta_j\theta_k)+2\sum_{j,k}\sin\phi_{jk}\,s_j\theta_k$
+with $\phi_{jk}=2\pi(j-k)p/N$. Its Hessian has circulant blocks $2\cos\phi_{jk}$ ($ss$, $\theta\theta$) and $2\sin\phi_{jk}$ ($s\theta$).
+On the vector $w^{mk}$ their symbols are $N([p\equiv m]+[p\equiv-m])$ and $-iN([p\equiv m]-[p\equiv-m])$, using
+$\sum_kw^{(j-k)p}w^{mk}=Nw^{mj}[p\equiv m]$. Multiplying by $-\frac12p\xi^p$ and summing over $p$ gives
+$-\frac N2(W_m+W_{N-m})$ on both diagonal entries and $+\frac{iN}2(W_m-W_{N-m})=ig_m$ in the $s\theta$ entry.
+
+Adding the three pieces gives $a_m$, $b_m$ and $g_m$. In particular,
+$a_m=V''(0)-\frac{m(N-m)}2-NW_N-\frac N2(W_m+W_{N-m})$, and expanding $W_m+W_{N-m}$ over the common denominator
+$(1-X)^2$ gives the bracket in the statement. For $m=0$, $W_0$ should be read as $W_N$, which gives $b_0=NW_N-NW_N=0$.
+The symmetries follow from $m\leftrightarrow N-m$.
+\end{proof}
+
+\paragraph{Checks.} The blocks equal the Fourier symbol of the exact Cartesian Hessian of $F$ (sympy second
+derivatives, with $\Omega$ solved numerically) to $\le2\cdot10^{-48}$. The grid was $N\in\{3,5,7,8,9,10,12,13,16\}$ and
+$\xi\in\{0.02,0.09,0.3,0.75\}$ (\texttt{check\_jacobian.out}). An independent second reader built a Cartesian Hessian at
+60--110 digits without seeing these formulas and matched the blocks to $2.5\cdot10^{-59}$ (\texttt{review/}). The compact
+form of $a_m$ agrees exactly with the block formula for $N=3..16$ and all $m$ (\texttt{identities.out}).
+
+\section{Linearisation and stability criteria}
+\begin{proposition}[PROVED]\label{prop:lin}
+On mode $m$ the linearised flow is $\kappa_0(\dot S,\dot T)^{\!\top}=\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}M_m(S,T)^{\!\top}$.
+Its eigenvalues are
+\[
+\kappa_0\sigma=-ig_m\pm\sqrt{-a_mb_m}.
+\]
+Hence the ring is spectrally stable iff $a_mb_m\ge0$ for all $1\le m\le N-1$. The Hessian of $F$ is positive definite on
+the non-rotational modes $1\le m\le N-1$ iff $a_m>0$ and $a_mb_m-g_m^2>0$ for all such $m$.
+\end{proposition}
+\begin{proof}
+$\det\big(\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}M_m-\lambda\big)=(\lambda+ig_m)^2+a_mb_m$. A $2\times2$ Hermitian
+matrix is positive definite iff its $(1,1)$ entry and its determinant $a_mb_m-g_m^2$ are positive. Mode $0$ (rotation, and
+change of $\xi$ along the family) carries $b_0=0$ and is excluded.
+\end{proof}
+So the coupling $g_m$ only shifts the frequencies; it does not affect spectral stability. It does affect
+definiteness, and this is the origin of the odd-$N$ window in \S\ref{sec:krein}.
+
+\begin{remark}[energy--momentum, ``modulo $SO(2,1)$'']\label{rem:em}
+The variation $dJ$ annihilates every mode $m\ne0$. Hence $\ker dJ\subset(\text{modes }1..N-1)\oplus\mathbb R\,\partial_\theta^{(0)}$,
+and positive definiteness on modes $1..N-1$ implies definiteness of $d^2F$ on $\ker dJ$ modulo the rotation orbit.
+The full symmetry group of (\ref{H}) is the isometry group $PSL(2,\mathbb R)\cong SO(2,1)_0$. Its momentum map has
+three components, and the modes $m=\pm1$ are tangent to the non-compact (boost) directions. We therefore state any
+Lyapunov conclusion only \emph{modulo $SO(2,1)$}: up to motion along the group orbit. We do not claim stability modulo
+$SO(2)$ alone. We did not verify the hypotheses of a specific energy--momentum theorem (for example Montaldi--Tokieda~\cite[Thm.~2]{MT},
+which is stated for the sinh model) for the tanh model.
+\end{remark}
+
+\section{Reciprocity and the threshold equation}
+\begin{proposition}[reciprocity; PROVED for all $N,m$]\label{prop:recip}
+As rational functions, $a_m(1/\xi)=a_m(\xi)$.
+\end{proposition}
+\begin{proof}
+Under $\xi\mapsto1/\xi$ we have $c\mapsto-c$ and $X\mapsto1/X$. The one-body part changes as follows:
+$(N-1)c\mapsto-(N-1)c$; $-\frac12(c-1)^2\mapsto-\frac12(c+1)^2$, a change of $-2c$; and
+$\frac{2NcX}{1-X}\mapsto\frac{-2Nc/X}{1-1/X}=\frac{2Nc}{1-X}$, a change of $+2Nc$. The total change is
+$-2(N-1)c-2c+2Nc=0$. The term $N^2X/(1-X)^2$ is invariant. In the last fraction, the numerator is multiplied by
+$\xi^{-2N}$ (its exponents $m,N-m,N+m,2N-m$ are permuted by $e\mapsto2N-e$) and so is $(1-X)^2$. The term
+$m(N-m)/2$ is constant.
+\end{proof}
+A symbolic check treating $\xi$, $X=\xi^N$ and $t=\xi^m$ as independent symbols confirms the identity
+(\texttt{review/palin\_symbolic.py}). Clearing denominators, $A_m:=2(1-\xi)^2(1-X)^2a_m\in\mathbb Z[\xi]$ satisfies
+$A_m(1/\xi)=\xi^{-2N-2}A_m(\xi)$, so $A_m$ is self-reciprocal. We write
+$B_m:=2(1-X)^2b_m$, $G_m:=2(1-X)^2g_m$ and $D_m:=A_mB_m-(1-\xi)^2G_m^2=4(1-\xi)^2(1-X)^4(a_mb_m-g_m^2)$.
+On $(0,1)$ the signs of $a_m$, $b_m$ and $a_mb_m-g_m^2$ are those of $A_m$, $B_m$ and $D_m$.
+
+\paragraph{Threshold equation.} If $b_m>0$ on $(0,1)$ for all $m$ (certified for $N\le16$, \S\ref{sec:cert}), instability
+occurs only through the radial entries. The spectral threshold $\xi_*(N)$ is then the largest root in $(0,1)$ of
+$\prod_m a_m$. For $N\le16$ this is the unique root of $a_{\lfloor N/2\rfloor}$ in $(0,1)$. For even $N$ and $m=N/2$, the bracket
+and the $N^2X$ term combine. With
+\[
+y:=\xi^{N/2}=\tanh^N(r/2),
+\]
+the threshold equation $a_{N/2}=0$ reads
+\begin{equation}\label{eq:even}
+(N-1)c-\frac{(c-1)^2}2+\frac{2Ncy^2}{1-y^2}=\frac{N^2}8+\frac{N^2y}{2(1-y)^2},\qquad c=\frac{1+\xi}{1-\xi}.
+\end{equation}
+(Use $m\xi^m+(N-m)\xi^{N-m}=Ny$, $(N-m)\xi^{N+m}+m\xi^{2N-m}=Ny^3$, and $y(1+y^2)+2y^2=y(1+y)^2$.) For odd $N$ we use the
+general $a_m$ with $m=(N-1)/2$. In the sinh model the right-hand side is the same Thomson term $N^2/8$ without the
+image correction, and the left-hand side is $(N-1)(1+c^2)/2$.
+
+\paragraph{The natural invariant.} By reciprocity, if the minimal polynomial of $\xi_*$ is palindromic, then
+$C:=\xi_*+\xi_*^{-1}$ has half the degree. Since $\xi=\tanh^2(r/2)$,
+\[
+C=\xi_*+\xi_*^{-1}=2+\frac4{\sinh^2r_*}=\frac{2(\cosh^2r_*+1)}{\cosh^2r_*-1}.
+\]
+So $\cosh^2r_*$ generates the same field as $C$. In the sinh model, $C=2+4/(q-1)$ is rational (\texttt{note.tex}, \S4).
+
+\section{Certified thresholds for $N\le16$}\label{sec:cert}
+\paragraph{Method} (\texttt{certify\_v2.py} $\to$ \texttt{certify\_v2.out}). For each $N\le16$ and $1\le m\le\lfloor N/2\rfloor$:
+\begin{enumerate}
+\item Form the exact integer polynomials $A_m,B_m,D_m$ (sympy, from Thm.~\ref{thm:blocks}).
+\item Isolate all real roots in $(0,1)$ of the square-free parts with exact rational real-root isolation, after removing
+the factors $\xi$ and $\xi-1$. This shows: $B_m$ has no root and $B_m(\frac12)>0$; every $A_m$ with
+$m\ne\lfloor N/2\rfloor$ has all its roots strictly below the isolating interval of $A_{\lfloor N/2\rfloor}$; and
+$A_{\lfloor N/2\rfloor}$ has exactly one root in $(0,1)$.
+\item Factor $A_{\rm crit}$ over $\mathbb Q$ and select the unique irreducible factor $f$ with a root in $(0,1)$. Check its
+irreducibility and refine an exact rational isolating interval $[\alpha,\beta]$ for its root, of width $<10^{-45}$.
+\item Assert exactly that $A_{\rm crit}(\alpha)<0<A_{\rm crit}(\beta)$. With step~2 this proves $a_{\rm crit}<0$ on
+$(0,\xi_*)$ and $a_m>0$ for all $m$ on $(\xi_*,1)$.
+\item Compute Arb balls for the roots of $f$ (python-flint 0.9, 400 bits). Select the real root by exact tests only:
+the real roots returned by \texttt{arb\_fmpz\_poly\_complex\_roots} have imaginary part exactly $0$. Assert that the
+whole ball $[\mathrm{mid}-\mathrm{rad},\mathrm{mid}+\mathrm{rad}]$, converted exactly to rationals, lies inside $[\alpha,\beta]$.
+\item For the energy--momentum threshold, take the largest root of $\prod_mD_m$ in $(0,1)$. Isolate it exactly, assert that it
+is separated from the roots of the other $D_m$, and compare it exactly with $[\alpha,\beta]$.
+\end{enumerate}
+No floating-point comparison enters any pass/fail decision. The first version (\texttt{certify.py}) selected the Arb root
+by a float comparison of its midpoint. The second reader flagged this, and version~2 replaces it. All values and
+polynomials in v1 and v2 agree.
+
+\begin{theorem}[CERTIFIED, $2\le N\le16$]\label{thm:cert}
+\begin{enumerate}
+\item[(a)] For $N\le7$, $a_m$, $b_m$ and $a_mb_m-g_m^2$ are positive on all of $(0,1)$ for every $m$. The ring is spectrally
+stable and has positive-definite non-rotational Hessian at every radius.
+\item[(b)] For $8\le N\le16$, $b_m>0$ on $(0,1)$ for every $m$. The ring is linearly unstable for $0<\xi<\xi_*(N)$ and
+spectrally stable for $\xi_*(N)<\xi<1$. The instability at threshold is in the mode $m=\lfloor N/2\rfloor$ (and $N-m$), and
+every other $a_m$ changes sign strictly below $\xi_*$.
+\item[(c)] $\xi_*(N)$ is the root in $(0,1)$ of an irreducible palindromic integer polynomial of degree
+\begin{equation}\label{eq:deg}
+\deg\xi_*(N)=\begin{cases}2N-2,&N\text{ odd},\\ \tfrac32N-2,&N\equiv0\pmod4,\\ \tfrac32N-3,&N\equiv2\pmod 4,\end{cases}
+\end{equation}
+with the values in Table~\ref{tab:cert}.
+\end{enumerate}
+\end{theorem}
+
+\begin{table}[ht]\centering
+\begin{tabular}{rllllrr}\toprule
+$N$ & $\xi_*$ & $\sqrt{\xi_*}$ & $r_*$ & $\cosh r_*$ & deg & lead\\\midrule
+8 & 0.0673562230040812622684374\ldots & 0.2595307747 & 0.5312104560 & 1.1444414784 & 10 & 1\\
+9 & 0.1128710632366027404396940\ldots & 0.3359628897 & 0.6990695396 & 1.2544637167 & 16 & 4\\
+10 & 0.1661142415262391180817586\ldots & 0.4075711490 & 0.8653901256 & 1.3984100696 & 12 & 7\\
+11 & 0.2046011768826692906355358\ldots & 0.4523286160 & 0.9752480466 & 1.5144618547 & 20 & 10\\
+12 & 0.2474177768040677091739650\ldots & 0.4974110743 & 1.0917203545 & 1.6575169309 & 16 & 7\\
+13 & 0.2798613886439066870299965\ldots & 0.5290192706 & 1.1775646302 & 1.7772431147 & 24 & 18\\
+14 & 0.3149389631155066233935054\ldots & 0.5611942294 & 1.2691494599 & 1.9194478920 & 18 & 23\\
+15 & 0.3424585835121702566010226\ldots & 0.5851996100 & 1.3406681986 & 2.0416335000 & 28 & 28\\
+16 & 0.3716818139060454566367287\ldots & 0.6096571282 & 1.4167509599 & 2.1831006077 & 22 & 17\\\bottomrule
+\end{tabular}
+\caption{Certified spectral thresholds of the tanh model. $\xi_*=\tanh^2(r_*/2)$ is the squared Euclidean radius in the
+Poincar\'e disk, $r_*$ is the hyperbolic radius, ``deg'' is the degree of the minimal polynomial of $\xi_*$ and ``lead''
+is its leading coefficient. The Arb radii are $<3\cdot10^{-153}$. The full minimal polynomials, those of $C=\xi_*+1/\xi_*$,
+and the discriminants are in \texttt{certify\_v2.out}.}\label{tab:cert}
+\end{table}
+
+\paragraph{Independent confirmation.} The second reader recomputed $\xi_*(8),\xi_*(9),\xi_*(10),\xi_*(12)$ from full $2N$-dimensional
+Cartesian spectra and found agreement to $\ge43$ digits. A grid scan of the full Jacobian for $N=3..7$ found
+$\max|\mathrm{Re}\,\sigma|\le4\cdot10^{-19}$ (NUMERICAL).
+
+\paragraph{Structure of the numerator.} For even $N\in\{8,\dots,16\}$, $A_{N/2}$ factors over $\mathbb Q$ as
+$(\xi-1)^4(\xi^{N/2}+1)$, times $(\xi+1)^2$ when $N\equiv2\pmod4$, times the minimal polynomial of $\xi_*$. The cyclotomic factor has roots on $|\xi|=1$ and is spurious.
+
+\subsection{$N=8$: an algebraic unit}
+\begin{corollary}[CERTIFIED]
+$\xi_*(8)$ is an algebraic unit of degree $10$ with minimal polynomial
+\[
+x^{10}-12x^9-37x^8-72x^7-84x^6-88x^5-84x^4-72x^3-37x^2-12x+1 .
+\]
+$C=\xi_*+\xi_*^{-1}=2+4/\sinh^2r_*$ has minimal polynomial $C^5-12C^4-42C^3-24C^2+32C+32$.
+For $9\le N\le16$ the leading coefficients are $4,7,10,7,18,23,28,17$, so $\xi_*(N)$ is not an algebraic integer.
+\end{corollary}
+The polynomial is monic with constant term $1$, so $\xi_*(8)$ is a unit. The second reader recovered the same polynomial
+independently by PSLQ from a 110-digit value and confirmed its irreducibility (\texttt{review/minpoly8.py}). Numerically, its
+only real roots are $\xi_*(8)$ and $1/\xi_*(8)\approx14.846$. Four conjugates lie on $|x|=1$ and four do not, so $\xi_*(8)$ is
+neither Pisot nor Salem. In the sinh model $\xi_*(8)=8-3\sqrt7$ is also a unit, of degree $2$. We do not know whether the
+coincidence has a reason.
+
+\begin{conjecture}\label{conj:deg}
+For every $N\ge8$: $b_m>0$ on $(0,1)$; the critical mode is $\lfloor N/2\rfloor$; the factor of $A_{\lfloor N/2\rfloor}$
+carrying $\xi_*$ is irreducible and palindromic, so that $1/\xi_*$ is a Galois conjugate of $\xi_*$; and its degree is given by
+(\ref{eq:deg}).
+\end{conjecture}
+Reciprocity alone shows that $1/\xi_*$ is a root of $A_{\lfloor N/2\rfloor}$. It does not show that $1/\xi_*$ is a conjugate
+of $\xi_*$. That is why palindromy of the minimal polynomial is certified only for $N\le16$. The critical mode and $b_m>0$
+near the threshold were checked numerically up to $N=800$.
+
+\section{Odd $N$: the Krein window}\label{sec:krein}
+For even $N$, $g_{N/2}=0$, so $D_{N/2}=A_{N/2}B_{N/2}$ and the two thresholds coincide. This is certified: the
+same irreducible factor carries both. For odd $N$, $g_{\rm crit}\ne0$. At $\xi_*$ we have $a_{\rm crit}b_{\rm crit}-g_{\rm crit}^2=-g_{\rm crit}^2<0$, and
+the Hessian becomes definite only at a larger value $\xi_{\rm EM}$.
+
+\begin{proposition}[CERTIFIED, odd $9\le N\le15$]
+$\xi_{\rm EM}(N)>\xi_*(N)$ strictly (disjoint exact rational intervals). The gaps are
+$3.220\cdot10^{-8}$ $(N=9)$, $1.244\cdot10^{-7}$ $(11)$, $1.777\cdot10^{-7}$ $(13)$ and $1.886\cdot10^{-7}$ $(15)$.
+On $(\xi_*,\xi_{\rm EM})$ the ring is spectrally stable, with distinct purely imaginary eigenvalues, but the critical block
+$M_{\rm crit}$ has one positive and one negative eigenvalue.
+\end{proposition}
+In the window the two frequencies of the critical block carry opposite Krein signatures. The second reader confirmed this
+on the coordinate-free Cartesian Hessian (count of negative eigenvalues, Krein signs of the eigenvectors;
+\texttt{review/krein\_em.py}), so it is not a coordinate artefact. The energy--momentum method gives no conclusion there,
+and nonlinear stability in the window is \textbf{open}. In the sinh model $g_m\equiv0$, and no such window exists.
+
+\section{Large $N$ (NUMERICAL)}\label{sec:asym}
+Set $c=\kappa N$. Then $\xi=(c-1)/(c+1)$ and $y=\xi^{N/2}\to u:=e^{-1/\kappa}$. Dividing (\ref{eq:even}) by $N^2$ and
+formally letting $N\to\infty$ gives the limit equation
+\begin{equation}\label{eq:kappa}
+\kappa-\frac{\kappa^2}2+\frac{2\kappa u^2}{1-u^2}-\frac18-\frac{u}{2(1-u)^2}=0,\qquad u=e^{-1/\kappa}.
+\end{equation}
+Its root near $0.134$ is
+\[
+\kappa_\infty=0.1343122142726281390560\ldots\qquad\text{(NUMERICAL; the limit equation is heuristic).}
+\]
+Dropping the exponentially small $u$-terms gives $\kappa=1-\sqrt3/2\approx0.13397$. We have not proved that
+$\cosh r_*/N\to\kappa_\infty$: neither uniformity of the limit nor the odd-$N$ case is proved. The data for
+$N\le800$ (\texttt{asymptotics.out}) fit
+\[
+\cosh r_*=\kappa_\infty N+\frac{0.541}N+O(N^{-2}),\qquad r_*=\ln(2\kappa_\infty N)+o(1),\qquad 1-\xi_*\sim\frac2{\kappa_\infty N}\approx\frac{14.89}N .
+\]
+The second reader re-solved (\ref{eq:kappa}) and checked $\cosh r_*/N$ up to $N=1024$ (\texttt{review/kappa\_check.py}).
+
+\section{Comparison with the sinh model and the flat disk}\label{sec:compare}
+\begin{center}
+\begin{tabular}{lll}\toprule
+& sinh model~\cite{MT} & tanh model (this note)\\\midrule
+pair term & $-\ln\sinh(d/2)$ & $-\ln\tanh(d/2)$\\
+radial stiffness & $(N-1)(1+c^2)/2$ & $(N-1)c-\frac12(c-1)^2+O(\xi^N)$\\
+$s\theta$ coupling & none & $g_m=\frac N2(W_m-W_{N-m})$\\
+threshold & $\cosh^2r_*=q(N)\in\mathbb Q$ & algebraic, degree (\ref{eq:deg})\\
+$N\le7$ & stable for all $r$ & stable for all $r$ (cert.)\\
+$\xi_*(8)$ & $8-3\sqrt7$ (unit, deg 2) & unit, deg 10\\
+large $N$ & $\cosh r_*\sim\sqrt N/2$ & $\cosh r_*\sim\kappa_\infty N$ (num.)\\
+odd-$N$ Krein window & none & width $\sim10^{-7}$\\\bottomrule
+\end{tabular}
+\end{center}
+For $8\le N\le16$ the tanh threshold is larger:
+\begin{center}
+\begin{tabular}{rccccccccc}\toprule
+$N$ & 8&9&10&11&12&13&14&15&16\\\midrule
+$r_*^{\sinh}$ & 0.5119&0.6585&0.7954&0.8814&0.9692&1.0317&1.0967&1.1462&1.1978\\
+$r_*^{\tanh}$ & 0.5312&0.6991&0.8654&0.9752&1.0917&1.1776&1.2691&1.3407&1.4168\\\bottomrule
+\end{tabular}
+\end{center}
+Both radii grow logarithmically, so $r_*^{\tanh}/r_*^{\sinh}\to2$, but slowly. This is consistent with the data to
+$N=800$ (NUMERICAL).
+
+\paragraph{Interpretation.} The models differ by the pair term $\ln\cosh(d/2)$, whose Laplacian is constant. In the sinh
+model this background gives a radial stiffness quadratic in $\cosh r$, which beats the Thomson destabilisation $N^2/8$
+once $\cosh r\sim\sqrt N/2$. In the tanh model the interaction is screened by curvature: it decays like $e^{-d}$ beyond
+one curvature radius. The stiffness is then only linear in $\cosh r$, up to exponentially small image terms, so stabilisation needs
+$\cosh r\sim0.134N$.
+
+\paragraph{Flat hard-wall disk} (context only, NUMERICAL). This model has the Euclidean area form, image vortices, and the non-constant Robin
+self-image term. The reviewer scans (\texttt{checks/disk.py}, \texttt{checks/phys/bec.py}) find $N=7,8$ rings unstable at every radius
+tested, which README C5.3 reports as consistent with Havelock~\cite{Havelock}. We have read neither Havelock nor Kurakin, and a
+Fourier-exact flat-disk analysis is not part of this note. The point is that the same image Green's function, with a
+different area form and a non-constant Robin function, gives qualitatively different thresholds. Neither hyperbolic model
+describes a flat-bottomed hard-wall condensate (README \S3, item 1; retracted).
+
+\section{Limitations}
+\begin{itemize}
+\item \textbf{Literature not read.} Kimura~\cite{Kimura} and Hwang--Kim 2013~\cite{HK} (whose abstract says rings ``are investigated in
+detail'') could not be obtained (publisher 403). A human with journal access needs to check (i) which Hamiltonian Kimura
+uses (the tanh attribution here rests on~\cite{MT,MNG} and four further secondary sources) and (ii) whether Hwang--Kim
+2013 already contains ring stability thresholds for this model. Until then, novelty is \emph{unchecked}.
+\item \textbf{No human specialist review.} The derivation has been re-derived and checked by an independent second agent
+(verdict: confirmed with scope fixes, all applied here). No human expert in point-vortex dynamics has reviewed it.
+\item \textbf{Heuristic limit.} The equation (\ref{eq:kappa}) for $\kappa_\infty$ comes from a formal limit. The constant and the fits
+in \S\ref{sec:asym} are numerical.
+\item \textbf{Finite range.} Palindromy, irreducibility, the degree pattern, $b_m>0$ and the critical mode are certified only for
+$N\le16$ (Conjecture~\ref{conj:deg}).
+\item \textbf{Nonlinear stability.} This is stated only via Hessian definiteness and modulo $SO(2,1)$ (Remark~\ref{rem:em}). It is open in the
+odd-$N$ Krein window and at the threshold itself.
+\end{itemize}
+
+\section*{Files}
+\texttt{work/tanh/}: \texttt{derivation.txt} (full derivation), \texttt{blocks.py}, \texttt{exact.py},
+\texttt{check\_jacobian.py/.out}, \texttt{identities.py/.out}, \texttt{certify\_v2.py/.out} (certification),
+\texttt{asymptotics.py/.out}, and \texttt{review/} (second reader).
+
+\begin{thebibliography}{9}
+\bibitem{MT} J.~Montaldi, T.~Tokieda, Deformation of geometry and bifurcations of vortex rings, in
+\emph{Recent Trends in Dynamical Systems}, Springer Proc.\ Math.\ Stat.\ 35 (2013) 335--370; arXiv:1210.5662.
+\bibitem{MNG} J.~Montaldi, C.~Nava-Gaxiola, Point vortices on the hyperbolic plane, J.\ Math.\ Phys.\ 55
+(2014) 102702; arXiv:1403.2138.
+\bibitem{Kimura} Y.~Kimura, Vortex motion on surfaces with constant curvature, Proc.\ R.\ Soc.\ Lond.\ A 455
+(1999) 245--259 (\textbf{not obtained}; cited only via~\cite{MT,MNG}).
+\bibitem{HK} S.~Hwang, S.-C.~Kim, Relative equilibria of point vortices on the hyperbolic sphere, J.\ Math.\ Phys.\ 54
+(2013) 063101 (\textbf{not obtained}; abstract only).
+\bibitem{Havelock} T.~H.~Havelock, The stability of motion of rectilinear vortices in ring formation, Phil.\ Mag.\ (7) 11
+(1931) (not read; cited for context only).
+\end{thebibliography}
+\end{document}

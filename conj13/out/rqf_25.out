@@ -1,0 +1,3 @@
+== n=25 b*=-0.40212983115034898787: |Hess.e1|=2.93e-24 |Hess.e2|=4.26e-24 |grad Hhat(q0)|=1.07e-38
+   constrained J=mu : c2=-5.2885e-26 c3=1.2159e-28 c4=72.27  identify: None
+   linear-slice (MT): c2=-9.8206e-26 c3=-1.4407e-29 c4=103.345177666119117  identify: 

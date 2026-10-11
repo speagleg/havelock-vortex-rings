@@ -1,0 +1,6 @@
+lean/.lake/
+__pycache__/
+*.aux
+*.log
+*.toc
+*.synctex.gz

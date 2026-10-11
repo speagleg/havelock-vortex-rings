@@ -1,0 +1,41 @@
+Second-reader review of conj13 (MT Conjecture 13), 2026-10-10. Independent code; candidate code not used.
+
+A. Independent values (c4_levelset.py: Cartesian KKT Newton at 45-60 digits on J = mu (all 3 momentum
+   components, momentum map verified in momentum_check.py), slice e.dq = eps, t.dq = 0; Neville in eps^2)
+   n=7 plane:  level set 0.64285714285714289 (9/14);  linear slice 0.857142857142857 (6/7)     c4_n7.out
+   n=8 sinh b=-(8-3sqrt7): level 1.6964285714285714285714 (95/56); linear 2.27794133216528668   c4_n8.out
+   sweep.out: level-set c4 for n=4,5,6,9,10,11,12,13,15 agrees with the candidate closed forms
+   (even: |diff| < 2e-22; odd: < 5e-15, extrapolation-limited).  NUMERICAL.
+
+P1  CONFIRMED.  P2  CONFIRMED (p2_check.out: straight-line quartic 51/28; (lin)/(unslaved) = 8/17 =
+    (delta-3gamma^2/beta)/delta with MT's printed n=7 numbers; MT's delta-gamma^2/beta gives 14/17).
+P3  CONFIRMED (p3_check.out, sigma = 1+lam r0^2): printed T is off by +0.10% (n=8), +0.49% (n=10),
+    +0.06% (n=6), -1.8% (n=4). No sign changes.
+Normalisation: c4(level, unit Cartesian e, H = -sum log|.|^2) * (n/2)^2 * (1/2) = 9/14 * 49/8 = 63/16.
+    So KY's 63/16 matches the LEVEL-SET value if KY use H = -sum log|zi-zj| and a per-vortex radial amplitude.
+    (The linear slice would give 21/4.) KY was not read; this is a consistency observation only.
+
+Even n (even_check.py / even_check.out): independent sympy for symbolic M = n/2, on the curve
+    Fix(D_M) cap {J3 = mu}: h2 vanishes exactly on (3.7); c4 - (n-2)(m^4+40m^2+48m+16)/(192 n(n-1)) = 0
+    modulo the threshold relation. Product formulas checked by resultants (M = 2..6) and the pair sum numerically.
+
+Odd n (odd_general.py, odd_general_run.py, odd_assemble.py; outputs odd_general.out, odd_assemble.out):
+    symbolic in n via canonical coords (theta, w = u/(1+lam u)), J3 linear; ansatz delta = A cos(l phi) +
+    A^2 p cos(phi), psi = A^2 s sin(phi); offset sums over 2n-th roots of unity evaluated by residues at
+    t = +-1 (kernel n t^{n-1}/(t^n - s) expanded with binomial(n,k) as polynomials in n), plus n*(t^0 coeff
+    at infinity); Laurent degree at 0 and infinity <= 0 for every piece, so valid for every n; Fourier
+    selection valid for n >= 5. Result: kernel eigenvalue vanishes exactly on the threshold, A^3 term = 0,
+    free mode-1 curvature a2 = n(n-1)(1-lam)^2(1+lam)^2/8 > 0, and
+    c4 = (n-1)(n-3)(n^2-9n+38)/(128n) identically modulo (n-7)(1+lam^2) + 2(n+1)lam = 0 (n != 7),
+    and exactly 9/14 at n = 7. Numerically matches the independent Cartesian KKT at n = 5..17.
+    Remaining inputs: (i) strict positivity of the reduced Hessian on all non-kernel modes at b_n for
+    every odd n (MT's spectral analysis, not re-proved here); (ii) the stability theorem (Prop. 9).
+
+Prop. 9: MT cite [17] = Montaldi, Nonlinearity 10 (1997) 449-466, which assumes G COMPACT (abstract).
+    Fine for the sphere (n = 4, 5, 6); NOT applicable as stated to SE(2) (n = 7) or SL(2,R) (n >= 8).
+    Montaldi-Rodriguez-Olmos arXiv:1509.04961 Thm 3.6 covers noncompact G with a G_mu-invariant inner
+    product, but only under formal stability (definite Hessian on N); the degenerate (quartic) case
+    is not covered verbatim. Their proof uses the Morse lemma only for Lyapunov stability of 0 in the
+    family h(rho, .) on N; a strict-minimum + continuity-in-rho argument should replace it, but this
+    has to be written and checked. Also MT's claim in the proof of Prop. 9 that Lemma 8's hypotheses
+    on M_mu and on N are equivalent is false beyond second order (this is P1).

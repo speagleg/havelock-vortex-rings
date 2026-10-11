@@ -1,0 +1,5 @@
+N=3 max|Re eig| over xi grid (0.01..0.99, 34 pts): 1.53e-20
+N=4 max|Re eig| over xi grid (0.01..0.99, 34 pts): 2.79e-20
+N=5 max|Re eig| over xi grid (0.01..0.99, 34 pts): 1.47e-19
+N=6 max|Re eig| over xi grid (0.01..0.99, 34 pts): 3.44e-19
+N=7 max|Re eig| over xi grid (0.01..0.99, 34 pts): 7.48e-20

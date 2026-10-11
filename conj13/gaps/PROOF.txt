@@ -1,0 +1,227 @@
+Item 01 / MT Conjecture 13: closing gaps (i) and (ii)
+=====================================================
+2026-10-10. Agent run, no second reader yet. Files are in this directory only.
+Sources read for this file: MT arXiv:1210.5662 (pdftotext; Sec. 1.2, 2.1-2.3 quoted below);
+Patrick-Roberts-Wulff arXiv:math/0201239 (= ARMA 174 (2004) 301-344), Sec. 2-4 read (Def. 2.1,
+Thm 3.1, Def. 4.1, Thm 4.2, Lemma 4.3, Cor. 4.13, Def. 4.9, Prop. 4.10); Montaldi-Rodriguez-Olmos
+arXiv:1509.04961 (abstract only). Montaldi 1997 (MT ref [17]), Lerman-Singer and Ortega-Ratiu were
+NOT read, so nothing below depends on them.
+
+Conventions (as in ../review/c4_levelset.py and spectral_check.py). MT family (1.12): chart C,
+sigma = 1 + lam|z|^2, symplectic form Omega = sum_k 2 dx_k^dy_k / sigma_k^2 (MT (1.8)),
+    H = - sum_{i<j} log( |z_i - z_j|^2 / (sigma_i sigma_j) )       (MT H_lam without kappa^2/4pi),
+    J = (J_1, J_2, J_3) = sum_k ( x_k/sigma_k, y_k/sigma_k, |z_k|^2/sigma_k )   (MT (1.9)).
+G = SO(3), SE(2), PSL(2,R) for lam > 0, = 0, < 0. G acts by symplectomorphisms preserving H, and
+J_1, J_2, J_3 generate the infinitesimal action (MT p.4). J is equivariant for MT's affine coadjoint
+action; we never use equivariance, only that the J_i are Hamiltonians of the generators.
+Ring: z_k = r0 e^{2 pi i k/n}. Scale r0 = 1, so b := lam r0^2 = lam. Bifurcation point b = b_n is the root
+in (-1,1] of (1+b^2)/(1+b)^2 = floor(n^2/4)/(2(n-1)) (MT (3.6)). Here b_4, b_5, b_6 > 0, b_7 = 0,
+b_n < 0 for n >= 8, and |b_n| < 1 always. Vortices are labelled and collisions excluded.
+n >= 4 throughout (n = 3 has no bifurcation point; MT: always stable).
+
+======================================================================================================
+GAP (i). Spectral structure of the reduced Hessian at b_n.                         STATUS: PROVED
+======================================================================================================
+
+Log-polar coordinates. z_k = e^{s_k + i(phi_k + theta_k)}, phi_k = 2 pi k/n; the ring is s = theta = 0.
+
+Step 1 (block structure for every lam). With D_phi = 2 - 2cos phi,
+    log|z_j - z_k|^2 = s_j + s_k + log( 2cosh(s_j-s_k) - 2cos(phi_j - phi_k + theta_j - theta_k) ),
+which does not involve lam. All lam-dependence sits in one-body terms that depend on s_k only:
+(n-1) sum_k log(1 + b e^{2 s_k}) in H, and J_3 = sum_k g(e^{2 s_k}), g(u) = u/(1+bu). Expanding the pair
+log to second order gives no linear Delta-s term, no Delta-s Delta-theta term, and quadratic part
+(Delta s^2 - Delta theta^2)/D_phi (note.tex Sec. 2, verify_core.py). With the Fejer identity
+sum_{l=1}^{n-1} (1 - cos(2 pi m l/n))/(1 - cos(2 pi l/n)) = m(n-m)   (note.tex Lemma 1 = MT (2.4)),
+the pair part contributes -m(n-m) (radial) and +m(n-m) (tangential) on Fourier mode m.
+One-body terms. The linear terms give the critical point of F = H - w0 J_3:
+    -(n-1) + 2(n-1)b/(1+b) - w0 * 2/(1+b)^2 = 0   =>   w0 = -(n-1)(1-b^2)/2,
+and the second derivative is C1 = (n-1)*4b/(1+b)^2 - w0 * 4(1-b)/(1+b)^3 = 2(n-1)(1+b^2)/(1+b)^2.
+Hence d^2F(ring) is block-diagonal over the real Fourier spaces V_m, 0 <= m <= floor(n/2):
+    radial  a_m = C1 - m(n-m),     tangential  b_m = m(n-m),     no radial-tangential coupling.
+This is MT (2.6) (their Hessian = ours times kappa^2/(4 pi r0^2) in their delta r = r0 delta s). The
+structure is the same for every lam, because lam enters only through s-only one-body terms.
+Threshold: C1 = floor(n^2/4) = max_m m(n-m)  <=>  MT (3.6). Write T2 := floor(n^2/4).
+
+Step 2 (what the reduction J^{-1}(mu)/G_mu removes). mu = J(ring) = (0, 0, mu3), and G_mu = SO(2) is
+the group of rotations about the ring centre (|b| < 1, so we are not at the equator b = 1). The tangent
+space to the reduced space is T M_mu = ker dJ(ring) / R t, where t = (theta_k = 1 for all k) is the rotation.
+ (a) dJ_3 = g'(1)*2 * sum_k ds_k, with g'(1) = (1+b)^{-2} > 0. It is nonzero exactly on radial mode 0.
+ (b) J_+ = J_1 + i J_2. Let R be the rotation by 2 pi/n composed with the relabelling k -> k+1. R fixes the
+     ring, and J_+ o R = e^{2 pi i/n} J_+. So dJ_+(ring) o dR = e^{2 pi i/n} dJ_+(ring), and dJ_+ vanishes on
+     every V_m with m != 1. Explicitly, dJ_+ = sum_k e^{i phi_k} (A ds_k + i B dtheta_k) with
+     A = (1-b)/(1+b)^2 and B = 1/(1+b). This has real rank 2 on the 4-dim V_1 (MT (2.8)).
+ (c) So ker dJ = R t (+) V_1' (+) V_2 (+) ... (+) V_floor(n/2), where V_1' = V_1 cap ker dJ_+ has dim 2.
+     The radial mode 0 is cut by the constraint J_3 = mu3. Two of the four mode-+-1 directions are cut by
+     J_1 = J_2 = 0. The tangential mode 0 is the gauge direction g_mu.ring.
+ (d) The noncompact part of the group. The other two generators xi_1, xi_2 (boosts for PSL(2,R),
+     translations for SE(2), rotations about horizontal axes for SO(3)) span a 2-plane in V_1. They are NOT
+     in ker dJ, because the 2x2 matrix dJ_i(xi_j ring) = {J_i, J_j}(ring), i,j in {1,2}, has determinant
+     {J1,J2}^2 > 0. Here {J1,J2}(ring) = n(1-b)/(2(1+b)) != 0, computed by hand: the Jacobian of
+     z -> z/sigma is (1-b)/sigma^3, times sigma^2/2 from Omega, summed over k. spectral_check.py (b)
+     confirms this. So the 3-dim G-orbit meets ker dJ only in the line R t = g_mu.ring. The reduction at
+     mu removes exactly 4 dimensions: 3 by constraints (radial mode 0, two directions in V_1) and 1 by gauge
+     (t). dim M_mu = 2n - 4.
+
+Step 3 (reduced Hessian). F = H - w0 J_3 has dF(ring) = 0, and F = H - w0 mu3 on J^{-1}(mu). For a curve c in
+J^{-1}(mu), (F o c)''(0) = d^2F(c',c') + dF(c'') = d^2F(c',c'). Hence d^2 h_mu([ring]) = d^2F(ring)
+restricted to ker dJ. Here t lies in the radical, and we use the complement W = V_1' (+) (+)_{m>=2} V_m.
+By Step 1, the restriction is block-diagonal:
+ - V_1': d^2F on all of V_1 is diag(a_1 I, b_1 I), with b_1 = n-1 > 0 and a_1 = T2 - (n-1) > 0 for n >= 4.
+   (m(n-m) is strictly increasing on 1 <= m <= n/2, and floor(n/2) >= 2.) So d^2F is positive definite on
+   V_1, hence on every subspace of it, in particular on V_1'. Nothing about A, B is needed.
+   (In (s,theta)-Euclidean terms its double eigenvalue is (a_1 + b_1 rho^2)/(1+rho^2), rho = A/B = (1-b)/(1+b).)
+ - V_m, 2 <= m <= floor(n/2): b_m > 0, and a_m = T2 - m(n-m) >= 0, with equality iff m = floor(n/2)
+   (strict monotonicity again; for odd n the pair m = (n-1)/2 and m = (n+1)/2 is one real 2-dim V_m).
+PROPOSITION 1. Let n >= 4 and lam r0^2 = b_n, in all three geometries. The Hessian of the reduced
+Hamiltonian h_mu on M_mu = J^{-1}(mu)/SO(2) at the ring is positive semidefinite. Its kernel is exactly
+the radial part of V_floor(n/2): dimension 1 for even n (mode n/2), dimension 2 for odd n (modes
+(n+-1)/2). It is positive definite on a complement. The smallest nonzero eigenvalue in (s,theta)-Euclidean
+normalisation is min over m != floor(n/2) of {a_m, b_m, mode-1 value} = 1 (n even) or 2 (n odd) for
+5 <= n <= 15 (n = 4: 3/2).
+
+Numerical check (spectral_check.py / spectral_check.out; sympy derivatives, mpmath 40 digits, independent
+of engine.py and c4_levelset.py). It builds the full 2n x 2n Hessian of F at b_n, transforms it to
+(s,theta), compresses it onto ker dJ cap t^perp, and compares with the predicted spectrum, n = 4..15:
+max |eigenvalue - prediction| < 5e-39. Kernel dimension is 1 (even n) or 2 (odd n), with no negative
+eigenvalue. Also {H, J_i} = 0 at random configurations (< 2e-39), dF(ring) = 0, and {J1,J2} matches.
+ALL CHECKS PASS.
+
+======================================================================================================
+GAP (ii). Nonlinear stability with a degenerate (quartic) minimum, noncompact G.  STATUS: PROVED
+(self-contained; uses no stability theorem from the literature. An independent citable route to the
+weaker conclusion "stable modulo G" is given in Remark 3.)
+======================================================================================================
+
+Abstract setting. (P, Omega) is a symplectic manifold, H is smooth, and a Lie group G acts by
+symplectomorphisms preserving H. Functions J_1, J_2, J_3 are Hamiltonians for generators xi_1, xi_2, xi_3,
+with xi_3 generating a circle action K = SO(2). x0 is a relative equilibrium: dF(x0) = 0 for
+F = H - w0 J_3. Assume:
+ (A1) J_1(x0) = J_2(x0) = 0, J_1 and J_2 are K-invariant as a pair (K rotates (J_1, J_2)), and
+      {J_1, J_2}(x0) != 0;
+ (A2) K acts freely near x0;
+ (A3) there is a smooth curve j -> x_j of relative equilibria through x0 with J_1 = J_2 = 0 and
+      J_3(x_j) = mu3 + j. Their angular velocities w(j) are smooth, w(0) = w0;
+ (A4) on M_mu := {J = mu}/K (mu = J(x0)), the reduced Hamiltonian h has, at [x0], a positive semidefinite
+      Hessian with kernel K0. Let beta(a) be the slaving map (critical point of h in a complement E,
+      for a in K0) and g(a) = h(a, beta(a)) - h(0). Then the cubic Taylor term of g vanishes and its quartic
+      term q4 is positive definite.
+Each J_i is conserved, since {H, J_i} = dH(xi_i) = 0.
+
+LEMMA A (cross-section). Near x0, S := {J_1 = J_2 = 0} is a K-invariant symplectic submanifold of
+codimension 2, invariant under the H-flow, and the flow on S is the Hamiltonian flow of H|_S. There is a
+neighbourhood U of x0 and a continuous map x -> g(x) in G with g(x0) = e and g(x).x in S for x in U.
+Proof. {J_1,J_2}(x0) != 0 gives independent dJ_1, dJ_2, and nondegeneracy of Omega on TS = ker dJ_1 cap
+ker dJ_2. (TS^Omega = span(X_J1, X_J2), and Omega(X_J1, X_J2) != 0, so TS^Omega and TS are complementary.)
+Since J_1, J_2 are conserved, X_H is tangent to S. For v in TS, Omega|_S(X_H, v) = dH(v), so X_H|_S = X_{H|S}.
+For g(x): consider Psi(x, s1, s2) = (J_1, J_2)(exp(s1 xi_1 + s2 xi_2).x). Its derivative in (s1,s2) at
+(x0, 0) is the matrix dJ_i(xi_j(x0)) = +-{J_i, J_j}(x0), which is invertible by (A1). The implicit function
+theorem gives a smooth (s1, s2)(x) with s(x0) = 0. QED
+
+LEMMA B1 (quartic lower bound on M_mu). Under (A4), in coordinates w = (a, b) on M_mu centred at [x0]
+(a in K0, b in E), there are kappa > 0 and rho > 0 with
+    h(a, b) - h(0) >= kappa (|a|^4 + |b|^2)   for |w| < rho.
+Proof. Write f = h - h(0). We have d^2f(0) = diag(0, B) with B > 0, so the a-b cross block vanishes.
+Implicit function theorem: there is a smooth beta with d_b f(a, beta(a)) = 0, beta(0) = 0, and dbeta(0) = 0
+(because the cross block is 0), so |beta(a)| <= L |a|^2. Taylor in b about beta(a), with integral remainder:
+f(a,b) - g(a) >= (lambda_min(B)/4) |b - beta(a)|^2 for small (a,b). Since dbeta(0) = 0, the Taylor terms of g
+of order <= 3 equal those of f|_{K0}: order 2 is zero, and order 3 is zero by (A4). The order-4 term is q4,
+so g(a) >= (min_{|a|=1} q4 / 2) |a|^4. Finally |b|^2 <= 2|b - beta|^2 + 2L^2 |a|^4. QED
+(Positive definiteness of q4 does not depend on the chart. Any chart change acts on K0 to leading order
+by an invertible linear map, and it changes beta and g only at higher order.)
+
+LEMMA B2 (uniform in nearby momentum: THE DELICATE POINT). S/K is a manifold near [x0] by (A2). Take
+coordinates (j, w) there with j = J_3 - mu3 (dJ_3 != 0 on S/K, because X_J3 = xi_3 != 0 at x0 and Omega|_S
+is nondegenerate) and with {w = 0} = the curve [x_j] of (A3). The slice {j = 0} is M_mu.
+Put Phi(j, w) = H(j, w) - H(j, 0). Then there are C, rho > 0 with
+    Phi(j, w) >= (kappa/2) (|a|^4 + |b|^2) - C j^2      for |j|, |w| < rho.
+Proof. Phi(j, 0) = 0. Also d_w Phi(j, 0) = 0, because x_j is a critical point of H restricted to
+{J_3 = mu3 + j} cap S (A3). Hence d_j Phi(0,0) = 0 and d_w d_j Phi(0,0) = 0, so |d_j Phi(0, w)| <= L'|w|^2.
+Taylor in j: Phi(j, w) >= Phi(0, w) - L'|j| (|a|^2 + |b|^2) - C2 j^2. Use Lemma B1 for Phi(0, w), the
+estimate L'|j||a|^2 <= (kappa/2)|a|^4 + (L'^2/(2 kappa)) j^2, and L'|j||b|^2 <= (kappa/2)|b|^2 once
+|j| <= kappa/(2L'). QED
+What this does and does not say. The strict minimum does NOT persist at nearby momentum. For j on the
+unstable side, the kernel eigenvalue of the reduced Hessian at mu3 + j is ~ alpha j < 0, so the ring is a
+saddle of the reduced Hamiltonian there. The bifurcated minima sit at |a| ~ |j|^{1/2} with depth ~ -j^2,
+and Lemma B2 says they can be no deeper than O(j^2). nearby_momentum.py confirms this on the
+D_{n/2}-family (n = 8, 12). min Phi / j^2 -> -0.0022845 (n = 8) and -0.013679 (n = 12) on the unstable side.
+The minimiser satisfies tau*/sqrt|j| -> const, and on the stable side the minimum is exactly 0. So no uniform
+strict-minimum neighbourhood over mu' exists, and the Morse-lemma step of Montaldi-Rodriguez-Olmos /
+Patrick-type proofs genuinely fails. The following penalty function replaces it.
+
+LEMMA B3 (conserved function with a strict minimum modulo K). On S, let
+    V = H - w0 J_3 + Kc (J_3 - mu3)^2.
+V is conserved and K-invariant. For Kc large, its reduction V-bar to S/K has a strict local minimum at [x0].
+Proof. V(j, w) - V(0, 0) = psi(j) + Kc j^2 + Phi(j, w), with psi(j) = H(x_j) - H(x0) - w0 j. Along the
+family, dH(x_j)/dj = w(j) (because d(H - w(j) J_3)(x_j) = 0), so psi(0) = psi'(0) = 0 and |psi| <= C3 j^2.
+By Lemma B2, V - V0 >= (kappa/2)(|a|^4 + |b|^2) + (Kc - C - C3) j^2. This is > 0 for (j, w) != 0 once
+Kc > C + C3. QED
+
+LEMMA B4 (Lyapunov). The orbit K.x0 is Lyapunov stable for the flow on S.
+Proof. K.x0 is compact, and V - V0 > 0 on a punctured tubular neighbourhood N_r of K.x0 in S. Given
+eps < r, let m = min of V - V0 on the compact set {dist(., K.x0) = eps} cap S. Then m > 0. Choose delta
+with V - V0 < m on the delta-neighbourhood. V is conserved, so a trajectory starting there never reaches
+distance eps. It stays in a compact collision-free set, hence exists for all time. QED
+
+THEOREM 2. Under (A1)-(A4), x0 is Lyapunov stable modulo G_mu = K in the full phase space P, with no
+restriction on the momentum of the perturbation. That is, for every eps > 0 there is delta > 0 such that
+dist(x(0), K.x0) < delta implies dist(x(t), K.x0) < eps for all t. With K compact this is MT's notion (MT
+p.9: G_mu-invariant neighbourhoods). It implies stability modulo G, and "orbital stability".
+Proof. Let y(t) = g(x(0)).x(t), with g from Lemma A. G commutes with the flow (H is G-invariant and G
+acts symplectically), so y(t) is the trajectory of y(0) = g(x(0)).x(0) in S, and y(0) -> x0 as x(0) -> x0.
+By Lemma B4, y(t) stays within eps' of K.x0. Then
+dist(x(t), K.x0) <= dist(g^{-1} y(t), g^{-1} K.x0) + d_Hausdorff(g^{-1} K.x0, K.x0).
+Both terms are small, because g = g(x(0)) -> e and g^{-1} acts equicontinuously on a fixed compact
+neighbourhood. QED
+
+Verification of (A1)-(A4) for the vortex ring at b_n, n >= 4, all three geometries:
+ (A1) J_+(ring) = 0 by Z_n symmetry. Rotation multiplies J_+ by e^{i psi}. {J1,J2}(ring) = n(1-b)/(2(1+b))
+      != 0 since |b_n| < 1 (checked numerically in spectral_check.py (b)).
+ (A2) A nontrivial rotation moves a labelled ring.
+ (A3) The concentric rings of radius r are relative equilibria for every r (MT (2.1)). They have
+      J_+ = 0, and J_3 = n r^2/(1+b r^2) is strictly increasing.
+ (A4) Proposition 1 gives the Hessian and the kernel. Cubic: even n, the Z_n generator acts by -1 on K0 =
+      V_{n/2}. Odd n, it acts on K0 ~ C by e^{2 pi i l/n} with l = (n-1)/2 and gcd(l, n) = 1; then a^p abar^q
+      (p+q = 3) is never invariant for n >= 5, and the only invariant quartic is |a|^4. h, J and the
+      Fourier complement E are Z_n-equivariant, so g is Z_n-invariant. Hence q4 = c4 |a|^4, with c4 the
+      LEVEL-SET effective quartic of derivation.txt / review/NOTES.txt (not MT's linear-slice quantity, P1).
+      c4 > 0 is supplied by
+        even n: c4 = (n-2)(n^4 - 8n^3 + 64n^2 - 144n + 96)/(192 n (n-1)) > 0 (symbolic, two readers);
+        odd n:  c4 = (n-1)(n-3)(n^2 - 9n + 38)/(128 n) > 0 (symbolic derivation for all odd n,
+                review/odd_general*.py; one reader so far), = 9/14 at n = 7.
+      derivation.txt computes f_eff(eps) as the minimum over the slice of J^{-1}(mu); this equals g along a
+      unit kernel vector, so its eps^4 coefficient is q4 in that chart.
+
+Remark 3 (literature; citable alternative, weaker conclusion). Patrick-Roberts-Wulff, ARMA 174 (2004),
+Theorem 4.2 (read, arXiv:math/0201239): for a free action of G with Ad*-equivariant momentum map, slice S
+transverse to G.pe, "pe is G-stable if there exists an open neighbourhood U_S of pe in S and an open
+neighbourhood U_mue of mue in g* such that H^{-1}(H(pe)) cap J^{-1}(T2^{U_mue}(mue)) cap U_S = {pe}." The
+proof is topological (their Lemma 2.3, Thm 3.1), and no Hessian condition is required. If g*/G is Hausdorff
+at mu (PRW Prop. 4.10(1): true if mu is regular, i.e. dim g_nu is constant near mu), the condition says
+[pe] is isolated in its level set of the reduced Hamiltonian on J^{-1}(O_mu)/G ~ M_mu (PRW Remark 4.4).
+A strict local minimum (Lemma B1) is isolated in its level set. For PSL(2,R) (mu timelike) and SO(3)
+(mu != 0), mu is regular, and the action is free and proper near a labelled ring. So PRW Thm 4.2 gives
+"stable modulo G" for the sphere and H^2 cases with no nondegeneracy assumption. The plane (SE(2)) is
+not covered verbatim, because MT's J is equivariant only for an affine action (cocycle). Theorem 2 above
+gives the stronger G_mu-stability in all three cases and is the result we rely on.
+Not used: MT Prop. 9 / ref [17] (compact G; and it is stated on the linear slice, see P1);
+Montaldi-Rodriguez-Olmos Thm 3.6 (formal stability only). We found no published theorem that states
+G_mu-stability for degenerate (non-formal) minima with noncompact G. The construction of Lemmas A + B3
+(cross-section, then an energy-momentum function with a (J - mu)^2 penalty) is classical in spirit
+(Arnold / energy-Casimir). We claim no novelty for it.
+
+======================================================================================================
+FINAL STATEMENT
+======================================================================================================
+THEOREM. Let n >= 4 and consider n identical point vortices on M_lam, MT family (1.12), in a regular ring
+at the bifurcation point lam r0^2 = b_n: the sphere for n = 4, 5, 6, the plane for n = 7, the hyperbolic
+plane (sinh model) for n >= 8. Then the ring is Lyapunov stable modulo G_mu = SO(2) (rotations about the ring
+centre) under all small perturbations, including those that change the momentum. Hence it is also stable
+modulo the full group SO(3) / SE(2) / PSL(2,R). Together with n = 3 (MT, always stable) this is
+Montaldi-Tokieda Conjecture 13 for all n, in MT's own sense of stability (MT p.9).
+Dependencies:
+ - even n: complete (Prop. 1, Thm 2, and the doubly-read exact c4_even);
+ - odd n: complete modulo an independent second reading of the symbolic odd-n c4 derivation
+   (review/odd_general*.py).
+n = 7 recovers Kurakin-Yudovich (2002) and MT Cor. 7 with a corrected proof.
+
+Files: PROOF.txt (this), spectral_check.py/.out (gap i), nearby_momentum.py/.out (gap ii illustration).

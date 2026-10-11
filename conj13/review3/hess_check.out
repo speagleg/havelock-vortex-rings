@@ -1,0 +1,11 @@
+n=5 b_n=0.1715728753 asym=4.9e-31  bordered inertia (+,-,0)=(8,4,2) -> restricted: 4 pos, 0 neg, 2 zero; min pos bordered eig=2.2361; c4=0.225; off-threshold nu_e1=-0.0032909
+n=7 b_n=0.0 asym=7.9e-31  bordered inertia (+,-,0)=(12,4,2) -> restricted: 8 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=0.642857142857; off-threshold nu_e1=-0.0068434
+n=9 b_n=-0.1010205144 asym=1.6e-30  bordered inertia (+,-,0)=(16,4,2) -> restricted: 12 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=1.58333333333; off-threshold nu_e1=-0.010754
+n=11 b_n=-0.1715728753 asym=3.9e-30  bordered inertia (+,-,0)=(20,4,2) -> restricted: 16 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=3.40909090909; off-threshold nu_e1=-0.014953
+n=13 b_n=-0.2251482266 asym=3.2e-30  bordered inertia (+,-,0)=(24,4,2) -> restricted: 20 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=6.49038461538; off-threshold nu_e1=-0.019402
+n=15 b_n=-0.2679491924 asym=6.3e-30  bordered inertia (+,-,0)=(28,4,2) -> restricted: 24 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=11.2; off-threshold nu_e1=-0.024074
+n=17 b_n=-0.3033370453 asym=1.3e-29  bordered inertia (+,-,0)=(32,4,2) -> restricted: 28 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=17.9117647059; off-threshold nu_e1=-0.02895
+n=19 b_n=-0.3333333333 asym=1.9e-29  bordered inertia (+,-,0)=(36,4,2) -> restricted: 32 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=27.0; off-threshold nu_e1=-0.034016
+n=21 b_n=-0.359245518 asym=6.3e-30  bordered inertia (+,-,0)=(40,4,2) -> restricted: 36 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=38.8392857143; off-threshold nu_e1=-0.03926
+n=25 b_n=-0.4021298312 asym=2.5e-29  bordered inertia (+,-,0)=(48,4,2) -> restricted: 44 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=72.27; off-threshold nu_e1=-0.050244
+n=31 b_n=-0.4514162296 asym=6.3e-29  bordered inertia (+,-,0)=(60,4,2) -> restricted: 56 pos, 0 neg, 2 zero; min pos bordered eig=2.0; c4=152.419354839; off-threshold nu_e1=-0.067854

@@ -1,0 +1,12 @@
+sinh +0e+00 1e-03 min D/D0 = 0.002  mean D/D0 = 0.601  fraction of time D/D0<0.5: 0.38
+sinh +0e+00 1e-04 min D/D0 = 0.000  mean D/D0 = 0.587  fraction of time D/D0<0.5: 0.39
+sinh +1e-02 1e-03 min D/D0 = 0.034  mean D/D0 = 0.637  fraction of time D/D0<0.5: 0.33
+sinh +1e-02 1e-04 min D/D0 = 0.034  mean D/D0 = 0.637  fraction of time D/D0<0.5: 0.33
+sinh -1e-02 1e-03 min D/D0 = 1.000  mean D/D0 = 9.663  fraction of time D/D0<0.5: 0.00
+sinh -1e-02 1e-04 min D/D0 = 1.000  mean D/D0 = 65.150  fraction of time D/D0<0.5: 0.00
+tanh +0e+00 1e-03 min D/D0 = 0.002  mean D/D0 = 0.601  fraction of time D/D0<0.5: 0.38
+tanh +0e+00 1e-04 min D/D0 = 0.000  mean D/D0 = 0.579  fraction of time D/D0<0.5: 0.42
+tanh +1e-02 1e-03 min D/D0 = 0.033  mean D/D0 = 0.637  fraction of time D/D0<0.5: 0.33
+tanh +1e-02 1e-04 min D/D0 = 0.033  mean D/D0 = 0.637  fraction of time D/D0<0.5: 0.33
+tanh -1e-02 1e-03 min D/D0 = 1.000  mean D/D0 = 9.404  fraction of time D/D0<0.5: 0.00
+tanh -1e-02 1e-04 min D/D0 = 1.000  mean D/D0 = 63.181  fraction of time D/D0<0.5: 0.00

@@ -1,0 +1,24 @@
+n=5 float: b_n=0.17157287525381 nu_e1=9.75e-41 nu_e2=5.14e-42 c4=0.225 formula=0.225 diff=5.74e-42
+n=5 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 9/40 : True  [0s]
+n=7 float: b_n=0.0 nu_e1=9.96e-42 nu_e2=8.14e-41 c4=0.642857142857142857142857142857 formula=0.642857142857142857142857142857 diff=-2.18e-40
+n=7 EXACT GF(p): 3 primes x 1 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 9/14 : True  [0s]
+n=8 float: b_n=-0.0627460668062282 nu_e1=6.19e-41 nu_e2=2.31e-42 c4=1.69642857142857142857142857143 formula=1.69642857142857142857142857143 diff=2.30e-41
+n=8 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 95/56 : True  [1s]
+n=9 float: b_n=-0.101020514433644 nu_e1=5.68e-40 nu_e2=3.03e-41 c4=1.58333333333333333333333333333 formula=1.58333333333333333333333333333 diff=1.15e-40
+n=9 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 19/12 : True  [1s]
+n=11 float: b_n=-0.17157287525381 nu_e1=0.00e+00 nu_e2=3.28e-40 c4=3.40909090909090909090909090909 formula=3.40909090909090909090909090909 diff=-1.88e-39
+n=11 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 75/22 : True  [2s]
+n=13 float: b_n=-0.225148226554414 nu_e1=0.00e+00 nu_e2=1.19e-41 c4=6.49038461538461538461538461538 formula=6.49038461538461538461538461538 diff=-2.94e-39
+n=13 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 675/104 : True  [3s]
+n=15 float: b_n=-0.267949192431123 nu_e1=0.00e+00 nu_e2=6.68e-41 c4=11.2 formula=11.2 diff=2.94e-39
+n=15 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 56/5 : True  [6s]
+n=17 float: b_n=-0.303337045290423 nu_e1=0.00e+00 nu_e2=1.16e-40 c4=17.9117647058823529411764705882 formula=17.9117647058823529411764705882 diff=1.10e-39
+n=17 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 609/34 : True  [7s]
+n=19 float: b_n=-0.333333333333333 nu_e1=0.00e+00 nu_e2=2.51e-41 c4=27.0 formula=27.0 diff=-7.35e-40
+n=19 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 27 : True  [10s]
+n=21 float: b_n=-0.359245517965919 nu_e1=0.00e+00 nu_e2=5.29e-41 c4=38.8392857142857142857142857143 formula=38.8392857142857142857142857143 diff=2.42e-38
+n=21 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 2175/56 : True  [15s]
+n=23 float: b_n=-0.381966011250105 nu_e1=0.00e+00 nu_e2=9.00e-41 c4=53.8043478260869565217391304348 formula=53.8043478260869565217391304348 diff=8.15e-38
+n=23 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 2475/46 : True  [17s]
+n=25 float: b_n=-0.402129831150349 nu_e1=0.00e+00 nu_e2=9.43e-41 c4=72.27 formula=72.27 diff=-7.49e-38
+n=25 EXACT GF(p): 3 primes x 2 conjugate(s) of lam: nu_e1=nu_e2=0 and c4 == 7227/100 : True  [18s]

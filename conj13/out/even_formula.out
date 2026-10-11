@@ -1,0 +1,3 @@
+remainder of numer(h4 - claim) modulo threshold polynomial (in b): 0
+n^4-8n^3+64n^2-144n+96 at n=m+2: m**4 + 40*m**2 + 48*m + 16
+c4(n) [unit kernel vector, r0=1] = (n - 2)*(n**4 - 8*n**3 + 64*n**2 - 144*n + 96)/(192*n*(n - 1))  values: [1/4, 23/30, 95/56, 49/15, 755/132]
