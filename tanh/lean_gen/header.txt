@@ -3,7 +3,7 @@ Havelock — Vortex rings on H² in the tanh (Kimura) model, H = −Σ ln tanh(d
 
 Source: tanh/note_tanh.tex (theorem numbers below are the LaTeX
 counter values: Lemma 1 = lem:re, Thm 2 = thm:blocks, Prop 3 = prop:lin, Prop 5 = prop:recip,
-Thm 6 = thm:cert, Cor 7 = "N = 8: an algebraic unit", Prop 9 = "Odd N: the Krein window"),
+Thm 7 = thm:cert, Cor 8 = "N = 8: an algebraic unit", Prop 10 = "Odd N: the Krein window"),
 derivation.txt, exact.py, identities.py, certify_v2.py.
 
 Conventions. ξ = tanh²(r/2) ∈ (0,1), X = ξ^N, c = (1+ξ)/(1−ξ) (`cR`). The Fourier-block entries
@@ -27,9 +27,9 @@ FORMALISED (no `sorry`):
 * `tanh_relations`  : for ξ = tanh²(r/2): c = cosh r and ξ + 1/ξ = 2 + 4/sinh² r (§5, natural invariant).
 §2 Certified statements for N = 2..16 (exact Bernstein-basis positivity certificates, checked by
    `ring` + `positivity`; IVT + strict monotonicity via the derivative for the threshold root)
-* `stable_N2` … `stable_N7` : Thm 6(a): for every ξ ∈ (0,1) and 1 ≤ m ≤ N−1:
+* `stable_N2` … `stable_N7` : Thm 7(a): for every ξ ∈ (0,1) and 1 ≤ m ≤ N−1:
                       a_m > 0, b_m > 0, a_m b_m − g_m² > 0.
-* `cert_N8` … `cert_N16`    : Thm 6(b): ∃! ξ* ∈ (0,1) root of f_N, enclosed in a rational interval of
+* `cert_N8` … `cert_N16`    : Thm 7(b): ∃! ξ* ∈ (0,1) root of f_N, enclosed in a rational interval of
                       width 10⁻²⁰ that matches Table 1; for all ξ ∈ (0,1): every b_m > 0; a_{⌊N/2⌋} < 0
                       for ξ < ξ* (unstable mode ⌊N/2⌋); every a_m > 0 for ξ > ξ* (spectrally stable).
                       Uniqueness = f_N has no other root in (0,1).
@@ -37,10 +37,10 @@ FORMALISED (no `sorry`):
                       2(1−ξ)²(1−X)² a_{⌊N/2⌋} = −k (ξ−1)⁴ · [ (ξ^{N/2}+1) (ξ+1)^{[N≡2 mod 4]} for even N ] · f_N(ξ)
                       (k = 2 for N ≡ 0 mod 4, 1 otherwise). NOTE the single factor (ξ+1), see DISCREPANCY.
 * `fN_data`         : f_N is palindromic, has the degree and leading coefficient of Table 1.
-* `krein_N9, _N11, _N13, _N15` : Prop 9 (qualitative): just above ξ* there is a rational point where
+* `krein_N9, _N11, _N13, _N15` : Prop 10 (qualitative): just above ξ* there is a rational point where
                       all a_m, b_m > 0 (spectrally stable) but a b − g² < 0 on the critical block,
                       hence ξ_EM > ξ*.
-§3 N = 8 (Cor 7)
+§3 N = 8 (Cor 8)
 * `P8_monic`, `P8_natDegree`, `aeval_P8` : P_8 = x¹⁰−12x⁹−…−12x+1 ∈ ℤ[X] is monic of degree 10 and is f_8.
 * `f8_root_unit`, `xi8_unit` : ξ*(8) is an algebraic integer whose inverse is an algebraic integer
                       (a unit); C = ξ*+1/ξ* satisfies C⁵−12C⁴−42C³−24C²+32C+32 = 0 (`f8_C_poly`).

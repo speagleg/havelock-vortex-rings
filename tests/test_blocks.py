@@ -24,7 +24,7 @@ def test_mt_numerators_equal_paper_formula(N):
         a, b, g = block_exprs("mt", N, m)
         assert sp.cancel(a * _sym(nm.den_a) - _sym(nm.A)) == 0
         assert sp.cancel(b * _sym(nm.den_b) - _sym(nm.B)) == 0
-        assert g == 0 and nm.G.is_zero()
+        assert g == 0 and nm.G == 0
         assert nm.D == nm.A * nm.B
 
 

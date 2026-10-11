@@ -26,13 +26,14 @@ unreadable or non-UTF-8 file exits with code 2 and a message.
 | `sturm` | number of distinct real roots of `polynomial` in the interval | must be 1; recomputed (Sturm) |
 | `interval_clear` | for every mode m, the number of distinct real roots inside `interval` of B_m, and of A_m for m other than the critical mode | recomputed (Sturm); every count must be 0, so no other block vanishes in the threshold interval |
 | `points` | rational points just below and just above the interval | outside the interval, inside the domain |
-| `mode_signs` | for every mode m: signs of A_m, B_m (and D_m = numerator of a_m b_m − g_m², when some g_m ≠ 0) at both points | recomputed; A_m and B_m are positive for every m on the stable side, and a_mode b_mode < 0 on the other. D_m is recorded but not required to be positive: for tanh with odd N, D_m < 0 for the critical mode just above the threshold interval (the Krein window, see docs/models.md), because the certified threshold is the spectral one |
+| `mode_signs` | for every mode m: signs of A_m, B_m (and D_m = numerator of a_m b_m − g_m², when some g_m ≠ 0) at both points | recomputed; A_m and B_m are positive for every m on the stable side, and a_mode b_mode < 0 on the other. D_m is recorded but not required to be positive, because the certified threshold is the spectral one: for tanh with odd N, D_m can be negative for the critical mode just above the threshold interval (the Krein window, see docs/models.md; proved non-empty for N = 9, 11, 13, 15, and recorded in `mode_signs` whenever it shows at the upper point) |
 | `stable_side` | the open interval between the threshold interval and the domain end on the stable side, with the number of roots of every A_m and B_m in it | recomputed (Sturm); all zero. If the domain endpoint on the stable side is closed, the blocks must also be positive there |
 | `irreducibility_witness` | optional prime p with the factor irreducible mod p | p prime, p ∤ lead, factorisation degrees mod p equal [deg] |
 | `provenance` | package version, inputs, timing | not checked (not a mathematical field) |
 
 Together these prove: the ring is spectrally stable on the whole stable side (every a_m, b_m > 0 there; for the
-tanh model this is the spectral claim, and D_m > 0 holds only outside the odd-N Krein window), the critical mode is
+tanh model this is the spectral claim only: D_m > 0 is not certified, and for odd N it fails on the Krein window
+where one exists), the critical mode is
 unstable just across the interval, and the threshold lies in the interval as the unique root there of the
 irreducible factor.
 

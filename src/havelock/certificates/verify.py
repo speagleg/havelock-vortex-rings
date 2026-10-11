@@ -128,7 +128,7 @@ def _sturm(P: flint.fmpz_poly, lo: Fraction, hi: Fraction) -> int:
     seq = [s0, s0.derivative()]
     while seq[-1].degree() > 0:
         r = -(seq[-2] % seq[-1])
-        if r.is_zero():
+        if r == 0:
             break
         seq.append(r / abs(r.coeffs()[-1]))
 

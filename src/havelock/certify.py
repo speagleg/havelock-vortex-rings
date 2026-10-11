@@ -38,7 +38,7 @@ def strip_roots(p: flint.fmpz_poly, roots) -> flint.fmpz_poly:
     for r in roots:
         r = Fraction(r)
         lin = flint.fmpz_poly([-r.numerator, r.denominator])
-        while not p.is_zero() and p.degree() > 0 and p(fmpq_of(r)) == 0:
+        while p != 0 and p.degree() > 0 and p(fmpq_of(r)) == 0:
             p = p // lin
     return p
 
@@ -53,7 +53,7 @@ def sturm_count(p: flint.fmpz_poly, lo: Fraction, hi: Fraction) -> int:
     seq = [s0, s0.derivative()]
     while seq[-1].degree() > 0:
         r = -(seq[-2] % seq[-1])
-        if r.is_zero():
+        if r == 0:
             break
         seq.append(r / abs(r.coeffs()[-1]))
 
@@ -150,7 +150,7 @@ def _positive_at(family: str, N: int, q: Fraction, include_D: bool) -> bool:
         nm = numerators(family, N, m)
         if sign_at(nm.A, q) <= 0 or sign_at(nm.B, q) <= 0:
             return False
-        if include_D and not nm.G.is_zero() and sign_at(nm.D, q) <= 0:
+        if include_D and nm.G != 0 and sign_at(nm.D, q) <= 0:
             return False
     return True
 
@@ -183,7 +183,7 @@ def _domain_points(dom):
 
 def coupled(family: str, N: int) -> bool:
     """True if some g_m (1 <= m <= N//2) is not identically zero; then certificates also record a_m b_m - g_m^2."""
-    return any(not numerators(family, N, m).G.is_zero() for m in range(1, N // 2 + 1))
+    return any(numerators(family, N, m).G != 0 for m in range(1, N // 2 + 1))
 
 
 def _signs(family: str, N: int, m: int, q: Fraction, with_d: bool) -> dict:
@@ -304,7 +304,7 @@ def certify_no_threshold(family: str, N: int, domain) -> bool:
     mid = (dlo + dhi) / 2
     for m in range(1, N // 2 + 1):
         nm = numerators(family, N, m)
-        polys = [nm.A, nm.B] + ([nm.D] if not nm.G.is_zero() else [])
+        polys = [nm.A, nm.B] + ([nm.D] if nm.G != 0 else [])
         for p in polys:
             q = strip_roots(p, (dlo, dhi))
             if sturm_count(q, dlo, dhi) != 0 or sign_at(p, mid) <= 0:

@@ -130,7 +130,7 @@ theorem f16_data : f16.reverse = f16 ∧ f16.length = 23 ∧ f16.getLast? = some
 theorem krein_D_N9 : aBlock 9 4 ((1128710633 : ℝ) / 10000000000) * bBlock 9 4 ((1128710633 : ℝ) / 10000000000) - gBlock 9 4 ((1128710633 : ℝ) / 10000000000) ^ 2 < 0 := by
   norm_num [aBlock, bBlock, gBlock, W, cR]
 
-/-- Odd-`N` Krein window for `N = 9` (note Prop 9, qualitative part): just above the spectral
+/-- Odd-`N` Krein window for `N = 9` (note Prop 10, qualitative part): just above the spectral
 threshold `ξ*` there is a point where the ring is spectrally stable (all `a_m, b_m > 0`) but the
 critical block is indefinite (`a b − g² < 0`); hence `ξ_EM > ξ*`. -/
 theorem krein_N9 : ∃ ξs : ℝ, peval f9 ξs = 0 ∧ ((11287106323660274043 : ℝ) / 100000000000000000000) < ξs ∧ ξs < ((2821776580915068511 : ℝ) / 25000000000000000000) ∧
@@ -147,7 +147,7 @@ theorem krein_N9 : ∃ ξs : ℝ, peval f9 ξs = 0 ∧ ((11287106323660274043 : 
 theorem krein_D_N11 : aBlock 11 5 ((2046011769 : ℝ) / 10000000000) * bBlock 11 5 ((2046011769 : ℝ) / 10000000000) - gBlock 11 5 ((2046011769 : ℝ) / 10000000000) ^ 2 < 0 := by
   norm_num [aBlock, bBlock, gBlock, W, cR]
 
-/-- Odd-`N` Krein window for `N = 11` (note Prop 9, qualitative part): just above the spectral
+/-- Odd-`N` Krein window for `N = 11` (note Prop 10, qualitative part): just above the spectral
 threshold `ξ*` there is a point where the ring is spectrally stable (all `a_m, b_m > 0`) but the
 critical block is indefinite (`a b − g² < 0`); hence `ξ_EM > ξ*`. -/
 theorem krein_N11 : ∃ ξs : ℝ, peval f11 ξs = 0 ∧ ((20460117688266929063 : ℝ) / 100000000000000000000) < ξs ∧ ξs < ((2557514711033366133 : ℝ) / 12500000000000000000) ∧
@@ -164,7 +164,7 @@ theorem krein_N11 : ∃ ξs : ℝ, peval f11 ξs = 0 ∧ ((20460117688266929063 
 theorem krein_D_N13 : aBlock 13 6 ((2798613887 : ℝ) / 10000000000) * bBlock 13 6 ((2798613887 : ℝ) / 10000000000) - gBlock 13 6 ((2798613887 : ℝ) / 10000000000) ^ 2 < 0 := by
   norm_num [aBlock, bBlock, gBlock, W, cR]
 
-/-- Odd-`N` Krein window for `N = 13` (note Prop 9, qualitative part): just above the spectral
+/-- Odd-`N` Krein window for `N = 13` (note Prop 10, qualitative part): just above the spectral
 threshold `ξ*` there is a point where the ring is spectrally stable (all `a_m, b_m > 0`) but the
 critical block is indefinite (`a b − g² < 0`); hence `ξ_EM > ξ*`. -/
 theorem krein_N13 : ∃ ξs : ℝ, peval f13 ξs = 0 ∧ ((13993069432195334351 : ℝ) / 50000000000000000000) < ξs ∧ ξs < ((27986138864390668703 : ℝ) / 100000000000000000000) ∧
@@ -181,7 +181,7 @@ theorem krein_N13 : ∃ ξs : ℝ, peval f13 ξs = 0 ∧ ((13993069432195334351 
 theorem krein_D_N15 : aBlock 15 7 ((856146459 : ℝ) / 2500000000) * bBlock 15 7 ((856146459 : ℝ) / 2500000000) - gBlock 15 7 ((856146459 : ℝ) / 2500000000) ^ 2 < 0 := by
   norm_num [aBlock, bBlock, gBlock, W, cR]
 
-/-- Odd-`N` Krein window for `N = 15` (note Prop 9, qualitative part): just above the spectral
+/-- Odd-`N` Krein window for `N = 15` (note Prop 10, qualitative part): just above the spectral
 threshold `ξ*` there is a point where the ring is spectrally stable (all `a_m, b_m > 0`) but the
 critical block is indefinite (`a b − g² < 0`); hence `ξ_EM > ξ*`. -/
 theorem krein_N15 : ∃ ξs : ℝ, peval f15 ξs = 0 ∧ ((1712292917560851283 : ℝ) / 5000000000000000000) < ξs ∧ ξs < ((34245858351217025661 : ℝ) / 100000000000000000000) ∧
@@ -196,10 +196,10 @@ theorem krein_N15 : ∃ ξs : ℝ, peval f15 ξs = 0 ∧ ((1712292917560851283 :
   exact ⟨h.2.2 hw m hm1 hm2, h.1 m hm1 hm2⟩
 
 
-/-! ### `ξ*(8)`: an algebraic unit (note Cor 7) -/
+/-! ### `ξ*(8)`: an algebraic unit (note Cor 8) -/
 
 open Polynomial in
-/-- The polynomial of note Cor 7, as an element of `ℤ[X]`. -/
+/-- The polynomial of note Cor 8, as an element of `ℤ[X]`. -/
 def P8 : ℤ[X] :=
   X ^ 10 - 12 * X ^ 9 - 37 * X ^ 8 - 72 * X ^ 7 - 84 * X ^ 6 - 88 * X ^ 5 - 84 * X ^ 4
     - 72 * X ^ 3 - 37 * X ^ 2 - 12 * X + 1
@@ -214,7 +214,7 @@ theorem aeval_P8 (ξ : ℝ) : Polynomial.aeval ξ P8 = peval f8 ξ := by
 theorem peval_f8_inv (ξ : ℝ) (h0 : ξ ≠ 0) : peval f8 ξ⁻¹ = peval f8 ξ / ξ ^ 10 := by
   simp only [f8, peval]; field_simp; push_cast; ring
 
-/-- Note Cor 7: any real root of `P_8` (in particular `ξ*(8)`) is a nonzero algebraic integer whose
+/-- Note Cor 8: any real root of `P_8` (in particular `ξ*(8)`) is a nonzero algebraic integer whose
 inverse is also an algebraic integer, i.e. an algebraic unit. -/
 theorem f8_root_unit (ξ : ℝ) (h : peval f8 ξ = 0) :
     ξ ≠ 0 ∧ IsIntegral ℤ ξ ∧ IsIntegral ℤ ξ⁻¹ ∧ ξ * ξ⁻¹ = 1 := by
@@ -224,7 +224,7 @@ theorem f8_root_unit (ξ : ℝ) (h : peval f8 ξ = 0) :
   · rw [← Polynomial.aeval_def, aeval_P8, h]
   · rw [← Polynomial.aeval_def, aeval_P8, peval_f8_inv ξ h0, h, zero_div]
 
-/-- Note Cor 7: `C = ξ + 1/ξ` satisfies `C⁵ − 12C⁴ − 42C³ − 24C² + 32C + 32 = 0`. -/
+/-- Note Cor 8: `C = ξ + 1/ξ` satisfies `C⁵ − 12C⁴ − 42C³ − 24C² + 32C + 32 = 0`. -/
 theorem f8_C_poly (ξ : ℝ) (h : peval f8 ξ = 0) :
     (ξ + ξ⁻¹) ^ 5 - 12 * (ξ + ξ⁻¹) ^ 4 - 42 * (ξ + ξ⁻¹) ^ 3 - 24 * (ξ + ξ⁻¹) ^ 2
       + 32 * (ξ + ξ⁻¹) + 32 = 0 := by
@@ -234,7 +234,7 @@ theorem f8_C_poly (ξ : ℝ) (h : peval f8 ξ = 0) :
     simp only [f8, peval]; field_simp; push_cast; ring
   rw [key, h, zero_div]
 
-/-- Note Cor 7 / Thm 6 for `N = 8`, packaged: the spectral threshold `ξ*(8)` is an algebraic unit,
+/-- Note Cor 8 / Thm 7 for `N = 8`, packaged: the spectral threshold `ξ*(8)` is an algebraic unit,
 root of the monic palindromic degree-10 `P_8`, and `ξ* + 1/ξ*` is a root of the quintic. -/
 theorem xi8_unit : ∃ ξs : ℝ, ((3367811150204063113 : ℝ) / 50000000000000000000) < ξs ∧
     ξs < ((6735622300408126227 : ℝ) / 100000000000000000000) ∧

@@ -169,9 +169,10 @@ def _tanh_nonlinear(mdl, N, t, t0, inputs):
     if N % 2:
         raise OutOfValidityRange(
             f"N = {N} is odd: at the spectral threshold xi* the critical block has a_m = 0, so its determinant is "
-            "a b - g^2 = -g^2 < 0 and the block is indefinite (tanh/note_tanh.tex; the Krein window, where the ring "
-            "is linearly stable but the Hessian is indefinite). The energy-momentum argument behind the quartic "
-            "(c4) test needs a definite block, so c4 is not defined here; nonlinear stability at xi* is undecided")
+            "a b - g^2 = -g^2 <= 0 and the block is not positive definite (tanh/note_tanh.tex; for N = 9, 11, 13, 15 "
+            "the note proves a Krein window above xi*, where the ring is linearly stable but the Hessian is "
+            "indefinite). The energy-momentum argument behind the quartic (c4) test needs a definite block, so c4 "
+            "is not defined here; nonlinear stability at xi* is undecided")
     c4 = c4_level_set("tanh", N, t.value)
     verdict = "stable" if c4 > mp.mpf("1e-8") else ("unstable" if c4 < -mp.mpf("1e-8") else "undecided")
     basis = ("NUMERICAL: level-set engine (Newton on the KKT system on J^{-1}(mu), eps = k/200, k = 1..6, Neville "

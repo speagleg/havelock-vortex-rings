@@ -44,7 +44,7 @@ value, and `nonlinear()` at the bifurcation point (the threshold's `r`).
   (ξ*, ξ_EM) the ring is linearly stable (a_m, b_m > 0) but the critical block has determinant
   D_m = a_m b_m − g_m² < 0, so the Hessian is indefinite there; nonlinear stability on that window is undecided by
   this package. The threshold's basis states this gap only when the certificate proves it: the exact sign of D_crit
-  is negative at the rational point just above the threshold interval. At ξ* itself a_m = 0, so the critical block is indefinite (D_m = −g_m² < 0). For N > 16 the basis cites
+  is negative at the rational point just above the threshold interval. At ξ* itself a_m = 0, so the critical block is not positive definite (D_m = −g_m² ≤ 0). For N > 16 the basis cites
   note_tanh Theorem 7 as "proved there for N <= 16"; the certification itself is done at run time.
 - **stability(): CERTIFIED** (exact signs). For odd N the window (ξ*, ξ_EM) gives the verdict
   "spectrally-stable-only".

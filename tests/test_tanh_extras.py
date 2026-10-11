@@ -78,7 +78,7 @@ def test_tanh_corrupted_certificates_fail(how):
 
 
 # sha256 of the emitted N = 8 module, recorded while planning
-LEAN_N8_SHA256 = "32964876d1943609804fa63b74072e4890d0c24896d0364df112a2a93842f68c"
+LEAN_N8_SHA256 = "db9ab9284d7f9594f4685d267b617366ad82caa61ea95930aa038860d1d4cd1f"
 
 
 def test_lean_emitter_n8_golden(tmp_path):

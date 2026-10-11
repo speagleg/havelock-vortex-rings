@@ -223,7 +223,7 @@ def gen_small(N):
             a,b,S=link_lemma2(P+f'link{k}{m}',N,m,k,numer(N,m,k))
             pos_lemma(P+f'pos{k}{m}',S,0,1)
             block_pos(N,m,k,posname=P+f'pos{k}{m}',linkname=P+f'link{k}{m}',a=a,b=b,name=P+f'{k}{m}_pos')
-    s=f"""/-- Note Thm 6(a) for `N = {N}`: on all of `(0,1)`, every Fourier block has `a_m > 0`,
+    s=f"""/-- Note Thm 7(a) for `N = {N}`: on all of `(0,1)`, every Fourier block has `a_m > 0`,
 `b_m > 0` and `a_m b_m − g_m² > 0` (spectrally stable, positive-definite non-rotational Hessian). -/
 theorem stable_N{N} (x : ℝ) (h0 : 0 < x) (h1 : x < 1) (m : ℕ) (hm1 : 1 ≤ m) (hm2 : m ≤ {N-1}) :
     0 < aBlock {N} m x ∧ 0 < bBlock {N} m x ∧
@@ -348,7 +348,7 @@ theorem {P}A{mc}_pos (x : ℝ) (h0 : 0 < x) (h1 : x < 1) (hf : peval f{N} x < 0)
   rw [← {P}linkA{mc} x h0 h1] at hn
   exact (mul_pos_iff_of_pos_right {den(N,'A')}).mp hn
 """)
-    s=f"""/-- Note Thm 6(b) for `N = {N}`: there is a unique `ξ* ∈ (0,1)` (the unique root of `f_{N}` in
+    s=f"""/-- Note Thm 7(b) for `N = {N}`: there is a unique `ξ* ∈ (0,1)` (the unique root of `f_{N}` in
 `(0,1)`, enclosed in `({ta}, {tb})`) such that, for every `ξ ∈ (0,1)`: all `b_m > 0`;
 `a_{mc} < 0` for `ξ < ξ*` (spectrally unstable, since `b_{mc} > 0`); and all `a_m > 0` for `ξ > ξ*`. -/
 theorem cert_N{N} : ∃ ξs : ℝ, {lit(ta)} < ξs ∧ ξs < {lit(tb)} ∧ peval f{N} ξs = 0 ∧
@@ -450,7 +450,7 @@ theorem f{N}_data : f{N}.reverse = f{N} ∧ f{N}.length = {len(f)} ∧ f{N}.getL
         emit(f"""theorem krein_D_N{N} : aBlock {N} {mc} {W} * bBlock {N} {mc} {W} - gBlock {N} {mc} {W} ^ 2 < 0 := by
   norm_num [aBlock, bBlock, gBlock, W, cR]
 
-/-- Odd-`N` Krein window for `N = {N}` (note Prop 9, qualitative part): just above the spectral
+/-- Odd-`N` Krein window for `N = {N}` (note Prop 10, qualitative part): just above the spectral
 threshold `ξ*` there is a point where the ring is spectrally stable (all `a_m, b_m > 0`) but the
 critical block is indefinite (`a b − g² < 0`); hence `ξ_EM > ξ*`. -/
 theorem krein_N{N} : ∃ ξs : ℝ, peval f{N} ξs = 0 ∧ {lit(d['ta'])} < ξs ∧ ξs < {lit(d['tb'])} ∧
@@ -466,10 +466,10 @@ theorem krein_N{N} : ∃ ξs : ℝ, peval f{N} ξs = 0 ∧ {lit(d['ta'])} < ξs 
 """)
 
 N8_EXTRA = r'''
-/-! ### `ξ*(8)`: an algebraic unit (note Cor 7) -/
+/-! ### `ξ*(8)`: an algebraic unit (note Cor 8) -/
 
 open Polynomial in
-/-- The polynomial of note Cor 7, as an element of `ℤ[X]`. -/
+/-- The polynomial of note Cor 8, as an element of `ℤ[X]`. -/
 def P8 : ℤ[X] :=
   X ^ 10 - 12 * X ^ 9 - 37 * X ^ 8 - 72 * X ^ 7 - 84 * X ^ 6 - 88 * X ^ 5 - 84 * X ^ 4
     - 72 * X ^ 3 - 37 * X ^ 2 - 12 * X + 1
@@ -484,7 +484,7 @@ theorem aeval_P8 (ξ : ℝ) : Polynomial.aeval ξ P8 = peval f8 ξ := by
 theorem peval_f8_inv (ξ : ℝ) (h0 : ξ ≠ 0) : peval f8 ξ⁻¹ = peval f8 ξ / ξ ^ 10 := by
   simp only [f8, peval]; field_simp; push_cast; ring
 
-/-- Note Cor 7: any real root of `P_8` (in particular `ξ*(8)`) is a nonzero algebraic integer whose
+/-- Note Cor 8: any real root of `P_8` (in particular `ξ*(8)`) is a nonzero algebraic integer whose
 inverse is also an algebraic integer, i.e. an algebraic unit. -/
 theorem f8_root_unit (ξ : ℝ) (h : peval f8 ξ = 0) :
     ξ ≠ 0 ∧ IsIntegral ℤ ξ ∧ IsIntegral ℤ ξ⁻¹ ∧ ξ * ξ⁻¹ = 1 := by
@@ -494,7 +494,7 @@ theorem f8_root_unit (ξ : ℝ) (h : peval f8 ξ = 0) :
   · rw [← Polynomial.aeval_def, aeval_P8, h]
   · rw [← Polynomial.aeval_def, aeval_P8, peval_f8_inv ξ h0, h, zero_div]
 
-/-- Note Cor 7: `C = ξ + 1/ξ` satisfies `C⁵ − 12C⁴ − 42C³ − 24C² + 32C + 32 = 0`. -/
+/-- Note Cor 8: `C = ξ + 1/ξ` satisfies `C⁵ − 12C⁴ − 42C³ − 24C² + 32C + 32 = 0`. -/
 theorem f8_C_poly (ξ : ℝ) (h : peval f8 ξ = 0) :
     (ξ + ξ⁻¹) ^ 5 - 12 * (ξ + ξ⁻¹) ^ 4 - 42 * (ξ + ξ⁻¹) ^ 3 - 24 * (ξ + ξ⁻¹) ^ 2
       + 32 * (ξ + ξ⁻¹) + 32 = 0 := by
@@ -504,7 +504,7 @@ theorem f8_C_poly (ξ : ℝ) (h : peval f8 ξ = 0) :
     simp only [f8, peval]; field_simp; push_cast; ring
   rw [key, h, zero_div]
 
-/-- Note Cor 7 / Thm 6 for `N = 8`, packaged: the spectral threshold `ξ*(8)` is an algebraic unit,
+/-- Note Cor 8 / Thm 7 for `N = 8`, packaged: the spectral threshold `ξ*(8)` is an algebraic unit,
 root of the monic palindromic degree-10 `P_8`, and `ξ* + 1/ξ*` is a root of the quintic. -/
 theorem xi8_unit : ∃ ξs : ℝ, ((3367811150204063113 : ℝ) / 50000000000000000000) < ξs ∧
     ξs < ((6735622300408126227 : ℝ) / 100000000000000000000) ∧

@@ -29,11 +29,11 @@ def test_numerators_equal_note_theorem_2(N):
 
 def test_mode_zero_is_rotation_and_symmetries():
     N = 9
-    assert numerators("tanh", N, 0).B.is_zero() and numerators("tanh", N, 0).G.is_zero()
+    assert numerators("tanh", N, 0).B == 0 and numerators("tanh", N, 0).G == 0
     for m in range(1, N):
         assert numerators("tanh", N, m).A == numerators("tanh", N, N - m).A
         assert numerators("tanh", N, m).G == -numerators("tanh", N, N - m).G
-    assert numerators("tanh", 8, 4).G.is_zero()
+    assert numerators("tanh", 8, 4).G == 0
 
 
 @pytest.mark.parametrize("N,m", [(5, 2), (8, 3), (9, 4)])

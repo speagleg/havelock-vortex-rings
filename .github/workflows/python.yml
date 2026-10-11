@@ -15,6 +15,16 @@ jobs:
         with: {python-version: "${{ matrix.python }}"}
       - run: pip install -e ".[dev]"
       - run: pytest -q
+  floor:
+    # the minimum versions declared in pyproject.toml, on the oldest supported Python
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.10"}
+      - run: pip install mpmath==1.3.0 sympy==1.12 numpy==1.24.0 scipy==1.10.0 python-flint==0.6.0 pytest==7.0.0
+      - run: pip install --no-deps -e .
+      - run: pytest -q
   slow:
     # slow tier (pytest --runslow): large-N certification (tanh N = 64), long simulations, tanh c4 at N = 10; manual dispatch only
     if: github.event_name == 'workflow_dispatch'
