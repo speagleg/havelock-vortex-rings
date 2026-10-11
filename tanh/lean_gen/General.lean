@@ -11,29 +11,29 @@ def cR (ξ : ℝ) : ℝ := (1 + ξ) / (1 - ξ)
 def W (N k : ℕ) (ξ : ℝ) : ℝ :=
   k * ξ ^ k / (1 - ξ ^ N) + N * ξ ^ (k + N) / (1 - ξ ^ N) ^ 2
 
-/-- `Ω κ₀` at the relative equilibrium (note Lemma 2). -/
+/-- `Ω κ₀` at the relative equilibrium (note Lemma 1). -/
 def omegaKappa (N : ℕ) (ξ : ℝ) : ℝ :=
   -((N : ℝ) - 1) / 2 + ξ / (1 - ξ) - N * ξ ^ N / (1 - ξ ^ N)
 
-/-- `V''(0) = 2ξ/(1-ξ)² − 2 c Ω κ₀` (proof of note Thm 3, one-body terms). -/
+/-- `V''(0) = 2ξ/(1-ξ)² − 2 c Ω κ₀` (proof of note Thm 2, one-body terms). -/
 def Vpp (N : ℕ) (ξ : ℝ) : ℝ := 2 * ξ / (1 - ξ) ^ 2 - 2 * cR ξ * omegaKappa N ξ
 
-/-- `a_m` as the sum of the three Hessian contributions (proof of note Thm 3). -/
+/-- `a_m` as the sum of the three Hessian contributions (proof of note Thm 2). -/
 def aSum (N m : ℕ) (ξ : ℝ) : ℝ :=
   Vpp N ξ - m * ((N : ℝ) - m) / 2 - N * W N N ξ - N / 2 * (W N m ξ + W N (N - m) ξ)
 
-/-- `a_m`, compact form of note Thm 3. -/
+/-- `a_m`, compact form of note Thm 2. -/
 def aBlock (N m : ℕ) (ξ : ℝ) : ℝ :=
   ((N : ℝ) - 1) * cR ξ - (cR ξ - 1) ^ 2 / 2 - m * ((N : ℝ) - m) / 2
     + 2 * N * cR ξ * ξ ^ N / (1 - ξ ^ N) - (N : ℝ) ^ 2 * ξ ^ N / (1 - ξ ^ N) ^ 2
     - N / 2 * ((m * ξ ^ m + ((N : ℝ) - m) * ξ ^ (N - m) + ((N : ℝ) - m) * ξ ^ (N + m)
         + m * ξ ^ (2 * N - m)) / (1 - ξ ^ N) ^ 2)
 
-/-- `b_m` (note Thm 3). -/
+/-- `b_m` (note Thm 2). -/
 def bBlock (N m : ℕ) (ξ : ℝ) : ℝ :=
   m * ((N : ℝ) - m) / 2 + N * W N N ξ - N / 2 * (W N m ξ + W N (N - m) ξ)
 
-/-- `g_m` (note Thm 3). -/
+/-- `g_m` (note Thm 2). -/
 def gBlock (N m : ℕ) (ξ : ℝ) : ℝ := N / 2 * (W N m ξ - W N (N - m) ξ)
 
 theorem W_hasSum (N k : ℕ) {ξ : ℝ} (h0 : 0 ≤ ξ) (h1 : ξ < 1) (hN : 0 < N) :
@@ -85,7 +85,7 @@ theorem aSum_eq_aBlock (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) (h1 : ξ ≠ 1) (hX
   ring
 
 
-/-- Reciprocity (note Prop. 5): `a_m(1/ξ) = a_m(ξ)` as rational functions. -/
+/-- Reciprocity (note Prop 5): `a_m(1/ξ) = a_m(ξ)` as rational functions. -/
 theorem aBlock_recip (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) (h0 : ξ ≠ 0) (h1 : ξ ≠ 1)
     (hX : ξ ^ N ≠ 1) : aBlock N m ξ⁻¹ = aBlock N m ξ := by
   obtain ⟨k, rfl⟩ : ∃ k, N = m + k := ⟨N - m, by omega⟩
@@ -102,7 +102,7 @@ theorem aBlock_recip (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) (h0 : ξ ≠ 0) (h1 :
   field_simp
   ring
 
-/-- `a_{N-m} = a_m` (note Thm 3). -/
+/-- `a_{N-m} = a_m` (note Thm 2). -/
 theorem aBlock_symm (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) : aBlock N (N - m) ξ = aBlock N m ξ := by
   obtain ⟨k, rfl⟩ : ∃ k, N = m + k := ⟨N - m, by omega⟩
   have e1 : m + k - m = k := by omega
@@ -114,21 +114,21 @@ theorem aBlock_symm (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) : aBlock N (N - m) ξ 
   push_cast
   ring_nf
 
-/-- `b_{N-m} = b_m` (note Thm 3). -/
+/-- `b_{N-m} = b_m` (note Thm 2). -/
 theorem bBlock_symm (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) : bBlock N (N - m) ξ = bBlock N m ξ := by
   have e : N - (N - m) = m := by omega
   unfold bBlock
   rw [e, Nat.cast_sub hm]
   ring
 
-/-- `g_{N-m} = -g_m` (note Thm 3). -/
+/-- `g_{N-m} = -g_m` (note Thm 2). -/
 theorem gBlock_symm (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) : gBlock N (N - m) ξ = -gBlock N m ξ := by
   have e : N - (N - m) = m := by omega
   unfold gBlock
   rw [e]
   ring
 
-/-- `g_{N/2} = 0` for even `N` (note Thm 3). -/
+/-- `g_{N/2} = 0` for even `N` (note Thm 2). -/
 theorem gBlock_half (n : ℕ) (ξ : ℝ) : gBlock (2 * n) n ξ = 0 := by
   have e : 2 * n - n = n := by omega
   unfold gBlock
@@ -158,7 +158,7 @@ theorem aBlock_even (n : ℕ) (ξ : ℝ) (hy : ξ ^ n ≠ 1) (hy' : ξ ^ n ≠ -
   field_simp
   ring
 
-/-- Linearisation (note Prop. 4): the characteristic polynomial of `J M_m`,
+/-- Linearisation (note Prop 3): the characteristic polynomial of `J M_m`,
 `J = [[0,1],[-1,0]]`, `M_m = [[a, i g],[-i g, b]]`, is `(λ + i g)² + a b`. -/
 theorem charpoly_block (a b g l : ℂ) :
     Matrix.det (!![0, 1; -1, 0] * !![a, Complex.I * g; -Complex.I * g, b] - l • (1 : Matrix (Fin 2) (Fin 2) ℂ))

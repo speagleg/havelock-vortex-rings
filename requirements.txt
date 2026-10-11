@@ -1,0 +1,6 @@
+# Python 3.12.3. Versions used to reproduce the recorded *.out files (see REPRODUCE.md).
+sympy==1.14.0
+mpmath==1.3.0
+numpy==2.5.3
+scipy==1.18.1
+python-flint==0.9.0
