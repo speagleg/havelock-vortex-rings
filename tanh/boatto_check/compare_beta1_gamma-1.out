@@ -1,0 +1,51 @@
+model: K<0 beta=1, K>0 gamma=-1
+N=5
+   K=+0.40 fig= 0.368 model= 0.414 model(neg x2)= 0.414
+   K=+0.50 fig=-0.529 model=-0.182 model(neg x2)=-0.364
+   K=+0.55 fig=-1.178 model=-0.518 model(neg x2)=-1.035
+N=6
+   K=-0.55 fig= 3.399 model= 3.391 model(neg x2)= 3.391
+   K=-0.50 fig= 3.177 model= 3.176 model(neg x2)= 3.176
+   K=-0.40 fig= 2.747 model= 2.742 model(neg x2)= 2.742
+   K=-0.30 fig= 2.311 model= 2.306 model(neg x2)= 2.306
+   K=-0.20 fig= 1.873 model= 1.870 model(neg x2)= 1.870
+   K=-0.10 fig= 1.435 model= 1.434 model(neg x2)= 1.434
+   K=-0.05 fig= 1.224 model= 1.217 model(neg x2)= 1.217
+   K=+0.05 fig= 0.780 model= 0.776 model(neg x2)= 0.776
+   K=+0.10 fig= 0.544 model= 0.537 model(neg x2)= 0.537
+   K=+0.20 fig= 0.020 model= 0.014 model(neg x2)= 0.014
+   K=+0.30 fig=-1.138 model=-0.571 model(neg x2)=-1.142
+   K=+0.40 fig=-2.007 model=-1.215 model(neg x2)=-2.431
+   K=+0.50 fig=-3.822 model=-1.915 model(neg x2)=-3.830
+   K=+0.55 fig=-4.572 model=-2.283 model(neg x2)=-4.567
+N=7
+   K=-0.55 fig= 3.202 model= 3.195 model(neg x2)= 3.195
+   K=-0.50 fig= 2.920 model= 2.915 model(neg x2)= 2.915
+   K=-0.40 fig= 2.351 model= 2.349 model(neg x2)= 2.349
+   K=-0.30 fig= 1.782 model= 1.773 model(neg x2)= 1.773
+   K=-0.20 fig= 1.198 model= 1.189 model(neg x2)= 1.189
+   K=-0.10 fig= 0.604 model= 0.597 model(neg x2)= 0.597
+   K=-0.05 fig= 0.302 model= 0.299 model(neg x2)= 0.299
+   K=+0.05 fig=-0.614 model=-0.309 model(neg x2)=-0.619
+   K=+0.10 fig=-1.264 model=-0.638 model(neg x2)=-1.277
+   K=+0.20 fig=-2.674 model=-1.358 model(neg x2)=-2.715
+   K=+0.30 fig=-4.325 model=-2.163 model(neg x2)=-4.327
+N=8
+   K=-0.55 fig= 2.306 model= 2.294 model(neg x2)= 2.294
+   K=-0.50 fig= 1.934 model= 1.929 model(neg x2)= 1.929
+   K=-0.40 fig= 1.193 model= 1.184 model(neg x2)= 1.184
+   K=-0.30 fig= 0.428 model= 0.418 model(neg x2)= 0.418
+   K=-0.20 fig=-0.720 model=-0.369 model(neg x2)=-0.738
+   K=-0.10 fig=-2.341 model=-1.175 model(neg x2)=-2.351
+   K=-0.05 fig=-2.140 model=-1.585 model(neg x2)=-3.171
+   K=+0.05 fig=-4.844 model=-2.429 model(neg x2)=-4.858
+N=9
+   K=-0.55 fig= 1.425 model= 1.412 model(neg x2)= 1.412
+   K=-0.50 fig= 0.972 model= 0.959 model(neg x2)= 0.959
+   K=-0.40 fig= 0.048 model= 0.029 model(neg x2)= 0.029
+   K=-0.30 fig=-1.833 model=-0.932 model(neg x2)=-1.864
+   K=-0.20 fig=-3.741 model=-1.925 model(neg x2)=-3.849
+N=5 model crossing 0.471124
+N=6 model crossing 0.202445
+N=8 model crossing -0.246563
+N=9 model crossing -0.396920

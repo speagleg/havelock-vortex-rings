@@ -1,0 +1,7 @@
+K=-0.75  boatto: min   2.863 max   8.836 | sinhD: min   4.240 max   9.664
+K=-0.5  boatto: min   2.509 max   9.032 | sinhD: min   3.176 max   9.620
+K=-0.25  boatto: min   1.909 max   9.544 | sinhD: min   2.088 max   9.710
+K=0.000001  boatto: min   1.000 max  10.000 | sinhD: min   1.000 max  10.000
+K=0.25  boatto: min  -0.271 max  10.364 | sinhD: min  -0.271 max  10.364
+K=0.5  boatto: min  -1.915 max  10.589 | sinhD: min  -1.915 max  10.589
+K=0.75  boatto: min  -3.841 max  10.595 | sinhD: min  -3.841 max  10.595

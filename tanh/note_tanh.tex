@@ -10,31 +10,84 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 \newcommand{\D}{\mathbb D}
+\setlength{\emergencystretch}{3em}
 \title{Stability thresholds of $N$-vortex rings on the hyperbolic plane\\
 (tanh model): rational Fourier blocks, palindromic threshold polynomials,\\
 and a certified table for $N\le16$}
 \author{Gordon Speagle\\Independent Researcher, Boise, ID, USA\\[2pt]\small DRAFT --- AI-reviewed only; no human specialist review}
-\date{2026-10-10}
+\date{2026-10-11 (revised)}
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We consider $N$ identical point vortices on the hyperbolic plane $\mathbb H^2$ (curvature $-1$) with the
-pair interaction $-\ln\tanh(d/2)$, which is the Green's function of the Laplace--Beltrami operator that
-vanishes at infinity. Secondary sources attribute this Hamiltonian to Kimura (1999). Montaldi and Tokieda
-called the stability of the regular $N$-ring in this model ``no longer tractable analytically''. We show
-that in log-polar coordinates the Hessian of the augmented Hamiltonian at the ring splits into $2\times2$
-Hermitian Fourier blocks whose entries are \emph{rational functions} of $\xi=\tanh^2(r/2)$, where $r$ is
-the hyperbolic ring radius. Unlike the ``sinh'' model, the blocks have a radial--tangential coupling. The blocks are
-invariant under $\xi\mapsto1/\xi$. Consequently the linear-stability threshold $\xi_*(N)$ is an explicit
-algebraic number, the root of an exact rational equation. For $N=8,\dots,16$ we certify $\xi_*(N)$ by exact
-rational root isolation combined with Arb ball arithmetic. We also certify the critical mode $\lfloor N/2\rfloor$,
-the positivity of the tangential entries, and the minimal polynomials of $\xi_*(N)$. These are irreducible and
-palindromic, and $\xi_*(8)$ is an algebraic unit of degree $10$. Rings with $N\le7$ are stable at every radius.
-For odd $N$, the energy--momentum (Hessian-definiteness) threshold lies strictly above the spectral threshold.
-The gap between them is a Krein window. Numerically, $\cosh r_*\sim\kappa_\infty N$ with
-$\kappa_\infty\approx0.1343122$, whereas $\cosh r_*\sim\sqrt N/2$ in the sinh model.
+Montaldi and Tokieda~\cite[\S4.2]{MT} considered the image Green's function on the hyperbolic plane, whose pair
+interaction is $-\ln\tanh(d/2)$ (the Hamiltonian they attribute to Kimura), and wrote that ``the stability problem
+seems no longer tractable analytically''. Boatto~\cite{Boatto} had earlier computed the stability ranges of the regular
+$N$-ring in this model numerically. We show that the linear problem is tractable. In log-polar coordinates the Hessian
+of the augmented Hamiltonian at the ring splits into $2\times2$ Hermitian Fourier blocks whose entries are explicit
+rational functions of $\xi=\tanh^2(r/2)$, where $r$ is the hyperbolic ring radius. Unlike the ``sinh'' model, the blocks
+have a radial--tangential coupling. Under $\xi\mapsto1/\xi$ the diagonal entries are invariant and the coupling
+changes sign; this reciprocity comes from inversion in the boundary circle. It makes the threshold polynomials
+palindromic. For $N=8,\dots,16$ we certify the spectral threshold $\xi_*(N)$ (exact rational root isolation and Arb
+ball arithmetic) and the critical mode $\lfloor N/2\rfloor$. We also certify, with PARI/GP and an independent
+mod-$p$ factorisation test, that $\xi_*(N)$ has an irreducible palindromic minimal polynomial of degree $2N-2$,
+$\frac32N-2$ or $\frac32N-3$ according to $N$ odd, $N\equiv0$ or $N\equiv2\pmod 4$. The number $\xi_*(8)$ is an algebraic
+unit of degree $10$; for $9\le N\le16$, $\xi_*(N)$ is not an algebraic integer. (That the thresholds are algebraic is
+automatic once the blocks are rational; the content is their explicit structure.) Rings with $N\le7$ are stable at
+every radius. For odd $N$ the energy--momentum (Hessian-definiteness) threshold lies strictly above the spectral
+threshold. In the gap the ring is linearly (spectrally) stable, and its nonlinear stability is undecided (a Krein
+window). Numerically $\cosh r_*/N$ approaches $\kappa_\infty\approx0.1343122$, the root of a transcendental equation
+obtained by a formal limit; the convergence is not proved. In the sinh model, $\cosh r_*\sim\sqrt N/2$.
 \end{abstract}
+
+\section{Motivation and prior work}\label{sec:motivation}
+\paragraph{The question left open by Montaldi--Tokieda.} In \S4.2 of~\cite{MT} (arXiv:1210.5662v1, p.~25), for the
+Green's function $G=\log\frac{|z-w|^2}{|1+\lambda z\bar w|^2}$, Montaldi and Tokieda write: ``On the hyperbolic plane
+$\lambda<0$ this reduces to the Hamiltonian adopted by Kimura [10].'' After discussing $\lambda>0$, they write:
+\begin{quote}
+``The calculations based on this option of Green's function get so cumbersome that the stability problem seems no
+longer tractable analytically. It seems likely that the results are similar to those in section 3, though the details
+of where the bifurcations occur will differ.''
+\end{quote}
+At $\lambda=-1$ this Green's function is $\log\tanh^2(d/2)$, i.e.\ the model (\ref{H}) below. Our results answer the
+first sentence, for linear stability. The Hessian at the ring reduces to explicit rational $2\times2$ blocks
+(Thm.~\ref{thm:blocks}). The threshold is the root of an explicit polynomial equation (\S\ref{sec:recip}), and for
+$N\le16$ it is certified together with its minimal polynomial (\S\ref{sec:cert}). On the guess in the second sentence:
+the stability picture of their \S2 carries over qualitatively. Rings with $N\le7$ are stable at every radius; for
+$N\ge8$ a ring is stable exactly beyond a threshold radius, and the critical mode is $\lfloor N/2\rfloor$. There is
+one structural difference. The tanh blocks have a radial--tangential coupling, and for odd $N$ it separates the spectral
+threshold from the energy--momentum threshold (\S\ref{sec:krein}); this has no counterpart in the sinh model. We do not
+study the bifurcations themselves, which are the subject of their \S3. So their guess about the bifurcation types
+remains open.
+
+\paragraph{Prior work on this model.} The record of what we read is in \texttt{literature.md}.
+\begin{itemize}
+\item Boatto~\cite{Boatto} studies exactly this model: on the hyperbolic surface her Green's function is
+``$\Psi_K=-\frac1{2\pi}\ln\tanh(\frac{\sqrt{|K|}}2r)$''. She writes the Hessian in the rotating frame in block form with
+``$\mathcal Q$ and $\mathcal P$ \dots\ symmetric circulant matrices, while $\mathcal G$ is an asymmetric circulant
+matrix'', i.e.\ the Fourier-block structure with a coupling term. She then ``(numerically) monitor[s] the maximum and
+the minimum eigenvalues'' and concludes that ``for $N\ge7$, we can only assure stability for sufficiently negative
+$K$'' (her Fig.~5a, $N=5,\dots,9$, ring of geodesic radius $1$). So the stability question, the block structure and the
+qualitative picture for $N\ge8$ are hers. We did not find in her paper closed forms for the block entries,
+threshold values beyond plotting accuracy, the algebraic structure of the thresholds, or the odd-$N$ separation of the
+two thresholds. Her criterion is Hessian definiteness, i.e.\ our energy--momentum threshold. Her ring has fixed
+geodesic radius $1$ while $K$ varies, so $K=-r^2$ with $\xi=\tanh^2(r/2)$. Implemented as written, her equations
+(14), (17) and (31) reproduce our thresholds exactly: $K_*(8)=-0.28218454857650$, i.e.\ $\xi_*(8)$ to $10^{-41}$, and
+$K_{\rm EM}(9)=-0.48869837$, i.e.\ our $\xi_{\rm EM}(9)$, including the certified gap $\xi_{\rm EM}-\xi_*=3.22\cdot10^{-8}$.
+Her Fourier blocks equal ours up to $m$-independent factors. The zero crossings in her Fig.~5a, however, lie at
+$K\approx-0.2465$ ($N=8$) and $-0.3964$ ($N=9$), digitised to $\pm0.002$. These are reproduced to plotting accuracy by the pair
+law $-\ln\sinh D$ ($D$ the full geodesic distance), i.e.\ her eq.~(17) with the sign of the $\ln(d+1)$ term flipped,
+which gives $-0.24656$ and $-0.39692$. We therefore attribute the difference to her numerics rather than to the model;
+her $K>0$ curves agree with her equations. Details and scripts: \texttt{tanh/boatto\_check/}.
+\item Montaldi--Nava-Gaxiola~\cite{MNG} and Nava-Gaxiola's thesis~\cite{NG} use the same Hamiltonian but analyse only
+$N=2,3$. Both point to Hwang--Kim~\cite{HK} for rings.
+\item Hwang--Kim 2013~\cite{HK}: we saw only the abstract (``the configuration of rings of vortices is investigated
+in detail''). According to~\cite{NG} it uses the same Hamiltonian and gives conditions for ring relative equilibria.
+Whether it contains stability thresholds is unknown.
+\item Kimura~\cite{Kimura}: abstract only.
+\end{itemize}
+Hence the closed-form blocks, the reciprocity, the certified table, the minimal polynomials and the odd-$N$ window
+are, as far as we can tell, new, subject to Hwang--Kim 2013, which we have not read.
 
 \section{Scope and status labels}
 The companion note \texttt{sinh/note.tex}
@@ -42,21 +95,28 @@ treats the sinh model, where everything is known~\cite{MT}. We use these labels:
 \begin{center}
 \begin{tabular}{p{0.30\textwidth}p{0.62\textwidth}}\toprule
 \textbf{PROVED} (all $N$) & Fourier-block theorem (Thm.~\ref{thm:blocks}); linearisation and stability criteria
-(Prop.~\ref{prop:lin}); reciprocity $a_m(1/\xi)=a_m(\xi)$ (Prop.~\ref{prop:recip}); threshold equation and even-$N$ form.\\
-\textbf{CERTIFIED for $N\le16$} & $b_m>0$ on $(0,1)$; critical mode $\lfloor N/2\rfloor$; the value of $\xi_*(N)$ and the sign change of
-$a_{\rm crit}$ at $\xi_*$; irreducible \emph{palindromic} minimal polynomials and their degree pattern; $\xi_*(8)$ a unit;
-$N\le7$ stable for all $r$; odd-$N$ energy--momentum threshold strictly above $\xi_*$.\\
-\textbf{Lean-verified} & In \texttt{lean/Havelock/TanhAlgebra.lean}, with no unproved steps and only the standard axioms.
-Taking the block formulas of Thm.~\ref{thm:blocks} as definitions, Lean proves the following.
-(i)~Reciprocity and the even-$N$ threshold equation.
-(ii)~For every $2\le N\le16$, the statements of Thm.~\ref{thm:cert} on positivity, sign change and critical mode,
-with $\xi_*$ located to within $10^{-20}$ in a rational interval.
-(iii)~$\xi_*(8)$ is an algebraic integer and a unit.
-(iv)~The odd-$N$ Krein window is non-empty for $N=9,11,13,15$.
-Lean does \emph{not} verify irreducibility (hence the degrees), the derivation of the blocks, or the dynamics.\\
+(Prop.~\ref{prop:lin}); reciprocity (Prop.~\ref{prop:recip}); threshold equation and even-$N$ form.\\
+\textbf{CERTIFIED} (exact arithmetic, $N\le16$) & $b_m>0$ on $(0,1)$; critical mode $\lfloor N/2\rfloor$; the value of
+$\xi_*(N)$ and the sign change of $a_{\rm crit}$ at $\xi_*$; $N\le7$ stable for all $r$; odd-$N$ energy--momentum
+threshold strictly above $\xi_*$. Exact rational root isolation (sympy) and Arb balls (python-flint), \S\ref{sec:cert}.\\
+\textbf{CERTIFIED by computer algebra (PARI/GP)}, $8\le N\le16$ & Irreducibility over $\mathbb Q$ of the threshold
+polynomial $f_N$, hence: $f_N$ is the minimal polynomial of $\xi_*(N)$, the degrees (\ref{eq:deg}) and leading
+coefficients of Table~\ref{tab:cert}, palindromy of the minimal polynomial, $\xi_*(8)$ a unit, $\xi_*(N)$ not an
+algebraic integer for $N\ge9$ (\S\ref{sec:irred}). Not checked in Lean.\\
+\textbf{Lean} (checked in the repository's CI build) & In \texttt{lean/Havelock/TanhAlgebra.lean}.
+Taking the block formulas of Thm.~\ref{thm:blocks} as definitions, Lean checks:
+(i)~reciprocity of $a_m$ and the even-$N$ threshold equation;
+(ii)~for every $2\le N\le16$, the statements of Thm.~\ref{thm:cert} on positivity, sign change and critical mode,
+with $\xi_*$ located to within $10^{-20}$ in a rational interval;
+(iii)~$\xi_*(8)$ is an algebraic integer and a unit;
+(iv)~the odd-$N$ Krein window is non-empty for $N=9,11,13,15$.
+Lean does \emph{not} check irreducibility (that is the PARI item above), the derivation of the blocks, or the
+dynamics.\\
 \textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$; $b_m>0$ and critical mode
 $\lfloor N/2\rfloor$ for all $N$.\\
-\textbf{NUMERICAL} & large-$N$ constant $\kappa_\infty$ and the fits in \S\ref{sec:asym}; critical mode up to $N=800$.\\\bottomrule
+\textbf{NUMERICAL} & $\kappa_\infty$: a numerically evaluated root of an explicit equation obtained by a formal limit;
+its identification with $\lim\cosh r_*/N$ is unproved. The $1/N$ correction in \S\ref{sec:asym} is a fit. Critical mode
+up to $N=800$.\\\bottomrule
 \end{tabular}
 \end{center}
 Nonlinear (Lyapunov) stability is claimed only in the form ``positive-definite Hessian on the non-rotational
@@ -81,9 +141,9 @@ $\Delta_{\mathbb H^2}$ that vanishes as $d\to\infty$.
 $\log|z-w|^2/|1+\lambda z\bar w|^2$ ``on the hyperbolic plane $\lambda<0$ \dots\ reduces to the Hamiltonian adopted by
 Kimura''. Montaldi--Nava-Gaxiola~\cite[eq.~(12)]{MNG} write Kimura's Hamiltonian as
 $-\frac1{4\pi}\sum\Gamma_i\Gamma_j\ln\frac{\langle X_i,X_j\rangle+1}{\langle X_i,X_j\rangle-1}$ with $\langle X,Y\rangle=-\cosh d$,
-which equals $-\frac1{4\pi}\sum\ln\tanh^2(d/2)$. We have \emph{not} read Kimura~\cite{Kimura}. Hence (\ref{H}) is ``the
-model attributed to Kimura'', and we quote nothing from Kimura directly. Montaldi--Tokieda add that the stability
-calculations for this choice ``get so complicated'' that they are ``no longer tractable analytically''~\cite[\S4.2]{MT}.
+which equals $-\frac1{4\pi}\sum\ln\tanh^2(d/2)$. Boatto~\cite{Boatto} uses the same Green's function on the hyperbolic
+surface. We have read only the abstract of Kimura~\cite{Kimura}. Hence (\ref{H}) is ``the model attributed to Kimura'',
+and we quote nothing from Kimura directly.
 
 \paragraph{No Robin term (intrinsic remark).} $\mathbb H^2$ is homogeneous, so the regular part of $G$ at the diagonal,
 measured in the intrinsic metric, is the constant $\lim_{d\to0}(G(d)+\frac1{2\pi}\ln d)=\frac1{2\pi}\ln2$. The
@@ -223,20 +283,40 @@ $SO(2)$ alone. We did not verify the hypotheses of a specific energy--momentum t
 which is stated for the sinh model) for the tanh model.
 \end{remark}
 
-\section{Reciprocity and the threshold equation}
+\section{Reciprocity and the threshold equation}\label{sec:recip}
 \begin{proposition}[reciprocity; PROVED for all $N,m$]\label{prop:recip}
-As rational functions, $a_m(1/\xi)=a_m(\xi)$.
+As rational functions of $\xi$, under the map $\xi\mapsto1/\xi$,
+\[
+a_m(1/\xi)=a_m(\xi),\qquad b_m(1/\xi)=b_m(\xi),\qquad g_m(1/\xi)=-g_m(\xi).
+\]
+Hence $M_m(1/\xi)=\overline{M_m(\xi)}$, and $a_mb_m$ and $a_mb_m-g_m^2$ are invariant.
 \end{proposition}
 \begin{proof}
-Under $\xi\mapsto1/\xi$ we have $c\mapsto-c$ and $X\mapsto1/X$. The one-body part changes as follows:
+For $1\le k\le N-1$ the closed form of $W_k$ gives
+$W_k(1/\xi)=\xi^{N-k}\frac{(N-k)+kX}{(1-X)^2}=W_{N-k}(\xi)$, and $W_N(1/\xi)=W_N(\xi)$ since $X/(1-X)^2$ is invariant under
+$X\mapsto1/X$. So $W_m+W_{N-m}$ is invariant and $W_m-W_{N-m}$ changes sign, which gives the claims for $b_m$ and $g_m$.
+For $a_m$: under $\xi\mapsto1/\xi$ we have $c\mapsto-c$ and $X\mapsto1/X$. The one-body part changes as follows:
 $(N-1)c\mapsto-(N-1)c$; $-\frac12(c-1)^2\mapsto-\frac12(c+1)^2$, a change of $-2c$; and
 $\frac{2NcX}{1-X}\mapsto\frac{-2Nc/X}{1-1/X}=\frac{2Nc}{1-X}$, a change of $+2Nc$. The total change is
 $-2(N-1)c-2c+2Nc=0$. The term $N^2X/(1-X)^2$ is invariant. In the last fraction, the numerator is multiplied by
 $\xi^{-2N}$ (its exponents $m,N-m,N+m,2N-m$ are permuted by $e\mapsto2N-e$) and so is $(1-X)^2$. The term
 $m(N-m)/2$ is constant.
 \end{proof}
-A symbolic check treating $\xi$, $X=\xi^N$ and $t=\xi^m$ as independent symbols confirms the identity
-(\texttt{review/palin\_symbolic.py}). Clearing denominators, $A_m:=2(1-\xi)^2(1-X)^2a_m\in\mathbb Z[\xi]$ satisfies
+A symbolic check treating $\xi$, $X=\xi^N$ and $t=\xi^m$ as independent symbols confirms the identity for $a_m$
+(\texttt{review/palin\_symbolic.py}); Lean checks it too (\texttt{aBlock\_recip}).
+
+\begin{remark}[geometric meaning]
+The disk model and its exterior $\{|z|>1\}\cup\{\infty\}$, each with the metric $4|dz|^2/(1-|z|^2)^2$, are two copies of
+$\mathbb H^2$, exchanged by the inversion $\iota(z)=1/\bar z$ in the boundary circle; $\iota$ is an isometry between them. It
+preserves the pair term, since $\big|\frac{1/\bar z-1/\bar w}{1-1/(\bar z w)}\big|=\frac{|z-w|}{|1-z\bar w|}$, and it maps the
+ring of Euclidean radius $\sqrt\xi$ to the ring of radius $1/\sqrt\xi$. So the continuation of the blocks to $\xi>1$
+describes the same hyperbolic ring in the exterior chart, and $1/\xi_*$ is the threshold seen from that chart, not a
+second physical threshold. (\texttt{derivation.txt} gives only the algebraic proof above. We record this interpretation
+as a remark and do not use it in any proof. The sign change of $g_m$ reflects the fact that $\iota$ reverses
+orientation.)
+\end{remark}
+
+Clearing denominators, $A_m:=2(1-\xi)^2(1-X)^2a_m\in\mathbb Z[\xi]$ satisfies
 $A_m(1/\xi)=\xi^{-2N-2}A_m(\xi)$, so $A_m$ is self-reciprocal. We write
 $B_m:=2(1-X)^2b_m$, $G_m:=2(1-X)^2g_m$ and $D_m:=A_mB_m-(1-\xi)^2G_m^2=4(1-\xi)^2(1-X)^4(a_mb_m-g_m^2)$.
 On $(0,1)$ the signs of $a_m$, $b_m$ and $a_mb_m-g_m^2$ are those of $A_m$, $B_m$ and $D_m$.
@@ -256,8 +336,13 @@ the threshold equation $a_{N/2}=0$ reads
 general $a_m$ with $m=(N-1)/2$. In the sinh model the right-hand side is the same Thomson term $N^2/8$ without the
 image correction, and the left-hand side is $(N-1)(1+c^2)/2$.
 
-\paragraph{The natural invariant.} By reciprocity, if the minimal polynomial of $\xi_*$ is palindromic, then
-$C:=\xi_*+\xi_*^{-1}$ has half the degree. Since $\xi=\tanh^2(r/2)$,
+\paragraph{Algebraicity is automatic; the structure is not.} Since the blocks are rational in $\xi$ with rational
+coefficients, every threshold is a root of an integer polynomial, so ``the thresholds are algebraic'' carries no
+information by itself. What is informative is the structure: the self-reciprocal numerators $A_m$, the irreducible
+palindromic factor that carries $\xi_*$, its degree, and its leading and constant coefficients (\S\ref{sec:cert}).
+
+\paragraph{The natural invariant.} By reciprocity, if the minimal polynomial $f$ of $\xi_*$ is palindromic of degree $n$,
+then $f(x)=x^{n/2}g(x+1/x)$, and $C:=\xi_*+\xi_*^{-1}$ has degree $n/2$ with minimal polynomial $g$. Since $\xi=\tanh^2(r/2)$,
 \[
 C=\xi_*+\xi_*^{-1}=2+\frac4{\sinh^2r_*}=\frac{2(\cosh^2r_*+1)}{\cosh^2r_*-1}.
 \]
@@ -271,8 +356,8 @@ So $\cosh^2r_*$ generates the same field as $C$. In the sinh model, $C=2+4/(q-1)
 the factors $\xi$ and $\xi-1$. This shows: $B_m$ has no root and $B_m(\frac12)>0$; every $A_m$ with
 $m\ne\lfloor N/2\rfloor$ has all its roots strictly below the isolating interval of $A_{\lfloor N/2\rfloor}$; and
 $A_{\lfloor N/2\rfloor}$ has exactly one root in $(0,1)$.
-\item Factor $A_{\rm crit}$ over $\mathbb Q$ and select the unique irreducible factor $f$ with a root in $(0,1)$. Check its
-irreducibility and refine an exact rational isolating interval $[\alpha,\beta]$ for its root, of width $<10^{-45}$.
+\item Factor $A_{\rm crit}$ over $\mathbb Q$ (sympy) and select the unique irreducible factor $f$ with a root in $(0,1)$.
+Its irreducibility is certified separately with PARI/GP (\S\ref{sec:irred}). Refine an exact rational isolating interval $[\alpha,\beta]$ for its root, of width $<10^{-45}$.
 \item Assert exactly that $A_{\rm crit}(\alpha)<0<A_{\rm crit}(\beta)$. With step~2 this proves $a_{\rm crit}<0$ on
 $(0,\xi_*)$ and $a_m>0$ for all $m$ on $(\xi_*,1)$.
 \item Compute Arb balls for the roots of $f$ (python-flint 0.9, 400 bits). Select the real root by exact tests only:
@@ -292,7 +377,8 @@ stable and has positive-definite non-rotational Hessian at every radius.
 \item[(b)] For $8\le N\le16$, $b_m>0$ on $(0,1)$ for every $m$. The ring is linearly unstable for $0<\xi<\xi_*(N)$ and
 spectrally stable for $\xi_*(N)<\xi<1$. The instability at threshold is in the mode $m=\lfloor N/2\rfloor$ (and $N-m$), and
 every other $a_m$ changes sign strictly below $\xi_*$.
-\item[(c)] $\xi_*(N)$ is the root in $(0,1)$ of an irreducible palindromic integer polynomial of degree
+\item[(c)] (irreducibility certified with PARI/GP, \S\ref{sec:irred}) $\xi_*(N)$ is the root in $(0,1)$ of an irreducible
+palindromic primitive integer polynomial $f_N$ of degree
 \begin{equation}\label{eq:deg}
 \deg\xi_*(N)=\begin{cases}2N-2,&N\text{ odd},\\ \tfrac32N-2,&N\equiv0\pmod4,\\ \tfrac32N-3,&N\equiv2\pmod 4,\end{cases}
 \end{equation}
@@ -315,8 +401,9 @@ $N$ & $\xi_*$ & $\sqrt{\xi_*}$ & $r_*$ & $\cosh r_*$ & deg & lead\\\midrule
 \end{tabular}
 \caption{Certified spectral thresholds of the tanh model. $\xi_*=\tanh^2(r_*/2)$ is the squared Euclidean radius in the
 Poincar\'e disk, $r_*$ is the hyperbolic radius, ``deg'' is the degree of the minimal polynomial of $\xi_*$ and ``lead''
-is its leading coefficient. The Arb radii are $<3\cdot10^{-153}$. The full minimal polynomials, those of $C=\xi_*+1/\xi_*$,
-and the discriminants are in \texttt{certify\_v2.out}.}\label{tab:cert}
+is its leading coefficient (equal to its constant term, by palindromy); both are certified with PARI/GP
+(\S\ref{sec:irred}). The Arb radii are $<3\cdot10^{-153}$. The full minimal polynomials, those of $C=\xi_*+1/\xi_*$,
+and the discriminants are in \texttt{certify\_v2.out} and \texttt{irreducibility/irreducibility.out}.}\label{tab:cert}
 \end{table}
 
 \paragraph{Independent confirmation.} The second reader recomputed $\xi_*(8),\xi_*(9),\xi_*(10),\xi_*(12)$ from full $2N$-dimensional
@@ -326,16 +413,41 @@ $\max|\mathrm{Re}\,\sigma|\le4\cdot10^{-19}$ (NUMERICAL).
 \paragraph{Structure of the numerator.} For even $N\in\{8,\dots,16\}$, $A_{N/2}$ factors over $\mathbb Q$ as
 a constant times $(\xi-1)^4(\xi^{N/2}+1)$, times one further factor $(\xi+1)$ when $N\equiv2\pmod4$, times the minimal polynomial of $\xi_*$. So $(\xi+1)^2$ divides $A_{N/2}$ exactly when $N\equiv2\pmod4$, with one copy of $(\xi+1)$ coming from $\xi^{N/2}+1$. (An earlier draft counted this copy twice; the corrected form is checked in Lean, \texttt{A\_crit\_factor\_N8}--\texttt{N16}.) These cyclotomic factors have roots on $|\xi|=1$ and are spurious.
 
+\subsection{Irreducibility (CERTIFIED by PARI/GP)}\label{sec:irred}
+Scripts and output are in \texttt{tanh/irreducibility/}. The polynomials $f_N$ ($8\le N\le16$) are read from
+\texttt{lean/Havelock/TanhAlgebra.lean}; \texttt{extract.py} recomputes them from \texttt{exact.py} (factor
+$A_{\lfloor N/2\rfloor}$ and take the factor with a root in $(0,1)$) and finds the two sources identical. With PARI/GP 2.15.4
+(\texttt{irreducibility.gp}) we check, for every $N$:
+\begin{enumerate}
+\item \texttt{polisirreducible}$(f_N)=1$, content $1$, $f_N$ palindromic, and degree and leading coefficient as in
+Table~\ref{tab:cert} and (\ref{eq:deg}).
+\item A second, independent witness. For the first six primes $p\nmid\operatorname{lead}(f_N)\operatorname{disc}(f_N)$
+we record the degrees of the irreducible factors of $f_N$ mod $p$. A factorisation over $\mathbb Q$ into factors of
+degrees $d$ and $n-d$ would give a sub-multiset of each pattern summing to $d$. For every $N$ no $0<d<n$ is attained by
+all six patterns, so $f_N$ is irreducible. For example, for $N=8$ the patterns mod $3,5,7$ are $(5,5)$, $(2,8)$, $(10)$.
+\item The trace polynomial $g_N$ with $f_N(x)=x^{n/2}g_N(x+1/x)$ is irreducible and agrees with \texttt{certify\_v2.out};
+the discriminants agree too.
+\end{enumerate}
+Since $f_N$ is irreducible and primitive, it is (up to sign) the minimal polynomial of $\xi_*(N)$ over $\mathbb Z$. If
+$\operatorname{lead}(f_N)\ne\pm1$, then by Gauss's lemma the monic minimal polynomial $f_N/\operatorname{lead}(f_N)$ is not
+in $\mathbb Z[x]$, so $\xi_*(N)$ is not an algebraic integer.
+
+\emph{Mod-$p$ certificates.} If $f_N$ is irreducible mod a prime $p\nmid\operatorname{lead}(f_N)$, then $f_N$ is irreducible
+over $\mathbb Q$. Such a prime exists for every $N$ here. The smallest ones are
+$p=7,13,107,17,11,101,3,29,163$ for $N=8,\dots,16$. A certificate of this kind could be checked in Lean; we have not
+done so.
+
 \subsection{$N=8$: an algebraic unit}
-\begin{corollary}[CERTIFIED]
+\begin{corollary}[CERTIFIED; irreducibility by PARI/GP]
 $\xi_*(8)$ is an algebraic unit of degree $10$ with minimal polynomial
 \[
 x^{10}-12x^9-37x^8-72x^7-84x^6-88x^5-84x^4-72x^3-37x^2-12x+1 .
 \]
 $C=\xi_*+\xi_*^{-1}=2+4/\sinh^2r_*$ has minimal polynomial $C^5-12C^4-42C^3-24C^2+32C+32$.
-For $9\le N\le16$ the leading coefficients are $4,7,10,7,18,23,28,17$, so $\xi_*(N)$ is not an algebraic integer.
+For $9\le N\le16$ the leading coefficients of the (irreducible, primitive) $f_N$ are $4,7,10,7,18,23,28,17$, so
+$\xi_*(N)$ is not an algebraic integer.
 \end{corollary}
-The polynomial is monic with constant term $1$, so $\xi_*(8)$ is a unit. The second reader recovered the same polynomial
+The polynomial is irreducible (\S\ref{sec:irred}), monic, with constant term $1$, so $\xi_*(8)$ is a unit. The second reader recovered the same polynomial
 independently by PSLQ from a 110-digit value and confirmed its irreducibility (\texttt{review/minpoly8.py}). Numerically, its
 only real roots are $\xi_*(8)$ and $1/\xi_*(8)\approx14.846$. Four conjugates lie on $|x|=1$ and four do not, so $\xi_*(8)$ is
 neither Pisot nor Salem. In the sinh model $\xi_*(8)=8-3\sqrt7$ is also a unit, of degree $2$. We do not know whether the
@@ -347,7 +459,8 @@ carrying $\xi_*$ is irreducible and palindromic, so that $1/\xi_*$ is a Galois c
 (\ref{eq:deg}).
 \end{conjecture}
 Reciprocity alone shows that $1/\xi_*$ is a root of $A_{\lfloor N/2\rfloor}$. It does not show that $1/\xi_*$ is a conjugate
-of $\xi_*$. That is why palindromy of the minimal polynomial is certified only for $N\le16$. The critical mode and $b_m>0$
+of $\xi_*$. That needs irreducibility of the factor, which is why palindromy of the minimal polynomial is certified
+only for $N\le16$. The critical mode and $b_m>0$
 near the threshold were checked numerically up to $N=800$.
 
 \section{Odd $N$: the Krein window}\label{sec:krein}
@@ -358,13 +471,14 @@ the Hessian becomes definite only at a larger value $\xi_{\rm EM}$.
 \begin{proposition}[CERTIFIED, odd $9\le N\le15$]
 $\xi_{\rm EM}(N)>\xi_*(N)$ strictly (disjoint exact rational intervals). The gaps are
 $3.220\cdot10^{-8}$ $(N=9)$, $1.244\cdot10^{-7}$ $(11)$, $1.777\cdot10^{-7}$ $(13)$ and $1.886\cdot10^{-7}$ $(15)$.
-On $(\xi_*,\xi_{\rm EM})$ the ring is spectrally stable, with distinct purely imaginary eigenvalues, but the critical block
-$M_{\rm crit}$ has one positive and one negative eigenvalue.
+On $(\xi_*,\xi_{\rm EM})$ the ring is linearly (spectrally) stable, with distinct purely imaginary eigenvalues, but the
+critical block $M_{\rm crit}$ has one positive and one negative eigenvalue. Its nonlinear stability there is
+undecided.
 \end{proposition}
 In the window the two frequencies of the critical block carry opposite Krein signatures. The second reader confirmed this
 on the coordinate-free Cartesian Hessian (count of negative eigenvalues, Krein signs of the eigenvectors;
-\texttt{review/krein\_em.py}), so it is not a coordinate artefact. The energy--momentum method gives no conclusion there,
-and nonlinear stability in the window is \textbf{open}. In the sinh model $g_m\equiv0$, and no such window exists.
+\texttt{review/krein\_em.py}), so it is not a coordinate artefact. The energy--momentum method gives no conclusion there:
+the ring is linearly (spectrally) stable, and nonlinear stability is \textbf{undecided}. In the sinh model $g_m\equiv0$, and no such window exists.
 
 \section{Large $N$ (NUMERICAL)}\label{sec:asym}
 Set $c=\kappa N$. Then $\xi=(c-1)/(c+1)$ and $y=\xi^{N/2}\to u:=e^{-1/\kappa}$. Dividing (\ref{eq:even}) by $N^2$ and
@@ -372,15 +486,21 @@ formally letting $N\to\infty$ gives the limit equation
 \begin{equation}\label{eq:kappa}
 \kappa-\frac{\kappa^2}2+\frac{2\kappa u^2}{1-u^2}-\frac18-\frac{u}{2(1-u)^2}=0,\qquad u=e^{-1/\kappa}.
 \end{equation}
-Its root near $0.134$ is
+We \emph{define} $\kappa_\infty$ as the root of (\ref{eq:kappa}) near $0.134$:
 \[
-\kappa_\infty=0.1343122142726281390560\ldots\qquad\text{(NUMERICAL; the limit equation is heuristic).}
+\kappa_\infty=0.1343122142726281390560\ldots
 \]
-Dropping the exponentially small $u$-terms gives $\kappa=1-\sqrt3/2\approx0.13397$. We have not proved that
-$\cosh r_*/N\to\kappa_\infty$: neither uniformity of the limit nor the odd-$N$ case is proved. The data for
-$N\le800$ (\texttt{asymptotics.out}) fit
+(evaluated with \texttt{mpmath.findroot} at 40 digits, \texttt{asymptotics.py}; re-solved independently in
+\texttt{review/kappa\_check.py}). Status: this is a numerically evaluated constant with an explicit defining equation.
+It is not a fit. We know no closed form; (\ref{eq:kappa}) is transcendental in $\kappa$ through $u=e^{-1/\kappa}$.
+Dropping the exponentially small $u$-terms leaves $\kappa^2-2\kappa+\frac14=0$, whose root $1-\sqrt3/2\approx0.13397$ is
+within $3.4\cdot10^{-4}$ of $\kappa_\infty$. What is \emph{not} proved is the asymptotic statement
+$\cosh r_*/N\to\kappa_\infty$: equation (\ref{eq:kappa}) comes from a formal limit of the even-$N$ equation, and neither
+the uniformity of that limit, nor the persistence of the critical mode $\lfloor N/2\rfloor$, nor the odd-$N$ case is
+proved. It is supported numerically for $N\le800$ (\texttt{asymptotics.out}). The correction term below is an empirical
+fit to the same data:
 \[
-\cosh r_*=\kappa_\infty N+\frac{0.541}N+O(N^{-2}),\qquad r_*=\ln(2\kappa_\infty N)+o(1),\qquad 1-\xi_*\sim\frac2{\kappa_\infty N}\approx\frac{14.89}N .
+\cosh r_*=\kappa_\infty N+\frac{0.541}N+O(N^{-2})\ \ \text{(fit)},\qquad r_*=\ln(2\kappa_\infty N)+o(1),\qquad 1-\xi_*\sim\frac2{\kappa_\infty N}\approx\frac{14.89}N .
 \]
 The second reader re-solved (\ref{eq:kappa}) and checked $\cosh r_*/N$ up to $N=1024$ (\texttt{review/kappa\_check.py}).
 
@@ -415,43 +535,53 @@ once $\cosh r\sim\sqrt N/2$. In the tanh model the interaction is screened by cu
 one curvature radius. The stiffness is then only linear in $\cosh r$, up to exponentially small image terms, so stabilisation needs
 $\cosh r\sim0.134N$.
 
-\paragraph{Flat hard-wall disk} (context only, NUMERICAL). This model has the Euclidean area form, image vortices, and the non-constant Robin
-self-image term. The reviewer scans (\texttt{checks/disk.py}, \texttt{checks/phys/bec.py}) find $N=7,8$ rings unstable at every radius
-tested, which README C5.3 reports as consistent with Havelock~\cite{Havelock}. We have read neither Havelock nor Kurakin, and a
-Fourier-exact flat-disk analysis is not part of this note. The point is that the same image Green's function, with a
-different area form and a non-constant Robin function, gives qualitatively different thresholds. Neither hyperbolic model
-describes a flat-bottomed hard-wall condensate (README \S3, item 1; retracted).
+\paragraph{Flat hard-wall disk} (context only). This model has the Euclidean area form, image vortices, and the
+non-constant Robin self-image term; its ring stability goes back to Havelock~\cite{Havelock}, which we have not read.
+It is not treated here. The point is only that the same image Green's function, with a different area form and a
+non-constant Robin function, is a different stability problem. Neither hyperbolic model describes a flat-bottomed
+hard-wall condensate.
 
 \section{Limitations}
 \begin{itemize}
-\item \textbf{Literature not read.} Kimura~\cite{Kimura} and Hwang--Kim 2013~\cite{HK} (whose abstract says rings ``are investigated in
-detail'') could not be obtained (publisher 403). A human with journal access needs to check (i) which Hamiltonian Kimura
-uses (the tanh attribution here rests on~\cite{MT,MNG} and four further secondary sources) and (ii) whether Hwang--Kim
-2013 already contains ring stability thresholds for this model. Until then, novelty is \emph{unchecked}.
+\item \textbf{Literature.} Boatto~\cite{Boatto} computed the stability ranges of this model numerically, with the same
+block structure (\S\ref{sec:motivation}). Her equations reproduce our values exactly; her plotted $K<0$ curves
+correspond to a different pair law (\S\ref{sec:motivation}), an attribution a specialist should confirm. Kimura~\cite{Kimura} and
+Hwang--Kim 2013~\cite{HK} could not be obtained beyond their abstracts. A human with journal access needs to check
+(i)~which Hamiltonian Kimura uses (the tanh attribution here rests on~\cite{MT,MNG,NG,Boatto}) and (ii)~whether
+Hwang--Kim 2013 already contains ring stability thresholds for this model. Until then, the novelty claim in
+\S\ref{sec:motivation} is provisional.
 \item \textbf{No human specialist review.} The derivation has been re-derived and checked by an independent second agent
 (verdict: confirmed with scope fixes, all applied here). No human expert in point-vortex dynamics has reviewed it.
-\item \textbf{Heuristic limit.} The equation (\ref{eq:kappa}) for $\kappa_\infty$ comes from a formal limit. The constant and the fits
-in \S\ref{sec:asym} are numerical.
+\item \textbf{Heuristic limit.} $\kappa_\infty$ is the numerically evaluated root of (\ref{eq:kappa}), which comes from a formal
+limit; $\cosh r_*/N\to\kappa_\infty$ is not proved, and the $1/N$ correction is a fit.
 \item \textbf{Finite range.} Palindromy, irreducibility, the degree pattern, $b_m>0$ and the critical mode are certified only for
-$N\le16$ (Conjecture~\ref{conj:deg}).
-\item \textbf{Nonlinear stability.} This is stated only via Hessian definiteness and modulo $SO(2,1)$ (Remark~\ref{rem:em}). It is open in the
-odd-$N$ Krein window and at the threshold itself.
+$N\le16$ (Conjecture~\ref{conj:deg}). Irreducibility is certified by PARI/GP, not by Lean.
+\item \textbf{Nonlinear stability.} This is stated only via Hessian definiteness and modulo $SO(2,1)$ (Remark~\ref{rem:em}). In the
+odd-$N$ Krein window the ring is linearly (spectrally) stable and nonlinear stability is undecided; at the threshold
+itself it is open.
 \end{itemize}
 
 \section*{Files}
 \texttt{tanh/}: \texttt{derivation.txt} (full derivation), \texttt{blocks.py}, \texttt{exact.py},
 \texttt{check\_jacobian.py/.out}, \texttt{identities.py/.out}, \texttt{certify\_v2.py/.out} (certification),
-\texttt{asymptotics.py/.out}, and \texttt{review/} (second reader).
+\texttt{asymptotics.py/.out}, \texttt{irreducibility/} (PARI/GP irreducibility certificates: \texttt{extract.py/.out},
+\texttt{irreducibility.gp/.out}, \texttt{polys.gp}), and \texttt{review/} (second reader). Literature record:
+\texttt{literature.md}.
 
 \begin{thebibliography}{9}
 \bibitem{MT} J.~Montaldi, T.~Tokieda, Deformation of geometry and bifurcations of vortex rings, in
-\emph{Recent Trends in Dynamical Systems}, Springer Proc.\ Math.\ Stat.\ 35 (2013) 335--370; arXiv:1210.5662.
+\emph{Recent Trends in Dynamical Systems}, Springer Proc.\ Math.\ Stat.\ 35 (2013) 335--370; arXiv:1210.5662
+(quotations and page numbers from arXiv v1).
+\bibitem{Boatto} S.~Boatto, Curvature perturbations and stability of a ring of vortices, Discrete Contin.\ Dyn.\ Syst.\
+Ser.\ B 10 (2008) 349--375.
 \bibitem{MNG} J.~Montaldi, C.~Nava-Gaxiola, Point vortices on the hyperbolic plane, J.\ Math.\ Phys.\ 55
 (2014) 102702; arXiv:1403.2138.
+\bibitem{NG} C.~Nava-Gaxiola, Point vortices on the hyperboloid, PhD thesis, University of Manchester (2013),
+\texttt{eprints.maths.manchester.ac.uk/2022}.
 \bibitem{Kimura} Y.~Kimura, Vortex motion on surfaces with constant curvature, Proc.\ R.\ Soc.\ Lond.\ A 455
-(1999) 245--259 (\textbf{not obtained}; cited only via~\cite{MT,MNG}).
+(1999) 245--259 (abstract only; cited via~\cite{MT,MNG,NG,Boatto}).
 \bibitem{HK} S.~Hwang, S.-C.~Kim, Relative equilibria of point vortices on the hyperbolic sphere, J.\ Math.\ Phys.\ 54
-(2013) 063101 (\textbf{not obtained}; abstract only).
+(2013) 063101 (abstract only).
 \bibitem{Havelock} T.~H.~Havelock, The stability of motion of rectilinear vortices in ring formation, Phil.\ Mag.\ (7) 11
 (1931) (not read; cited for context only).
 \end{thebibliography}

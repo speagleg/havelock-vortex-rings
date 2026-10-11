@@ -5,3 +5,9 @@ __pycache__/
 *.toc
 *.synctex.gz
 *.bbl
+repro-runs/
+tanh/boatto_check/dl/
+tanh/boatto_check/fig/
+tanh/boatto_check/*.npy
+tanh/boatto_check/boatto2008.txt
+tanh/boatto_check/mparc06-311.txt

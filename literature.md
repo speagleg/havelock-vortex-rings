@@ -1,3 +1,87 @@
+# Literature check for the tanh-model note (`tanh/note_tanh.tex`), 2026-10-11
+
+Question: does any accessible source already contain ring-stability thresholds for the **tanh model**
+(pair interaction −ln tanh(d/2) on H², the Hamiltonian attributed to Kimura 1999)? Local copies were kept in
+the session scratchpad and are not committed. "Full text" means the whole PDF was obtained and the relevant
+sections were read; "abstract only" means nothing beyond the abstract was seen.
+
+## Verdict (short)
+
+- **OVERLAP FOUND: Boatto (2008) treats the tanh model numerically.** Boatto, "Curvature perturbations and
+  stability of a ring of vortices", DCDS-B 10 (2008) 349–375 (open full text from the publisher). For the
+  hyperbolic surface she uses the Green's function "ΨK = −(1/2π) ln tanh(√|K| r/2)" (her eq. after (14)) and the
+  Hamiltonian "HK<0 = c Σ ΓαΓβ ln((dαβ − 1)/(dαβ + 1))" with c = −1/4π (eq. (17)), where dαβ = cosh of the
+  geodesic distance in her Darboux coordinates (11), (19). That is exactly our model. She writes the Hessian of
+  the rotating-frame Hamiltonian as S̃ = [[Q, G], [Gᵀ, P]] with "Q and P … symmetric circulant matrices, while G
+  is an asymmetric circulant matrix" (§5, item b), i.e. the same Fourier-block structure with a
+  radial–tangential coupling that our Theorem 1 has. Her block eigenvalues are (44)–(45). She then says:
+  "we (numerically) monitor the maximum and the minimum eigenvalues of S̃ … For a given N, Figure 5 shows that
+  stability is guaranteed for sufficiently low K. In particular for N ≥ 7, we can only assure stability for
+  sufficiently negative K." Figure 5a plots the minimum Hessian eigenvalue against K ∈ [−0.6, 0.6] (ring of
+  geodesic radius r₀ = 1) for N = 5,…,9. Her explicit matrix entries (39)–(40) are written out only for the
+  spherical case ("The calculations for the hyperbolic case are done is a similar way").
+  **What overlaps with our note:** the model; the stability question as a function of curvature (equivalently,
+  of radius); the circulant/Fourier block structure with a non-zero skew coupling G; and the qualitative
+  conclusion that, on H², rings with N ≥ 8 are Hessian-definite only for sufficiently negative curvature
+  (sufficiently large radius). Her criterion is Hessian definiteness (Dirichlet), which is our energy–momentum
+  threshold ξ_EM, not the spectral threshold.
+  **What we did not find in it:** closed forms of the block entries (hers are finite trigonometric sums
+  evaluated numerically); any threshold value in closed form or to more than plotting accuracy; algebraicity,
+  degrees, minimal polynomials, palindromy or the ξ*(8) unit; the separation of spectral and
+  energy–momentum thresholds (the odd-N Krein window); the statement "N ≤ 7 stable at every radius" (her Fig.
+  5a is consistent with it on the range plotted); large-N asymptotics.
+  **Unreconciled detail.** Read by eye, the zero crossings in her Fig. 5a are at K ≈ −0.25 (N = 8) and
+  K ≈ −0.40 (N = 9). With r₀ = 1 the scale-free parameter is √|K| r₀, so our thresholds predict
+  K = −r*² = −0.282 (N = 8) and −0.489 (N = 9) (Table 1 of the note; the energy–momentum thresholds differ by
+  < 10⁻⁶). At K = −0.25, N = 8 our blocks give min a_m = −0.115 < 0 (indefinite). We have not found the cause
+  (normalisation of K or r₀ in the figure, plotting resolution, or an error on either side). Our values were
+  independently reproduced from the full Cartesian Hessian by a second reader (`tanh/review/`), so we keep them,
+  but a human should reproduce Boatto's Fig. 5a from her eqs. (11), (17), (19), (29).
+- **Montaldi & Nava-Gaxiola (2014)** and **Nava-Gaxiola's thesis (2013)**: full text; same (tanh/Kimura)
+  Hamiltonian; only N = 2, 3 analysed; no ring thresholds. Both send the reader to Hwang–Kim (2013) for rings.
+- **Hwang & Kim (2013)**: **abstract only**. Its abstract says "the configuration of rings of vortices is
+  investigated in detail"; the thesis says it gives "relative equilibria conditions for rings of vortices" with
+  the same Hamiltonian as ours. Whether it contains stability thresholds is **unknown**. This is the main
+  unread item.
+- **Kimura (1999)**: **abstract only**. The abstract mentions the Hamiltonian formalism on S² and H² and
+  dipole motion; nothing about rings.
+- **Boatto & Simó (2008)** "Thomson's heptagon: a case of bifurcation at infinity", Physica D 237: **not
+  obtained** (no open copy found). From Boatto (2008, Theorem 5.3, "see Boatto and Simó [5]") it concerns the
+  sphere and plane, not H².
+- **Boatto & Koiller**, "Vortices on closed surfaces", arXiv:0802.4313: full text searched; closed surfaces
+  only; H² appears only in a historical sentence; no ring thresholds.
+- **Montaldi & Tokieda (2013)**, arXiv:1210.5662v1, §4.2, p. 25 (full text): for G = log|z−w|²/|1+λzw̄|²,
+  "On the hyperbolic plane λ < 0 this reduces to the Hamiltonian adopted by Kimura [10]" and "The calculations
+  based on this option of Green's function get so cumbersome that the stability problem seems no longer
+  tractable analytically. It seems likely that the results are similar to those in section 3, though the details
+  of where the bifurcations occur will differ." They cite Boatto (2008) as [1] in the introduction ("part of it
+  has leaked into the literature [1]") but do not mention her hyperbolic computation in §4.2.
+
+**Consequence for the note.** "Likely new" can be claimed only for the exact/algebraic content (closed-form
+rational blocks, certified thresholds, minimal polynomials, palindromy, the unit, the Krein window, the
+asymptotic constant), and only subject to Hwang–Kim (2013), which remains unread. The stability question
+itself, the block structure and the qualitative N ≥ 8 picture are in Boatto (2008) and must be credited.
+
+## Per-source record (tanh model)
+
+| Source | Accessible? | Tanh-model ring thresholds? |
+|---|---|---|
+| Boatto, DCDS-B 10 (2008) 349–375, doi:10.3934/dcdsb.2008.10.349 | **Full text** (publisher PDF, bronze OA via aimsciences.org) | **Yes, numerically** (Fig. 5a, N = 5..9, Hessian definiteness). Same model; Q/P/G circulant block structure. No closed forms. See verdict. |
+| Montaldi & Nava-Gaxiola, J. Math. Phys. 55 (2014) 102702, arXiv:1403.2138 | **Full text** (arXiv) | No. N = 2, 3 only. Eq. (12) is Kimura's Hamiltonian: (⟨X,Y⟩+1)/(⟨X,Y⟩−1) with ⟨X,Y⟩ = −cosh d (eq. (2)), i.e. tanh²(d/2). Intro: "a more in-depth study is provided by Hwang and Kim [8]. In that paper, they present conditions for relative equilibria for rings of vortices on the hyperbolic plane". Credits Boatto [5] and MT [18] for "for N > 7 stability only occurs for negative curvature". |
+| Nava-Gaxiola, PhD thesis "Point vortices on the hyperboloid", Manchester 2013, eprints.maths.manchester.ac.uk/2022 | **Full text** (searched for ring/polygon/Hwang; intro read) | No. N = 2, 3 only. "In contrast with [11], the Hamiltonian used in [12] [Hwang–Kim 2013] coincides with the our choice of Hamiltonian." |
+| Hwang & Kim, J. Math. Phys. 54 (2013) 063101, doi:10.1063/1.4811454 | **Abstract only** (OpenAlex/Semantic Scholar: closed; AIP behind Cloudflare; not on arXiv; author page has no PDF) | **Unknown.** Rings "investigated in detail"; secondary sources mention only relative-equilibrium conditions. |
+| Hwang & Kim, J. Geom. Phys. 59 (2009) 475–488 | Not obtained (ScienceDirect returns an HTML challenge) | Per MNG and the thesis: three vortices, collapse; different Hamiltonian. Not a ring paper. |
+| Kimura, Proc. R. Soc. Lond. A 455 (1999) 245–259 | **Abstract only** | Abstract: Hamiltonian formalism on S²/H², first integrals, dipole geodesics. Nothing on rings in the abstract. |
+| Boatto & Simó, Physica D 237 (2008) | Not obtained | Sphere/plane (per Boatto 2008). |
+| Boatto & Koiller, arXiv:0802.4313 | Full text (searched) | No. |
+
+Searches (2026-10-11): arXiv API (title/author queries for Hwang–Kim, "hyperbolic sphere" vortices); OpenAlex
+and Semantic Scholar by DOI for open-access locations; web search for Hwang–Kim 2013 full text; S.-C. Kim's
+publication page (cau.ac.kr/~kimsc). Not searched: MathSciNet/zbMATH reviews of Hwang–Kim 2013, and papers
+citing Boatto (2008) or Hwang–Kim (2013) (e.g. Newton, "Point vortex dynamics in the post-Aref era", 2014).
+
+---
+
 # Item 01 — literature check (Rule L), 2026-10-07
 
 Scope: core claims C1–C4 (N-ring thresholds on H²). For each source: whether I obtained and read it,
@@ -47,7 +131,7 @@ and are not committed.
 | **Kimura, Y.** "Vortex motion on surfaces with constant curvature", Proc. R. Soc. Lond. A 455 (1999) 245–259, doi:10.1098/rspa.1999.0311 | **No** (403 / Cloudflare; no open copy found) | Per the two Montaldi-group sources: unified S²/H² formulation, tanh-type Hamiltonian on H², dipole motion (geodesic conjecture). Nothing on ring thresholds is reported by the secondary sources. **Unverified (Rule C): do not quote anything from Kimura directly.** |
 | **Hwang, S. & Kim, S.-C.** "Point vortices on hyperbolic sphere", J. Geom. Phys. 59 (2009) 475–488, doi:10.1016/j.geomphys.2009.01.003 | **No** (ScienceDirect 403) | Per Montaldi–Nava-Gaxiola and the thesis: fixed and relative equilibria of three vortices, collapse. Different Hamiltonian from the 2013 paper. |
 | **Hwang, S. & Kim, S.-C.** "Relative equilibria of point vortices on the hyperbolic sphere", J. Math. Phys. 54, 063101 (2013), doi:10.1063/1.4811454 | **Abstract only** (Crossref; AIP 403) | Abstract: "…In particular, the configuration of rings of vortices is investigated in detail." Per secondary sources: conditions for ring relative equilibria, any 2-vortex configuration is a relative equilibrium, Kimura's (tanh) Hamiltonian. **Unknown whether it contains a stability threshold.** If it does, it is for the tanh model and would bear on C5, not C1. Needs a human with journal access. |
-| **Boatto, S.** "Curvature perturbations and stability of a ring of vortices", DCDS-B 10 (2008) 349–375 (preprint mp_arc 06-311) | Abstract read; preprint PDF downloaded but its text is unextractable (Type-3 fonts); TeX source link returns HTTP 500 | Abstract: stability of N-gons as a function of N and curvature K, Dirichlet criterion; "Stability ranges are the K-intervals for which the Hessian … is positive or negative definite." Montaldi–Tokieda and Montaldi–Nava-Gaxiola credit it, jointly with Montaldi–Tokieda, for "N > 7 stable only for negative curvature". Its explicit formula and Green's function are **unverified**. It may well contain C1/C2 earlier than 2013. Treat as a probable prior source. |
+| **Boatto, S.** "Curvature perturbations and stability of a ring of vortices", DCDS-B 10 (2008) 349–375 (preprint mp_arc 06-311) | Abstract read; preprint PDF downloaded but its text is unextractable (Type-3 fonts); TeX source link returns HTTP 500 | Abstract: stability of N-gons as a function of N and curvature K, Dirichlet criterion; "Stability ranges are the K-intervals for which the Hessian … is positive or negative definite." Montaldi–Tokieda and Montaldi–Nava-Gaxiola credit it, jointly with Montaldi–Tokieda, for "N > 7 stable only for negative curvature". Its explicit formula and Green's function are **unverified**. It may well contain C1/C2 earlier than 2013. Treat as a probable prior source. **Update 2026-10-11:** the published version is open (see the tanh section at the top). On H² it uses the *tanh* Green's function, not the sinh one, and its results are numerical (Fig. 5a); so it is prior work for the tanh note, not for the sinh closed form. |
 | **Polvani, L. M. & Dritschel, D. G.** J. Fluid Mech. 255 (1993) 35–64 | Not read (paywalled) | Cited by Montaldi–Tokieda as the first linear-stability study of rings on **S²**. Nothing on H². |
 | **Boatto, S. & Cabral, H. E.** SIAM J. Appl. Math. 64 (2003) 216–230 | Not read | Cited by Montaldi–Tokieda as the nonlinear stability of a latitudinal ring on **S²** ("for spheres is due to [2]"). Nothing on H². |
 | **Laurent-Polz, Montaldi, Roberts** J. Geom. Mech. 3 (2011) 439–486 (arXiv math/0402430) | Located, not read in detail | S² symmetric relative equilibria. Not H². |

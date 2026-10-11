@@ -1,0 +1,7 @@
+beta=-1  N=8 cross -0.282185  N=9 cross -0.488698   rms(fig - model, K<0, N=6..9) = 0.582   median|resid| = 0.4048
+beta=0  N=8 cross -0.262016  N=9 cross -0.433595   rms(fig - model, K<0, N=6..9) = 0.338   median|resid| = 0.1994
+beta=0.75  N=8 cross -0.250096  N=9 cross -0.404983   rms(fig - model, K<0, N=6..9) = 0.209   median|resid| = 0.0571
+beta=0.9  N=8 cross -0.247953  N=9 cross -0.400072   rms(fig - model, K<0, N=6..9) = 0.196   median|resid| = 0.0306
+beta=1  N=8 cross -0.246563  N=9 cross -0.39692   rms(fig - model, K<0, N=6..9) = 0.192   median|resid| = 0.0077
+beta=1.1  N=8 cross -0.245202  N=9 cross -0.39386   rms(fig - model, K<0, N=6..9) = 0.191   median|resid| = 0.0115
+beta=1.25  N=8 cross -0.243214  N=9 cross -0.389431   rms(fig - model, K<0, N=6..9) = 0.197   median|resid| = 0.0412

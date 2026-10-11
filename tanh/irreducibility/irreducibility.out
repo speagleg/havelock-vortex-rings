@@ -1,0 +1,99 @@
+N=8: deg=10 (formula 10, Table 10)  lead=1 (Table 1)  const=1  content=1  palindromic=1  polisirreducible=1  real roots=2
+    mod 3: factor degrees [5, 5]
+    mod 5: factor degrees [2, 8]
+    mod 7: factor degrees [10]
+    mod 11: factor degrees [2, 2, 3, 3]
+    mod 13: factor degrees [1, 1, 8]
+    mod 17: factor degrees [1, 1, 8]
+    common proper sub-degrees over these primes: []  => irreducible over Q (independent of polisirreducible)
+    smallest p with p !| lead and f mod p irreducible: p = 7
+    C = xi + 1/xi has min poly g of degree 5, irreducible=1, g = C^5 - 12*C^4 - 42*C^3 - 24*C^2 + 32*C + 32
+N=9: deg=16 (formula 16, Table 16)  lead=4 (Table 4)  const=4  content=1  palindromic=1  polisirreducible=1  real roots=4
+    mod 7: factor degrees [2, 2, 4, 8]
+    mod 11: factor degrees [1, 1, 1, 1, 2, 2, 2, 2, 2, 2]
+    mod 13: factor degrees [16]
+    mod 17: factor degrees [6, 10]
+    mod 19: factor degrees [2, 2, 2, 2, 2, 2, 4]
+    mod 23: factor degrees [16]
+    common proper sub-degrees over these primes: []  => irreducible over Q (independent of polisirreducible)
+    smallest p with p !| lead and f mod p irreducible: p = 13
+    C = xi + 1/xi has min poly g of degree 8, irreducible=1, g = 4*C^8 - 24*C^7 - 112*C^6 + 8*C^5 + 336*C^4 + 205*C^3 - 194*C^2 - 216*C - 88
+N=10: deg=12 (formula 12, Table 12)  lead=7 (Table 7)  const=7  content=1  palindromic=1  polisirreducible=1  real roots=4
+    mod 3: factor degrees [3, 3, 6]
+    mod 11: factor degrees [4, 8]
+    mod 13: factor degrees [2, 2, 8]
+    mod 17: factor degrees [2, 5, 5]
+    mod 19: factor degrees [4, 8]
+    mod 23: factor degrees [1, 1, 2, 2, 6]
+    common proper sub-degrees over these primes: []  => irreducible over Q (independent of polisirreducible)
+    smallest p with p !| lead and f mod p irreducible: p = 107
+    C = xi + 1/xi has min poly g of degree 6, irreducible=1, g = 7*C^6 - 29*C^5 - 96*C^4 + 27*C^3 + 112*C^2 + 51*C + 25
+N=11: deg=20 (formula 20, Table 20)  lead=10 (Table 10)  const=10  content=1  palindromic=1  polisirreducible=1  real roots=4
+    mod 7: factor degrees [6, 7, 7]
+    mod 13: factor degrees [2, 18]
+    mod 17: factor degrees [20]
+    mod 19: factor degrees [1, 1, 1, 1, 5, 5, 6]
+    mod 23: factor degrees [2, 2, 2, 7, 7]
+    mod 29: factor degrees [1, 1, 2, 2, 14]
+    common proper sub-degrees over these primes: []  => irreducible over Q (independent of polisirreducible)
+    smallest p with p !| lead and f mod p irreducible: p = 17
+    C = xi + 1/xi has min poly g of degree 10, irreducible=1, g = 10*C^10 - 20*C^9 - 186*C^8 - 4*C^7 + 728*C^6 + 343*C^5 - 814*C^4 - 470*C^3 + 56*C^2 - 41*C - 58
+N=12: deg=16 (formula 16, Table 16)  lead=7 (Table 7)  const=7  content=1  palindromic=1  polisirreducible=1  real roots=2
+    mod 5: factor degrees [8, 8]
+    mod 11: factor degrees [16]
+    mod 13: factor degrees [16]
+    mod 17: factor degrees [2, 7, 7]
+    mod 19: factor degrees [1, 1, 7, 7]
+    mod 23: factor degrees [4, 6, 6]
+    common proper sub-degrees over these primes: []  => irreducible over Q (independent of polisirreducible)
+    smallest p with p !| lead and f mod p irreducible: p = 11
+    C = xi + 1/xi has min poly g of degree 8, irreducible=1, g = 7*C^8 - 8*C^7 - 99*C^6 - 40*C^5 + 233*C^4 + 120*C^3 - 117*C^2 + 24*C + 24
+N=13: deg=24 (formula 24, Table 24)  lead=18 (Table 18)  const=18  content=1  palindromic=1  polisirreducible=1  real roots=4
+    mod 5: factor degrees [1, 1, 2, 2, 2, 6, 10]
+    mod 11: factor degrees [8, 8, 8]
+    mod 17: factor degrees [4, 4, 5, 5, 6]
+    mod 19: factor degrees [12, 12]
+    mod 23: factor degrees [1, 1, 2, 2, 18]
+    mod 29: factor degrees [3, 3, 9, 9]
+    common proper sub-degrees over these primes: []  => irreducible over Q (independent of polisirreducible)
+    smallest p with p !| lead and f mod p irreducible: p = 101
+    C = xi + 1/xi has min poly g of degree 12, irreducible=1, g = 18*C^12 - 12*C^11 - 302*C^10 - 68*C^9 + 1482*C^8 + 740*C^7 - 2890*C^6 - 1481*C^5 + 2360*C^4 + 622*C^3 - 946*C^2 + 7*C - 10
+N=14: deg=18 (formula 18, Table 18)  lead=23 (Table 23)  const=23  content=1  palindromic=1  polisirreducible=1  real roots=4
+    mod 3: factor degrees [18]
+    mod 5: factor degrees [2, 4, 6, 6]
+    mod 11: factor degrees [1, 1, 2, 14]
+    mod 13: factor degrees [4, 14]
+    mod 17: factor degrees [3, 3, 6, 6]
+    mod 19: factor degrees [9, 9]
+    common proper sub-degrees over these primes: []  => irreducible over Q (independent of polisirreducible)
+    smallest p with p !| lead and f mod p irreducible: p = 3
+    C = xi + 1/xi has min poly g of degree 9, irreducible=1, g = 23*C^9 - 29*C^8 - 261*C^7 + 82*C^6 + 784*C^5 - 27*C^4 - 815*C^3 + 71*C^2 + 342*C - 49
+N=15: deg=28 (formula 28, Table 28)  lead=28 (Table 28)  const=28  content=1  palindromic=1  polisirreducible=1  real roots=4
+    mod 11: factor degrees [1, 1, 26]
+    mod 13: factor degrees [5, 5, 18]
+    mod 17: factor degrees [1, 1, 5, 5, 8, 8]
+    mod 19: factor degrees [2, 2, 2, 4, 4, 4, 10]
+    mod 23: factor degrees [1, 1, 4, 5, 5, 6, 6]
+    mod 29: factor degrees [28]
+    common proper sub-degrees over these primes: []  => irreducible over Q (independent of polisirreducible)
+    smallest p with p !| lead and f mod p irreducible: p = 29
+    C = xi + 1/xi has min poly g of degree 14, irreducible=1, g = 28*C^14 - 472*C^12 - 208*C^11 + 2736*C^10 + 1696*C^9 - 7240*C^8 - 4839*C^7 + 9514*C^6 + 5932*C^5 - 6432*C^4 - 3340*C^3 + 2008*C^2 + 672*C - 304
+N=16: deg=22 (formula 22, Table 22)  lead=17 (Table 17)  const=17  content=1  palindromic=1  polisirreducible=1  real roots=2
+    mod 3: factor degrees [11, 11]
+    mod 5: factor degrees [2, 6, 14]
+    mod 7: factor degrees [10, 12]
+    mod 11: factor degrees [7, 7, 8]
+    mod 13: factor degrees [2, 2, 3, 3, 4, 8]
+    mod 19: factor degrees [3, 3, 3, 3, 10]
+    common proper sub-degrees over these primes: []  => irreducible over Q (independent of polisirreducible)
+    smallest p with p !| lead and f mod p irreducible: p = 163
+    C = xi + 1/xi has min poly g of degree 11, irreducible=1, g = 17*C^11 + 4*C^10 - 224*C^9 - 144*C^8 + 886*C^7 + 664*C^6 - 1384*C^5 - 1024*C^4 + 872*C^3 + 672*C^2 - 128*C - 128
+
+N=8: f8 monic=1, constant term=1, irreducible=1
+     => xi*(8) is an algebraic integer whose norm is +-1, i.e. a unit
+     g8 equals the note's C^5-12C^4-42C^3-24C^2+32C+32: 1
+     |roots| of f8: [0.067355999999999999999999999999999999998, 0.76015999999999999999999999999999999998, 0.76015999999999999999999999999999999998, 0.99999999999999999999999999999999999997, 0.99999999999999999999999999999999999997, 0.99999999999999999999999999999999999997, 0.99999999999999999999999999999999999997, 1.3155120000000000000000000000000000000, 1.3155120000000000000000000000000000000, 14.846438000000000000000000000000000000]~
+     real root in (0,1): 0.067356223004081262268437476566235574394
+N=9..16: lead coefficients [4, 7, 10, 7, 18, 23, 28, 17], all contents 1 and all irreducible (above):
+     by Gauss's lemma the monic minimal polynomial f_N/lead is not in Z[x], so xi*(N) is not an algebraic integer.
+ALL CHECKS PASS

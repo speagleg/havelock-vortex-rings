@@ -20,11 +20,11 @@
 \newcommand{\code}[1]{\path{#1}}
 
 \title{Stability of the regular $n$-gon of point vortices at its bifurcation point:\\
-a proof of the Montaldi--Tokieda conjecture}
+completing the proof of the Montaldi--Tokieda conjecture}
 \author{Gordon Speagle\\
 Independent Researcher, Boise, ID, USA\\
 \texttt{gspeagle@gmail.com}}
-\date{Draft, 10 October 2026}
+\date{Draft, 11 October 2026}
 
 \begin{document}
 \maketitle
@@ -33,20 +33,26 @@ Independent Researcher, Boise, ID, USA\\
 Montaldi and Tokieda studied a one-parameter family of point-vortex systems on the sphere, the plane and
 the hyperbolic plane, and showed that a regular ring of $n\ge4$ identical vortices loses stability at an
 explicit bifurcation value $b_n$ of the curvature parameter. They conjectured that the ring is still
-stable \emph{at} $b_n$ (their Conjecture~13), and proved it for even $n$ and for $n=3,5,7,9,11$. We prove it
-for every $n$. The ring at $b_n$ is Lyapunov stable modulo rotations about its centre, for all small
-perturbations, including those that change the momentum. The proof has three parts.
+stable \emph{at} $b_n$ (their Conjecture~13), in the sense of Lyapunov stability modulo rotations. They
+proved it for all even $n$, where the sign of the decisive quartic coefficient is settled by a Maple
+positivity check, and for $n=3,5,7,9,11$, where the odd-$n$ coefficients are evaluated numerically. We give
+the first proof for odd $n\ge13$. Our argument is uniform in $n$, so it also re-proves the cases $4\le n\le11$
+by a different route. Stability is Lyapunov stability modulo rotations about the ring's centre, obtained by
+an energy--momentum argument on the momentum level set, and it holds for all small perturbations,
+including those that change the momentum. The proof has three parts.
 (i) A spectral computation. In log-polar coordinates the reduced Hessian at $b_n$ is block-diagonal and
 independent of the geometry, and its kernel is exactly the critical Fourier mode.
-(ii) The effective quartic coefficient $c_4$ of the reduced Hamiltonian along that kernel, computed on the
-momentum level set. We find
+(ii) Exact closed forms, for all $n$, for the quartic coefficient $c_4$ of the reduced Hamiltonian along
+that kernel, after the transverse directions are eliminated on the momentum level set:
 $c_4=(n-2)(m^4+40m^2+48m+16)/(192n(n-1))$ with $m=n-2$ for even $n$, and
-$c_4=(n-1)(n-3)(n^2-9n+38)/(128n)$ for odd $n$. Both are positive.
+$c_4=(n-1)(n-3)(n^2-9n+38)/(128n)$ for odd $n\ge5$. These replace Montaldi and Tokieda's Maple check (even
+$n$) and numerical checks (odd $n\le11$). Positivity is immediate once the formulas are known; the work is
+in deriving them.
 (iii) A self-contained energy--momentum argument for degenerate (quartic) minima. It works for the
 noncompact groups $SE(2)$ and $PSL(2,\R)$, and for the plane's affine momentum map.
-Along the way we point out that the published argument evaluates the quartic on a linear slice rather than
-on the level set, and that this changes its value (for example $6/7$ versus $9/14$ at $n=7$). Montaldi and
-Tokieda's conclusions are nevertheless correct. All verification so far has been by AI readers and
+The algebra that turns the computed series coefficients into the closed forms is checked in Lean~4.
+We also record remarks on intermediate steps of the published argument; Montaldi and
+Tokieda's conclusions are correct. All verification so far has been by AI readers and
 computer checks; no human specialist has yet reviewed the argument.
 \end{abstract}
 
@@ -97,7 +103,8 @@ So $b_4=2-\sqrt3$, $b_5$ and $b_6=9-4\sqrt5$ are positive (sphere). The value $b
 this is the Thomson heptagon. For $n\ge8$, $b_n<0$ (hyperbolic plane); for example $b_8=-(8-3\sqrt7)$.
 Throughout, $|b_n|<1$.
 
-\paragraph{The conjecture.} Montaldi and Tokieda define stability as follows~\cite[p.~9]{MT}:
+\paragraph{The conjecture.} Page numbers for~\cite{MT} refer to arXiv:1210.5662v1. Montaldi and Tokieda
+define stability as follows~\cite[p.~10]{MT}:
 ``The precise sense of stability we are adopting is like the ordinary one of Lyapunov stability, but in
 terms of $G_\mu$-invariant open sets, where $\mu$ is the momentum value at the trajectory and $G_\mu$ is
 the stabilizer of $\mu$: in detail, for every $G_\mu$-invariant neighbourhood $V$ of the trajectory, there
@@ -110,10 +117,26 @@ modulo rotations (same as orbital stability in our situation).'' Then, on p.~23:
 Above, we have proved this for all even $n$ and for $n = 3, 5, 7, 9, 11$.
 \end{quote}
 
-\paragraph{What was known.} For odd $n$ the argument in~\cite{MT} rests on numerical evaluation of
-three Taylor coefficients $\beta,\gamma,\delta$ for $n=5,7,9,11$. The authors write that ``the awkward
-trigonometric expressions prevented us (and Maple) from reaching closed forms for $\gamma$ and $\delta$''.
-So odd $n\ge13$ (all in the hyperbolic plane) remained open. The case $n=7$ is the Thomson heptagon. Its
+\paragraph{The notion of stability.} Throughout, ``stable'' means Lyapunov stability modulo rotations
+about the ring's centre, in the sense of~\cite[p.~10, p.~15]{MT} just quoted (Theorem~\ref{thm:main} states it
+precisely). We obtain it by the energy--momentum method: the reduced Hamiltonian on the momentum level set
+$J^{-1}(\mu)/K$ has a strict, but degenerate (quartic), local minimum, and Section~\ref{sec:nonlinear} turns
+this into Lyapunov stability modulo $K$ in the full phase space.
+
+\paragraph{What was known.} Montaldi and Tokieda~\cite{MT} proved Conjecture~13 for all even $n$ and for
+$n=3,5,7,9,11$, as quoted above. For even $n$~\cite[\S3.5.1, pp.~20--21]{MT}, the cubic term vanishes on the
+slice (their Lemma~10), and the $t^4$ coefficient along the critical mode is a positive multiple of a
+bracket $T$. Substituting the two roots of the threshold relation gives two values $T_1,T_2$, and closed
+forms for $T_1+T_2$ and $T_1T_2$, both manifestly positive for $m=n-2\ge0$, are obtained ``using Maple!''
+(p.~21). For odd $n$~\cite[\S3.5.2, pp.~22--23]{MT}, the criterion involves three
+coefficients $\beta,\gamma,\delta$. The coefficient $\beta$ has a closed form, while ``the awkward
+trigonometric expressions prevented us (and Maple) from reaching closed forms for $\gamma$ and $\delta$''
+(p.~23). The coefficients are evaluated numerically for $n=5,9,11$. For $n=7$ they are found with Maple
+as rational multiples of $1/\pi r_0^k$, which are ``correct to a high degree of precision---but we have no
+proof that they are rational multiples of $1/\pi r_0^k$''; the sign of $\beta\delta-\gamma^2$ is then
+certain. Their case
+$n=3$ rests on their statement (p.~15) that ``the ring of $n=3$ vortices is always nonlinearly stable''. So
+odd $n\ge13$ (all in the hyperbolic plane) remained open. The case $n=7$ is the Thomson heptagon. Its
 nonlinear stability was proved by Kurakin and Yudovich~\cite{KY} (we have read only the abstract) and by
 Schmidt~\cite{Schmidt}; Montaldi--Tokieda recover it~\cite[Cor.~7]{MT}. For the sphere at the critical
 latitude ($n=4,5,6$), Borisov and Kilin~\cite{BK} wrote that the problem ``requires separate analysis with
@@ -123,15 +146,20 @@ sphere. We have not read those papers and make no claim about their content.
 
 \paragraph{Contributions.}
 \begin{enumerate}
-\item A proof of Conjecture~13 for all $n$ (Theorem~\ref{thm:main}), in Montaldi--Tokieda's sense, and
-for perturbations of arbitrary (nearby) momentum.
-\item Closed forms for the effective quartic coefficient on the momentum level set, for every even and
-every odd $n$ (Theorems~\ref{thm:even} and~\ref{thm:odd}). The odd case answers the closed-form question
-left open in~\cite{MT}.
+\item The first proof of Conjecture~13 for odd $n\ge13$. Together with~\cite{MT} this settles the
+conjecture for all $n$. Our proof (Theorem~\ref{thm:main}) is uniform for all $n\ge4$, so it gives an
+independent proof of the cases $4\le n\le11$ already proved in~\cite{MT}. Stability is in
+Montaldi--Tokieda's sense, and it holds for perturbations of arbitrary (nearby) momentum.
+\item Exact closed forms for the reduced quartic coefficient $c_4$, for every even and every odd $n$
+(Theorems~\ref{thm:even} and~\ref{thm:odd}). They replace the Maple positivity check of~\cite{MT} for even
+$n$ and their numerical evaluations for odd $n=5,7,9,11$. Once the formulas are known, positivity is
+immediate (Remark~\ref{rem:positivity}); the content is the derivation.
 \item A self-contained nonlinear-stability argument for degenerate minima that covers the noncompact groups
 involved, including the plane with its affine momentum map (Section~\ref{sec:nonlinear}).
-\item Three precise remarks on the published argument (Section~\ref{sec:remarks}). None of them changes
-any conclusion of~\cite{MT}.
+\item A Lean~4 check of the algebra that leads from the computed series coefficients to the closed forms
+and to Table~\ref{tab:c4} (Section~\ref{sec:limits}, which states exactly what is and is not formalised).
+\item Remarks on intermediate steps of the published argument, stated so that each can be
+checked against~\cite{MT} (Section~\ref{sec:remarks}). None of them changes any conclusion of~\cite{MT}.
 \end{enumerate}
 
 %======================================================================
@@ -150,16 +178,20 @@ $\operatorname{dist}(x(t),K\cdot x_0)<\varepsilon$. No restriction is placed on 
 
 Since $K$ is compact, $K$-invariant neighbourhoods of the (compact) relative-equilibrium orbit $K\cdot x_0$
 are cofinal among all of its neighbourhoods. So Theorem~\ref{thm:main} is exactly stability in the sense
-of~\cite[p.~9]{MT} quoted above. It also implies stability modulo the full group $G_\lambda$.
+of~\cite[p.~10]{MT} quoted above. It also implies stability modulo the full group $G_\lambda$.
 
 \begin{corollary}
 Conjecture~13 of~\cite{MT} holds for every $n\ge4$. Together with the case $n=3$, which~\cite{MT} state is
-always nonlinearly stable, it holds for all $n$.
+always nonlinearly stable~\cite[p.~15]{MT}, it holds for all $n$.
 \end{corollary}
 
-For $n=3$, equation~\eqref{eq:bn} has its only root at $b=1$ (the equator), where Montaldi--Tokieda's
-statement applies; we do not re-prove it. The new content is odd $n\ge13$, together with complete proofs
-for the other $n$ (see Section~\ref{sec:remarks}).
+For $n=3$, equation~\eqref{eq:bn} has its only root at $b=1$ (the equator). There the momentum value is
+fixed by all of $SO(3)$, the hypothesis $|b|<1$ used throughout fails, and the critical mode is $m=1$,
+which meets the momentum directions. Consistently with this, the odd-$n$ formula of
+Theorem~\ref{thm:odd} gives $c_4=0$ at $n=3$, so it cannot decide that case, and its derivation assumes
+$n\ge5$ in any case. We rely on Montaldi--Tokieda's statement for $n=3$ and do not re-prove it. For
+$n\ge4$ the new content is odd $n\ge13$; for $4\le n\le11$, Theorem~\ref{thm:main} is an independent proof
+of results already in~\cite{MT}.
 
 \paragraph{Structure of the proof.} Section~\ref{sec:setup} shows that the reduced Hessian at $b_n$ is
 positive semidefinite, with kernel equal to the radial part of the critical Fourier mode
@@ -472,6 +504,27 @@ $n\ne7$. The denominator does not vanish modulo the relation unless $n=7$. Direc
 $\lambda=0$, $n=7$ gives $9/14$, which agrees with the formula.
 \end{proof}
 
+\begin{remark}[Where the difficulty lies]\label{rem:positivity}
+Once the closed forms are known, $c_4>0$ is immediate. For even $n$ every term of
+$(n-2)(m^4+40m^2+48m+16)$ is positive for $m=n-2\ge2$. For odd $n$, $n^2-9n+38$ has discriminant $-71$, and
+$(n-1)(n-3)>0$ for $n\ge5$. The content of Theorems~\ref{thm:even} and~\ref{thm:odd} is the derivation of
+$c_4$, in particular the evaluation of the root-of-unity sums for general $n$, which~\cite[p.~23]{MT} could
+not carry out in closed form. The odd formula vanishes at $n=3$, because of the factor $n-3$. This is
+consistent with $n=3$ being a different situation (bifurcation at the equator, $b=1$), which needs, and
+in~\cite{MT} receives, separate treatment; see the remark after the Corollary in Section~\ref{sec:main}.
+\end{remark}
+
+\begin{remark}[What $c_4$ is, for odd $n$]\label{rem:reduced}
+For odd $n$, $c_4$ is not the quartic coefficient of $H$ along the kernel (the analogue of Montaldi and
+Tokieda's $\delta$). It is the quartic coefficient of the reduced Hamiltonian after the mode-$1$ direction
+has been eliminated: the amplitude $p$ (radial) and $s$ (tangential) of the slaved mode-$1$ displacement are
+fixed by minimisation and by the constraint $J_1=0$. Mode $1$ is where Montaldi and Tokieda's $V_1'$ lies,
+and their criterion uses the analogous reduced combination of $\delta$, $\gamma$ and $\beta$ (with Lemma~8's
+weights, $\delta-3\gamma^2/\beta$; see Section~\ref{sec:remarks}). The difference is that $c_4$ is computed
+on the level set $J^{-1}(\mu)$, so it also contains the curvature term $\tfrac14Q''(w_0)$ in the $J_1$
+constraint, which a computation on the linear slice omits.
+\end{remark}
+
 \begin{remark}
 The odd-$n$ derivation was done symbolically in $n$ and $\lambda$ by a second AI reader. It was then audited
 step by step by a third reader: the coordinate change, the decoupling, completeness of the ansatz
@@ -528,8 +581,9 @@ $n$ & $b_n$ & geometry & $c_4$ (level set) & decimal & linear slice (numerical)\
 \end{tabular}
 \caption{Level-set effective quartic $c_4$ (Definition~\ref{def:c4}; $r_0=1$, $H$ as in~\eqref{eq:H},
 Euclidean-unit kernel vector). All 22 rational values were confirmed by the exact $\mathrm{GF}(p)$
-Cartesian KKT computation. The last column is the quartic on the linear slice (the quantity used
-in~\cite{MT}; see Section~\ref{sec:remarks}). It differs from $c_4$ in every case.}
+Cartesian KKT computation. The last column is the slaved quartic on the linear slice $x_0+N$, the
+quantity that the computation of~\cite[\S3.5]{MT} evaluates (Section~\ref{sec:remarks}, P1 and P2). It
+differs from $c_4$ in every case, and is positive in every case.}
 \label{tab:c4}
 \end{table}
 
@@ -740,59 +794,159 @@ action (equation~\eqref{eq:bracket}: $\{J_1,J_2\}=n/2$ is a cocycle). In the cen
 it equivariant, the centre acts trivially, so the action is not free. So~\cite{PRW} does not apply
 verbatim, and the self-contained Theorem~\ref{thm:abstract} is what covers $n=7$.
 
-\paragraph{Montaldi 1997.} Montaldi--Tokieda's Proposition~9 relies on~\cite{Montaldi97}, whose setting
+\paragraph{Montaldi 1997.} Montaldi--Tokieda's Proposition~9 relies on~\cite{Montaldi97} (cited as
+``cf.~[17]'' in its proof~\cite[p.~20]{MT}, and as ``[17, Theorem~1.2]'' on p.~10), whose setting
 is a compact group. For the sphere it applies, provided it is used on the reduced Hamiltonian, i.e.\ with
 the level-set quartic, rather than on the linear slice. We have read only that paper's abstract and the way
-it is quoted in~\cite[p.~9]{MT}; we rely on it nowhere. Montaldi and Rodr\'\i guez-Olmos~\cite{MRO} treat
+it is quoted in~\cite[pp.~10, 20]{MT}; we rely on it nowhere. Montaldi and Rodr\'\i guez-Olmos~\cite{MRO} treat
 noncompact groups, but under formal stability (a definite Hessian on the symplectic normal space), so the
 degenerate case is not covered verbatim. As stated, the published route covers neither $SE(2)$ nor
 $PSL(2,\R)$, nor the degenerate case.
 
 %======================================================================
-\section{Remarks on the published argument}\label{sec:remarks}
-%======================================================================
+\section{Remarks on intermediate steps of the published argument}\label{sec:remarks}
 
 Montaldi and Tokieda's conclusions (stability at $b_n$ for even $n$ and for $n=3,5,7,9,11$) are correct,
 and our results confirm them. Their framework (the deformation family, the Fourier blocks, the identification
 of $b_n$ and the critical modes, the invariant-theoretic Proposition~12) is what makes the present proof
-possible. The three points below concern intermediate steps only. We record them so that the argument can
-be cited with confidence.
+possible. The remarks below concern intermediate steps of~\cite[\S3.5]{MT} only. We state each with page and
+equation numbers of~\cite{MT} (arXiv:1210.5662v1), so that it can be checked line by line. The scripts are
+in \code{conj13/review/}.
 
-\paragraph{P1: linear slice versus level set.} In~\cite[Prop.~9]{MT}, Lemma~8 is applied to the augmented
-Hamiltonian on a symplectic slice $N$. The proof states that ``the hypotheses of Lemma~8 applied on $M_\mu$
-are equivalent to the same hypotheses applied on $N$''. This holds to second order. Beyond second order it
-fails when the kernel is degenerate, for the reason explained in Section~\ref{sec:quartic}: a curve in
-$M_\mu$ lifts to a curve tangent to $N$, but its second-order part leaves $N$ along the radial mode-$0$
-direction. Lemma~10 and Proposition~12(iii) of~\cite{MT} discard that direction because $V_0\cap N=\{0\}$.
-The effect on the quartic is not small:
+\paragraph{Normalisation dictionary.} Montaldi and Tokieda's augmented Hamiltonian is
+$\widehat H_\lambda=H_\lambda-\omega\sum_j\kappa|z_j|^2/\sigma_j$ with
+$H_\lambda=-\frac{\kappa^2}{4\pi}\sum_{i<j}\log\frac{|z_i-z_j|^2}{\sigma_i\sigma_j}$~\cite[p.~8]{MT}.
+With $\kappa=1$, $r_0=1$ and $\omega=\omega_0$ of~\cite[(2.1)]{MT}, this is $\widehat H=F/(4\pi)$, where
+$F=H-\omega_0J_3$ is as in Section~\ref{sec:setup}. Their Fourier vectors~\cite[(2.5)]{MT} are
+$\alpha_r^{(\ell)}=\sum_j\cos(2\pi\ell j/n)\,\delta r_j$ (and similarly $\beta_r^{(\ell)}$,
+$\alpha_\theta^{(\ell)}$, $\beta_\theta^{(\ell)}$), with $\delta r_j$ the unit radial vector at vortex $j$, so
+they have Euclidean length $(n/2)^{1/2}$ for $0<\ell<n/2$. On $V_c=\operatorname{Ker}B$~\cite[p.~22]{MT},
+$z=x+iy$ are coordinates with respect to $\alpha_r^{(l)},\beta_r^{(l)}$, $l=(n-1)/2$; hence
+$x=(2/n)^{1/2}\varepsilon$, with $\varepsilon$ our coordinate along $e$ (Definition~\ref{def:c4}). On $V_1'$,
+$w=u+iv$ are coordinates with respect to the basis~\cite[(2.8)]{MT}, whose first vector is
+$v_1=\sigma\alpha_r^{(1)}-\widetilde\sigma\beta_\theta^{(1)}$, with $\sigma=1+\lambda r_0^2$ and
+$\widetilde\sigma=1-\lambda r_0^2$. With $B=d^2\widehat H$, $C=d^3\widehat H$, $D=d^4\widehat H$ at the ring, as
+in Lemma~8~\cite[p.~19]{MT}, and $\alpha=\alpha_r^{(l)}$,
+\begin{equation}\label{eq:dict}
+\begin{gathered}
+\beta=B(v_1,v_1)=\frac{n(n-1)\widetilde\sigma^2}{4\pi},\qquad
+\gamma=C(\alpha,\alpha,v_1)=\frac{\partial^3\widehat H}{\partial x^2\partial u},\\
+\delta=D(\alpha,\alpha,\alpha,\alpha)=\frac{24}{4\pi}\Big(\frac n2\Big)^2q_4=\frac{3n^2}{2\pi}\,q_4 .
+\end{gathered}
+\end{equation}
+The formula for $\beta$ is~\cite[(2.10) and p.~23]{MT}. Here $q_4$ is the $\varepsilon^4$ coefficient of $F$
+along the straight line $x_0+\varepsilon e$, with no slaving (the \emph{unslaved quartic}; $q_4=51/28$ at
+$n=7$). We checked~\eqref{eq:dict} by evaluating $B$, $C$, $D$ directly in Montaldi and Tokieda's
+normalisation (60-digit finite differences, \code{review/p2_mt_coeffs.py}). At $n=7$ this gives
+$\beta=21/(2\pi)$, $\gamma=63/(4\pi)$ and $\delta=1071/(8\pi)$, exactly the printed values~\cite[p.~23]{MT}. At
+$n=9$ it gives $6.946$, $13.839$, $182.435$ (printed: $6.9$, $13.8$, $182.4$), and at $n=11$ it gives
+$12.015$, $29.704$, $555.141$ (printed: $12.0$, $29.7$, $555.1$). So the printed $\gamma$ is $C(\alpha,\alpha,v_1)$,
+and the trilinear term is $C(a,a,b)=\gamma\operatorname{Re}(z^2w)$ for $a=x\alpha+y\beta_r^{(l)}$ and
+$b=uv_1+vv_2$. (The text before~(3.9) writes $Ca^2b=\gamma(z^2w+\bar z^2\bar w)$ and
+$\gamma=\tfrac14\,\partial^3(Ca^2b)/\partial x^2\partial u=\tfrac32\,\partial^3\widehat H/\partial x^2\partial u$.
+These normalise $\gamma$ differently from the printed numbers, by constant factors. The ratio test below uses
+only the printed numbers.)
+
+With~\eqref{eq:dict}, Lemma~8's quantity for $a\in V_c$ and $b\in V_1'$ is
+\begin{equation}\label{eq:lemma8}
+Da^4+6Ca^2b+3Bb^2=\delta|z|^4+6\gamma\operatorname{Re}(z^2w)+3\beta|w|^2,\qquad
+\min_w(\cdots)=\Big(\delta-\frac{3\gamma^2}{\beta}\Big)|z|^4 .
+\end{equation}
+This is $24$ times the minimum over $w$ of the Taylor polynomial
+$\tfrac1{24}\delta|z|^4+\tfrac12\gamma\operatorname{Re}(z^2w)+\tfrac12\beta|w|^2$ of $\widehat H$ on $N$. In our
+units, therefore,
+\begin{equation}\label{eq:dictlin}
+\delta-\frac{3\gamma^2}{\beta}=\frac{3n^2}{2\pi}\,c_4^{\rm lin},
+\end{equation}
+where $c_4^{\rm lin}$ is the slaved quartic on the linear slice $x_0+N$ (last column of Table~\ref{tab:c4}).
+
+\paragraph{P1: linear slice versus level set.} Proposition~9~\cite[p.~20]{MT} applies Lemma~8 ``with
+$\mathbb R^n$ replaced by $N$ and $f$ by $\widehat H$''. Its proof ends: ``The claim now follows because the
+hypotheses of Lemma~8 applied on $M_\mu$ are equivalent to the same hypotheses applied on $N$.'' The
+equivalence holds for the second-order hypothesis ($B\ge0$, with the same kernel). For the quartic hypothesis
+with degenerate $B$ it does not hold in general, for the reason given in Section~\ref{sec:quartic}. A curve in
+$M_\mu$ lifts to a curve in $J^{-1}(\mu)$ tangent to $N$, but its second-order part leaves $N$, chiefly along
+the radial part of $V_0$, and that component couples to $a^2$ at cubic order. Lemma~10~\cite[p.~20]{MT} and
+Proposition~12(iii)~\cite[p.~22]{MT} set the coupling to $V_0$ aside because $V_0\cap N=\{0\}$. That is
+correct on $N$, and it is what makes the computation a linear-slice one. For even $n$, Lemma~10 makes the
+straight-line $t^4$ coefficient of~\cite[p.~21]{MT} the linear-slice quartic. For odd $n$, the printed
+numbers evaluate the linear-slice quantity, by~\eqref{eq:dictlin} and the ratio test below. The two
+quantities differ:
 \[
-n=7:\ \ c_4=\tfrac9{14}\ \text{(level set)}\ \text{vs.}\ \tfrac67\ \text{(linear slice)};\qquad
-n=8:\ \ c_4=\tfrac{95}{56}=1.6964\ \text{vs.}\ 2.2779 .
+n=7:\ \ c_4=\tfrac9{14}\ \text{(level set)}\ \text{vs.}\ c_4^{\rm lin}=\tfrac67;\qquad
+n=8:\ \ c_4=\tfrac{95}{56}=1.6964\ \text{vs.}\ c_4^{\rm lin}=2.2779 .
 \]
-Table~\ref{tab:c4} shows the difference for all $n$ computed. The linear-slice value is smaller for
-$n=4,5$ and larger for $n\ge6$, so a linear-slice computation could in principle report ``stable'' when
-the reduced Hamiltonian is not a minimum. For the vortex ring both quantities turn out positive, so no
-conclusion of~\cite{MT} changes.
+Table~\ref{tab:c4} shows the difference for every $n$ computed. The linear-slice value is smaller for
+$n=4,5$ and larger for $n\ge6$, so in principle a linear-slice computation could report stability when the
+reduced Hamiltonian has no minimum. For the vortex ring both quantities are positive at every $n$ in
+Table~\ref{tab:c4}, and $c_4>0$ for all $n$, so no conclusion of~\cite{MT} changes.
 
-\paragraph{P2: the factor $3$ in (3.9).} Lemma~8 of~\cite{MT} requires
-$Da^4+6Ca^2b+3Bb^2>0$. In (3.9), the completed square is written as
-$\delta|z|^4+2\gamma\operatorname{Re}(z^2w)+\beta|w|^2$, with positivity iff $\beta\delta>\gamma^2$. With
-the normalisations of $\beta,\gamma,\delta$ used for the printed values, the weights of Lemma~8 give the
-criterion $\delta-3\gamma^2/\beta>0$, i.e.\ $\beta\delta>3\gamma^2$.
+\paragraph{P2: the weights of Lemma~8 in~(3.9).} Lemma~8~\cite[p.~19]{MT} requires $Ca^3=0$ and
+$Da^4+6Ca^2b+3Bb^2>0$. On p.~23, ``the key quantity $Da^4+Ca^2b+Bb^2$ becomes, on completing the square,''
+\[
+\delta|z|^4+2\gamma\operatorname{Re}(z^2w)+\beta|w|^2
+=\delta\Big|z^2+\frac\gamma\delta\bar w\Big|^2+\frac{\beta\delta-\gamma^2}{\delta}|w|^2
+\qquad\text{\cite[(3.9)]{MT}},
+\]
+and the criterion is stated as $\beta\delta>\gamma^2$. This omits the weights $6$ and $3$ of Lemma~8. With the
+dictionary above, the weighted quantity is~\eqref{eq:lemma8}, so the criterion becomes
+$\delta-3\gamma^2/\beta>0$, i.e.\ $\beta\delta>3\gamma^2$.
 
-Here is the check. With the printed $n=7$ values $\beta=21/2$, $\gamma=63/4$, $\delta=1071/8$ (in units
-of $\pi r_0^k$), $(\delta-3\gamma^2/\beta)/\delta=8/17$. Independently, our engine computes the ratio of the
-linear-slice minimum to the unslaved straight-line quartic as $(6/7)/(51/28)=8/17$ exactly. The printed
-combination $\delta-\gamma^2/\beta$ would give $14/17$. With the factor $3$, MT's numbers for $n=5,9,11$
-give $\beta\delta-3\gamma^2\approx341$, $687$ and $4015$ in their units, still positive. So the stated
-conclusions survive.
+\emph{Ratio test.} The ratio $(\delta-k\gamma^2/\beta)/\delta$ does not change if $\widehat H$ or the bases of
+$V_c$ and $V_1'$ are rescaled. It can therefore be compared directly with our $c_4^{\rm lin}/q_4$ and
+$c_4/q_4$, which are computed independently of~\cite{MT}:
+\begin{center}\small
+\begin{tabular}{rcccc}
+\toprule
+$n$ & $(\delta-\gamma^2/\beta)/\delta$ & $(\delta-3\gamma^2/\beta)/\delta$ & $c_4^{\rm lin}/q_4$ &
+$c_4/q_4$ (level set)\\
+ & \multicolumn{2}{c}{(printed $\beta,\gamma,\delta$ of~\cite[p.~23]{MT})} & (ours) & (ours)\\
+\midrule
+7 & $14/17\approx0.8235$ & $8/17\approx0.4706$ & $8/17\approx0.47059$ & $6/17\approx0.35294$\\
+9 & $0.8487$ & $0.5461$ & $0.54654$ & $0.33565$\\
+11 & $0.8676$ & $0.6027$ & $0.60315$ & $0.35478$\\
+\bottomrule
+\end{tabular}
+\end{center}
+At $n=9,11$ the printed values have three or four significant figures. Script:
+\code{review/p2_ratio_test.py}, output \code{review/p2_ratio_test.out}. With Lemma~8's weights, the printed
+numbers reproduce our linear-slice ratio exactly at $n=7$, and to the printed precision at $n=9$ and $11$.
+The unweighted combination of~(3.9) matches neither of our columns. Three points of detail follow.
 
-\paragraph{P3: the printed even-$n$ coefficient $T$.} We recomputed symbolically the straight-line
-expansion $z_j=(r_0+(-1)^jt)e^{2\pi ij/n}$ of~\cite[\S3.5.1]{MT}. Our $t^4$ coefficient agrees with an
-independent 40-digit evaluation to 15 digits, but differs from the printed bracket $T$ by a small relative
-amount: $+0.10\%$ at $n=8$, $+0.49\%$ at $n=10$, $+0.06\%$ at $n=6$ and $-1.8\%$ at $n=4$ (printed value
-relative to ours). This looks like a transcription issue. It changes no sign, and the even-$n$ conclusion
-is in any case re-proved by Theorem~\ref{thm:even}.
+(a) Montaldi and Tokieda do not print the number $6/7$. It is our computation of $c_4^{\rm lin}$ at $n=7$.
+Their printed values reproduce it through~\eqref{eq:dictlin}:
+$\delta-3\gamma^2/\beta=\frac{1071}{8\pi}-3\big(\frac{63}{4\pi}\big)^2\big/\frac{21}{2\pi}=\frac{63}\pi
+=\frac{3\cdot49}{2\pi}\cdot\frac67$.
+
+(b) An alternative reading. At $n=7$, $\delta-\gamma^2/\beta=441/(4\pi)$, and $441/4=\frac{7^3}2\cdot\frac9{14}$.
+This suggests that the unweighted combination might be the level-set value $c_4=9/14$ under a scale
+$n^3/(2\pi)$. It is not. The scale is fixed by $\delta$: by~\eqref{eq:dict}, $\delta/q_4=3n^2/(2\pi)=147/(2\pi)$
+at $n=7$, not $343/(2\pi)$. Under that scale $\delta-\gamma^2/\beta$ corresponds to $3/2$, not $9/14$. In
+normalisation-free form, $(\delta-\gamma^2/\beta)/\delta=14/17$, while $c_4/q_4=6/17$. The same reading also
+fails at $n=9$: there $\delta-\gamma^2/\beta=182.4-13.8^2/6.9=154.8$, whereas $\frac{n^3}{2\pi}c_4=\frac{729}{2\pi}
+\cdot\frac{19}{12}\approx183.7$ (and $\frac{3n^2}{2\pi}c_4\approx61.2$). The agreement at $n=7$ is a coincidence.
+
+(c) The conclusions survive. With the weights, the printed numbers give $\beta\delta-3\gamma^2=661.5/\pi^2$
+($n=7$), about $687$ ($n=9$) and about $4015$ ($n=11$), in the units of~\cite{MT}. All are positive,
+consistent with $c_4^{\rm lin}>0$ in Table~\ref{tab:c4}. In any case Theorem~\ref{thm:odd} gives $c_4>0$ on the
+level set.
+
+\paragraph{The printed values at $n=5$.} At $n=5$~\cite[p.~23]{MT} print $\beta=37.1/r_0^2$,
+$\gamma=-9.04/r_0^3$ and $\delta=15.8/r_0^4$. The formula $\beta=n(n-1)\kappa^2\widetilde\sigma^2/(4\pi r_0^2)$ on
+the same page gives $\beta\approx1.092/r_0^2$ at $n=5$ ($\kappa=1$, $\lambda r_0^2=b_5=3-2\sqrt2$), whereas at
+$n=7,9,11$ it reproduces the printed $\beta$. Our direct evaluation at $n=5$ gives $\beta\approx1.092$,
+$|\gamma|\approx1.085$ and $\delta\approx5.679$; with these, $(\delta-3\gamma^2/\beta)/\delta=0.4302=c_4^{\rm lin}/q_4$.
+The printed values give $0.5818$ (weighted) and $0.8606$ (unweighted). These match neither
+$c_4^{\rm lin}/q_4=0.4302$ nor $c_4/q_4=0.4730$. We cannot reconcile the printed $n=5$ values with the
+formulas, so we do not use them. The conclusion for $n=5$ does not depend on them: Theorem~\ref{thm:odd} gives
+$c_4=9/40>0$, and $c_4^{\rm lin}\approx0.2047>0$ as well.
+
+\paragraph{P3: the printed even-$n$ bracket $T$.} We recomputed symbolically the straight-line
+expansion $z_j=(r_0+(-1)^jt)e^{2\pi ij/n}$ of~\cite[\S3.5.1, p.~21]{MT}. Our $t^4$ coefficient agrees with an
+independent 40-digit evaluation to 15 digits, but differs from the printed bracket $T$ (p.~21) by a small
+relative amount: $+0.10\%$ at $n=8$, $+0.49\%$ at $n=10$, $+0.06\%$ at $n=6$ and $-1.8\%$ at $n=4$ (printed
+value relative to ours). This looks like a transcription issue. It changes no sign, and the even-$n$
+conclusion is in any case re-proved by Theorem~\ref{thm:even}.
 
 %======================================================================
 \section{Numerical confirmation}\label{sec:numerics}
@@ -867,9 +1021,11 @@ $n=8$), and \code{paper/table_check.py} (all $n=4,\dots,25$, with a negative con
 \item \emph{Lemma~\ref{lem:B3} sanity check} (numerical): \code{gaps/review/indep_check.py}. For
 $n=4,\dots,9$, the minimum of $V-V_0$ on spheres of radius $\varepsilon$ in $S$ scales as $c_4\varepsilon^4$.
 \item \emph{Remark~\ref{rem:nonpersist}}: \code{gaps/nearby_momentum.py}.
-\emph{P1--P3}: \code{engine.py}, \code{reduced_quartic*.py}, \code{review/c4_levelset.py},
-\code{review/p2_check.py}, \code{review/p3_check.py}, \code{mt_n7_check.py}.
-\emph{Integrations}: \code{integrate.py} with outputs in \code{out/}.
+\item \emph{P1--P3}: \code{engine.py}, \code{reduced_quartic*.py}, \code{review/c4_levelset.py},
+\code{review/p2_check.py}, \code{review/p2_ratio_test.py} (the ratio table in P2),
+\code{review/p2_mt_coeffs.py} (direct evaluation of $\beta,\gamma,\delta$ in the normalisation of~\cite{MT}),
+\code{review/p3_check.py}, \code{mt_n7_check.py}.
+\item \emph{Integrations}: \code{integrate.py} with outputs in \code{out/}.
 \end{itemize}
 The parts of the proof that use a computer are the algebraic simplifications in Theorems~\ref{thm:even}
 and~\ref{thm:odd}: series expansion, residue sums, and reduction modulo a quadratic relation. Each was
@@ -877,22 +1033,28 @@ reproduced by an independent route. The structural steps (Proposition~\ref{prop:
 Section~\ref{sec:nonlinear}) are pen-and-paper.
 
 \paragraph{Formal verification (Lean 4).} The exact-algebra layer is formalised in Lean~4 with Mathlib,
-in \code{lean/Havelock/Conj13Algebra.lean}, with no unproved steps and only the standard axioms. It
-covers the following.
+in \code{lean/Havelock/Conj13Algebra.lean}, with no unproved steps and only the standard axioms. The
+repository's continuous-integration build checks the Lean files. The precise scope is as follows. The
+coefficients printed in the proofs of Theorems~\ref{thm:even} and~\ref{thm:odd}, namely $h_2,h_4$ (even $n$)
+and $f_2$, $E_{00},E_{10},E_{01},E_{20},E_{02}$, $a_2$ (odd $n$), are explicit closed-form rational
+expressions in $n$ (or $M=n/2$) and $b=\lambda r_0^2$. Lean takes these expressions as definitions and proves,
+symbolically in $n$ and $b$, everything downstream of them:
 \begin{itemize}
-\item The threshold $b_n$ for all $n\ge4$: its closed form, its uniqueness in $(-1,1]$, and its sign
-pattern.
-\item The spectral algebra of Proposition~\ref{prop:spectral}. This includes the Fej\'er sum identity
-for all $n$ and the eigenvalues $3/2$ ($n=4$) and $8/3$ ($n=5$).
-\item The reductions in Theorems~\ref{thm:even} and~\ref{thm:odd}, from the printed coefficients
-$h_2,h_4,f_2,E_{ij}$ to the closed forms. These hold symbolically in $n$, and $c_4>0$ at $b_n$ for every
-$n\ge4$.
-\item Every entry of Table~\ref{tab:c4}, exactly over $\mathbb Q$.
-\item The comparisons in P1 and the completing-the-square lemma behind P2.
+\item that $h_2$ and $f_2$ vanish exactly on the threshold relation~\eqref{eq:bn};
+\item that eliminating $s$ by the $J_1$ constraint and minimising over $p$ (odd $n$), and reducing modulo the
+threshold relation (both parities), gives the stated closed forms for $c_4$, for every $n$;
+\item that these equal $c_4$ at the true (irrational) $b_n$ and are positive for every $n\ge4$, and every entry
+of Table~\ref{tab:c4}, exactly over $\mathbb Q$.
 \end{itemize}
-The printed coefficients themselves come from the series expansions and residue sums. Lean takes them as
-inputs, and they remain computer algebra, checked as described above. Section~\ref{sec:nonlinear} is not
-formalised.
+It also proves the threshold facts ($b_n$ in closed form, its uniqueness in $(-1,1]$ and its sign pattern,
+for all $n\ge4$), the spectral algebra of Proposition~\ref{prop:spectral} (including the Fej\'er identity
+for all $n$ and the eigenvalues $3/2$ and $8/3$ at $n=4,5$), the comparisons in P1, and the
+completing-the-square identities behind P2. What Lean does \emph{not} check is the derivation of the closed
+forms $h_2,h_4,f_2,E_{ij},a_2$ from the Hamiltonian: the series expansions along the symmetric curve (even
+$n$) and along the ansatz (odd $n$), and the root-of-unity residue sums for general $n$. Nor does it check the
+normalisation factors relating $\tau$ and $A$ to $\varepsilon$. These steps are computer algebra, reproduced
+independently and checked against the exact $\mathrm{GF}(p)$ Cartesian computation as described above.
+Section~\ref{sec:nonlinear} is not formalised.
 
 \paragraph{Scope.} The result concerns the family~\eqref{eq:H} of~\cite{MT}, i.e.\ the ``sinh'' model in
 the hyperbolic case. It says nothing about the image (``tanh'') hyperbolic model or the flat disk with a
