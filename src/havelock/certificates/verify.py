@@ -21,7 +21,9 @@ _FAMILY = {"mt": "mt", "sphere": "mt", "plane": "mt", "sinh": "mt"}
 _DOMAIN = {"mt": (Fraction(-1), Fraction(1))}
 _CLOSED = {"mt": (False, True)}          # (lo_closed, hi_closed) of the family domain
 _STABLE = {"mt": "below"}
-_MAX_N = 10**5                           # refuse absurd sizes instead of hanging
+# The next two literals mirror havelock.limits.VERIFY_MAX_N and WITNESS_MAX_PRIME; they are not imported, to keep
+# this module independent of the rest of the package.
+_MAX_N = 100000                          # refuse absurd sizes instead of hanging
 _MAX_PRIME = 20000                       # largest irreducibility-witness prime accepted
 _RATIONAL = re.compile(r"-?[0-9]{1,5000}(/[0-9]{1,5000})?")
 
@@ -138,6 +140,15 @@ def _int_list(x, what, length=None):
     return [_int(a, f"{what} entry") for a in x]
 
 
+def _strict_eq(a, b):
+    """== that also demands equal types throughout (so True, 1.0, [2.0] never match integers)."""
+    if isinstance(a, dict) and isinstance(b, dict):
+        return a.keys() == b.keys() and all(_strict_eq(a[k], b[k]) for k in a)
+    if isinstance(a, list) and isinstance(b, list):
+        return len(a) == len(b) and all(_strict_eq(x, y) for x, y in zip(a, b))
+    return type(a) is type(b) and a == b
+
+
 def _dict(x, what):
     if not isinstance(x, dict):
         raise ValueError(f"{what} must be an object, got {type(x).__name__}")
@@ -236,7 +247,7 @@ def verify_dict(d: dict) -> VerifyReport:
                 exp = {"A": _sign(A, q), "B": _sign(B, q)}
                 if coupled:
                     exp["D"] = _sign(D, q)
-                check(rec.get(where) == exp, f"mode_signs[{m}][{where}] = {rec.get(where)} != recomputed {exp}")
+                check(_strict_eq(rec.get(where), exp), f"mode_signs[{m}][{where}] = {rec.get(where)} != recomputed {exp}")
                 if where == stable_pt:
                     check(exp["A"] > 0 and exp["B"] > 0, f"mode {m} is not stable at the {where} point")
         uA, uB = _sign(nums[mode][0], {"below": below, "above": above}[unstable_pt]), \
@@ -250,7 +261,7 @@ def verify_dict(d: dict) -> VerifyReport:
         rc = _dict(side["root_counts"], "stable_side.root_counts")
         for m, (A, B, _, _) in nums.items():
             got = {"A": _sturm(_strip(A, (dlo, dhi)), s_lo, s_hi), "B": _sturm(_strip(B, (dlo, dhi)), s_lo, s_hi)}
-            check(rc.get(str(m)) == got and got == {"A": 0, "B": 0},
+            check(_strict_eq(rc.get(str(m)), got) and got == {"A": 0, "B": 0},
                   f"stable-side root counts for mode {m}: recorded {rc.get(str(m))}, got {got}")
 
         # T4-I2: a closed domain endpoint on the stable side must itself be stable (A_m, B_m > 0, exact signs)
@@ -269,7 +280,7 @@ def verify_dict(d: dict) -> VerifyReport:
             if ok_p:
                 _, fs = flint.nmod_poly([int(c) % p for c in f.coeffs()], p).factor()
                 degs = sorted(g.degree() for g, e in fs for _ in range(e))
-                check(w.get("degrees") == degs == [f.degree()], "f is not irreducible modulo the witness prime")
+                check(_strict_eq(w.get("degrees"), degs) and degs == [f.degree()], "f is not irreducible modulo the witness prime")
     except (KeyError, TypeError, ValueError, ZeroDivisionError, AttributeError, IndexError, OverflowError) as e:
         fails.append(f"malformed certificate: {e!r}")
     return VerifyReport(not fails, fails, n)

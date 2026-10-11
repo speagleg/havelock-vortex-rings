@@ -55,12 +55,18 @@ def _corrupt(d, how):
     return d
 
 
+_REASON = {"shift endpoint": "Sturm count", "change coefficient": "not the numerator", "flip mode sign": "mode_signs",
+           "wrong sturm": "Sturm", "bad witness": "not irreducible", "wrong schema": "schema",
+           "missing field": "malformed"}
+
+
 @pytest.mark.parametrize("how", ["shift endpoint", "change coefficient", "flip mode sign", "wrong sturm",
                                  "bad witness", "wrong schema", "missing field"])
 def test_corrupted_certificates_fail(how):
     d = certificate(threshold("sinh", 8)).data
     rep = Certificate.verify(_corrupt(d, how))
     assert not rep.ok and rep.failures
+    assert any(_REASON[how] in f for f in rep.failures), rep.failures
 
 
 def test_verify_from_path(tmp_path):
@@ -183,3 +189,39 @@ def test_closed_stable_endpoint_is_checked(monkeypatch):
     monkeypatch.setitem(V._REBUILD, "mt", bad)
     rep = Certificate.verify(d)
     assert not rep.ok and any("closed" in f for f in rep.failures)
+
+
+# ---- fix round 1 ----
+def test_certificate_refuses_n_above_verify_max():
+    from havelock.limits import VERIFY_MAX_N, limits
+    assert VERIFY_MAX_N == 100000 and limits()["certificate_max_N"] == VERIFY_MAX_N
+    with pytest.raises(hv.CertificationFailed, match="limited to N <= 100000"):
+        certificate(threshold("sinh", VERIFY_MAX_N + 2))
+
+
+def test_verifier_literals_mirror_limits():
+    from havelock.certificates import verify as V
+    from havelock.limits import VERIFY_MAX_N, WITNESS_MAX_PRIME
+    assert V._MAX_N == VERIFY_MAX_N and V._MAX_PRIME == WITNESS_MAX_PRIME
+
+
+def test_json_parse_limits_are_invalid_not_a_crash():
+    big = '{"schema": 1' + "0" * 5000 + "}"
+    assert not Certificate.verify(big).ok
+    deep = "[" * 100000
+    rep = Certificate.verify(deep)
+    assert not rep.ok and rep.failures
+
+
+def test_strict_types_in_mode_signs_counts_degrees():
+    base = certificate(threshold("sinh", 8)).data
+    d = copy.deepcopy(base); d["mode_signs"]["1"]["below"]["A"] = True
+    assert not Certificate.verify(d).ok
+    d = copy.deepcopy(base); d["mode_signs"]["1"]["below"]["B"] = 1.0
+    assert not Certificate.verify(d).ok
+    d = copy.deepcopy(base); d["stable_side"]["root_counts"]["1"]["A"] = False
+    assert not Certificate.verify(d).ok
+    d = copy.deepcopy(base); d["stable_side"]["root_counts"]["1"]["B"] = 0.0
+    assert not Certificate.verify(d).ok
+    d = copy.deepcopy(base); d["irreducibility_witness"]["degrees"] = [2.0]
+    assert not Certificate.verify(d).ok

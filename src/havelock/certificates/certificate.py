@@ -7,7 +7,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from ..certify import certify_threshold
-from ..errors import InvalidInput
+from ..errors import CertificationFailed, InvalidInput
+from ..limits import VERIFY_MAX_N
 from ..models import get_model
 from ..status import Threshold, jsonable, make_provenance
 from .verify import SCHEMA, VerifyReport, verify_dict
@@ -56,7 +57,7 @@ class Certificate:
             text = data if is_text else Path(data).read_text()
             try:
                 data = json.loads(text)
-            except json.JSONDecodeError as e:
+            except (ValueError, RecursionError) as e:   # JSONDecodeError, int-digit limit, deep nesting
                 return VerifyReport(False, [f"not valid JSON: {e}"], 0)
         if not isinstance(data, dict):
             return VerifyReport(False, ["certificate must be a JSON object"], 0)
@@ -67,6 +68,9 @@ def certificate(t) -> Certificate:
     """Certificate for a Threshold returned by havelock.threshold (any model)."""
     if not isinstance(t, Threshold):
         raise InvalidInput("certificate() needs a Threshold (a NoThreshold has nothing to certify)")
+    if t.N > VERIFY_MAX_N:
+        raise CertificationFailed(f"certificates are limited to N <= {VERIFY_MAX_N} so they can be verified "
+                                  f"(got N={t.N})")
     t0 = time.perf_counter()
     mdl = get_model(t.model)
     c = t._certification
