@@ -6,8 +6,10 @@ import time
 import mpmath as mp
 import sympy as sp
 
-from .errors import InvalidInput, OutOfValidityRange
-from .limits import WORK_DPS
+from .blocks import blocks_mp
+from .certify import IsolatedRoot, certify_no_threshold, certify_threshold
+from .errors import CertificationFailed, InvalidInput, OutOfValidityRange
+from .limits import TANH_EXACT_MAX_N, WORK_DPS
 from .models import check_N, get_model
 from .models.mt import bn_exact
 from .status import NoThreshold, Status, Threshold, make_provenance
@@ -60,7 +62,80 @@ def _mt_threshold(mdl, N, t0, inputs, strict, precision):
                      stable_side="below", xi=xi, r=r, cosh_r=cosh_r)
 
 
-_HANDLERS = {"mt": _mt_threshold}
+def _tanh_numerical(N: int):
+    """NUMERICAL fallback: the largest sign change of a_floor(N/2) on (0, 1), located on a grid in
+    u = artanh(sqrt(xi)) and refined by bisection in mpmath (no claim about the other modes)."""
+    m = N // 2
+    with mp.workdps(WORK_DPS):
+        f = lambda xi: blocks_mp("tanh", N, m, xi)[0]  # noqa: E731
+        us = [mp.mpf(k) / 400 for k in range(1, 4001)]       # geodesic radius r = 2u up to 20
+        xs = [mp.tanh(u) ** 2 for u in us]
+        vals = [f(x) for x in xs]
+        idx = max((i for i in range(len(xs) - 1) if vals[i] < 0 <= vals[i + 1]), default=None)
+        if idx is None:
+            raise CertificationFailed(f"no sign change of a_{m} found on the grid for N={N}")
+        lo, hi = xs[idx], xs[idx + 1]
+        for _ in range(200):
+            mid = (lo + hi) / 2
+            if f(mid) < 0:
+                lo = mid
+            else:
+                hi = mid
+        return (lo + hi) / 2, m
+
+
+def _tanh_threshold(mdl, N, t0, inputs, strict, precision):
+    if N > TANH_EXACT_MAX_N:
+        msg = (f"N = {N} exceeds the exact-certification size cap N <= {TANH_EXACT_MAX_N} (hv.limits()); "
+               "use strict=False for a NUMERICAL value")
+        if strict:
+            raise CertificationFailed(msg)
+        return _tanh_fallback(mdl, N, t0, inputs, msg)
+    try:
+        if N <= 7 and certify_no_threshold("tanh", N, mdl.family_domain):
+            return NoThreshold(status=Status.CERTIFIED,
+                               basis=("exact Sturm counts: a_m, b_m and a_m b_m - g_m^2 have no root in (0, 1) and are "
+                                      "positive (tanh/note_tanh.tex Thm 6(a)); Lean-checked: "
+                                      f"Havelock.Tanh.stable_N{N}"),
+                               provenance=make_provenance("threshold", inputs, t0), model="tanh", N=N,
+                               verdict="stable at every radius", geometry="H2")
+        c = certify_threshold("tanh", N, mdl.family_domain, "above", start_bits=precision, witness=True)
+    except CertificationFailed as e:
+        if strict:
+            raise
+        return _tanh_fallback(mdl, N, t0, inputs, str(e))
+    if c is None:
+        return NoThreshold(status=Status.CERTIFIED, basis="exact Sturm counts: no a_m changes sign in (0, 1)",
+                           provenance=make_provenance("threshold", inputs, t0), model="tanh", N=N,
+                           verdict="stable at every radius", geometry="H2")
+    lo, hi = c.interval
+    exact = IsolatedRoot(poly=tuple(int(a) for a in c.factor.coeffs()), lo=lo, hi=hi)
+    with mp.workdps(WORK_DPS):
+        value = exact.approx(WORK_DPS)
+        r, cosh_r = mdl.radius(value), mdl.cosh_r(value)
+    lean = f"; Lean-checked: Havelock.Tanh.cert_N{N}" if 8 <= N <= 16 else ""
+    basis = (f"CERTIFIED at run time: Arb root isolation ({c.bits} bits) inside an exact rational interval of width "
+             f"< 2^-{c.bits - 8}, exact Sturm count 1, no B_m and no A_m (m != {c.mode}) vanishing in the interval "
+             f"(exact Sturm counts), exact signs of every block on both sides, and no root of any "
+             f"a_m, b_m on ({float(hi):.6g}, 1); blocks of tanh/note_tanh.tex Thm 2 (PROVED); critical mode {c.mode}"
+             + lean)
+    return Threshold(status=Status.CERTIFIED, basis=basis, provenance=make_provenance("threshold", inputs, t0),
+                     model="tanh", N=N, value=value, exact=exact, mode=c.mode, geometry="H2", stable_side="above",
+                     xi=value, r=r, cosh_r=cosh_r, _certification=c)
+
+
+def _tanh_fallback(mdl, N, t0, inputs, reason):
+    value, m = _tanh_numerical(N)
+    with mp.workdps(WORK_DPS):
+        r, cosh_r = mdl.radius(value), mdl.cosh_r(value)
+    return Threshold(status=Status.NUMERICAL, fallback_from=Status.CERTIFIED,
+                     basis=f"NUMERICAL (strict=False): {reason}. Largest sign change of a_{m} on a grid, refined by "
+                           "bisection; the other modes are not checked",
+                     provenance=make_provenance("threshold", inputs, t0), model="tanh", N=N, value=value, exact=None,
+                     mode=m, geometry="H2", stable_side="above", xi=value, r=r, cosh_r=cosh_r)
+
+
+_HANDLERS = {"mt": _mt_threshold, "tanh": _tanh_threshold}
 
 
 def threshold(model: str, N: int, *, strict: bool = True, precision: int | None = None):

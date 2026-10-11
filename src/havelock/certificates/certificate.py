@@ -10,7 +10,7 @@ from ..certify import certify_threshold
 from ..errors import CertificationFailed, InvalidInput
 from ..limits import VERIFY_MAX_N
 from ..models import get_model
-from ..status import Threshold, jsonable, make_provenance
+from ..status import Status, Threshold, jsonable, make_provenance
 from .verify import SCHEMA, VerifyReport, verify_dict
 
 
@@ -68,6 +68,8 @@ def certificate(t) -> Certificate:
     """Certificate for a Threshold returned by havelock.threshold (any model)."""
     if not isinstance(t, Threshold):
         raise InvalidInput("certificate() needs a Threshold (a NoThreshold has nothing to certify)")
+    if t.status == Status.NUMERICAL or t.fallback_from is not None:
+        raise CertificationFailed("no certificate for a NUMERICAL result; use strict=True within the size cap")
     if t.N > VERIFY_MAX_N:
         raise CertificationFailed(f"certificates are limited to N <= {VERIFY_MAX_N} so they can be verified "
                                   f"(got N={t.N})")
