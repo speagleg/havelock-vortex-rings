@@ -65,3 +65,32 @@ def test_review_focus_float_near_threshold_is_decided_exactly():
     s = stability("sinh", 8, b)
     exact_below = sp.Rational(*Fraction(b).as_integer_ratio()) < bn_exact(8)
     assert s.verdict == ("EM-stable" if exact_below else "unstable")
+
+
+def _annotate_cases():
+    from havelock.status import ModeBlock
+    F = Fraction
+    e = (0j, 0j)
+    return {
+        "b0": [ModeBlock(m=2, a=F(3), b=F(0), g=F(0), eigenvalues=e)],
+        "neg": [ModeBlock(m=2, a=F(-2), b=F(-3), g=F(1), eigenvalues=e)],
+    }
+
+
+def test_b_zero_with_a_nonzero_is_explained():
+    from havelock.stability import _annotate
+    out = _annotate("BASIS", _annotate_cases()["b0"], "spectrally-stable-only")
+    assert out.startswith("BASIS") and "b_m = 0 exactly for m = [2]" in out and "a_m != 0" in out
+    assert "Krein window" not in out and "a_m = 0 exactly" not in out
+
+
+def test_negative_definite_block_is_explained():
+    from havelock.stability import _annotate
+    out = _annotate("BASIS", _annotate_cases()["neg"], "spectrally-stable-only")
+    assert "negative definite for m = [2]" in out and "not an energy minimum" in out
+    assert "Krein window" not in out and "b_m = 0" not in out
+
+
+def test_unstable_verdict_gets_no_annotation():
+    from havelock.stability import _annotate
+    assert _annotate("BASIS", _annotate_cases()["neg"], "unstable") == "BASIS"

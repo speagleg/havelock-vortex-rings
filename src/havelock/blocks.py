@@ -48,8 +48,44 @@ def _mt_exprs(N: int, m: int):
     return C1 - m * (N - m), sp.Integer(m * (N - m)), sp.Integer(0)
 
 
-_NUMERATORS = {"mt": _mt_numerators}
-_EXPRS = {"mt": _mt_exprs}
+def _mono(k: int) -> flint.fmpz_poly:
+    return flint.fmpz_poly([0] * k + [1])
+
+
+def _tanh_numerators(N: int, m: int):
+    """note Thm 2 cleared of denominators: A = 2(1-x)^2(1-X)^2 a_m, B = 2(1-X)^2 b_m, G = 2(1-X)^2 g_m, X = x^N."""
+    X = _mono(N)
+    omx, omX, opx = _one - _x, _one - X, _one + _x
+    A = (2 * (N - 1) * opx * omx * omX**2 - 4 * _x**2 * omX**2 - m * (N - m) * omx**2 * omX**2
+         + 4 * N * opx * omx * X * omX - 2 * N * N * X * omx**2
+         - N * omx**2 * (m * _mono(m) + (N - m) * _mono(N - m) + (N - m) * _mono(N + m) + m * _mono(2 * N - m)))
+    Wm = m * _mono(m) * omX + N * _mono(m + N)            # (1-X)^2 W_m
+    WNm = (N - m) * _mono(N - m) * omX + N * _mono(2 * N - m)  # (1-X)^2 W_{N-m}
+    B = m * (N - m) * omX**2 + 2 * N * N * X - N * (Wm + WNm)
+    G = N * (Wm - WNm)
+    return A, B, G, 2 * omx**2 * omX**2, 2 * omX**2
+
+
+def _tanh_exprs(N: int, m: int):
+    """note Thm 2, transcribed literally."""
+    c = (1 + X) / (1 - X)
+    XN = X**N
+
+    def W(k):
+        return k * X**k / (1 - XN) + N * X ** (k + N) / (1 - XN) ** 2
+
+    a = ((N - 1) * c - (c - 1) ** 2 / 2 - sp.Rational(m * (N - m), 2) + 2 * N * c * XN / (1 - XN)
+         - N**2 * XN / (1 - XN) ** 2
+         - sp.Rational(N, 2) * (m * X**m + (N - m) * X ** (N - m) + (N - m) * X ** (N + m) + m * X ** (2 * N - m))
+         / (1 - XN) ** 2)
+    b = sp.Rational(m * (N - m), 2) + N * W(N) - sp.Rational(N, 2) * (W(m) + W(N - m))
+    g = sp.Rational(N, 2) * (W(m) - W(N - m))
+    return a, b, g
+
+
+_NUMERATORS = {"mt": _mt_numerators, "tanh": _tanh_numerators}
+_EXPRS = {"mt": _mt_exprs, "tanh": _tanh_exprs}
+
 
 def _check(family: str, N: int, m: int) -> None:
     if family not in _NUMERATORS:

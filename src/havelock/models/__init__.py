@@ -16,8 +16,10 @@ import sympy as sp
 
 from ..errors import InvalidInput
 from .mt import MTView
+from .tanh import TanhModel
 
 MODELS = {name: MTView(name) for name in ("mt", "sphere", "plane", "sinh")}
+MODELS["tanh"] = TanhModel()
 
 
 def get_model(name):
