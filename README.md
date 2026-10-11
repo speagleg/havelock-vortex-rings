@@ -1,76 +1,83 @@
-# Vortex-ring stability: Havelock thresholds beyond the plane
-
-Gordon Speagle, Independent Researcher, Boise, ID, USA.
-
-Research on the stability of the regular N-vortex ring (the Havelock problem). It covers the sphere, the plane and
-the hyperbolic plane H², and two vortex models on H². Everything here is a **draft**. It has been reviewed by
-independent AI readers and checked by computer algebra; **no human specialist has reviewed it yet**.
-
-## Contents
-
-| Directory | What | Status |
-|---|---|---|
-| `conj13/` | Proof of Montaldi–Tokieda's Conjecture 13 (arXiv:1210.5662, p. 23) for n ≥ 4: nonlinear stability of the ring on the reduced level set J⁻¹(μ)/SO(2) past the bifurcation. Repairs three errors in the published argument (their conclusions stand). Paper draft in `conj13/paper/`. | Draft; AI-reviewed. n = 3 rests on Montaldi–Tokieda's own statement. |
-| `tanh/` | Thresholds for the tanh (Kimura) model H = −Σ ln tanh(d/2) on H². The Fourier blocks are rational in ξ = tanh²(r/2), the threshold polynomials are palindromic, and the table is certified for N ≤ 16. ξ*(8) is a degree-10 unit. Large-N asymptotics cosh r* ≈ κ∞N. Note in `tanh/note_tanh.pdf`. | Draft; AI-reviewed. Prior-work check incomplete (Kimura 1999 and Hwang–Kim 2013 not yet read). |
-| `sinh/` | The sinh model (Montaldi–Tokieda (1.12)), written up in closed form as cosh² r* = q(N), with the classification of unit thresholds. | Expository. The thresholds are known (Montaldi–Tokieda 2013). |
-| `lean/` | Lean 4 + Mathlib formalisation of the exact-algebra layer. The dynamics are not formalised; each file's header says exactly what is. | See below. |
-| `literature.md` | Literature notes and the prior-work check. | |
-| `directions-2026-10-10.md` | Open directions. | |
-
-## Lean
+# Vortex-ring stability beyond the plane
 
 [![lean](https://github.com/speagleg/havelock-vortex-rings/actions/workflows/lean.yml/badge.svg)](https://github.com/speagleg/havelock-vortex-rings/actions/workflows/lean.yml)
 
-```bash
-export PATH=$HOME/.elan/bin:$PATH
-cd lean && lake exe cache get && lake build     # Lean and Mathlib v4.34.1
-lake env lean AxiomAudit.lean                   # #print axioms for the main theorems of all three areas
-```
+Gordon Speagle, Independent Researcher, Boise, ID, USA.
 
-CI (`.github/workflows/lean.yml`) runs on every push and pull request. It fails if any `sorry`, `admit`,
-`native_decide` or `axiom` appears in the Lean code (comments excluded), if the build fails, or if a theorem listed in
-`AxiomAudit.lean` depends on any axiom other than `propext`, `Classical.choice` and `Quot.sound`. CI builds the modules
-one at a time.
+The regular ring of N identical point vortices is a classical object: Thomson posed the question in 1883, Havelock
+answered it in 1931: in the plane the ring is linearly stable exactly when N ≤ 7 (N = 7 only marginally; its
+nonlinear stability was settled later). This repository studies the same question
+on curved surfaces: the sphere, the plane and the hyperbolic plane. It contains two research results, the proofs and
+computations behind them, and a Lean 4 check of their exact algebra.
 
-The generated tanh certificates are split into modules of at most about 90 kB each, so no module needs much memory.
-Each module peaks at **under 4.5 GB resident**, and only up to about 2 GB of that is anonymous memory; the rest is
-mapped Mathlib `.olean` files. The slowest module takes about 4 minutes, and a full sequential check takes about
-25 minutes. A parallel `lake build` checks several modules at once, so on a machine with less than about 16 GB of RAM,
-build the modules one at a time, as CI does.
+> **Status.** These are drafts. They have been checked by independent AI readers, by exact and interval computer
+> algebra, and by a Lean build in CI. **No human specialist has reviewed them yet.** Each claim is labelled PROVED,
+> CERTIFIED or NUMERICAL in [docs/results.md](docs/results.md).
 
-Module layout (`lean/`):
+## The results
 
-- `Havelock.lean`: imports everything.
-- `AxiomAudit.lean`: the `#print axioms` list that CI checks. It is not part of the library.
-- `Havelock/SinhArithmetic.lean`, `Havelock/Conj13Algebra.lean`: the sinh and Conjecture 13 layers.
-- `Havelock/TanhAlgebra.lean`: a thin module that imports `Havelock/Tanh/*` and prints the tanh axiom audit. All
-  names are `Havelock.Tanh.*`, as before the split.
-  - `Tanh/General.lean`: the definitions, the all-N lemmas, `peval` and the sign-change lemma.
-  - `Tanh/StableN2to7.lean`: the certificates for N = 2–7 (`stable_N2` … `stable_N7`).
-  - `Tanh/CertN8.lean` … `Tanh/CertN11.lean`, plus `Tanh/CertN12a,b`, `N13a,b`, `N14a,b`, `N15a,b` and
-    `N16a,b,c`: the certificates for N ≥ 8 (`cert_N8` … `cert_N16`). The larger N are split into parts, and each part
-    imports the one before it.
-  - `Tanh/Extras.lean`: the factorisations, palindromy, the Krein window, ξ*(8) being a unit, and `tanh_relations`.
+**1. Montaldi–Tokieda's Conjecture 13, completed.**
 
-- `Havelock/SinhArithmetic.lean`: the sinh-model arithmetic, with no `sorry`. It covers the integrality classification c(N) ∈ ℤ ⇔ N ∈ {8, 9, 11, 15, 23}, the unit property, ξ*(8) = 8 − 3√7 and ξ*(10) = 1/7.
-- `Havelock/Conj13Algebra.lean`: the exact-algebra layer of the Conjecture 13 paper, with no `sorry`. Only the axioms `propext`, `Classical.choice` and `Quot.sound` are used.
-  - **Thresholds b_n for all n ≥ 4.** It proves the closed form, that b_n is the unique root in (−1, 1], and the geometry split: sphere for n ≤ 6, plane at n = 7, H² for n ≥ 8.
-  - **Spectral algebra.** It proves the Fejér sum identity Σ(1−cos 2πml/n)/(1−cos 2πl/n) = m(n−m) and finds the kernel mode and spectral gap, including 3/2 at n = 4 and 8/3 at n = 5.
-  - **The c₄ closed forms, symbolically in n.** The even and odd closed forms are derived from the printed level-set coefficients, and c₄ > 0 at the true threshold for every n ≥ 4. Table 1 (n = 4–25) is exact over ℚ.
-  - **The corrections to Montaldi–Tokieda.** The P1 comparisons are exact: 9/14 < 6/7 at n = 7, and (199 − 27√7)/56 > 95/56 at n = 8. The P2 factor-of-3 lemma is also proved.
-  - **Not formalised:** the Taylor-coefficient inputs (h₂, h₄, f₂, E_ij) are taken from the paper as definitions; they were derived by computer algebra and checked mod p. The energy–momentum and dynamics argument (§ nonlinear) is not formalised either.
-- `Havelock/TanhAlgebra.lean`: the exact-algebra layer of the tanh note, with no `sorry`. Only the standard axioms are used.
-  - **For all N and m:** the W_k closed form (`HasSum`), the compact a_m, the reciprocity a_m(1/ξ) = a_m(ξ), the even-N threshold equation, and the linearisation's characteristic polynomial.
-  - **For every N = 2–16:** the certification theorem. N ≤ 7 is stable for all r. For N ≥ 8, f_N has a unique root ξ* in (0, 1), located in a rational interval of width 10⁻²⁰, and the critical block changes sign there. The proofs use Bernstein positivity certificates.
-  - **ξ*(8):** it is an algebraic integer and a unit.
-  - **Odd N = 9, 11, 13, 15:** the Krein window is non-empty.
-  - **Not formalised:** the derivation of the blocks (they are taken as definitions), the dynamics, irreducibility (so the stated degrees are unproved), and the asymptotics.
-  - The certificates are generated by `tanh/lean_gen/gen.py`. It writes one file.
-    `python lean/scripts/split_tanh.py OUT lean` splits that file into `Havelock/Tanh/*` and the thin
-    `TanhAlgebra.lean`, reproducing the committed files exactly.
+Montaldi and Tokieda (2013) conjectured that the ring stays stable *at* the curvature where it bifurcates. They proved
+it for even n and for n = 3, 5, 7, 9, 11, using Maple and numerics.
 
-The axiom audit (`#print axioms`) shows only `propext`, `Classical.choice` and `Quot.sound`, or a subset of them.
+- We give the first proof for odd n ≥ 13. The argument is uniform in n, so it also re-proves 4 ≤ n ≤ 11.
+- It rests on exact closed forms for the decisive quartic coefficient:
+  - c₄ = (n−2)(m⁴+40m²+48m+16)/(192n(n−1)) with m = n−2, for even n;
+  - c₄ = (n−1)(n−3)(n²−9n+38)/(128n), for odd n.
+- It also includes a self-contained nonlinear-stability argument.
 
-## Reproducing the computations
+Paper: [conj13/paper/main.pdf](conj13/paper/main.pdf).
 
-The Python scripts are plain numpy/sympy/mpmath. Each `*.out` file is the recorded output of the script with the same name.
+**2. Exact, certified thresholds for the tanh (Kimura) model on H².**
+
+Boatto (2008) computed this model's ring stability numerically. Montaldi and Tokieda later called it "no longer
+tractable analytically".
+
+- The stability blocks are explicit rational functions of ξ = tanh²(r/2).
+- Each threshold is a root of an irreducible palindromic integer polynomial. The thresholds are certified to 25 digits
+  for N ≤ 16.
+- ξ*(8) is an algebraic unit of degree 10.
+- Boatto's equations reproduce our values exactly, but her published hyperbolic-plane curves do not. The note explains
+  why.
+
+Note: [tanh/note_tanh.pdf](tanh/note_tanh.pdf).
+
+The sinh model, whose thresholds Montaldi and Tokieda already know, is written up in closed form in
+[sinh/note.pdf](sinh/note.pdf).
+
+## Checking the work yourself
+
+| Check | How | Time |
+|---|---|---|
+| Lean formalisation of the exact algebra | `cd lean && lake exe cache get && lake build`, then `lake env lean AxiomAudit.lean`. See [docs/lean.md](docs/lean.md). | about 25 min |
+| Re-run the computations behind the papers | `pip install -r requirements.txt`, then `python scripts/reproduce.py`. See [REPRODUCE.md](REPRODUCE.md). | fast tier: minutes |
+| Irreducibility certificates (tanh) | `cd tanh/irreducibility && gp -q irreducibility.gp` | seconds |
+| Boatto comparison | [tanh/boatto_check/RESULT.md](tanh/boatto_check/RESULT.md) | — |
+
+CI builds the Lean library on every push. The build fails on any `sorry`, `admit`, `native_decide` or extra axiom,
+and on any main theorem that depends on an axiom other than `propext`, `Classical.choice` and `Quot.sound`.
+
+## Repository layout
+
+| Path | Contents |
+|---|---|
+| `conj13/` | Conjecture 13: derivations (`derivation.txt`, `gaps/PROOF.txt`), computation engines, review checks, and the paper in `paper/` |
+| `tanh/` | The tanh model: derivation, block and certification scripts, `irreducibility/`, `boatto_check/`, the Lean certificate generator in `lean_gen/`, and the note |
+| `sinh/` | The sinh-model note and its checks |
+| `lean/` | Lean 4 + Mathlib library `Havelock` ([docs/lean.md](docs/lean.md)) |
+| `docs/` | [results.md](docs/results.md): every claim with its status. [lean.md](docs/lean.md). `design/`: the design spec for the planned Python package |
+| `literature.md` | What we read, and how much of it (full text or abstract only) |
+| `directions-2026-10-10.md` | Working notes on further directions, dated. Some items have since been resolved; for example, Conjecture 13 is item 7 |
+
+## Coming next: the `havelock` Python package
+
+A library and CLI is planned; its design is in [docs/design/](docs/design/). It will answer, for any N and any of the
+four models, where the ring loses stability, which mode goes first, and whether the ring is nonlinearly stable at that
+point. Every answer will carry its PROVED, CERTIFIED or NUMERICAL label and can be exported as a machine-checkable
+certificate. It is not built yet.
+
+## Citing and contact
+
+Please cite the papers in `conj13/paper` and `tanh/` as drafts by Gordon Speagle (2026). Contact: gspeagle@gmail.com.
+The work was developed with AI assistance (Claude), as each paper's acknowledgement states.
