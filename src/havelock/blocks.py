@@ -7,7 +7,7 @@ m = 0..N-1. On mode m it is the Hermitian matrix [[a_m, i g_m], [-i g_m, b_m]]. 
     a_m = A / den_a,   b_m = B / den_b,   g_m = G / den_b,   a_m b_m - g_m^2 = D / (den_a den_b),
 with den_a, den_b > 0 on the family's domain and D = A B - (den_a / den_b) G^2.
 
-MT family (paper Proposition prop:blocks, MT (2.6)): a_m = C1 - m(n-m), b_m = m(n-m), g_m = 0,
+MT family (paper Proposition 3, MT (2.6)): a_m = C1 - m(n-m), b_m = m(n-m), g_m = 0,
 C1 = 2(n-1)(1+b^2)/(1+b)^2.
 """
 from __future__ import annotations

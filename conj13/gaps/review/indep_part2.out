@@ -1,4 +1,4 @@
-/mnt/c/Users/gspea/source/repos/math-pursuits/items/01-h2-vortex-thresholds/work/conj13/gaps/review/indep_check.py:54: RuntimeWarning: invalid value encountered in log
+./indep_check.py:54: RuntimeWarning: invalid value encountered in log
   s -= log(((xi - xj) ** 2 + (yi - yj) ** 2) / (si * sj))
    n=4 Kc= 0.0 eps=0.080: min_(S, gauge, |dx|=eps) (V-V0) =  8.5183e-06   /eps^4 =  0.2080
    n=4 Kc= 0.0 eps=0.040: min_(S, gauge, |dx|=eps) (V-V0) =  5.3310e-07   /eps^4 =  0.2082

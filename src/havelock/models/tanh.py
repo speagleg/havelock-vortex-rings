@@ -1,4 +1,4 @@
-"""The tanh (Kimura) model on H^2 (tanh/note_tanh.tex, eq. (H)).
+"""The tanh (Kimura) model on H^2 (tanh/note_tanh.tex, eq. (1)).
 
 Poincare disk, metric 4|dz|^2/(1-|z|^2)^2 (curvature -1), symplectic form sum 4/(1-|z_k|^2)^2 dx^dy,
     H = -sum_{j<k} ln tanh(d_jk/2) = sum_{j<k} ( -ln|z_j - z_k| + ln|1 - z_j conj z_k| ),

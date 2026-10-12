@@ -1,5 +1,9 @@
 # Boatto (2008): reading notes
 
+> The paper PDFs (`dl/`), their text layers (`boatto2008.txt`, `mparc06-311.txt`) and the figure renders (`fig/`) named
+> below are not committed (third-party copyright; regenerable from the publisher's PDF). See `RESULT.md` for the
+> conclusions and for which scripts need these files.
+
 Source: S. Boatto, "Curvature perturbations and stability of a ring of vortices", DCDS-B 10 (2008), no. 2&3, 349–375.
 - Publisher PDF: `dl/boatto2008.pdf`, from `https://www.aimsciences.org/data/article/export-pdf?id=c627c07f-95aa-4501-9c88-aaad38ec9bdb`. Text is in `boatto2008.txt`.
 - Preprint: mp_arc 06-311 (Nov 2006), `dl/mparc06-311.pdf`. Its text layer is font-garbled. The preprint's Fig. 5 (p. 17, rendered in `fig/preprint-17.png`) is the same figure as the published one.

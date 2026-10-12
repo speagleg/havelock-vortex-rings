@@ -1,4 +1,4 @@
-Item 01 / C5-B3: ring thresholds in the tanh (Kimura) model on H^2
+Ring thresholds in the tanh (Kimura) model on H^2
 =====================================================================
 2026-10-10. Status: derivation complete. Every formula is checked exactly (sympy) or against the
 full Cartesian Hessian/Jacobian at 50 digits. Thresholds for N = 8..16 are certified (exact rational

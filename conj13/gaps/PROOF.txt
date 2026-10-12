@@ -1,4 +1,4 @@
-Item 01 / MT Conjecture 13: closing gaps (i) and (ii)
+MT Conjecture 13: closing gaps (i) and (ii)
 =====================================================
 2026-10-10. Agent run, no second reader yet. Files are in this directory only.
 Sources read for this file: MT arXiv:1210.5662 (pdftotext; Sec. 1.2, 2.1-2.3 quoted below);

@@ -14,3 +14,4 @@ tanh/boatto_check/mparc06-311.txt
 
 src/*.egg-info/
 .venv/
+.pytest_cache/

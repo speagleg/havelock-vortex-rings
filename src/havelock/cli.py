@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -12,6 +13,7 @@ import mpmath as mp
 from . import __version__
 from .certificates import Certificate, certificate
 from .errors import HavelockError
+from .models import get_model
 from .limits import limits
 from .nonlinear import nonlinear
 from .simulate import simulate
@@ -20,7 +22,7 @@ from .status import NoThreshold, jsonable
 from .threshold import threshold
 
 
-def _num(x, digits=30):
+def _num(x, digits=25):
     return mp.nstr(x, digits) if isinstance(x, mp.mpf) else str(x)
 
 
@@ -28,9 +30,12 @@ def _print_threshold(t):
     if isinstance(t, NoThreshold):
         print(f"{t.model}, N = {t.N}: {t.verdict} ({t.geometry})")
     else:
-        print(f"{t.model}, N = {t.N}: threshold {_num(t.value)} (stable {t.stable_side}), critical mode {t.mode}, "
-              f"geometry {t.geometry}")
-        extra = [f"{k} = {_num(getattr(t, k), 20)}" for k in ("xi", "r", "cosh_r") if getattr(t, k) is not None]
+        p = get_model(t.model).param
+        rel = "<" if t.stable_side == "below" else ">"
+        print(f"{t.model}, N = {t.N}: threshold {p} = {_num(t.value)} (stable for {p} {rel} threshold), critical mode "
+              f"{t.mode}, geometry {t.geometry}")
+        extra = [f"{k} = {_num(getattr(t, k))}" for k in ("xi", "r", "cosh_r")
+                 if getattr(t, k) is not None and k != p]
         if extra:
             print("  " + ", ".join(extra))
         print(f"  exact: {t.exact}")
@@ -64,7 +69,7 @@ def _cmd_stability(a):
 
 def _cmd_nonlinear(a):
     r = nonlinear(a.model, a.N)
-    _emit(a, r, lambda: print(f"{r.model}, N = {r.N}: c4 = {_num(r.c4)} at {_num(r.value, 20)}, verdict "
+    _emit(a, r, lambda: print(f"{r.model}, N = {r.N}: c4 = {_num(r.c4)} at {_num(r.value)}, verdict "
                               f"{r.verdict}  [{r.status}]\n  basis: {r.basis}"))
 
 
@@ -72,7 +77,8 @@ def _cmd_simulate(a):
     s = simulate(a.model, a.N, a.value, perturb=a.perturb, t_end=a.t_end, rtol=a.rtol, seed=a.seed)
     summary = {k: v for k, v in s.to_dict().items() if k not in ("times", "trajectory")}
     _emit(a, summary, lambda: print(
-        f"{s.model}, N = {s.N}, value {s.value}: growth {s.growth:.4g} (max deviation {s.max_deviation:.3e}), "
+        f"{s.model}, N = {s.N}, value {s.value}: growth {s.growth:.4g} (max/initial deviation; max "
+        f"{s.max_deviation:.3e}), "
         f"energy drift {s.energy_drift:.2e}, momentum drift {s.momentum_drift:.2e} "
         f"(tolerance {s.drift_tolerance:.1e})  [NUMERICAL]"))
 
@@ -171,7 +177,18 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
+_NEG_VALUE = re.compile(r"^-\d+/\d+$")
+
+
+def _negative_rationals_to_option(argv):
+    """argparse reads a positional '-1/7' as an unknown option; pass it on as --value=-1/7 instead."""
+    if len(argv) < 2 or argv[0] not in ("stability", "simulate") or any(x.startswith("--value") for x in argv):
+        return argv
+    return [f"--value={x}" if _NEG_VALUE.match(x) else x for x in argv]
+
+
 def main(argv=None) -> int:
+    argv = _negative_rationals_to_option(list(sys.argv[1:] if argv is None else argv))
     args = build_parser().parse_args(argv)
     if hasattr(args, "value_opt"):
         if (args.value is None) == (args.value_opt is None):

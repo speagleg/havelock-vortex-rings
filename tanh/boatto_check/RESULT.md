@@ -1,5 +1,11 @@
 # Boatto (2008) vs our tanh thresholds: result
 
+Question: Boatto's Fig. 5a puts the N = 8, 9 zero crossings on the hyperbolic side at K ≈ −0.25 and −0.40, while
+our tanh thresholds predict K = −0.282 and −0.489. Three explanations were considered:
+- **(a)** a mapping error: our conversion between her curvature K (at fixed geodesic radius r_o = 1) and our ξ is wrong;
+- **(b)** her figure was computed with a different pair law from the one in her stated equations;
+- **(c)** our Fourier blocks, and hence our thresholds, are wrong.
+
 ## Verdict: (b)
 - Boatto's **stated equations** are exactly our tanh model with the same criterion:
   - eq. (14): Ψ_K = −(1/2π) ln tanh(√|K| r/2);
@@ -9,7 +15,8 @@
 - Her **Fig. 5a/5b on the hyperbolic side (K < 0)** were not produced with eq. (17). They match, point by point, the pair law
   c Σ ln((d−1)(d+1)) = −(1/2π) Σ ln sinh(√|K| D),
   which is eq. (17) with the sign of the H2 = −c Σ ln(1+d) term flipped. The pair interaction is −ln sinh of the **full** distance.
-- This is a slip in her numerics for K < 0. Her equations do not imply it.
+- The discrepancy is therefore consistent with a sign difference in the pair law used for the plotted K < 0 curves.
+  Her stated equations do not produce those curves; they produce our thresholds.
 - Her K > 0 (punctured-sphere, tan) curves agree with her equations.
 - The discrepancy is **not** (a), a mapping error: the map K = −r² is correct.
 - It is **not** (c): our blocks are confirmed independently once more.
@@ -72,20 +79,29 @@
 - **No.** ξ*(N), ξ_EM(N), the block formulas, the algebraic claims and the K = −r_*² conversion all stand.
 - The note's sentence "Her criterion is Hessian definiteness, i.e. our energy–momentum threshold" is correct. For odd N, the K values from her equations are the EM ones: K_EM(9) = −0.4886984, versus −0.4886982 at ξ*.
 
-## What the note should say about Boatto (replace the "unreconciled" text in §motivation and §Limitations)
-> Boatto [Boatto] formulated exactly this problem and model on the hyperbolic surface: Green's function −(1/2π) ln tanh(√|K| r/2), Hamiltonian (17) c Σ ln((d−1)/(d+1)), ring of fixed geodesic radius r_o = 1. She also gave the Q/P/G circulant block structure with a coupling block and the Hessian-definiteness criterion, and she observed numerically that N ≥ 7 rings can be stabilized only by sufficiently negative curvature. Credit for the question, the block structure and the qualitative picture is hers. Her hyperbolic blocks are not written out, and her Fig. 5a puts the N = 8, 9 crossings at K ≈ −0.247, −0.396. Implementing her eqs. (17), (19) and (38) as stated gives K = −0.28218 and −0.48870, i.e. our ξ_*(8) and ξ_EM(9) under ξ = tanh²(√−K/2). Her plotted K < 0 curves are reproduced to plotting accuracy (≤ 0.015) by the same computation with the sign of the ln(d+1) term reversed, i.e. by the pair law −ln sinh(D). We therefore attribute the difference to a slip in the numerics behind the figure, not to the model. Her K > 0 (punctured-sphere) curves agree with her equations.
-
-Keep the tone factual. Credit stays as already written.
+## Summary
+Boatto [Boatto] formulated exactly this problem and model on the hyperbolic surface: Green's function −(1/2π) ln tanh(√|K| r/2), Hamiltonian (17) c Σ ln((d−1)/(d+1)), ring of fixed geodesic radius r_o = 1. She also gave the Q/P/G circulant block structure with a coupling block and the Hessian-definiteness criterion, and she observed numerically that N ≥ 7 rings can be stabilized only by sufficiently negative curvature. Credit for the question, the block structure and the qualitative picture is hers. Her hyperbolic blocks are not written out, and her Fig. 5a puts the N = 8, 9 crossings at K ≈ −0.247, −0.396. Implementing her eqs. (17), (19) and (38) as stated gives K = −0.28218 and −0.48870, i.e. our ξ_*(8) and ξ_EM(9) under ξ = tanh²(√−K/2). Her plotted K < 0 curves are reproduced to plotting accuracy (≤ 0.015) by the same computation with the sign of the ln(d+1) term reversed, i.e. by the pair law −ln sinh(D). The difference therefore lies in the computation behind the figure, consistent with a sign difference in the pair law
+used for the plotted curves, not in the model or in her equations. Her K > 0 (punctured-sphere) curves agree with her equations.
+The tanh note (`../note_tanh.tex`, §1 and Limitations) states this result.
 
 ## Files
+Items marked *not committed* are excluded by `.gitignore` (third-party copyright, or regenerable from the paper). To
+rerun the figure-based scripts, fetch the paper from the publisher (DCDS-B 10 (2008) 349–375,
+doi:10.3934/dcdsb.2008.10.349), render p. 15 at 600 dpi and crop Fig. 5a/5b into `fig/` as described in `NOTES.md`.
+`boatto_hessian.py`, `scan_fig5a.py`, `modes.py`, `map_and_verify.py`, `n5_coupling.py` and `fig5b_check.py` need
+none of these files.
+
 - `NOTES.md`: quotes with pages and equations, the map, digitization notes.
 - `boatto_hessian.py`: reimplementation from eqs. (11), (17), (22), (29), (38).
 - `scan_fig5a.py` → `scan_fig5a.out`: Fig. 5a curves and crossings for the tanh and sinh(D/2) laws.
 - `modes.py` → `modes_boatto.out`: per-mode Q, P, G.
 - `map_and_verify.py` → `map_and_verify.out`: precise crossings, the map, and congruence with `../blocks.py`.
-- `digitize_fig5a.py` → `fig5a_digitized.txt`/`.npy`.
-- `n5_check.py` → `n5_check.out`; `n5_coupling.py` → `n5_coupling.out`.
-- `beta_family.py` → `beta_family.out`.
-- `compare_detail.py` → `compare_beta1_gamma-1.out`.
-- `fig5b_check.py` → `fig5b_check.out`; `fig5b_digitize.py` → `fig5b_digitize.out`.
-- `dl/`: both PDFs. `boatto2008.txt`, `mparc06-311.txt`: text extracts. `fig/`: renders.
+- `digitize_fig5a.py` → `fig5a_digitized.txt` (committed) and `fig5a_digitized.npy` (not committed; regenerable).
+  Needs `fig/fig5a_crop.png`.
+- `n5_check.py` → `n5_check.out` (needs `fig/fig5a_crop.png`); `n5_coupling.py` → `n5_coupling.out`.
+- `beta_family.py` → `beta_family.out` (needs `fig5a_digitized.npy`).
+- `compare_detail.py` → `compare_beta1_gamma-1.out` (needs `fig5a_digitized.npy`).
+- `fig5b_check.py` → `fig5b_check.out`; `fig5b_digitize.py` → `fig5b_digitize.out` (needs `fig/fig5b_crop.png`).
+- `dl/` (both PDFs), `boatto2008.txt` and `mparc06-311.txt` (text extracts): not committed (third-party copyright);
+  fetch the paper from the publisher.
+- `fig/` (page renders and the Fig. 5a/5b crops): not committed (third-party copyright / regenerable from the paper).

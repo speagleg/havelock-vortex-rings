@@ -13,22 +13,22 @@ value, and `nonlinear()` at the bifurcation point (the threshold's `r`).
 ## Montaldi–Tokieda family (`mt`, `sphere`, `plane`, `sinh`)
 
 - Hamiltonian H = −Σ log(|z_i − z_j|²/(σ_iσ_j)), σ = 1 + λ|z|², symplectic form Σ 2/σ² dx∧dy
-  (conj13/paper/main.tex, eq. (H)). Fourier blocks a_m = C1 − m(n−m), b_m = m(n−m), g_m = 0 with
-  C1 = 2(n−1)(1+b²)/(1+b)² (paper Proposition prop:blocks).
-- **Threshold, n ≥ 4: PROVED.** b_n from paper eq. (bn); critical mode ⌊n/2⌋. Lean: `Havelock.Conj13.bn_spec`.
+  (conj13/paper/main.pdf, eq. (1)). Fourier blocks a_m = C1 − m(n−m), b_m = m(n−m), g_m = 0 with
+  C1 = 2(n−1)(1+b²)/(1+b)² (paper Proposition 3).
+- **Threshold, n ≥ 4: PROVED.** b_n from paper eq. (2); critical mode ⌊n/2⌋. Lean: `Havelock.Conj13.bn_spec`.
   The `sinh` view cites cosh² r* = q(N) (sinh/note.tex; Lean `Havelock.Sinh`). A view that does not contain b_n
   returns `NoThreshold` ("stable at every radius" or "unstable at every radius"), PROVED.
-- **c4 at b_n, n ≥ 4: PROVED.** Paper Theorems thm:even / thm:odd; Lean `Havelock.Conj13.c4_at_bn` checks the algebra
+- **c4 at b_n, n ≥ 4: PROVED.** Paper Theorems 6 (n even) and 7 (n odd); Lean `Havelock.Conj13.c4_at_bn` checks the algebra
   downstream of the series coefficients. Verdict "stable" (Lyapunov stability modulo rotations, paper Theorem
-  thm:main).
-- **n = 2, 3 on the sphere / full family: OutOfValidityRange.** Eq. (bn) has its only root at the equator b = 1, and
+  1).
+- **n = 2, 3 on the sphere / full family: OutOfValidityRange.** Eq. (2) has its only root at the equator b = 1, and
   c4 = 0 at n = 3; the case rests on Montaldi–Tokieda's own argument.
 - **stability(): PROVED** from exact signs of the blocks at the (exact rational) value.
 - **simulate(): NUMERICAL** always.
 
 ## tanh model (`tanh`)
 
-- Hamiltonian H = −Σ ln tanh(d/2) on H² (Kimura's Hamiltonian; tanh/note_tanh.tex eq. (H)), Poincaré disk, curvature
+- Hamiltonian H = −Σ ln tanh(d/2) on H² (Kimura's Hamiltonian; tanh/note_tanh.pdf eq. (1)), Poincaré disk, curvature
   −1; parameter `xi` = tanh²(r/2) ∈ (0, 1); stable for xi above the threshold.
 - **Blocks: PROVED** (note Thm 2), with a radial–tangential coupling g_m. The Boatto (2008) discrepancy was resolved
   in tanh/boatto_check/RESULT.md (her equations give our thresholds; her figure used a different pair law).
@@ -44,8 +44,9 @@ value, and `nonlinear()` at the bifurcation point (the threshold's `r`).
   (ξ*, ξ_EM) the ring is linearly stable (a_m, b_m > 0) but the critical block has determinant
   D_m = a_m b_m − g_m² < 0, so the Hessian is indefinite there; nonlinear stability on that window is undecided by
   this package. The threshold's basis states this gap only when the certificate proves it: the exact sign of D_crit
-  is negative at the rational point just above the threshold interval. At ξ* itself a_m = 0, so the critical block is not positive definite (D_m = −g_m² ≤ 0). For N > 16 the basis cites
-  note_tanh Theorem 7 as "proved there for N <= 16"; the certification itself is done at run time.
+  is negative at the rational point just above the threshold interval. At ξ* itself a_m = 0, so the critical block
+  is not positive definite (D_m = −g_m² ≤ 0). For N > 16 the basis cites note_tanh Theorem 7 as "proved there for
+  N <= 16"; the certification itself is done at run time.
 - **stability(): CERTIFIED** (exact signs). For odd N the window (ξ*, ξ_EM) gives the verdict
   "spectrally-stable-only".
 - **c4: NUMERICAL** (level-set engine), even N only. Odd N raises OutOfValidityRange: at ξ* the critical block is

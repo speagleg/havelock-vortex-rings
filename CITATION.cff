@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below. The papers are drafts and have not yet been peer reviewed."
+title: "Vortex-ring stability beyond the plane: Montaldi–Tokieda Conjecture 13 and certified thresholds for the tanh model"
+type: software
+authors:
+  - family-names: Speagle
+    given-names: Gordon
+    affiliation: Independent Researcher, Boise, ID, USA
+    email: gspeagle@gmail.com
+version: 0.1.0
+date-released: 2026-10-12
+license: MIT
+repository-code: "https://github.com/speagleg/havelock-vortex-rings"
+keywords:
+  - point vortices
+  - vortex rings
+  - hyperbolic plane
+  - stability
+  - computer-assisted proof
+  - Lean 4

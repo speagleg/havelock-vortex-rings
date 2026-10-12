@@ -155,10 +155,10 @@ def c4_level_set(name: str, N: int, p, *, dps: int = LEVELSET["dps"], steps: int
 
 def _mt_nonlinear(mdl, N, t, t0, inputs):
     c4 = c4_closed(N)
-    basis = ("paper Theorem thm:even (N even) / thm:odd (N odd): c4 = "
+    basis = (("paper Theorem 6 (n even): c4 = " if N % 2 == 0 else "paper Theorem 7 (n odd): c4 = ")
              + ("(n-2)(m^4+40m^2+48m+16)/(192n(n-1)), m = n-2" if N % 2 == 0
                 else "(n-1)(n-3)(n^2-9n+38)/(128n)")
-             + " > 0, so the ring is Lyapunov stable modulo rotations at b_n (paper Theorem thm:main); "
+             + " > 0, so the ring is Lyapunov stable modulo rotations at b_n (paper Theorem 1); "
              "Lean Havelock.Conj13.c4_at_bn (the algebra downstream of the series coefficients)")
     return Nonlinear(status=Status.PROVED, basis=basis, provenance=make_provenance("nonlinear", inputs, t0),
                      model=mdl.name, N=N, value=t.value, mode=t.mode, c4=c4, verdict="stable",
@@ -177,7 +177,7 @@ def _tanh_nonlinear(mdl, N, t, t0, inputs):
     verdict = "stable" if c4 > mp.mpf("1e-8") else ("unstable" if c4 < -mp.mpf("1e-8") else "undecided")
     basis = ("NUMERICAL: level-set engine (Newton on the KKT system on J^{-1}(mu), eps = k/200, k = 1..6, Neville "
              "extrapolation; port of conj13/review/c4_levelset.py), Euclidean-unit kernel vector in the Poincare-disk "
-             "chart, H as in tanh/note_tanh.tex eq. (H). c4 > 0 indicates a strict (quartic) minimum of the reduced "
+             "chart, H as in tanh/note_tanh.tex eq. (1). c4 > 0 indicates a strict (quartic) minimum of the reduced "
              "Hamiltonian; the energy–momentum argument of conj13/paper Section nonlinear has not been checked for "
              "this model, and any stability conclusion is modulo SO(2,1). No closed form for tanh c4 is known")
     return Nonlinear(status=Status.NUMERICAL, basis=basis, provenance=make_provenance("nonlinear", inputs, t0),

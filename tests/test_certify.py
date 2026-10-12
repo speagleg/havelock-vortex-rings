@@ -68,7 +68,8 @@ def test_certify_no_threshold():
 
 def test_isolated_root_str():
     r = IsolatedRoot(poly=(-2, 0, 1), lo=F(1414, 1000), hi=F(1415, 1000))
-    assert str(r) == "the root in [1.4139999999999999, 1.415] (width 1.0e-03) of the degree-2 polynomial [-2, 0, 1] (constant term first)"
+    assert str(r) == ("the root ~ 1.414 (isolated in an exact rational interval of width 1.0e-03) of the degree-2 "
+                      "polynomial [-2, 0, 1] (constant term first)")
 
 
 def test_sturm_count_raises_on_inverted_interval():

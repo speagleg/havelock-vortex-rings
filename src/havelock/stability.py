@@ -11,12 +11,12 @@ from .models import check_N, get_model, to_fraction
 from .status import ModeBlock, Stability, Status, make_provenance
 
 _BASIS = {
-    "mt": ("exact rational evaluation of a_m = C1 - m(n-m), b_m = m(n-m), g_m = 0 (paper Proposition prop:blocks, "
+    "mt": ("exact rational evaluation of a_m = C1 - m(n-m), b_m = m(n-m), g_m = 0 (paper Proposition 3, "
            "MT (2.6)); EM-stable = a_m > 0 and b_m > 0 for m = 1..floor(N/2), which makes the reduced Hessian "
-           "positive definite (paper Proposition prop:spectral, MT Thm 2)"),
+           "positive definite (paper Proposition 4, MT Thm 2)"),
     "tanh": ("exact rational evaluation of the blocks of tanh/note_tanh.tex Thm 2 (Fourier blocks, PROVED); "
-             "criteria of Prop. lin: spectrally stable iff every a_m b_m >= 0, EM-stable iff a_m > 0 and "
-             "a_m b_m - g_m^2 > 0 for every m (Lyapunov conclusions only modulo SO(2,1), note Remark em)"),
+             "criteria of note Proposition 3: spectrally stable iff every a_m b_m >= 0, EM-stable iff a_m > 0 and "
+             "a_m b_m - g_m^2 > 0 for every m (Lyapunov conclusions only modulo SO(2,1), note Remark 4)"),
 }
 
 

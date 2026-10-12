@@ -1,6 +1,8 @@
 # Vortex-ring stability beyond the plane
 
 [![lean](https://github.com/speagleg/havelock-vortex-rings/actions/workflows/lean.yml/badge.svg)](https://github.com/speagleg/havelock-vortex-rings/actions/workflows/lean.yml)
+[![python](https://github.com/speagleg/havelock-vortex-rings/actions/workflows/python.yml/badge.svg)](https://github.com/speagleg/havelock-vortex-rings/actions/workflows/python.yml)
+[![licence: MIT (code), CC BY 4.0 (papers)](https://img.shields.io/badge/licence-MIT%20%2F%20CC%20BY%204.0-blue)](#licence)
 
 Gordon Speagle, Independent Researcher, Boise, ID, USA.
 
@@ -8,11 +10,16 @@ The regular ring of N identical point vortices is a classical object: Thomson po
 answered it in 1931: in the plane the ring is linearly stable exactly when N ≤ 7 (N = 7 only marginally; its
 nonlinear stability was settled later). This repository studies the same question
 on curved surfaces: the sphere, the plane and the hyperbolic plane. It contains two research results, the proofs and
-computations behind them, and a Lean 4 check of their exact algebra.
+computations behind them, a Lean 4 check of their exact algebra, and `havelock`, a Python package and command-line tool
+that answers the same questions for any N.
+
+    pip install git+https://github.com/speagleg/havelock-vortex-rings
+    havelock threshold tanh 12
 
 > **Status.** These are drafts. They have been checked by independent AI readers, by exact and interval computer
 > algebra, and by a Lean build in CI. **No human specialist has reviewed them yet.** Each claim is labelled PROVED,
-> CERTIFIED or NUMERICAL in [docs/results.md](docs/results.md).
+> CERTIFIED or NUMERICAL in [docs/results.md](docs/results.md). The work was developed with AI assistance (Claude);
+> each paper's acknowledgement says how.
 
 ## The results
 
@@ -50,7 +57,8 @@ The sinh model, whose thresholds Montaldi and Tokieda already know, is written u
 
 | Check | How | Time |
 |---|---|---|
-| Lean formalisation of the exact algebra | `cd lean && lake exe cache get && lake build`, then `lake env lean AxiomAudit.lean`. See [docs/lean.md](docs/lean.md). | about 25 min |
+| Lean formalisation of the exact algebra | `cd lean && lake exe cache get && lake build`, then `lake env lean AxiomAudit.lean`. With less than 16 GB of RAM, build module by module as in [docs/lean.md](docs/lean.md). | about 25 min |
+| Package test suite | `pip install -e ".[dev]" && pytest -q` | ~3 min |
 | Re-run the computations behind the papers | `pip install -r requirements.txt`, then `python scripts/reproduce.py --tier fast`. See [REPRODUCE.md](REPRODUCE.md). All 72 recorded outputs reproduce byte for byte. | fast tier ~25 min; medium ~2 h |
 | Irreducibility certificates (tanh) | `cd tanh/irreducibility && gp -q irreducibility.gp` | seconds |
 | Boatto comparison | [tanh/boatto_check/RESULT.md](tanh/boatto_check/RESULT.md) | — |
@@ -66,11 +74,11 @@ and on any main theorem that depends on an axiom other than `propext`, `Classica
 | `tanh/` | The tanh model: derivation, block and certification scripts, `irreducibility/`, `boatto_check/`, the Lean certificate generator in `lean_gen/`, and the note |
 | `sinh/` | The sinh-model note and its checks |
 | `lean/` | Lean 4 + Mathlib library `Havelock` ([docs/lean.md](docs/lean.md)) |
-| `docs/` | [results.md](docs/results.md): every claim with its status. [lean.md](docs/lean.md). `design/`: the design spec for the Python package |
+| `docs/` | [results.md](docs/results.md): every claim with its status. [lean.md](docs/lean.md). Package docs: [quickstart.md](docs/quickstart.md), [models.md](docs/models.md), [certificates.md](docs/certificates.md). `design/`: the package's design record. `notes/`: dated working notes |
 | `src/` | The `havelock` Python package (`src/havelock`) |
 | `tests/` | The package's pytest suite |
 | `literature.md` | What we read, and how much of it (full text or abstract only) |
-| `directions-2026-10-10.md` | Working notes on further directions, dated. Some items have since been resolved; for example, Conjecture 13 is item 7 |
+| `scripts/`, `REPRODUCE.md` | The reproduction driver and the table of every recorded output |
 
 ## Using the `havelock` Python package
 
@@ -86,7 +94,8 @@ and a `basis` string that says why. Certified thresholds can be exported as mach
 What 0.1.0 covers:
 
 - **MT family** (`mt`, `sphere`, `plane`, `sinh`): thresholds, critical mode and the quartic coefficient c4 are PROVED
-  for n >= 4 (n = 2, 3 on the sphere raise `OutOfValidityRange`).
+  for n >= 4 (closed forms: even n >= 4, odd n >= 5). n = 2, 3 raise `OutOfValidityRange` on the sphere and the full
+  family, and are stable at every radius in the plane and sinh views.
 - **tanh model** (`tanh`): block formulas PROVED; thresholds CERTIFIED at run time for N <= 64 (exact Sturm counts and
   Arb root isolation; "Lean-checked" for 8 <= N <= 16); stability verdicts CERTIFIED from exact signs; c4 NUMERICAL and
   for even N only. The certified tanh threshold is the spectral one. For even N <= 16 it is also the
@@ -105,5 +114,11 @@ and `sinh/`; it ports their logic, and its tests compare against their recorded 
 
 ## Citing and contact
 
-Please cite the papers in `conj13/paper` and `tanh/` as drafts by Gordon Speagle (2026). Contact: gspeagle@gmail.com.
-The work was developed with AI assistance (Claude), as each paper's acknowledgement states.
+Please cite the papers in `conj13/paper` and `tanh/` as drafts by Gordon Speagle (2026); `CITATION.cff` has the
+details (GitHub's "Cite this repository" button reads it). Contact: gspeagle@gmail.com. Corrections and comments are
+welcome, by email or as GitHub issues.
+
+## Licence
+
+Code (the `havelock` package, the research scripts and the Lean library) is under the [MIT licence](LICENSE). The papers,
+notes and documentation are under [CC BY 4.0](LICENSE-docs.md).

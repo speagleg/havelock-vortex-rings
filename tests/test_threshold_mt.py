@@ -20,7 +20,7 @@ def test_mt_threshold_matches_paper_table(n):
     assert isinstance(t, hv.Threshold) and t.status == hv.Status.PROVED
     assert t.mode == n // 2 and t.stable_side == "below" and t.fallback_from is None
     assert abs(t.value - mp.mpf(B_TABLE[n])) < mp.mpf("5e-11")
-    assert "eq. (bn)" in t.basis and "Havelock.Conj13" in t.basis
+    assert "eq. (2)" in t.basis and "Havelock.Conj13" in t.basis
 
 
 def test_exact_forms_and_geometry():

@@ -1,4 +1,4 @@
-"""Item 01: independent linear-stability computation for the sinh model (NUMERICAL).
+"""Independent linear-stability computation for the sinh model (NUMERICAL).
 
 Fresh script (does not reuse checks/).  Model, written out:
   phase space: N points z_k = x_k + i y_k in the unit disk, symplectic form

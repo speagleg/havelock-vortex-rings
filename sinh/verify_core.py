@@ -1,4 +1,4 @@
-"""Item 01, core claims C1-C3 (sinh model).  Exact symbolic verification with sympy.
+"""Core claims C1-C3 of the sinh note (sinh/note.tex).  Exact symbolic verification with sympy.
 
 Model (see note.tex sec. 1): Poincare disk, area form w = 4 dx^dy/(1-|z|^2)^2,
   H = -sum_{j<k} ln|z_j - z_k| + (N-1)/2 sum_k ln(1-|z_k|^2)  ( = -sum ln sinh(d_jk/2) + const ),

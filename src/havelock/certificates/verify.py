@@ -65,7 +65,7 @@ def _trim(p):
 
 
 def _mt_numerators(N, m):
-    """(A, B, D, G) of the MT family (paper Proposition prop:blocks), constant term first."""
+    """(A, B, D, G) of the MT family (paper Proposition 3), constant term first."""
     T = m * (N - m)
     A = _add(_sc(2 * (N - 1), [1, 0, 1]), _sc(-T, [1, 2, 1]))
     return _trim(A), [T], _trim(_sc(T, A)), [0]

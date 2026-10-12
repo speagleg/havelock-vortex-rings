@@ -10,7 +10,8 @@ REPO = Path(__file__).resolve().parents[1]
 
 def _commands():
     text = (REPO / "docs/quickstart.md").read_text()
-    return [shlex.split(line[len("$ havelock "):]) for line in text.splitlines() if line.startswith("$ havelock ")]
+    return [shlex.split(line[len("$ havelock "):], comments=True)
+            for line in text.splitlines() if line.startswith("$ havelock ")]
 
 
 def test_docs_exist():

@@ -1,4 +1,4 @@
-Item 01 / Montaldi-Tokieda Conjecture 13: stability of the regular n-gon AT its bifurcation point
+Montaldi-Tokieda Conjecture 13: stability of the regular n-gon AT its bifurcation point
 =====================================================================================================
 2026-10-10. Status: DRAFT, no second reader yet. Labels follow VERIFICATION_POLICY.md.
 
@@ -6,7 +6,7 @@ Item 01 / Montaldi-Tokieda Conjecture 13: stability of the regular n-gon AT its 
 -----------------------------
 J. Montaldi, T. Tokieda, "Deformation of geometry and bifurcations of vortex rings", arXiv:1210.5662v1
 (Recent Trends in Dynamical Systems, Springer PROMS 35 (2013) 335-370). The arXiv PDF was read in full
-(pdftotext, session scratchpad; not committed).
+(pdftotext of a local copy; not committed).
 
 Setting (MT Sec. 1-2): one smooth family of surfaces M_lambda with curvature 4*lambda, uniform chart C,
 symplectic form 2dx^dy/sigma^2 with sigma = 1+lambda|z|^2, and the Green's function (1.12)

@@ -1,4 +1,9 @@
-# Havelock directions map (agent B, 2026-10-10)
+# Further directions: working notes, 2026-10-10
+
+> Historical working notes, written before the results in this repository were obtained and kept unedited as a
+> record. Some items have since been resolved; notably item 7 (Montaldi–Tokieda Conjecture 13), which is now the
+> paper in `conj13/paper/`, and the H² tables, now the tanh note and the `havelock` package. "Interest" ratings are
+> the author's rough guesses.
 
 ## Directions
 1. **Flat torus.** Small rings are not relative equilibria. The residual scales with the point stabiliser: C2 ∝ ξ, C4 ∝ ξ², C6 ∝ ξ³ (probe confirmed). The right object is a relative periodic orbit. Already done for the torus of revolution: Sakajo–Shimizu. Interest: low–medium.

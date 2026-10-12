@@ -19,11 +19,11 @@ For $N$ identical point vortices on the hyperbolic plane, with the ``sinh'' pair
 $-\ln\sinh(d/2)$, a regular $N$-ring of Euclidean radius $\sqrt\xi$ in the Poincar\'e disk is linearly
 stable if and only if $(N-1)(1+\xi^2)/(1-\xi)^2 > \lfloor N/2\rfloor\lceil N/2\rceil/2$.
 \textbf{This criterion is known}: it is Montaldi--Tokieda~\cite{MT}, eq.~(2.11) and Theorem~2, and it may
-be in Boatto~\cite{Boatto} earlier (not verified). We give a short self-contained derivation in
+is not in Boatto~\cite{Boatto}, whose hyperbolic-plane model is the tanh one. We give a short self-contained derivation in
 log-polar coordinates, in which the Hessian is diagonal in each Fourier mode. We restate the threshold as
 $\cosh^2 r_*=q(N)$ with $q$ rational, and we check the thresholds against an independent 60-digit
 linear-stability computation for $N=8,\dots,15$. We also record an elementary remark: $\xi_*(N)$ is an
-algebraic unit exactly for $N\in\{8,9,11,15,23\}$. We also flag an attribution problem in the source corpus:
+algebraic unit exactly for $N\in\{8,9,11,15,23\}$. We also flag an attribution problem in this project's earlier drafts:
 the secondary literature identifies Kimura's 1999 Hamiltonian with the \emph{tanh} (image) model, not the
 sinh model.
 \end{abstract}
@@ -42,7 +42,7 @@ $\dot y_k=-\lambda^{-1}\partial_{x_k}H$.
 
 \paragraph{Which model this is.} Up to the curvature normalisation, (\ref{H}) is the $\lambda<0$ member of
 the family built on the Green's function $\log\big(|z-w|^2/(\sigma_z\sigma_w)\big)$, $\sigma=1+\lambda|z|^2$,
-in Montaldi--Tokieda~\cite[(1.12)]{MT}. The source corpus called (\ref{H}) ``Kimura's model''. However,
+in Montaldi--Tokieda~\cite[(1.12)]{MT}. This project's earlier drafts called (\ref{H}) ``Kimura's model''. However,
 Montaldi--Nava-Gaxiola~\cite[eq.~(12)]{MNG} write Kimura's Hamiltonian as
 $-\frac1{4\pi}\sum\Gamma_i\Gamma_j\ln\frac{\langle X_i,X_j\rangle+1}{\langle X_i,X_j\rangle-1}$ with
 $\langle X,Y\rangle=-\cosh d$, i.e.\ $-\frac1{4\pi}\sum\ln\tanh^2(d/2)$. Montaldi--Tokieda~\cite[\S4.2]{MT}
@@ -130,14 +130,14 @@ $N$ & $q(N)$ & $\xi_*$ & $\sqrt{\xi_*}$ (Euclid.) & $r_*$ (hyperbolic)\\\midrule
 \end{center}
 
 \paragraph{Numerical check against the dynamics (NUMERICAL).}
-\texttt{work/lin\_stab.py} codes the Cartesian vector field of (\ref{H}) directly, without the Fourier
+\texttt{sinh/lin\_stab.py} codes the Cartesian vector field of (\ref{H}) directly, without the Fourier
 reduction. It solves for $\Omega$ and forms the full $2N\times2N$ Jacobian by central differences at 60
 digits ($h=10^{-25}$). (A) For $N=8,\dots,15$ and $\xi\in\{0.02,\,0.9\xi_*,\,1.1\xi_*,\,0.5\}$, the spectrum
 matches $\{0,0\}\cup\{\pm\sqrt{-a_mb_m}/\kappa_0\}$ to within $2.5\cdot10^{-17}$, and $\Omega$ matches the
 formula to $10^{-58}$. (B) Bisection on ``$\max\operatorname{Re}\sigma>10^{-15}$'' locates the threshold
 within $1.2\cdot10^{-19}$ of $\xi_*(N)$ for every $N=8,\dots,15$, which is the bisection resolution.
-Recorded output: \texttt{work/lin\_stab.out}. The coarser reviewer scans (\texttt{checks/phys/scan.py},
-sinh branch: first stable $r_E=0.252,0.318,0.378$) agree.
+Recorded output: \texttt{sinh/lin\_stab.out}. Coarser independent scans (sinh branch: first stable
+$r_E=0.252,0.318,0.378$; scripts not included in this repository) agree.
 
 \section{An arithmetic remark (C3)}
 From $\xi_*=(\sqrt q-1)/(\sqrt q+1)$:
@@ -164,25 +164,26 @@ $0<4/(q-1)<1$ there. Checking the even $N\in[8,22]$ leaves only $N=8$, where $4/
 Thus $\xi_*(8)=8-3\sqrt7=(8+3\sqrt7)^{-1}$, a root of $\xi^2-16\xi+1$. The statement ``$\xi_*$ is a unit''
 is false in general: $\xi_*(10)=1/7$ has norm $1$ (since $\xi_*\cdot\xi_*^{-1}=1$) but is not integral.
 Literature: we found no statement of Proposition~\ref{prop:units}. It is an elementary observation about
-known numbers and carries no dynamical content. The $SL(2,\mathbb Z)$ remarks of claim C4 are outside this
-draft.
+known numbers and carries no dynamical content. Remarks on $SL(2,\mathbb Z)$ (claim C4 of the earlier
+drafts) are outside this note.
 
 \section{Remarks on other models (context only)}
 \begin{itemize}
-\item \emph{tanh (image) model}, pair term $-\ln\tanh(d/2)$, same area form. The reviewer scans
-(\texttt{checks/phys/scan.py}, \texttt{checks/phys/h2.py}) give first stable $r_E\approx0.26$, $0.336$,
+\item \emph{tanh (image) model}, pair term $-\ln\tanh(d/2)$, same area form. Coarser independent scans
+(scripts not included in this repository) give first stable $r_E\approx0.26$, $0.336$,
 $0.408$ for $N=8,9,10$, which differ from the sinh values. Per~\cite{MNG,MT} this is the Hamiltonian
 attributed to Kimura. Montaldi--Tokieda call its stability analysis ``no longer tractable analytically''.
-A closed form for its thresholds is \textbf{open} (claim C5; not addressed here).
-\item \emph{flat hard-wall disk} (Euclidean area form, images plus the Robin self-image term). The reviewer
-scans (\texttt{checks/disk.py}, \texttt{checks/phys/bec.py}) find $N=7,8$ rings unstable at every radius
+Its thresholds are
+treated in the companion note \texttt{tanh/note\_tanh.pdf}: exact algebraic numbers, certified for $N\le16$.
+\item \emph{flat hard-wall disk} (Euclidean area form, images plus the Robin self-image term). Independent
+scans (scripts not included in this repository) find $N=7,8$ rings unstable at every radius
 tested. Identical Green's functions do not give identical dynamics.
-\item \textbf{Retracted context.} The source corpus claimed ``hard-wall BEC $=$ Poincar\'e disk'' and attached
-these thresholds to BEC experiments. That claim is false (README \S3 item 1) and nothing here supports it.
+\item \textbf{Retracted context.} An earlier draft of this project claimed ``hard-wall BEC $=$ Poincar\'e disk'' and
+attached these thresholds to BEC experiments. That claim is false and nothing here supports it.
 \end{itemize}
 
 \section{Formalisation status}
-\texttt{lean/MathPursuits/Item01\_H2Thresholds.lean} (Lean 4.34.1 + Mathlib) compiles with no
+\texttt{lean/Havelock/SinhArithmetic.lean} (Lean 4.34.1 + Mathlib) compiles with no
 \texttt{sorry}. Its axioms are \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. It
 proves:
 $\xi+\xi^{-1}=2+4/(q-1)$ for $\xi=(\sqrt q-1)/(\sqrt q+1)$, $q>1$;
@@ -198,10 +199,13 @@ Not formalised: the dynamics (Proposition~\ref{prop:modes}), Lemma~\ref{fejer}, 
 (i)$\Rightarrow$(iii) for irrational $\xi_*$.
 
 \section{Status}
+C1--C3 label the claims of this project's earlier drafts that this note checks: the mode
+decomposition (C1), the threshold (C2) and the arithmetic remark (C3).
 C1, C2: \textbf{KNOWN} (Montaldi--Tokieda 2013), re-derived and checked (symbolic and 60-digit numerics).
-C3: elementary, proved, and formalised for its arithmetic part. Novelty POSSIBLY-NEW but immaterial.
-Not yet reviewed by a second reader. Open literature gaps: Boatto 2008 (text unreadable), Hwang--Kim
-2009/2013 and Kimura 1999 (paywalled).
+C3: elementary, proved, and formalised for its arithmetic part. Novelty possibly new but immaterial.
+Checked by an independent AI reader (\texttt{sinh/review\_1.md}); no human specialist has reviewed it.
+Open literature gaps: Hwang--Kim 2009/2013 and Kimura 1999 (not obtained). Boatto 2008 has since been read in
+full; it treats the tanh model.
 
 \begin{thebibliography}{9}
 \bibitem{MT} J.~Montaldi, T.~Tokieda, Deformation of geometry and bifurcations of vortex rings, in
@@ -211,7 +215,7 @@ Not yet reviewed by a second reader. Open literature gaps: Boatto 2008 (text unr
 \bibitem{Kimura} Y.~Kimura, Vortex motion on surfaces with constant curvature, Proc.\ R.\ Soc.\ Lond.\ A 455
 (1999) 245--259 (not obtained).
 \bibitem{Boatto} S.~Boatto, Curvature perturbations and stability of a ring of vortices, DCDS-B 10 (2008)
-349--375 (not read in full).
+349--375.
 \bibitem{HK} S.~Hwang, S.-C.~Kim, Point vortices on hyperbolic sphere, J.\ Geom.\ Phys.\ 59 (2009) 475--488;
 Relative equilibria of point vortices on the hyperbolic sphere, J.\ Math.\ Phys.\ 54 (2013) 063101 (not obtained).
 \end{thebibliography}

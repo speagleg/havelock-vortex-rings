@@ -1,7 +1,7 @@
 """Montaldi–Tokieda family [MT (1.12)] and its geometry-restricted views.
 
 Chart z in C with sigma = 1 + lam|z|^2, symplectic form sum 2/sigma^2 dx^dy, ring of chart radius r0 = 1 and
-native parameter b = lam r0^2 = lam_r2 (paper conj13/paper/main.tex, eq. (H)):
+native parameter b = lam r0^2 = lam_r2 (paper conj13/paper/main.tex, eq. (1)):
     H = -sum_{i<j} log|z_i - z_j|^2 + (n-1) sum_k log sigma_k,   J = sum_k (x_k, y_k, |z_k|^2) / sigma_k.
 b > 0 is the sphere (curvature 4 lam), b = 0 the plane, b < 0 the hyperbolic plane with the sinh interaction.
 The domain is (-1, 1]: b and 1/b describe the same ring (reflection through the equator), so b > 1 is excluded.
@@ -26,7 +26,7 @@ _DOMAINS = {
 
 
 def bn_exact(n: int) -> sp.Expr:
-    """b_n of paper eq. (bn) in closed form (Lean Havelock.Conj13.bn): even n, t = sqrt(n-1):
+    """b_n of paper eq. (2) in closed form (Lean Havelock.Conj13.bn): even n, t = sqrt(n-1):
     (1 + 2t - t^2)/(t^2 + 2t - 1); odd n, s = sqrt(n-3): (2 - s)/(2 + s). b_2 = b_3 = 1 (the equator)."""
     if n % 2 == 0:
         t = sp.sqrt(n - 1)

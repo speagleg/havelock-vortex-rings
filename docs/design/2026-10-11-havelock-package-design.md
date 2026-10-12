@@ -1,6 +1,9 @@
 # `havelock` v0.1: design spec
 
-Date: 2026-10-11. Status: approved in conversation, section by section, and awaiting review of this written form.
+Date: 2026-10-11. Status: implemented as `havelock` 0.1.0 (2026-10-12). Kept unedited as the design record; the user
+documentation is [docs/quickstart.md](../quickstart.md), [docs/models.md](../models.md) and
+[docs/certificates.md](../certificates.md), and where the built package differs from this spec, those documents
+and the code are authoritative.
 
 ## 1. Purpose
 

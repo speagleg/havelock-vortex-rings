@@ -136,8 +136,13 @@ class IsolatedRoot:
     hi: Fraction
 
     def __str__(self) -> str:
-        return (f"the root in [{float(self.lo):.17g}, {float(self.hi):.17g}] (width {float(self.hi - self.lo):.1e}) "
-                f"of the degree-{len(self.poly) - 1} polynomial {list(self.poly)} (constant term first)")
+        w = self.hi - self.lo
+        # about -log10(width) digits are determined (exact integer arithmetic: the width can underflow a float)
+        mag = 30 if w == 0 else len(str(w.denominator)) - len(str(w.numerator))
+        digits = min(30, max(3, mag + 1))
+        return (f"the root ~ {mp.nstr(self.approx(digits + 5), digits)} (isolated in an exact rational interval of "
+                f"width {float(w):.1e}) of the degree-{len(self.poly) - 1} polynomial {list(self.poly)} "
+                f"(constant term first)")
 
     def approx(self, dps: int = 50):
         with mp.workdps(dps + 5):

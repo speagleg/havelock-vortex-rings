@@ -5,7 +5,7 @@ Every claim in this repository carries one of these labels:
 | Label | Meaning |
 |---|---|
 | **PROVED** | A pen-and-paper proof in one of the papers. Where marked, its algebra is also checked in Lean (CI-built). |
-| **CERTIFIED** | Established by a rigorous computation: exact rational root isolation (sympy), Arb ball arithmetic, PARI/GP factorisation, or a Lean certificate. Only the Lean and PARI results leave a certificate that can be re-checked without re-running the computation. The others are re-run by `scripts/reproduce.py`; see the Certificates section of [REPRODUCE.md](../REPRODUCE.md). |
+| **CERTIFIED** | Established by a rigorous computation: exact rational root isolation (sympy), Arb ball arithmetic, PARI/GP factorisation, or a Lean certificate. Of the research computations, only the Lean and PARI results leave a certificate that can be re-checked without re-running the computation; the others are re-run by `scripts/reproduce.py` (see the Certificates section of [REPRODUCE.md](../REPRODUCE.md)). The `havelock` package's threshold certificates (`havelock cert`) use exact Sturm counts and are re-checked independently by `havelock verify` ([certificates.md](certificates.md)). |
 | **NUMERICAL** | High-precision computation with no rigorous error bound. |
 
 No human specialist has reviewed any of this yet. Independent AI readers and the computer checks listed below are the

@@ -14,7 +14,7 @@ from .models import check_N, get_model
 from .models.mt import bn_exact
 from .status import NoThreshold, Status, Threshold, make_provenance
 
-_MT_BASIS = ("paper eq. (bn) and Proposition prop:spectral (conj13/paper/main.tex; Montaldi–Tokieda Thm 6, "
+_MT_BASIS = ("paper eq. (2) and Proposition 4 (conj13/paper/main.pdf; Montaldi–Tokieda Thm 6, "
              "MT (3.6)): a_m = C1 - m(n-m) with C1 = 2(n-1)(1+b^2)/(1+b)^2 decreasing on (-1, 1], so the ring is "
              "stable for lam_r2 < b_n and the mode floor(n/2) goes first; Lean Havelock.Conj13.bn_spec")
 _SINH_BASIS = ("cosh^2 r* = q(N), q = (N-3)/4 (N odd), (N-2)^2/(4(N-1)) (N even) (sinh/note.tex, Section 3; "
@@ -36,11 +36,11 @@ def _mt_threshold(mdl, N, t0, inputs, strict, precision):
     if N <= 3:
         if mdl.name in ("mt", "sphere"):
             raise OutOfValidityRange(
-                f"N = {N}: equation (bn) has its only root at lam_r2 = 1 (the equator), where the momentum is fixed "
-                "by all of SO(3) and the threshold analysis (|b| < 1) does not apply; Montaldi–Tokieda treat this "
+                f"N = {N}: paper equation (2) has its only root at lam_r2 = 1 (the equator), where the momentum is "
+                "fixed by all of SO(3) and the threshold analysis (|b| < 1) does not apply; Montaldi–Tokieda treat this "
                 "case separately (MT p. 15)")
         return NoThreshold(status=Status.PROVED, basis=f"C1(b) > floor(N^2/4) for every b < 1 when N = {N} "
-                           "(paper Proposition prop:blocks)", provenance=make_provenance("threshold", inputs, t0),
+                           "(paper Proposition 3)", provenance=make_provenance("threshold", inputs, t0),
                            model=mdl.name, N=N, verdict="stable at every radius",
                            geometry={"plane": "plane", "sinh": "H2"}[mdl.name])
     bn = bn_exact(N)
@@ -48,7 +48,8 @@ def _mt_threshold(mdl, N, t0, inputs, strict, precision):
     geometry = {"mt": mdl.geometry(bn), "sphere": "sphere", "plane": "plane", "sinh": "H2"}[mdl.name]
     if where != "contains":
         return NoThreshold(status=Status.PROVED,
-                           basis=f"b_{N} = {bn} lies outside the {mdl.name} range {mdl.domain_str()}; " + _MT_BASIS,
+                           basis=(f"b_{N} = {str(bn).replace('**', '^')} lies outside the {mdl.name} range "
+                                  f"{mdl.domain_str()}; " + _MT_BASIS),
                            provenance=make_provenance("threshold", inputs, t0), model=mdl.name, N=N,
                            verdict=f"{where} at every radius", geometry=geometry)
     with mp.workdps(WORK_DPS):
@@ -95,7 +96,7 @@ def _tanh_threshold(mdl, N, t0, inputs, strict, precision):
         if N <= 7 and certify_no_threshold("tanh", N, mdl.family_domain):
             return NoThreshold(status=Status.CERTIFIED,
                                basis=("exact Sturm counts: a_m, b_m and a_m b_m - g_m^2 have no root in (0, 1) and are "
-                                      "positive (note_tanh Theorem 7(a) (thm:cert)); Lean-checked: "
+                                      "positive (note_tanh Theorem 7(a)); Lean-checked: "
                                       f"Havelock.Tanh.stable_N{N}"),
                                provenance=make_provenance("threshold", inputs, t0), model="tanh", N=N,
                                verdict="stable at every radius", geometry="H2")
@@ -113,7 +114,7 @@ def _tanh_threshold(mdl, N, t0, inputs, strict, precision):
         value = exact.approx(WORK_DPS)
         r, cosh_r = mdl.radius(value), mdl.cosh_r(value)
     lean = f"; Lean-checked: Havelock.Tanh.cert_N{N} (note_tanh Theorem 7(b))" if 8 <= N <= 16 else ""
-    cite = ("note_tanh Theorem 7 (thm:cert)" if N <= 16
+    cite = ("note_tanh Theorem 7" if N <= 16
             else "as in note_tanh Theorem 7 (proved there for N <= 16); certified here at run time")
     # odd N: claim the Krein gap only when the certificate proves it, i.e. the exact sign of D_crit = a b - g^2 is
     # negative at the rational point just above the interval (there the ring is not EM-stable, so xi_EM > xi*)

@@ -1,7 +1,9 @@
-# Item 01 — second-reader review (Rule R), core C1–C3
+# Sinh note: second-reader review, core claims C1–C3
 
-Reviewer: independent agent (fresh context), 2026-10-07. I re-derived everything from `work/note.tex`
-before reading `LOG.md`, `work/literature.md` or the author's scripts.
+Reviewer: independent AI reader (fresh context), 2026-10-07. I re-derived everything from the note
+(`sinh/note.tex`) before reading the author's log, the literature notes (`literature.md`) or the author's scripts.
+File paths below are given in the current repository layout; the Lean file reviewed is now
+`lean/Havelock/SinhArithmetic.lean`.
 Scope: note §1–§4 (C1, C2, C3), the Lean file, the literature/attribution claims. C4 and C5 are not in scope.
 
 ## Verdict: **ACCEPT** (core C1–C3), with minor non-blocking recommendations
@@ -42,7 +44,7 @@ supported by three more secondary sources than the author found, including Boatt
 - **Table.** I recomputed q, ξ*, √ξ* and r* = arccosh √q = 2 artanh √ξ* (both formulas agree) for N = 8..15. All entries match. The digits of ξ*
   in the note are truncated, not rounded (for example 0.20241086403185…), which is acceptable.
 
-## 2. Independent numerics (NUMERICAL) — `work/review_1_stab.py` → `work/review_1_stab.out`
+## 2. Independent numerics (NUMERICAL) — `sinh/review_1_stab.py` → `sinh/review_1_stab.out`
 
 This is a different method from the author's `lin_stab.py`. The exact second derivatives of the pair term and of the one-body term
 (H − ΩJ) are produced symbolically by sympy and assembled into the full 2N×2N Cartesian Hessian, evaluated at 50 digits. There is no finite differencing
@@ -56,9 +58,9 @@ The linearised field is ẋ = λ⁻¹∂_yF, ẏ = −λ⁻¹∂_xF, with λ = 4
 
 ## 3. Lean
 
-`export PATH=$HOME/.elan/bin:$PATH; cd lean && lake env lean MathPursuits/Item01_H2Thresholds.lean` exits 0 with no
+`export PATH=$HOME/.elan/bin:$PATH; cd lean && lake env lean Havelock/SinhArithmetic.lean` exits 0 with no
 output. There is no `sorry`, `admit`, `axiom` or `native_decide`.
-`#print axioms` (scratch copy `/tmp/Item01_axcheck.lean`) gives [propext, Classical.choice, Quot.sound] for all 15
+`#print axioms` (in a temporary uncommitted copy of the file) gives [propext, Classical.choice, Quot.sound] for all 15
 declarations.
 Statement audit:
 - `q` and `c` are exactly the note's q(N) and c(N). Lean's x/0 = 0 does not matter because q − 1 ≠ 0 for N > 7.
@@ -119,14 +121,14 @@ correctly lists what is not formalised: the dynamics, the lemma, and the convers
 **Attribution verdict.** The note's caution is correct and, if anything, too weak. Six secondary sources (M–T 2013 §4.2,
 M–NG 2014 eq. 12, Nava-Gaxiola thesis eq. 4.18, Boatto preprint eqs. 14/17, Garra 2013 eq. 3-3, plus Drivas et al. 2026
 eq. 11) identify Kimura's H² Hamiltonian/Green's function as the **tanh** (image) one. None identifies it with ln sinh.
-Kimura's original text remains unread (Rule C), so the wording "per the secondary literature" is right. Do not call the sinh model "Kimura's".
+Kimura's original text remains unread, so the wording "per the secondary literature" is right. Do not call the sinh model "Kimura's".
 
 ## 5. Issues (none blocking)
 
-1. **README §1 and C5 still say "Kimura's H² model"/"Kimura sinh model"** for the sinh Hamiltonian, and §3 has no entry
-   for this misattribution. FIXES.md has no entry either; the source is Paper A `H_hyp` and the bundles. The author proposed the fix in LOG but left
-   it to the coordinator. This should be done before DONE. README C5 also calls the Euclidean radii √ξ* "r*". The note uses
-   r* for the hyperbolic radius, so README C5 should rename them.
+1. **The project README (at the time of review) still said "Kimura's H² model"/"Kimura sinh model"** for the sinh
+   Hamiltonian and had no entry recording this misattribution; the name came from earlier project material. The author
+   had proposed the fix in the log but not yet applied it. It should be applied before the note is final. The README
+   also called the Euclidean radii √ξ* "r*". The note uses r* for the hyperbolic radius, so the README should rename them.
 2. Note, abstract: "linearly stable iff C₁ > T". This is correct if understood modulo the rotation direction. The m = 0 block
    (a₀ > 0, b₀ = 0) is a nilpotent drift, and at C₁ = T the critical block is nilpotent. Add one sentence saying that
    equality is degenerate (M–T §3 treat it by bifurcation analysis).
@@ -139,11 +141,11 @@ Kimura's original text remains unread (Rule C), so the wording "per the secondar
 ## 6. Commands
 
 ```
-python3 work/review_1_stab.py            # 22.6 min; output work/review_1_stab.out
-python3 work/verify_core.py | diff - work/verify_core.out   # identical
-export PATH=$HOME/.elan/bin:$PATH; cd lean && lake env lean MathPursuits/Item01_H2Thresholds.lean   # exit 0
-lake env lean /tmp/Item01_axcheck.lean   # file + #print axioms for all 15 decls
+cd sinh && python3 review_1_stab.py            # 22.6 min; output review_1_stab.out
+cd sinh && python3 verify_core.py | diff - verify_core.out   # identical
+export PATH=$HOME/.elan/bin:$PATH; cd lean && lake env lean Havelock/SinhArithmetic.lean   # exit 0
+# plus a temporary copy of the file with #print axioms for all 15 decls
 ```
 Primary PDFs: arxiv.org/pdf/1210.5662, arxiv.org/pdf/1403.2138, web.ma.utexas.edu/mp_arc/c/06/06-311.pdf (OCR),
 msp.org/memocs/2013/1-1/memocs-v1-n1-p02-s.pdf, arxiv.org/pdf/2607.16490,
-eprints.maths.manchester.ac.uk/2022/1/thesis_final.pdf. Copies are in the reviewer's scratchpad and were not committed.
+eprints.maths.manchester.ac.uk/2022/1/thesis_final.pdf. Local copies of the papers are not committed (copyright).

@@ -80,3 +80,14 @@ def test_console_script_module():
     r = subprocess.run([sys.executable, "-m", "havelock", "threshold", "sinh", "8", "--json"],
                        capture_output=True, text=True)
     assert r.returncode == 0 and json.loads(r.stdout)["status"] == "PROVED"
+
+
+def test_negative_rational_positional_value(capsys):
+    rc, out, _ = run(capsys, "stability", "sinh", "9", "-1/7", "--json")
+    assert rc == 0 and json.loads(out)["verdict"] == "EM-stable"
+
+
+def test_threshold_line_names_the_parameter_and_stable_direction(capsys):
+    rc, out, _ = run(capsys, "threshold", "sinh", "12")
+    assert rc == 0 and "threshold lam_r2 = -0.20241086" in out and "stable for lam_r2 < threshold" in out
+    assert "thm:" not in out and "prop:" not in out
