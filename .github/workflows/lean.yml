@@ -39,8 +39,21 @@ jobs:
           # The Havelock.Tanh.LargeN.* modules, in the order in which TanhLargeN.lean imports them.
           mapfile -t largen < <(sed -nE 's/^import (Havelock\.Tanh\.LargeN\.[A-Za-z0-9_]+)$/\1/p' Havelock/TanhLargeN.lean)
           [ "${#largen[@]}" -gt 0 ] || { echo "no Havelock.Tanh.LargeN imports found"; exit 1; }
+          # The irreducibility modules, in the order in which TanhIrred.lean imports them.
+          mapfile -t irred < <(sed -nE 's/^import (Havelock\.Tanh\.Irred[A-Za-z0-9_]+)$/\1/p' Havelock/TanhIrred.lean)
+          [ "${#irred[@]}" -gt 0 ] || { echo "no Havelock.Tanh.Irred imports found"; exit 1; }
+          # The block-derivation modules, in the order in which TanhBlocks.lean imports them.
+          mapfile -t blocks < <(sed -nE 's/^import (Havelock\.Tanh\.Blocks[A-Za-z0-9_]*)$/\1/p' Havelock/TanhBlocks.lean)
+          [ "${#blocks[@]}" -gt 0 ] || { echo "no Havelock.Tanh.Blocks imports found"; exit 1; }
           mods=(Havelock.SinhArithmetic Havelock.Conj13Algebra "${tanh[@]}" Havelock.TanhAlgebra
-                "${largen[@]}" Havelock.TanhLargeN Havelock)
+                "${blocks[@]}" Havelock.TanhBlocks "${largen[@]}" Havelock.Tanh.LinearFlow Havelock.TanhLargeN
+                "${irred[@]}" Havelock.TanhIrred
+                Havelock.Sinh.Hessian Havelock.Sinh.Threshold Havelock.SinhModes
+                Havelock.Conj13.LyapunovAbstract Havelock.Conj13.LyapunovAnalytic Havelock.Conj13Stability
+                Havelock.Conj13.Series Havelock.Conj13.EvenCurve Havelock.Conj13.EvenConfig
+                Havelock.Conj13.EvenQuartic Havelock.Conj13.OddSums Havelock.Conj13.OddQuadratic
+                Havelock.Conj13.OddConstraint Havelock.Conj13.TaylorCoeffs Havelock.Conj13Series
+                Havelock)
           : > build.log
           for m in "${mods[@]}"; do
             echo "::group::lake build +$m"

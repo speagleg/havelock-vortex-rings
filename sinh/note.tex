@@ -17,7 +17,8 @@
 \begin{abstract}
 For $N$ identical point vortices on the hyperbolic plane, with the ``sinh'' pair interaction
 $-\ln\sinh(d/2)$, a regular $N$-ring of Euclidean radius $\sqrt\xi$ in the Poincar\'e disk is linearly
-stable if and only if $(N-1)(1+\xi^2)/(1-\xi)^2 > \lfloor N/2\rfloor\lceil N/2\rceil/2$.
+(spectrally) stable if and only if $(N-1)(1+\xi^2)/(1-\xi)^2 \ge \lfloor N/2\rfloor\lceil N/2\rceil/2$, and its Hessian is
+positive definite on the non-rotational modes under strict inequality.
 \textbf{This criterion is known}: it is Montaldi--Tokieda~\cite{MT}, eq.~(2.11) and Theorem~2, and it may
 is not in Boatto~\cite{Boatto}, whose hyperbolic-plane model is the tanh one. We give a short self-contained derivation in
 log-polar coordinates, in which the Hessian is diagonal in each Fourier mode. We restate the threshold as
@@ -195,8 +196,12 @@ $c(N)\in\mathbb Z\iff N\in\{8,9,11,15,23\}$ for all $N>7$, with the values $16,1
 integrality and unit property of $\xi$ when $c\in\mathbb Z$;
 $\xi_*(8)=8-3\sqrt7$ and $\xi_*(8)^2-16\xi_*(8)+1=0$;
 $\xi_*(10)=1/7$ and $1/7$ not integral over $\mathbb Z$.
-Not formalised: the dynamics (Proposition~\ref{prop:modes}), Lemma~\ref{fejer}, and the converse
-(i)$\Rightarrow$(iii) for irrational $\xi_*$.
+\texttt{lean/Havelock/SinhModes.lean} (with \texttt{Sinh/Hessian.lean}, \texttt{Sinh/Threshold.lean}) derives
+Proposition~\ref{prop:modes} from the Hamiltonian: the ring is critical exactly for the stated $\Omega$, and on mode $m$
+the Hessian acts by $a_m$, $b_m$, $g_m=0$; and it proves the threshold criterion in both forms (spectral, with
+$\ge$; definite, with $>$), equivalently $q(N)\le\cosh^2r$, with stability at every radius for $N\le7$.
+Not formalised: the passage from the $2\times2$ blocks to the full $2N$-dimensional linearised flow, Lyapunov
+stability, and the converse (i)$\Rightarrow$(iii) for irrational $\xi_*$.
 
 \section{Status}
 C1--C3 label the claims of this project's earlier drafts that this note checks: the mode

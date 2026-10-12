@@ -1,4 +1,9 @@
 import Havelock.SinhArithmetic
 import Havelock.Conj13Algebra
 import Havelock.TanhAlgebra
+import Havelock.TanhBlocks
 import Havelock.TanhLargeN
+import Havelock.TanhIrred
+import Havelock.SinhModes
+import Havelock.Conj13Stability
+import Havelock.Conj13Series

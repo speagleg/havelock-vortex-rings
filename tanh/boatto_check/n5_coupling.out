@@ -1,8 +1,0 @@
-k=1.0: K=0.30 fig 0.916 model 0.921 | K=0.40 fig 0.368 model 0.414 | K=0.44 fig 0.070 model 0.187 | K=0.52 fig -0.780 model -0.626 | K=0.56 fig -1.309 model -1.176 | K=0.58 fig -1.581 model -1.463
-k=1.5: K=0.30 fig 0.916 model 0.920 | K=0.40 fig 0.368 model 0.409 | K=0.44 fig 0.070 model 0.179 | K=0.52 fig -0.780 model -0.661 | K=0.56 fig -1.309 model -1.224 | K=0.58 fig -1.581 model -1.520
-k=2.0: K=0.30 fig 0.916 model 0.917 | K=0.40 fig 0.368 model 0.402 | K=0.44 fig 0.070 model 0.168 | K=0.52 fig -0.780 model -0.709 | K=0.56 fig -1.309 model -1.292 | K=0.58 fig -1.581 model -1.599
-k=2.5: K=0.30 fig 0.916 model 0.915 | K=0.40 fig 0.368 model 0.392 | K=0.44 fig 0.070 model 0.153 | K=0.52 fig -0.780 model -0.770 | K=0.56 fig -1.309 model -1.377 | K=0.58 fig -1.581 model -1.700
-k=3.0: K=0.30 fig 0.916 model 0.912 | K=0.40 fig 0.368 model 0.381 | K=0.44 fig 0.070 model 0.136 | K=0.52 fig -0.780 model -0.844 | K=0.56 fig -1.309 model -1.481 | K=0.58 fig -1.581 model -1.821
-K=0.30 modes (4piQ,4piP,4pi|G|): [(4.394, 3.919, 0.437), (5.945, 0.922, 0.077)]
-K=0.40 modes (4piQ,4piP,4pi|G|): [(4.532, 3.863, 0.616), (5.903, 0.419, 0.152)]
-K=0.45 modes (4piQ,4piP,4pi|G|): [(4.602, 3.829, 0.712), (5.878, 0.135, 0.203)]

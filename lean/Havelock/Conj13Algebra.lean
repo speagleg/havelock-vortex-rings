@@ -5,7 +5,7 @@ the exact-algebra layer of the proof in conj13/paper/main.tex.
 Conventions as in the paper: `H = −Σ log(|z_i−z_j|²/(σ_iσ_j))`, `σ = 1 + λ|z|²`, ring radius
 `r₀ = 1`, so `b = λ`. "Paper (k)" refers to the numbered displays/theorems of main.tex
 (by LaTeX label: Prop. blocks = `prop:blocks`, Prop. spectral = `prop:spectral`, Thm even = `thm:even`,
-Thm odd = `thm:odd`, Def. c4 = `def:c4`, P1–P3 = `sec:remarks`, eq. (fejer), eq. (bracket), eq. (bn)).
+Thm odd = `thm:odd`, Def. c4 = `def:c4`, eq. (fejer), eq. (bracket), eq. (bn)).
 
 FORMALISED (no `sorry`; axioms: propext, Classical.choice, Quot.sound only)
 
@@ -29,12 +29,12 @@ FORMALISED (no `sorry`; axioms: propext, Classical.choice, Quot.sound only)
 * `V1'_n4`, `V1'_n5`  `κ = 3/2` at n = 4 and `κ = 8/3` at n = 5 (paper, after Prop. spectral).
 * `bracket_value`     `{J₁,J₂}(x₀) = n/2 − λJ₃(x₀) = n(1−b)/(2(1+b)) ≠ 0` (algebra only).
 §3 Even n = 2M, Thm even
-* `h2_eq_zero_iff`    the printed `h₂` vanishes ⇔ (3.6) for even n.
+* `h2_eq_zero_iff`    the stated `h₂` vanishes ⇔ (3.6) for even n.
 * `c4even_diff`       exact identity (no threshold assumed):
                       `h₄(2/(1+b)²)⁴/n² − c4even(n) = (M²(1+b)² − 2(2M−1)(1+b²))·S/(8M(2M−1)(1+b)⁴)`.
 * `c4even_reduction`  on (3.6): `c₄ = (n−2)(m⁴+40m²+48m+16)/(192n(n−1))`, m = n−2 (all M, both roots).
 §4 Odd n, Thm odd
-* `f2_eq_zero_iff`, `odd_rel_iff`: printed `f₂` vanishes ⇔ `(n−7)(1+λ²)+2(n+1)λ = 0` ⇔ (3.6) for odd n.
+* `f2_eq_zero_iff`, `odd_rel_iff`: the stated `f₂` vanishes ⇔ `(n−7)(1+λ²)+2(n+1)λ = 0` ⇔ (3.6) for odd n.
 * `Q_values`          `Q = √(w(1−λw))` at `w₀ = 1/(1+λ)`: `Q = 1/(1+λ)`, `Q' = (1−λ)/2`,
                       `Q'' = −(1+λ)³/4` (genuine derivatives of `Real.sqrt`).
 * `J1con_iff`, `E_vertex`, `a2_pos`: eliminating `s` by the `J₁` constraint leaves
@@ -47,26 +47,17 @@ FORMALISED (no `sorry`; axioms: propext, Classical.choice, Quot.sound only)
 * `c4even_pos`, `c4odd_pos`, `even_quartic_pos`, `odd_quadratic_disc`: sign facts.
 * `table_values`      all 22 rationals of Table 1 (n = 4..25), exactly over ℚ;
                       `table_n7` (`9/14` at b₇ = 0), `table_n8` (`95/56` at b₈ = 3√7−8).
-§6 Comparison P1, P2 (paper sec:remarks)
-* `P1_n7`             `9/14 < 6/7`.
-* `P1_n8`             linear-slice value at n = 8 is exactly `(199−27√7)/56 ∈ (2.2779, 2.2780)`, `> 95/56`.
-* `P1_even_rows`      linear-slice column, n = 4, 6, 10: `(9−2√3)/24 < 1/4`, `(341−64√5)/240 > 23/30`,
-                      `393/80 > 49/15`.  (Uses `sl4`, the straight-line `t⁴` coefficient printed by
-                      even_exact.py — NOT printed in the paper; see its docstring.)
-* `P2_complete_square` Lemma-8 weights complete to `D − 3C²/B`, the printed form to `δ − γ²/β`.
-* `P2_n7`             `(δ−3γ²/β)/δ = 8/17 = (6/7)/(51/28)`, printed combination `14/17`;
-                      `9/14·49/8 = 63/16`, `6/7·49/8 = 21/4`.
-§7 Root-of-unity sums (all n)
+§6 Root-of-unity sums (all n)
 * `fejer`             paper eq. (fejer): `Σ_{l=1}^{n−1}(1−cos(2πml/n))/(1−cos(2πl/n)) = m(n−m)`, 0 ≤ m ≤ n.
 * `sum_cos_eq_zero`   `Σ_{k<n} cos(2πjk/n) = 0` for `n ∤ j`.
 * `sum_cos_sq_mul_cos` `Σ_k cos²(lφ_k)cos φ_k = n/4`, `l = (n−1)/2`, odd n ≥ 3 (used in the `J₁` constraint).
 
 NOT FORMALISED (taken as input from the paper / sympy scripts)
-* The Taylor expansions that PRODUCE the printed coefficients `h₂, h₄` (even: expansion of `H` along
+* The Taylor expansions that PRODUCE the stated coefficients `h₂, h₄` (even: expansion of `H` along
   `Fix(D_M) ∩ J⁻¹(μ)`, product formulas `Π(x − yω) = x^M + y^M`) and `f₂, E₀₀…E₀₂` (odd: canonical
   coordinates, residue evaluation of root-of-unity sums). These are DEFINITIONS here, copied from
   main.tex; everything downstream of them (threshold reduction, elimination of `s`, minimisation over `p`,
-  evaluation at `b_n`, the table) is proved.  `sl4` is likewise copied from out/even_exact.out.
+  evaluation at `b_n`, the table) is proved.
 * The normalisation factors `ε ↔ τ` (even) and `ε ↔ A` (odd), i.e. that `c₄ = h₄(2/(1+λ)²)⁴/n²`
   and `c₄ = 64/(n²(1+λ)⁸) min E` are the quartic along the Euclidean-unit kernel vector; they are
   part of the definitions `c4evenOf`, `c4oddSet`.
@@ -75,8 +66,6 @@ NOT FORMALISED (taken as input from the paper / sympy scripts)
 * The full Hessian computation behind Prop. blocks (pair-log second derivatives, block-diagonalisation)
   beyond the one-body part, the Fourier sums `Σ e^{iφ}cos φ = n/2` etc. used to write `dJ₊` on `V₁`,
   and the derivative computation of `{J₁, J₂}`.
-* The linear-slice values themselves at odd n (6/7 at n = 7 is an engine output) and MT's `β, γ, δ`
-  (taken as printed).
 * All of sec:nonlinear (Lemmas A, B1–B4, thm:abstract: the energy–momentum / Lyapunov argument), the dynamics,
   the reduction `J⁻¹(μ)/K` as a manifold, and the numerical integrations.
 -/
@@ -585,7 +574,7 @@ theorem c4even_reduction (M b : ℝ) (hM : M ≠ 0) (hM1 : 2 * M - 1 ≠ 0) (hb 
 noncomputable def f2 (n b : ℝ) : ℝ :=
   -(n * (n - 1) * (1 + b) ^ 2 / 64) * ((n - 7) * (1 + b ^ 2) + 2 * (n + 1) * b)
 
-/-- Paper Thm odd proof: the coefficients `E₀₀, E₁₀, E₀₁, E₂₀, E₀₂` (as printed). -/
+/-- Paper Thm odd proof: the coefficients `E₀₀, E₁₀, E₀₁, E₂₀, E₀₂` (as stated in the paper). -/
 noncomputable def E00 (n b : ℝ) : ℝ :=
   n * (n - 1) * (1 + b) ^ 4 / 8192 *
     ((n ^ 3 + n ^ 2 - 69 * n + 291) * (1 + b ^ 4) + 4 * (n ^ 3 + n ^ 2 - 21 * n - 13) * (b + b ^ 3)
@@ -860,106 +849,7 @@ theorem table_n7 : C4AtThreshold 7 (9 / 14) := by
   rw [table_values.2.2.2.1] at this
   convert this using 1; norm_num
 
-/-! ## §6. Comparison P1, P2 with the published argument (paper sec:remarks) -/
-
-/-- **P1, `n = 7`**: level-set `c₄ = 9/14` versus the linear-slice value `6/7`. (The value `6/7`
-itself is the engine's linear-slice minimum, not derived here; see P2 for its consistency with
-MT's printed numbers.) -/
-theorem P1_n7 : c4odd (7 : ℚ) = 9 / 14 ∧ (9 / 14 : ℚ) < 6 / 7 := by
-  unfold c4odd; norm_num
-
-/-- The straight-line (= linear-slice for even `n`, by MT Lemma 10) `t⁴` coefficient of
-`Ĥ = H − ωJ₃` along `z_j = (1 + (−1)^j t)e^{2πij/n}`, `n = 2M`, `r₀ = 1`.
-SOURCE: printed by `even_exact.py` (`out/even_exact.out`), not printed in the paper. -/
-noncomputable def sl4 (M b : ℝ) : ℝ :=
-  M * (M ^ 4 * b ^ 4 + 4 * M ^ 4 * b ^ 3 + 6 * M ^ 4 * b ^ 2 + 4 * M ^ 4 * b + M ^ 4
-    - 4 * M ^ 2 * b ^ 4 - 16 * M ^ 2 * b ^ 3 - 24 * M ^ 2 * b ^ 2 - 16 * M ^ 2 * b - 4 * M ^ 2
-    + 54 * M * b ^ 4 - 84 * M * b ^ 3 + 156 * M * b ^ 2 + 12 * M * b + 6 * M
-    - 27 * b ^ 4 + 42 * b ^ 3 - 78 * b ^ 2 - 6 * b - 3) / (6 * (1 + b) ^ 4)
-
-/-- **P1, `n = 8`**: the linear-slice quartic (unit kernel vector: `sl4/n²`) at `b₈ = 3√7 − 8` is
-exactly `(199 − 27√7)/56 ≈ 2.27794`, strictly larger than the level-set value `95/56`. -/
-theorem P1_n8 :
-    sl4 4 (bn 8) / 8 ^ 2 = (199 - 27 * √7) / 56 ∧ (95 / 56 : ℝ) < (199 - 27 * √7) / 56 ∧
-    2.2779 < (199 - 27 * √7) / 56 ∧ (199 - 27 * √7) / 56 < 2.2780 := by
-  have h7 : √7 ^ 2 = 7 := Real.sq_sqrt (by norm_num)
-  have h7p : 0 < √7 := by positivity
-  have hlo : 2.6457 < √7 := by
-    rw [Real.lt_sqrt (by norm_num)]; norm_num
-  have hhi : √7 < 2.64576 := by
-    rw [Real.sqrt_lt' (by norm_num)]; norm_num
-  refine ⟨?_, by nlinarith, by nlinarith, by nlinarith⟩
-  rw [bn_eight]
-  unfold sl4
-  have hb : 1 + -(8 - 3 * √7) ≠ 0 := by nlinarith
-  rw [div_div, div_eq_div_iff (by positivity) (by norm_num)]
-  have h3 : √7 ^ 3 = 7 * √7 := by rw [pow_succ, h7]
-  have h4 : √7 ^ 4 = 49 := by rw [show (4:ℕ) = 2 * 2 by rfl, pow_mul, h7]; norm_num
-  ring_nf
-  rw [h7, h3, h4]
-  nlinarith [h7]
-
-/-- **P1, remaining even rows of the linear-slice column of Table 1** (exact):
-`n = 4`: `(9 − 2√3)/24 < 1/4`; `n = 6`: `(341 − 64√5)/240 > 23/30`; `n = 10`: `393/80 > 49/15`.
-(Paper: "the linear-slice value is smaller for `n = 4, 5` and larger for `n ≥ 6`".) -/
-theorem P1_even_rows :
-    sl4 2 (bn 4) / 4 ^ 2 = (9 - 2 * √3) / 24 ∧ (9 - 2 * √3) / 24 < 1 / 4 ∧
-    sl4 3 (bn 6) / 6 ^ 2 = (341 - 64 * √5) / 240 ∧ (23 / 30 : ℝ) < (341 - 64 * √5) / 240 ∧
-    sl4 5 (bn 10) / 10 ^ 2 = 393 / 80 ∧ (49 / 15 : ℝ) < 393 / 80 := by
-  have h3 : √3 ^ 2 = 3 := Real.sq_sqrt (by norm_num)
-  have h5 : √5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
-  have h3p : 1.7 < √3 := by rw [Real.lt_sqrt (by norm_num)]; norm_num
-  have h3q : √3 < 1.8 := by rw [Real.sqrt_lt' (by norm_num)]; norm_num
-  have h5p : 2.2 < √5 := by rw [Real.lt_sqrt (by norm_num)]; norm_num
-  have h5q : √5 < 2.3 := by rw [Real.sqrt_lt' (by norm_num)]; norm_num
-  have e3 : √3 ^ 3 = 3 * √3 := by rw [pow_succ, h3]
-  have e4 : √3 ^ 4 = 9 := by rw [show √3 ^ 4 = (√3 ^ 2) ^ 2 by ring, h3]; norm_num
-  have e5 : √3 ^ 5 = 9 * √3 := by rw [pow_succ, e4]
-  have f3 : √5 ^ 3 = 5 * √5 := by rw [pow_succ, h5]
-  have f4 : √5 ^ 4 = 25 := by rw [show √5 ^ 4 = (√5 ^ 2) ^ 2 by ring, h5]; norm_num
-  have f5 : √5 ^ 5 = 25 * √5 := by rw [pow_succ, f4]
-  refine ⟨?_, by nlinarith, ?_, by nlinarith, by rw [bn_ten]; unfold sl4; norm_num, by norm_num⟩
-  · rw [bn_four]; unfold sl4
-    have hp : (0:ℝ) < 1 + (2 - √3) := by nlinarith
-    rw [div_div, div_eq_div_iff (mul_ne_zero (mul_ne_zero (by norm_num) (pow_ne_zero _ hp.ne'))
-      (by norm_num)) (by norm_num)]
-    ring_nf; simp only [h3, e3, e4, e5]; ring
-  · rw [bn_six]; unfold sl4
-    have hp : (0:ℝ) < 1 + (9 - 4 * √5) := by nlinarith
-    rw [div_div, div_eq_div_iff (mul_ne_zero (mul_ne_zero (by norm_num) (pow_ne_zero _ hp.ne'))
-      (by norm_num)) (by norm_num)]
-    ring_nf; simp only [h5, f3, f4, f5]; ring
-
-/-- **P2 (Lemma 8's weights in MT (3.9))**: Lemma 8's weights `Da⁴ + 6Ca²b + 3Bb²` complete to
-`D − 3C²/B` (for `B > 0`), whereas the printed form `δ + 2γx + βx²` completes to `δ − γ²/β`. -/
-theorem P2_complete_square (B C D : ℝ) (hB : 0 < B) :
-    IsLeast {y | ∃ x : ℝ, y = D + 6 * C * x + 3 * B * x ^ 2} (D - 3 * C ^ 2 / B) ∧
-    IsLeast {y | ∃ x : ℝ, y = D + 2 * C * x + B * x ^ 2} (D - C ^ 2 / B) := by
-  refine ⟨⟨⟨-C / B, by field_simp; ring⟩, ?_⟩, ⟨⟨-C / B, by field_simp; ring⟩, ?_⟩⟩
-  · rintro y ⟨x, rfl⟩
-    have : D + 6 * C * x + 3 * B * x ^ 2 - (D - 3 * C ^ 2 / B) = 3 * (B * x + C) ^ 2 / B := by
-      field_simp; ring
-    have : 0 ≤ 3 * (B * x + C) ^ 2 / B := by positivity
-    linarith
-  · rintro y ⟨x, rfl⟩
-    have : D + 2 * C * x + B * x ^ 2 - (D - C ^ 2 / B) = (B * x + C) ^ 2 / B := by
-      field_simp; ring
-    have : 0 ≤ (B * x + C) ^ 2 / B := by positivity
-    linarith
-
-/-- **P2, the `n = 7` numbers**: with MT's printed `β = 21/2`, `γ = 63/4`, `δ = 1071/8`,
-`(δ − 3γ²/β)/δ = 8/17 = (6/7)/(51/28)` (linear-slice min / straight-line quartic), while the
-printed combination gives `14/17`. Also the rescalings `9/14·49/8 = 63/16`, `6/7·49/8 = 21/4`. -/
-theorem P2_n7 :
-    let β : ℚ := 21 / 2
-    let γ : ℚ := 63 / 4
-    let δ : ℚ := 1071 / 8
-    (δ - 3 * γ ^ 2 / β) / δ = 8 / 17 ∧ (6 / 7 : ℚ) / (51 / 28) = 8 / 17 ∧
-    (δ - γ ^ 2 / β) / δ = 14 / 17 ∧ (9 / 14 : ℚ) * (49 / 8) = 63 / 16 ∧ (6 / 7 : ℚ) * (49 / 8) = 21 / 4 := by
-  norm_num
-
-
-/-! ## §7. Root-of-unity sums used in §3 and in the proof of Thm odd (all `n`) -/
+/-! ## §6. Root-of-unity sums used in §3 and in the proof of Thm odd (all `n`) -/
 
 section RootsOfUnity
 

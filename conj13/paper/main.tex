@@ -51,8 +51,7 @@ in deriving them.
 (iii) A self-contained energy--momentum argument for degenerate (quartic) minima. It works for the
 noncompact groups $SE(2)$ and $PSL(2,\R)$, and for the plane's affine momentum map.
 The algebra that turns the computed series coefficients into the closed forms is checked in Lean~4.
-We also compare our computation with some intermediate steps of the published argument; none of
-this affects Montaldi and Tokieda's conclusions, which our results confirm. All verification so far has been by AI readers and
+Our results confirm Montaldi and Tokieda's conclusions. All verification so far has been by AI readers and
 computer checks; no human specialist has yet reviewed the argument.
 \end{abstract}
 
@@ -158,8 +157,6 @@ immediate (Remark~\ref{rem:positivity}); the content is the derivation.
 involved, including the plane with its affine momentum map (Section~\ref{sec:nonlinear}).
 \item A Lean~4 check of the algebra that leads from the computed series coefficients to the closed forms
 and to Table~\ref{tab:c4} (Section~\ref{sec:limits}, which states exactly what is and is not formalised).
-\item A comparison with intermediate steps of~\cite{MT}, given with page references so that the reader can
-check our reading (Section~\ref{sec:remarks}). None of it affects any conclusion of~\cite{MT}.
 \end{enumerate}
 
 %======================================================================
@@ -318,7 +315,7 @@ no negative eigenvalue (Section~\ref{sec:limits}).
 \section{The effective quartic on the level set}\label{sec:quartic}
 %======================================================================
 
-\subsection{Why the level set, and not a linear slice}
+\subsection{Why we work on the level set}
 
 Let $K_0$ be the kernel in Proposition~\ref{prop:spectral}, with coordinates $(a,b)\in K_0\times E$ on
 $M_\mu$. Let $\beta(a)$ be the slaving map, the critical point of $b\mapsto h_\mu(a,b)$, and let
@@ -335,9 +332,8 @@ couples to $a^2$ at cubic order, so it contributes at order $\varepsilon^4$.
 
 When the Hessian is nondegenerate, $O(\varepsilon^4)$ is negligible next to the quadratic term, and the
 curvature of the level set is invisible. When the Hessian is degenerate, $\varepsilon^4$ is the leading
-order, and the curvature of $J^{-1}(\mu)$ enters the decisive coefficient. A computation on the linear
-slice $x_0+N$ ($N$ a symplectic normal space) therefore does not in general give the quartic coefficient
-of the reduced Hamiltonian. Section~\ref{sec:remarks} quantifies this.
+order, and the curvature of $J^{-1}(\mu)$ enters the decisive coefficient. For this reason we define
+the quartic coefficient directly on the momentum level set.
 
 \begin{definition}\label{def:c4}
 Let $e\in\R^{2n}\cong\C^n$ be the Euclidean-unit radial kernel vector in the chart:
@@ -515,14 +511,11 @@ in~\cite{MT} receives, separate treatment; see the remark after the Corollary in
 \end{remark}
 
 \begin{remark}[What $c_4$ is, for odd $n$]\label{rem:reduced}
-For odd $n$, $c_4$ is not the quartic coefficient of $H$ along the kernel (the analogue of Montaldi and
-Tokieda's $\delta$). It is the quartic coefficient of the reduced Hamiltonian after the mode-$1$ direction
-has been eliminated: the amplitude $p$ (radial) and $s$ (tangential) of the slaved mode-$1$ displacement are
-fixed by minimisation and by the constraint $J_1=0$. Mode $1$ is where Montaldi and Tokieda's $V_1'$ lies,
-and their criterion uses the analogous reduced combination of $\delta$, $\gamma$ and $\beta$ (with Lemma~8's
-weights, $\delta-3\gamma^2/\beta$; see Section~\ref{sec:remarks}). The difference is that $c_4$ is computed
-on the level set $J^{-1}(\mu)$, so it also contains the curvature term $\tfrac14Q''(w_0)$ in the $J_1$
-constraint, which does not enter a computation on the linear slice.
+For odd $n$, $c_4$ is not the quartic coefficient of $H$ along the kernel. It is the quartic coefficient of
+the reduced Hamiltonian after the mode-$1$ direction has been eliminated: the amplitude $p$ (radial) and $s$
+(tangential) of the slaved mode-$1$ displacement are fixed by minimisation and by the constraint $J_1=0$.
+Because $c_4$ is computed on the level set $J^{-1}(\mu)$, it also contains the curvature term
+$\tfrac14Q''(w_0)$ in the $J_1$ constraint.
 \end{remark}
 
 \begin{remark}
@@ -543,48 +536,45 @@ $p\approx2^{61}$ with $p\equiv1\pmod{4n}$, at both algebraic conjugates of $b_n$
 computation confirms three things exactly: the kernel eigenvalue vanishes, the cubic term vanishes, and
 $c_4$ equals the tabulated rational number. A deliberately perturbed value is rejected (negative control).
 Agreement modulo three primes of size $2^{61}$ is overwhelming evidence, though strictly it is not a proof
-over $\mathbb Q$. The reduction from the printed coefficients to every table entry is, however, verified
+over $\mathbb Q$. The reduction from the coefficients stated in the proofs to every table entry is, however, verified
 exactly over $\mathbb Q$ in Lean (see Section~\ref{sec:limits}). The proofs are Theorems~\ref{thm:even} and~\ref{thm:odd}. The same engine in 40-digit
 floating point, with the real root $b_n$, agrees to $10^{-37}$ or better. A separate 40-digit constrained
 minimisation in the original chart gives the same values to 15 digits or better for
-$n=4,\dots,13,15,17,19,21,25$; its linear-slice values are also shown.
+$n=4,\dots,13,15,17,19,21,25$.
 
 \begin{table}[h]
 \centering\small
-\begin{tabular}{rrlrrl}
+\begin{tabular}{rrlrr}
 \toprule
-$n$ & $b_n$ & geometry & $c_4$ (level set) & decimal & linear slice (numerical)\\
+$n$ & $b_n$ & geometry & $c_4$ (level set) & decimal\\
 \midrule
-4 & $0.2679491924$ & sphere & $1/4$ & $0.25$ & $0.2306624$\\
-5 & $0.1715728753$ & sphere & $9/40$ & $0.225$ & $0.2046573$\\
-6 & $0.0557280900$ & sphere & $23/30$ & $0.7666667$ & $0.8245485$\\
-7 & $0$ & plane & $9/14$ & $0.6428571$ & $6/7=0.8571429$\\
-8 & $-0.0627460668$ & $H^2$ & $95/56$ & $1.6964286$ & $2.2779413$\\
-9 & $-0.1010205144$ & $H^2$ & $19/12$ & $1.5833333$ & $2.5781463$\\
-10 & $-0.1428571429$ & $H^2$ & $49/15$ & $3.2666667$ & $4.9125$\\
-11 & $-0.1715728753$ & $H^2$ & $75/22$ & $3.4090909$ & $5.7955980$\\
-12 & $-0.2024108640$ & $H^2$ & $755/132$ & $5.7196970$ & $9.0145599$\\
-13 & $-0.2251482266$ & $H^2$ & $675/104$ & $6.4903846$ & $10.9142245$\\
-14 & $-0.2492775954$ & $H^2$ & $1693/182$ & $9.3021978$ & --\\
-15 & $-0.2679491924$ & $H^2$ & $56/5$ & $11.2$ & $18.3284096$\\
-16 & $-0.2875950927$ & $H^2$ & $1141/80$ & $14.2625$ & --\\
-17 & $-0.3033370453$ & $H^2$ & $609/34$ & $17.9117647$ & $28.4269777$\\
-18 & $-0.3197938296$ & $H^2$ & $3190/153$ & $20.8496732$ & --\\
-19 & $-0.3333333333$ & $H^2$ & $27$ & $27$ & $41.5953947$\\
-20 & $-0.3474164357$ & $H^2$ & $11139/380$ & $29.3131579$ & --\\
-21 & $-0.3592455180$ & $H^2$ & $2175/56$ & $38.8392857$ & $58.2169269$\\
-22 & $-0.3714998241$ & $H^2$ & $6145/154$ & $39.9025974$ & --\\
-23 & $-0.3819660113$ & $H^2$ & $2475/46$ & $53.8043478$ & --\\
-24 & $-0.3927725152$ & $H^2$ & $29183/552$ & $52.8677536$ & --\\
-25 & $-0.4021298312$ & $H^2$ & $7227/100$ & $72.27$ & $103.3451777$\\
+4 & $0.2679491924$ & sphere & $1/4$ & $0.25$\\
+5 & $0.1715728753$ & sphere & $9/40$ & $0.225$\\
+6 & $0.0557280900$ & sphere & $23/30$ & $0.7666667$\\
+7 & $0$ & plane & $9/14$ & $0.6428571$\\
+8 & $-0.0627460668$ & $H^2$ & $95/56$ & $1.6964286$\\
+9 & $-0.1010205144$ & $H^2$ & $19/12$ & $1.5833333$\\
+10 & $-0.1428571429$ & $H^2$ & $49/15$ & $3.2666667$\\
+11 & $-0.1715728753$ & $H^2$ & $75/22$ & $3.4090909$\\
+12 & $-0.2024108640$ & $H^2$ & $755/132$ & $5.7196970$\\
+13 & $-0.2251482266$ & $H^2$ & $675/104$ & $6.4903846$\\
+14 & $-0.2492775954$ & $H^2$ & $1693/182$ & $9.3021978$\\
+15 & $-0.2679491924$ & $H^2$ & $56/5$ & $11.2$\\
+16 & $-0.2875950927$ & $H^2$ & $1141/80$ & $14.2625$\\
+17 & $-0.3033370453$ & $H^2$ & $609/34$ & $17.9117647$\\
+18 & $-0.3197938296$ & $H^2$ & $3190/153$ & $20.8496732$\\
+19 & $-0.3333333333$ & $H^2$ & $27$ & $27$\\
+20 & $-0.3474164357$ & $H^2$ & $11139/380$ & $29.3131579$\\
+21 & $-0.3592455180$ & $H^2$ & $2175/56$ & $38.8392857$\\
+22 & $-0.3714998241$ & $H^2$ & $6145/154$ & $39.9025974$\\
+23 & $-0.3819660113$ & $H^2$ & $2475/46$ & $53.8043478$\\
+24 & $-0.3927725152$ & $H^2$ & $29183/552$ & $52.8677536$\\
+25 & $-0.4021298312$ & $H^2$ & $7227/100$ & $72.27$\\
 \bottomrule
 \end{tabular}
 \caption{Level-set effective quartic $c_4$ (Definition~\ref{def:c4}; $r_0=1$, $H$ as in~\eqref{eq:H},
 Euclidean-unit kernel vector). All 22 rational values were confirmed by the exact $\mathrm{GF}(p)$
-Cartesian KKT computation. The last column is the slaved quartic on the linear slice $x_0+N$, the
-quantity that, on our reading, the computation of~\cite[\S3.5]{MT} evaluates (Section~\ref{sec:remarks}, P1
-and P2). It
-differs from $c_4$ in every case, and is positive in every case.}
+Cartesian KKT computation.}
 \label{tab:c4}
 \end{table}
 
@@ -795,163 +785,13 @@ action (equation~\eqref{eq:bracket}: $\{J_1,J_2\}=n/2$ is a cocycle). In the cen
 it equivariant, the centre acts trivially, so the action is not free. So~\cite{PRW} does not apply
 verbatim, and the self-contained Theorem~\ref{thm:abstract} is what covers $n=7$.
 
-\paragraph{Montaldi 1997.} Montaldi--Tokieda's Proposition~9 relies on~\cite{Montaldi97} (cited as
+\paragraph{Montaldi 1997.} Montaldi--Tokieda's Proposition~9 builds on~\cite{Montaldi97} (cited as
 ``cf.~[17]'' in its proof~\cite[p.~20]{MT}, and as ``[17, Theorem~1.2]'' on p.~10), whose setting
-is a compact group. For the sphere it applies; in the degenerate case we use it on the reduced
-Hamiltonian, i.e.\ with the level-set quartic. We have read only that paper's abstract and the way
-it is quoted in~\cite[pp.~10, 20]{MT}; we rely on it nowhere. Montaldi and Rodr\'\i guez-Olmos~\cite{MRO} treat
-noncompact groups, but under formal stability (a definite Hessian on the symplectic normal space), so the
-degenerate case is not covered verbatim. We did not find a published statement that covers $SE(2)$,
-$PSL(2,\R)$ and the degenerate case together, which is why Section~\ref{sec:nonlinear} gives a self-contained
-argument.
-
-%======================================================================
-\section{Comparison with intermediate steps of the published argument}\label{sec:remarks}
-
-Montaldi and Tokieda's conclusions (stability at $b_n$ for even $n$ and for $n=3,5,7,9,11$) are correct,
-and our results confirm them. Their framework (the deformation family, the Fourier blocks, the identification
-of $b_n$ and the critical modes, the invariant-theoretic Proposition~12) is what makes the present proof
-possible. The notes below compare our computation with intermediate steps of~\cite[\S3.5]{MT} only. They
-reflect our reading of the published text, and we may have missed conventions the authors intended. We give
-page and equation numbers of~\cite{MT} (arXiv:1210.5662v1), so that each point can be checked line by line. The scripts are
-in \code{conj13/review/}.
-
-\paragraph{Normalisation dictionary.} Montaldi and Tokieda's augmented Hamiltonian is
-$\widehat H_\lambda=H_\lambda-\omega\sum_j\kappa|z_j|^2/\sigma_j$ with
-$H_\lambda=-\frac{\kappa^2}{4\pi}\sum_{i<j}\log\frac{|z_i-z_j|^2}{\sigma_i\sigma_j}$~\cite[p.~8]{MT}.
-With $\kappa=1$, $r_0=1$ and $\omega=\omega_0$ of~\cite[(2.1)]{MT}, this is $\widehat H=F/(4\pi)$, where
-$F=H-\omega_0J_3$ is as in Section~\ref{sec:setup}. Their Fourier vectors~\cite[(2.5)]{MT} are
-$\alpha_r^{(\ell)}=\sum_j\cos(2\pi\ell j/n)\,\delta r_j$ (and similarly $\beta_r^{(\ell)}$,
-$\alpha_\theta^{(\ell)}$, $\beta_\theta^{(\ell)}$), with $\delta r_j$ the unit radial vector at vortex $j$, so
-they have Euclidean length $(n/2)^{1/2}$ for $0<\ell<n/2$. On $V_c=\operatorname{Ker}B$~\cite[p.~22]{MT},
-$z=x+iy$ are coordinates with respect to $\alpha_r^{(l)},\beta_r^{(l)}$, $l=(n-1)/2$; hence
-$x=(2/n)^{1/2}\varepsilon$, with $\varepsilon$ our coordinate along $e$ (Definition~\ref{def:c4}). On $V_1'$,
-$w=u+iv$ are coordinates with respect to the basis~\cite[(2.8)]{MT}, whose first vector is
-$v_1=\sigma\alpha_r^{(1)}-\widetilde\sigma\beta_\theta^{(1)}$, with $\sigma=1+\lambda r_0^2$ and
-$\widetilde\sigma=1-\lambda r_0^2$. With $B=d^2\widehat H$, $C=d^3\widehat H$, $D=d^4\widehat H$ at the ring, as
-in Lemma~8~\cite[p.~19]{MT}, and $\alpha=\alpha_r^{(l)}$,
-\begin{equation}\label{eq:dict}
-\begin{gathered}
-\beta=B(v_1,v_1)=\frac{n(n-1)\widetilde\sigma^2}{4\pi},\qquad
-\gamma=C(\alpha,\alpha,v_1)=\frac{\partial^3\widehat H}{\partial x^2\partial u},\\
-\delta=D(\alpha,\alpha,\alpha,\alpha)=\frac{24}{4\pi}\Big(\frac n2\Big)^2q_4=\frac{3n^2}{2\pi}\,q_4 .
-\end{gathered}
-\end{equation}
-The formula for $\beta$ is~\cite[(2.10) and p.~23]{MT}. Here $q_4$ is the $\varepsilon^4$ coefficient of $F$
-along the straight line $x_0+\varepsilon e$, with no slaving (the \emph{unslaved quartic}; $q_4=51/28$ at
-$n=7$). We checked~\eqref{eq:dict} by evaluating $B$, $C$, $D$ directly in Montaldi and Tokieda's
-normalisation (60-digit finite differences, \code{review/p2_mt_coeffs.py}). At $n=7$ this gives
-$\beta=21/(2\pi)$, $\gamma=63/(4\pi)$ and $\delta=1071/(8\pi)$, exactly the printed values~\cite[p.~23]{MT}. At
-$n=9$ it gives $6.946$, $13.839$, $182.435$ (printed: $6.9$, $13.8$, $182.4$), and at $n=11$ it gives
-$12.015$, $29.704$, $555.141$ (printed: $12.0$, $29.7$, $555.1$). So the printed $\gamma$ is $C(\alpha,\alpha,v_1)$,
-and the trilinear term is $C(a,a,b)=\gamma\operatorname{Re}(z^2w)$ for $a=x\alpha+y\beta_r^{(l)}$ and
-$b=uv_1+vv_2$. (The text before~(3.9) writes $Ca^2b=\gamma(z^2w+\bar z^2\bar w)$ and
-$\gamma=\tfrac14\,\partial^3(Ca^2b)/\partial x^2\partial u=\tfrac32\,\partial^3\widehat H/\partial x^2\partial u$.
-These normalise $\gamma$ differently from the printed numbers, by constant factors. The ratio test below uses
-only the printed numbers.)
-
-With~\eqref{eq:dict}, Lemma~8's quantity for $a\in V_c$ and $b\in V_1'$ is
-\begin{equation}\label{eq:lemma8}
-Da^4+6Ca^2b+3Bb^2=\delta|z|^4+6\gamma\operatorname{Re}(z^2w)+3\beta|w|^2,\qquad
-\min_w(\cdots)=\Big(\delta-\frac{3\gamma^2}{\beta}\Big)|z|^4 .
-\end{equation}
-This is $24$ times the minimum over $w$ of the Taylor polynomial
-$\tfrac1{24}\delta|z|^4+\tfrac12\gamma\operatorname{Re}(z^2w)+\tfrac12\beta|w|^2$ of $\widehat H$ on $N$. In our
-units, therefore,
-\begin{equation}\label{eq:dictlin}
-\delta-\frac{3\gamma^2}{\beta}=\frac{3n^2}{2\pi}\,c_4^{\rm lin},
-\end{equation}
-where $c_4^{\rm lin}$ is the slaved quartic on the linear slice $x_0+N$ (last column of Table~\ref{tab:c4}).
-
-\paragraph{P1: linear slice versus level set.} Proposition~9~\cite[p.~20]{MT} applies Lemma~8 ``with
-$\mathbb R^n$ replaced by $N$ and $f$ by $\widehat H$''. Its proof ends: ``The claim now follows because the
-hypotheses of Lemma~8 applied on $M_\mu$ are equivalent to the same hypotheses applied on $N$.'' The
-equivalence is clear for the second-order hypothesis ($B\ge0$, with the same kernel). For the quartic
-hypothesis with degenerate $B$ it seems to us to need a further argument, for the reason given in
-Section~\ref{sec:quartic}. A curve in
-$M_\mu$ lifts to a curve in $J^{-1}(\mu)$ tangent to $N$, but its second-order part leaves $N$, chiefly along
-the radial part of $V_0$, and that component couples to $a^2$ at cubic order. Lemma~10~\cite[p.~20]{MT} and
-Proposition~12(iii)~\cite[p.~22]{MT} set the coupling to $V_0$ aside because $V_0\cap N=\{0\}$. That is
-right on $N$; on our reading, it also means that the computation evaluates the quartic on the linear slice. For even $n$, Lemma~10 makes the
-straight-line $t^4$ coefficient of~\cite[p.~21]{MT} the linear-slice quartic. For odd $n$, the printed
-numbers evaluate the linear-slice quantity, by~\eqref{eq:dictlin} and the ratio test below. The two
-quantities differ:
-\[
-n=7:\ \ c_4=\tfrac9{14}\ \text{(level set)}\ \text{vs.}\ c_4^{\rm lin}=\tfrac67;\qquad
-n=8:\ \ c_4=\tfrac{95}{56}=1.6964\ \text{vs.}\ c_4^{\rm lin}=2.2779 .
-\]
-Table~\ref{tab:c4} shows the difference for every $n$ computed. The linear-slice value is smaller for
-$n=4,5$ and larger for $n\ge6$, so in general the two need not have the same sign. For the vortex ring both quantities are positive at every $n$ in
-Table~\ref{tab:c4}, and $c_4>0$ for all $n$, so no conclusion of~\cite{MT} changes.
-
-\paragraph{P2: the weights of Lemma~8 in~(3.9).} Lemma~8~\cite[p.~19]{MT} requires $Ca^3=0$ and
-$Da^4+6Ca^2b+3Bb^2>0$. On p.~23, ``the key quantity $Da^4+Ca^2b+Bb^2$ becomes, on completing the square,''
-\[
-\delta|z|^4+2\gamma\operatorname{Re}(z^2w)+\beta|w|^2
-=\delta\Big|z^2+\frac\gamma\delta\bar w\Big|^2+\frac{\beta\delta-\gamma^2}{\delta}|w|^2
-\qquad\text{\cite[(3.9)]{MT}},
-\]
-and the criterion is stated as $\beta\delta>\gamma^2$. As displayed, this combination does not carry the
-weights $6$ and $3$ of Lemma~8; we take them to be intended. With the dictionary above, the weighted quantity
-is~\eqref{eq:lemma8}, and the corresponding criterion is $\delta-3\gamma^2/\beta>0$, i.e.\
-$\beta\delta>3\gamma^2$.
-
-\emph{Ratio test.} The ratio $(\delta-k\gamma^2/\beta)/\delta$ does not change if $\widehat H$ or the bases of
-$V_c$ and $V_1'$ are rescaled. It can therefore be compared directly with our $c_4^{\rm lin}/q_4$ and
-$c_4/q_4$, which are computed independently of~\cite{MT}:
-\begin{center}\small
-\begin{tabular}{rcccc}
-\toprule
-$n$ & $(\delta-\gamma^2/\beta)/\delta$ & $(\delta-3\gamma^2/\beta)/\delta$ & $c_4^{\rm lin}/q_4$ &
-$c_4/q_4$ (level set)\\
- & \multicolumn{2}{c}{(printed $\beta,\gamma,\delta$ of~\cite[p.~23]{MT})} & (ours) & (ours)\\
-\midrule
-7 & $14/17\approx0.8235$ & $8/17\approx0.4706$ & $8/17\approx0.47059$ & $6/17\approx0.35294$\\
-9 & $0.8487$ & $0.5461$ & $0.54654$ & $0.33565$\\
-11 & $0.8676$ & $0.6027$ & $0.60315$ & $0.35478$\\
-\bottomrule
-\end{tabular}
-\end{center}
-At $n=9,11$ the printed values have three or four significant figures. Script:
-\code{review/p2_ratio_test.py}, output \code{review/p2_ratio_test.out}. With Lemma~8's weights, the printed
-numbers reproduce our linear-slice ratio exactly at $n=7$, and to the printed precision at $n=9$ and $11$.
-The unweighted combination matches neither of our columns, which is why we read the weights as intended.
-Three points of detail follow.
-
-(a) Montaldi and Tokieda do not print the number $6/7$. It is our computation of $c_4^{\rm lin}$ at $n=7$.
-Their printed values reproduce it through~\eqref{eq:dictlin}:
-$\delta-3\gamma^2/\beta=\frac{1071}{8\pi}-3\big(\frac{63}{4\pi}\big)^2\big/\frac{21}{2\pi}=\frac{63}\pi
-=\frac{3\cdot49}{2\pi}\cdot\frac67$.
-
-(b) An alternative reading. At $n=7$, $\delta-\gamma^2/\beta=441/(4\pi)$, and $441/4=\frac{7^3}2\cdot\frac9{14}$.
-This suggests that the unweighted combination might be the level-set value $c_4=9/14$ under a scale
-$n^3/(2\pi)$. The numbers do not support this reading. The scale is fixed by $\delta$: by~\eqref{eq:dict}, $\delta/q_4=3n^2/(2\pi)=147/(2\pi)$
-at $n=7$, not $343/(2\pi)$. Under that scale $\delta-\gamma^2/\beta$ corresponds to $3/2$, not $9/14$. In
-normalisation-free form, $(\delta-\gamma^2/\beta)/\delta=14/17$, while $c_4/q_4=6/17$. Nor does the reading
-fit at $n=9$: there $\delta-\gamma^2/\beta=182.4-13.8^2/6.9=154.8$, whereas $\frac{n^3}{2\pi}c_4=\frac{729}{2\pi}
-\cdot\frac{19}{12}\approx183.7$ (and $\frac{3n^2}{2\pi}c_4\approx61.2$). The agreement at $n=7$ appears to be a numerical coincidence.
-
-(c) The conclusions are unaffected. With the weights, the printed numbers give $\beta\delta-3\gamma^2=661.5/\pi^2$
-($n=7$), about $687$ ($n=9$) and about $4015$ ($n=11$), in the units of~\cite{MT}. All are positive,
-consistent with $c_4^{\rm lin}>0$ in Table~\ref{tab:c4}. In any case Theorem~\ref{thm:odd} gives $c_4>0$ on the
-level set.
-
-\paragraph{The printed values at $n=5$.} At $n=5$~\cite[p.~23]{MT} print $\beta=37.1/r_0^2$,
-$\gamma=-9.04/r_0^3$ and $\delta=15.8/r_0^4$. The formula $\beta=n(n-1)\kappa^2\widetilde\sigma^2/(4\pi r_0^2)$ on
-the same page gives $\beta\approx1.092/r_0^2$ at $n=5$ ($\kappa=1$, $\lambda r_0^2=b_5=3-2\sqrt2$), whereas at
-$n=7,9,11$ it reproduces the printed $\beta$. Our direct evaluation at $n=5$ gives $\beta\approx1.092$,
-$|\gamma|\approx1.085$ and $\delta\approx5.679$; with these, $(\delta-3\gamma^2/\beta)/\delta=0.4302=c_4^{\rm lin}/q_4$.
-The printed values give $0.5818$ (weighted) and $0.8606$ (unweighted). These match neither
-$c_4^{\rm lin}/q_4=0.4302$ nor $c_4/q_4=0.4730$. We have not been able to reconcile the printed $n=5$
-values with these formulas, and we may be missing a convention specific to that case; we do not use them. The conclusion for $n=5$ does not depend on them: Theorem~\ref{thm:odd} gives
-$c_4=9/40>0$, and $c_4^{\rm lin}\approx0.2047>0$ as well.
-
-\paragraph{P3: the printed even-$n$ bracket $T$.} We recomputed symbolically the straight-line
-expansion $z_j=(r_0+(-1)^jt)e^{2\pi ij/n}$ of~\cite[\S3.5.1, p.~21]{MT}. Our $t^4$ coefficient agrees with an
-independent 40-digit evaluation to 15 digits, but differs from the printed bracket $T$ (p.~21) by a small
-relative amount: $+0.10\%$ at $n=8$, $+0.49\%$ at $n=10$, $+0.06\%$ at $n=6$ and $-1.8\%$ at $n=4$ (printed
-value relative to ours). The differences are small and may come from rounding or transcription. They change no sign, and the even-$n$
-conclusion is in any case re-proved by Theorem~\ref{thm:even}.
+is a compact group, as for the sphere. We have read only that paper's abstract and the way
+it is quoted in~\cite[pp.~10, 20]{MT}, and we do not rely on it. Montaldi and Rodr\'\i guez-Olmos~\cite{MRO} treat
+noncompact groups under formal stability (a definite Hessian on the symplectic normal space). Since the
+present case combines the groups $SE(2)$ and $PSL(2,\R)$ with a degenerate (quartic) minimum,
+Section~\ref{sec:nonlinear} gives a self-contained argument that covers all of them at once.
 
 %======================================================================
 \section{Numerical confirmation}\label{sec:numerics}
@@ -999,8 +839,7 @@ accordingly until such a review has taken place.
 \paragraph{Literature not read.} We have not read Kurakin--Yudovich~\cite{KY} beyond its abstract, nor
 Kurakin~\cite{Kurakin03,Kurakin04}. We make no claim that our results agree with, extend, or differ from
 theirs. One unverified observation: if $H=-\sum\log|z_i-z_j|$ and a per-vortex radial amplitude are used,
-our level-set value at $n=7$ rescales to $\tfrac9{14}\cdot\tfrac{49}8=\tfrac{63}{16}$ (the linear-slice
-value would rescale to $21/4$). The number $63/16$ has been attributed to~\cite{KY} as the heptagon's
+our level-set value at $n=7$ rescales to $\tfrac9{14}\cdot\tfrac{49}8=\tfrac{63}{16}$. The number $63/16$ has been attributed to~\cite{KY} as the heptagon's
 quartic coefficient in secondary notes we started from, but we have not verified that attribution or the
 normalisation used there. This is therefore an unverified consistency remark, not a claim of agreement. Kurakin's sphere results may
 already cover $n=4,5,6$ at the critical latitude.
@@ -1015,7 +854,7 @@ were done twice, independently: \code{even_exact.py}, \code{even_formula.py} and
 \item \emph{Odd-$n$ closed form} (Theorem~\ref{thm:odd}). The symbolic derivation in $n$ and $\lambda$,
 including the residue evaluation of root-of-unity sums with Laurent-degree checks, is in
 \code{review/odd_general.py}, \code{review/odd_general_run.py} and \code{review/odd_assemble.py}. The
-human-readable steps are reproduced above. The output coefficients $f_2$, $E_{ij}$ and $a_2$ are printed in
+human-readable steps are reproduced above. The output coefficients $f_2$, $E_{ij}$ and $a_2$ are stated in
 the proof so that they can be re-derived by hand or with another system.
 \item \emph{Independent exact check of Table~\ref{tab:c4}.} Cartesian order-by-order KKT over
 $\mathrm{GF}(p)$, with no ansatz: \code{review3/kkt_exact.py} and \code{review3/run_exact.py} (odd $n$ and
@@ -1026,10 +865,8 @@ $n=8$), and \code{paper/table_check.py} (all $n=4,\dots,25$, with a negative con
 \item \emph{Lemma~\ref{lem:B3} sanity check} (numerical): \code{gaps/review/indep_check.py}. For
 $n=4,\dots,9$, the minimum of $V-V_0$ on spheres of radius $\varepsilon$ in $S$ scales as $c_4\varepsilon^4$.
 \item \emph{Remark~\ref{rem:nonpersist}}: \code{gaps/nearby_momentum.py}.
-\item \emph{P1--P3}: \code{engine.py}, \code{reduced_quartic*.py}, \code{review/c4_levelset.py},
-\code{review/p2_check.py}, \code{review/p2_ratio_test.py} (the ratio table in P2),
-\code{review/p2_mt_coeffs.py} (direct evaluation of $\beta,\gamma,\delta$ in the normalisation of~\cite{MT}),
-\code{review/p3_check.py}, \code{mt_n7_check.py}.
+\item \emph{40-digit constrained minimisation} (numerical, Table~\ref{tab:c4}): \code{engine.py},
+\code{reduced_quartic*.py}, \code{review/c4_levelset.py}.
 \item \emph{Integrations}: \code{integrate.py} with outputs in \code{out/}.
 \end{itemize}
 The parts of the proof that use a computer are the algebraic simplifications in Theorems~\ref{thm:even}
@@ -1040,7 +877,7 @@ Section~\ref{sec:nonlinear}) are pen-and-paper.
 \paragraph{Formal verification (Lean 4).} The exact-algebra layer is formalised in Lean~4 with Mathlib,
 in \code{lean/Havelock/Conj13Algebra.lean}, with no unproved steps and only the standard axioms. The
 repository's continuous-integration build checks the Lean files. The precise scope is as follows. The
-coefficients printed in the proofs of Theorems~\ref{thm:even} and~\ref{thm:odd}, namely $h_2,h_4$ (even $n$)
+coefficients stated in the proofs of Theorems~\ref{thm:even} and~\ref{thm:odd}, namely $h_2,h_4$ (even $n$)
 and $f_2$, $E_{00},E_{10},E_{01},E_{20},E_{02}$, $a_2$ (odd $n$), are explicit closed-form rational
 expressions in $n$ (or $M=n/2$) and $b=\lambda r_0^2$. Lean takes these expressions as definitions and proves,
 symbolically in $n$ and $b$, everything downstream of them:
@@ -1053,13 +890,16 @@ of Table~\ref{tab:c4}, exactly over $\mathbb Q$.
 \end{itemize}
 It also proves the threshold facts ($b_n$ in closed form, its uniqueness in $(-1,1]$ and its sign pattern,
 for all $n\ge4$), the spectral algebra of Proposition~\ref{prop:spectral} (including the Fej\'er identity
-for all $n$ and the eigenvalues $3/2$ and $8/3$ at $n=4,5$), the comparisons in P1, and the
-completing-the-square identities behind P2. What Lean does \emph{not} check is the derivation of the closed
-forms $h_2,h_4,f_2,E_{ij},a_2$ from the Hamiltonian: the series expansions along the symmetric curve (even
-$n$) and along the ansatz (odd $n$), and the root-of-unity residue sums for general $n$. Nor does it check the
-normalisation factors relating $\tau$ and $A$ to $\varepsilon$. These steps are computer algebra, reproduced
+for all $n$ and the eigenvalues $3/2$ and $8/3$ at $n=4,5$). A second layer, \texttt{lean/Havelock/Conj13Series.lean},
+derives from eq.~\eqref{eq:H} the even-$n$ coefficients $h_2,h_4$ along the symmetric curve on the level set (and the
+limit $(H-H_0)/\varepsilon^4\to c_4$ at $b_n$), the odd-$n$ coefficient $f_2$ along the kernel line, the $J_1$
+constraint along the ansatz, and both normalisation factors relating $\tau$ and $A$ to $\varepsilon$. What Lean does
+\emph{not} check is the derivation of the odd fourth-order coefficients $E_{ij}$ (and hence $a_2$) and the
+structural steps (symmetric criticality, completeness of the odd ansatz); these are computer algebra, reproduced
 independently and checked against the exact $\mathrm{GF}(p)$ Cartesian computation as described above.
-Section~\ref{sec:nonlinear} is not formalised.
+For Section~\ref{sec:nonlinear}, \texttt{lean/Havelock/Conj13Stability.lean} proves Lemmas~B1--B4 and
+Theorem~\ref{thm:abstract}'s argument in an abstract setting (a group acting on a metric space, the chart and the
+slice taken as hypotheses); its instantiation to the vortex ring is not formalised.
 
 \paragraph{Scope.} The result concerns the family~\eqref{eq:H} of~\cite{MT}, i.e.\ the ``sinh'' model in
 the hyperbolic case. It says nothing about the image (``tanh'') hyperbolic model or the flat disk with a

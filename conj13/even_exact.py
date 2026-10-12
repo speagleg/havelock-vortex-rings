@@ -8,7 +8,6 @@ Two staggered M-gons: z_{2k} = rho_+ w^{2k}, z_{2k+1} = rho_- w^{2k+1}, w = e^{2
 Closed form (product formulas, see derivation.txt Sec. 4):
   sum_{pairs} log|z_i-z_j|^2 = M(M-1)/2 (log u_+ + log u_-) + 2M log(u_+^{M/2} + u_-^{M/2}) + const.
 Constrained curve: g(u_pm) = g0 +- tau (J3 exactly conserved). h(tau) = H on the curve; h is even.
-Also computes MT's own straight-line quantity T (z_j = (r0 +- t) e^{..}, Hhat = H - omega J3, J NOT fixed).
 """
 import sympy as sp
 
@@ -58,32 +57,6 @@ h2num = sp.numer(sp.together(c2))
 print("h2 numerator:", sp.factor(h2num))
 print("rem(h2num, thr) =", sp.simplify(sp.rem(sp.expand(h2num), sp.expand(thr), b)))
 
-# --- MT's straight-line T (as printed in MT p.21), for comparison: T = (n-2)(n^3+2n^2-12n+24) s^4
-#     + 24(n-1) b (19 b^3 - 54 b^2 + 43 b - 4), s = 1+b
-s = 1 + b
-T_MT = (n-2)*(n**3+2*n**2-12*n+24)*s**4 + 24*(n-1)*b*(19*b**3-54*b**2+43*b-4)
-# our own straight-line computation of MT's f(t), to check that we reproduce their T
-t, r0 = sp.symbols('t r0', positive=True)
-omega = sp.symbols('omega')
-# Hhat along z_j = (r0 + (-1)^j t) e^{2pi i j/n}, lambda = b/r0^2 ; uses the closed pair formula
-lam_ = b/r0**2
-rp, rm = r0 + t, r0 - t
-u_p, u_m = rp**2, rm**2
-Hs = -(M*(M-1)/2*(sp.log(u_p)+sp.log(u_m)) + 2*M*(sp.log(2) + M/4*(sp.log(u_p)+sp.log(u_m))
-       + sp.log(sp.cosh(M/4*(sp.log(u_p)-sp.log(u_m)))))) \
-     + (2*M-1)*M*(sp.log(1+lam_*u_p)+sp.log(1+lam_*u_m)) \
-     - omega*M*(u_p/(1+lam_*u_p) + u_m/(1+lam_*u_m))
-# omega from equilibrium d/dr0 along uniform scaling: use t=0, derivative wrt common radius
-rr = sp.symbols('rr', positive=True)
-Hu = (-(M*(M-1) + M**2)*sp.log(rr**2) + (2*M-1)*M*2*sp.log(1+lam_*rr**2) - omega*2*M*rr**2/(1+lam_*rr**2))
-om0 = sp.solve(sp.diff(Hu, rr).subs(rr, r0), omega)[0]
-cs = series_even(Hs.subs(omega, om0), t, 4)
-print("straight-line t^2 coeff:", sp.factor(sp.simplify(cs[2])))
-s4 = sp.factor(sp.simplify(cs[4]))
-print("straight-line t^4 coeff:", s4)
-# MT: coefficient of t^4 = n/(768 pi r0^4 sigma^4) T ; we dropped 1/(4pi) => ours = n/(192 r0^4 s^4) T
-print("ours / [n T/(192 r0^4 s^4)] - 1 =", sp.simplify(s4/(n*T_MT/(192*r0**4*s**4)) - 1))
-
 # --- evaluate at thresholds
 def report(Mv):
     nv = 2*Mv
@@ -92,8 +65,6 @@ def report(Mv):
         r = sp.nsimplify(r)
         h2v = sp.simplify(c2.subs({M: Mv, b: r}))
         h4v = sp.radsimp(sp.simplify(c4.subs({M: Mv, b: r})))
-        Tv = sp.radsimp(sp.simplify(T_MT.subs({M: Mv, b: r})))
-        print(f"n={nv}: b*={r} = {sp.N(r, 20)}; h2={h2v}; h4 = {h4v} = {sp.N(h4v, 25)}; "
-              f"MT T = {sp.N(Tv, 15)}")
+        print(f"n={nv}: b*={r} = {sp.N(r, 20)}; h2={h2v}; h4 = {h4v} = {sp.N(h4v, 25)}")
 for Mv in (2, 3, 4, 5, 6, 7, 8, 10, 20, 50):
     report(Mv)

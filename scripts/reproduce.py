@@ -67,17 +67,15 @@ add('small_N', 'tanh/review', ['small_N.py'], 'tanh/review/small_N.out', 'fast',
     'tanh note (second reader): N = 3..7 spectrally stable on a xi grid')
 # ---------------- conj13/ ----------------
 add('even_exact', 'conj13', ['even_exact.py'], 'conj13/out/even_exact.out', 'fast', 'exact',
-    'Conj13 paper: even-n reduced function h2, h4 on the level set; MT T comparison (P3)')
+    'Conj13 paper: even-n reduced function h2, h4 on the level set')
 add('even_formula', 'conj13', ['even_formula.py'], 'conj13/out/even_formula.out', 'fast', 'exact',
     'Conj13 paper: even-n c4 closed form (n-2)(m^4+40m^2+48m+16)/(192n(n-1)) on the threshold')
-add('mt_n7_check', 'conj13', ['mt_n7_check.py'], 'conj13/out/mt_n7_check.out', 'fast', 'numerical',
-    'Conj13 paper P2: MT n = 7 ratio 14/17 unweighted vs 8/17 with Lemma 8 weights; 9/14 level-set value')
 add('tanh_even_exact', 'conj13', ['tanh_even_exact.py'], 'conj13/out/tanh_even_exact.out', 'medium',
     'certified-interval', 'derivation.txt: tanh n = 8, 10, 12 threshold polynomial and Arb sign of h4')
 for n in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15):
     add(f'rq_MT_{n}', 'conj13', ['reduced_quartic.py', f'MT:{n}'], f'conj13/out/rq_MT_{n}.out',
         'medium' if n in (11, 13, 15) else 'fast',
-        'numerical', f'Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = {n} (full minimisation)')
+        'numerical', f'Conj13 paper Table 1: level-set c4, n = {n} (full minimisation)')
 add('rq_tanh_8', 'conj13', ['reduced_quartic.py', 'tanh:8'], 'conj13/out/rq_tanh_8.out', 'fast',
     'numerical', 'derivation.txt: tanh n = 8 level-set c4')
 for n in (15, 17, 19, 21, 25):
@@ -96,9 +94,9 @@ add('integration_summary', 'conj13', ['integration_summary.py'], 'conj13/out/int
     'medium', 'numerical', 'derivation.txt Sec. 6: time fraction with D/D0 < 0.5 (no secular growth)',
     deps=[f'int_{m}_{r}_{d}' for m in ('sinh', 'tanh') for r in ('0', '1e-2', '-1e-2') for d in ('1e-3', '1e-4')])
 add('c4_n7', 'conj13/review', ['c4_levelset.py', '7', '0'], 'conj13/review/c4_n7.out', 'fast', 'numerical',
-    'Conj13 paper P1 (second reader): n = 7 level set 9/14 vs linear slice 6/7')
+    'Conj13 paper Table 1 (second reader): n = 7 level-set c4 = 9/14')
 add('c4_n8', 'conj13/review', ['c4_levelset.py', '8', '-(8-3*sqrt(7))'], 'conj13/review/c4_n8.out', 'fast',
-    'numerical', 'Conj13 paper P1 (second reader): n = 8 level set 95/56 vs linear slice 2.2779')
+    'numerical', 'Conj13 paper Table 1 (second reader): n = 8 level-set c4 = 95/56')
 add('sweep', 'conj13/review', ['sweep.py', '4', '5', '6', '9', '10', '11', '12', '13', '15'],
     'conj13/review/sweep.out', 'fast', 'numerical', 'Conj13 paper: independent level-set c4 vs closed forms')
 add('even_check', 'conj13/review', ['even_check.py'], 'conj13/review/even_check.out', 'fast', 'exact',
@@ -108,10 +106,6 @@ add('odd_general', 'conj13/review', ['odd_general_run.py'], 'conj13/review/odd_g
     artefacts=('conj13/review/odd_general.pkl',))
 add('odd_assemble', 'conj13/review', ['odd_assemble.py'], 'conj13/review/odd_assemble.out', 'fast', 'exact',
     'Conj13 paper: odd-n c4 = (n-1)(n-3)(n^2-9n+38)/(128n) symbolically in n', deps=['odd_general'])
-add('p2_check', 'conj13/review', ['p2_check.py'], 'conj13/review/p2_check.out', 'fast', 'numerical',
-    'Conj13 paper P2: factor 3, ratio 8/17')
-add('p3_check', 'conj13/review', ['p3_check.py'], 'conj13/review/p3_check.out', 'fast', 'numerical',
-    'Conj13 paper P3: printed T off by 0.1-2%, no sign change')
 add('hess_check', 'conj13/review3', ['hess_check.py'] + [str(n) for n in (5, 7, 9, 11, 13, 15, 17, 19, 21, 25, 31)],
     'conj13/review3/hess_check.out', 'medium', 'numerical',
     'Conj13 paper gap (i): reduced Hessian inertia at b_n, odd n (2 zero, rest positive)')

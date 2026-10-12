@@ -23,8 +23,8 @@ times; see below). gmpy2 is not installed; sympy then uses Python integers, whic
 
 ```bash
 python scripts/reproduce.py --list                  # the manifest: id, tier, kind, command
-python scripts/reproduce.py --tier fast             # ~25 min: 35 outputs + the Lean-generator check
-python scripts/reproduce.py --tier medium           # fast + medium = all 73 outputs, ~2.3 h
+python scripts/reproduce.py --tier fast             # ~25 min: 32 outputs + the Lean-generator check
+python scripts/reproduce.py --tier medium           # fast + medium = all 70 outputs, ~2.3 h
 python scripts/reproduce.py --tier slow             # same set today (no output is in the slow tier)
 python scripts/reproduce.py --only int_tanh --tier medium   # substring filter on ids
 ```
@@ -55,14 +55,14 @@ were first recorded, but about 9 min each here, so they are filed as medium. On 
 
 ### How the commands were recovered
 
-21 outputs share a name with a script. Four of those still needed their arguments or driver recovered (`sweep`, `hess_check`, `run_exact`, `odd_general`). The other 51 have no same-named script. All of them were recovered as follows, from the scripts' argv handling, the parameters echoed in each output, and `conj13/derivation.txt` §9 / `conj13/review/NOTES.txt` / `conj13/gaps/review/REVIEW.txt`.
+18 outputs share a name with a script. Four of those still needed their arguments or driver recovered (`sweep`, `hess_check`, `run_exact`, `odd_general`). The other 51 have no same-named script. All of them were recovered as follows, from the scripts' argv handling, the parameters echoed in each output, and `conj13/derivation.txt` §9 / `conj13/review/NOTES.txt` / `conj13/gaps/review/REVIEW.txt`.
 * `conj13/out/rq_MT_<n>`, `rq_tanh_8`: `reduced_quartic.py` takes `model:n` arguments. `rqf_<n>`: `reduced_quartic_fast.py n`.
 * `int_<model>_<rel>_<delta>`: `integrate.py N model T rel delta`. N = 8, the model, rel and delta come from the
   file name, and T = 2000 is printed in each output. These runs also write `out/D_*.npy`. The rerun is
   bit-identical, checked with `np.array_equal` on all twenty files.
 * `integration_summary.out` was made by an inline command that was not kept. `conj13/integration_summary.py`
   reconstructs it, and its output from the committed `.npy` files matches byte for byte.
-* `even_exact`, `even_formula`, `mt_n7_check`, `tanh_even_exact`: these scripts are in `conj13/` but their
+* `even_exact`, `even_formula`, `tanh_even_exact`: these scripts are in `conj13/` but their
   outputs are in `conj13/out/`. derivation.txt §9 lists the pairs.
 * `conj13/review/c4_n7`, `c4_n8`: `c4_levelset.py n lam` with the λ string that is echoed in the output, at the
   default 60 digits. `sweep.py` takes the n list that is printed in `sweep.out`.
@@ -95,21 +95,20 @@ were first recorded, but about 9 min each here, so they are filed as medium. On 
 | `tanh/review/indep_10.out` | `cd tanh/review && python indep_lin.py 10 > indep_10.out` | 7.0 min | medium | numerical | tanh note (second reader): independent Cartesian xi*(10) to 45 digits | PASS |
 | `tanh/review/indep_12.out` | `cd tanh/review && python indep_lin.py 12 > indep_12.out` | 11.3 min | medium | numerical | tanh note (second reader): independent Cartesian xi*(12) to 45 digits | PASS |
 | `tanh/review/small_N.out` | `cd tanh/review && python small_N.py > small_N.out` | 48 s | fast | numerical | tanh note (second reader): N = 3..7 spectrally stable on a xi grid | PASS |
-| `conj13/out/even_exact.out` | `cd conj13 && python even_exact.py > out/even_exact.out` | 93 s | fast | exact | Conj13 paper: even-n reduced function h2, h4 on the level set; MT T comparison (P3) | PASS |
+| `conj13/out/even_exact.out` | `cd conj13 && python even_exact.py > out/even_exact.out` | 93 s | fast | exact | Conj13 paper: even-n reduced function h2, h4 on the level set | PASS |
 | `conj13/out/even_formula.out` | `cd conj13 && python even_formula.py > out/even_formula.out` | 34 s | fast | exact | Conj13 paper: even-n c4 closed form (n-2)(m^4+40m^2+48m+16)/(192n(n-1)) on the threshold | PASS |
-| `conj13/out/mt_n7_check.out` | `cd conj13 && python mt_n7_check.py > out/mt_n7_check.out` | 35 s | fast | numerical | Conj13 paper P2: MT n = 7 ratio 14/17 unweighted vs 8/17 with Lemma 8's weights; 9/14 level-set value | PASS |
 | `conj13/out/tanh_even_exact.out` | `cd conj13 && python tanh_even_exact.py > out/tanh_even_exact.out` | 89 s | medium | certified-interval | derivation.txt: tanh n = 8, 10, 12 threshold polynomial and Arb sign of h4 | PASS |
-| `conj13/out/rq_MT_4.out` | `cd conj13 && python reduced_quartic.py MT:4 > out/rq_MT_4.out` | 15 s | fast | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 4 (full minimisation) | PASS |
-| `conj13/out/rq_MT_5.out` | `cd conj13 && python reduced_quartic.py MT:5 > out/rq_MT_5.out` | 29 s | fast | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 5 (full minimisation) | PASS |
-| `conj13/out/rq_MT_6.out` | `cd conj13 && python reduced_quartic.py MT:6 > out/rq_MT_6.out` | 23 s | fast | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 6 (full minimisation) | PASS |
-| `conj13/out/rq_MT_7.out` | `cd conj13 && python reduced_quartic.py MT:7 > out/rq_MT_7.out` | 56 s | fast | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 7 (full minimisation) | PASS |
-| `conj13/out/rq_MT_8.out` | `cd conj13 && python reduced_quartic.py MT:8 > out/rq_MT_8.out` | 32 s | fast | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 8 (full minimisation) | PASS |
-| `conj13/out/rq_MT_9.out` | `cd conj13 && python reduced_quartic.py MT:9 > out/rq_MT_9.out` | 80 s | fast | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 9 (full minimisation) | PASS |
-| `conj13/out/rq_MT_10.out` | `cd conj13 && python reduced_quartic.py MT:10 > out/rq_MT_10.out` | 42 s | fast | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 10 (full minimisation) | PASS |
-| `conj13/out/rq_MT_11.out` | `cd conj13 && python reduced_quartic.py MT:11 > out/rq_MT_11.out` | 2.2 min | medium | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 11 (full minimisation) | PASS |
-| `conj13/out/rq_MT_12.out` | `cd conj13 && python reduced_quartic.py MT:12 > out/rq_MT_12.out` | 48 s | fast | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 12 (full minimisation) | PASS |
-| `conj13/out/rq_MT_13.out` | `cd conj13 && python reduced_quartic.py MT:13 > out/rq_MT_13.out` | 2.3 min | medium | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 13 (full minimisation) | PASS |
-| `conj13/out/rq_MT_15.out` | `cd conj13 && python reduced_quartic.py MT:15 > out/rq_MT_15.out` | 4.9 min | medium | numerical | Conj13 paper Table 1 / P1: level-set vs linear-slice c4, n = 15 (full minimisation) | PASS |
+| `conj13/out/rq_MT_4.out` | `cd conj13 && python reduced_quartic.py MT:4 > out/rq_MT_4.out` | 15 s | fast | numerical | Conj13 paper Table 1: level-set c4, n = 4 (full minimisation) | PASS |
+| `conj13/out/rq_MT_5.out` | `cd conj13 && python reduced_quartic.py MT:5 > out/rq_MT_5.out` | 29 s | fast | numerical | Conj13 paper Table 1: level-set c4, n = 5 (full minimisation) | PASS |
+| `conj13/out/rq_MT_6.out` | `cd conj13 && python reduced_quartic.py MT:6 > out/rq_MT_6.out` | 23 s | fast | numerical | Conj13 paper Table 1: level-set c4, n = 6 (full minimisation) | PASS |
+| `conj13/out/rq_MT_7.out` | `cd conj13 && python reduced_quartic.py MT:7 > out/rq_MT_7.out` | 56 s | fast | numerical | Conj13 paper Table 1: level-set c4, n = 7 (full minimisation) | PASS |
+| `conj13/out/rq_MT_8.out` | `cd conj13 && python reduced_quartic.py MT:8 > out/rq_MT_8.out` | 32 s | fast | numerical | Conj13 paper Table 1: level-set c4, n = 8 (full minimisation) | PASS |
+| `conj13/out/rq_MT_9.out` | `cd conj13 && python reduced_quartic.py MT:9 > out/rq_MT_9.out` | 80 s | fast | numerical | Conj13 paper Table 1: level-set c4, n = 9 (full minimisation) | PASS |
+| `conj13/out/rq_MT_10.out` | `cd conj13 && python reduced_quartic.py MT:10 > out/rq_MT_10.out` | 42 s | fast | numerical | Conj13 paper Table 1: level-set c4, n = 10 (full minimisation) | PASS |
+| `conj13/out/rq_MT_11.out` | `cd conj13 && python reduced_quartic.py MT:11 > out/rq_MT_11.out` | 2.2 min | medium | numerical | Conj13 paper Table 1: level-set c4, n = 11 (full minimisation) | PASS |
+| `conj13/out/rq_MT_12.out` | `cd conj13 && python reduced_quartic.py MT:12 > out/rq_MT_12.out` | 48 s | fast | numerical | Conj13 paper Table 1: level-set c4, n = 12 (full minimisation) | PASS |
+| `conj13/out/rq_MT_13.out` | `cd conj13 && python reduced_quartic.py MT:13 > out/rq_MT_13.out` | 2.3 min | medium | numerical | Conj13 paper Table 1: level-set c4, n = 13 (full minimisation) | PASS |
+| `conj13/out/rq_MT_15.out` | `cd conj13 && python reduced_quartic.py MT:15 > out/rq_MT_15.out` | 4.9 min | medium | numerical | Conj13 paper Table 1: level-set c4, n = 15 (full minimisation) | PASS |
 | `conj13/out/rq_tanh_8.out` | `cd conj13 && python reduced_quartic.py tanh:8 > out/rq_tanh_8.out` | 43 s | fast | numerical | derivation.txt: tanh n = 8 level-set c4 | PASS |
 | `conj13/out/rqf_15.out` | `cd conj13 && python reduced_quartic_fast.py 15 > out/rqf_15.out` | 30 s | fast | numerical | Conj13 paper: odd-n c4 formula out of sample, n = 15 | PASS |
 | `conj13/out/rqf_17.out` | `cd conj13 && python reduced_quartic_fast.py 17 > out/rqf_17.out` | 42 s | fast | numerical | Conj13 paper: odd-n c4 formula out of sample, n = 17 | PASS |
@@ -137,14 +136,12 @@ were first recorded, but about 9 min each here, so they are filed as medium. On 
 | `conj13/out/int_tanh_1e-2_1e-3.out` | `cd conj13 && python integrate.py 8 tanh 2000 1e-2 1e-3 > out/int_tanh_1e-2_1e-3.out` | 91 s | medium | numerical | derivation.txt Sec. 6 / paper: N = 8 direct integration, bounded at and above threshold | PASS |
 | `conj13/out/int_tanh_1e-2_1e-4.out` | `cd conj13 && python integrate.py 8 tanh 2000 1e-2 1e-4 > out/int_tanh_1e-2_1e-4.out` | 102 s | medium | numerical | derivation.txt Sec. 6 / paper: N = 8 direct integration, bounded at and above threshold | PASS |
 | `conj13/out/integration_summary.out` | `cd conj13 && python integration_summary.py > out/integration_summary.out` | 2 s | medium | numerical | derivation.txt Sec. 6: time fraction with D/D0 < 0.5 (no secular growth) | PASS |
-| `conj13/review/c4_n7.out` | `cd conj13/review && python c4_levelset.py 7 0 > c4_n7.out` | 5 s | fast | numerical | Conj13 paper P1 (second reader): n = 7 level set 9/14 vs linear slice 6/7 | PASS |
-| `conj13/review/c4_n8.out` | `cd conj13/review && python c4_levelset.py 8 '-(8-3*sqrt(7))' > c4_n8.out` | 6 s | fast | numerical | Conj13 paper P1 (second reader): n = 8 level set 95/56 vs linear slice 2.2779 | PASS |
+| `conj13/review/c4_n7.out` | `cd conj13/review && python c4_levelset.py 7 0 > c4_n7.out` | 5 s | fast | numerical | Conj13 paper Table 1 (second reader): n = 7 level-set c4 = 9/14 | PASS |
+| `conj13/review/c4_n8.out` | `cd conj13/review && python c4_levelset.py 8 '-(8-3*sqrt(7))' > c4_n8.out` | 6 s | fast | numerical | Conj13 paper Table 1 (second reader): n = 8 level-set c4 = 95/56 | PASS |
 | `conj13/review/sweep.out` | `cd conj13/review && python sweep.py 4 5 6 9 10 11 12 13 15 > sweep.out` | 46 s | fast | numerical | Conj13 paper: independent level-set c4 vs closed forms | PASS |
 | `conj13/review/even_check.out` | `cd conj13/review && python even_check.py > even_check.out` | 46 s | fast | exact | Conj13 paper: even-n formula re-derived symbolically in M = n/2 | PASS |
 | `conj13/review/odd_general.out` | `cd conj13/review && python odd_general_run.py > odd_general.out` | 101 s | fast | exact | Conj13 paper: odd-n symbolic offset sums (writes odd_general.pkl) | PASS |
 | `conj13/review/odd_assemble.out` | `cd conj13/review && python odd_assemble.py > odd_assemble.out` | 23 s | fast | exact | Conj13 paper: odd-n c4 = (n-1)(n-3)(n^2-9n+38)/(128n) symbolically in n | PASS |
-| `conj13/review/p2_check.out` | `cd conj13/review && python p2_check.py > p2_check.out` | 2 s | fast | numerical | Conj13 paper P2: factor 3, ratio 8/17 | PASS |
-| `conj13/review/p3_check.out` | `cd conj13/review && python p3_check.py > p3_check.out` | 6 s | fast | numerical | Conj13 paper P3: printed T off by 0.1-2%, no sign change | PASS |
 | `conj13/review3/hess_check.out` | `cd conj13/review3 && python hess_check.py 5 7 9 11 13 15 17 19 21 25 31 > hess_check.out` | 102 s | medium | numerical | Conj13 paper gap (i): reduced Hessian inertia at b_n, odd n (2 zero, rest positive) | PASS |
 | `conj13/review3/run_exact.out` | `cd conj13/review3 && python run_exact.py 5 7 8 9 11 13 15 17 19 21 23 25 > run_exact.out` | 92 s | medium | exact | Conj13 paper: odd-n c4 formula, exact mod-p KKT (3 primes, both conjugates), n = 5..25 | PASS |
 | `conj13/paper/table_check.out` | `cd conj13/paper && python table_check.py > table_check.out` | 2.4 min | medium | exact | Conj13 paper Table 1 (n = 4..25): threshold, no cubic term, c4 exact over GF(p) | PASS |
@@ -161,9 +158,9 @@ were first recorded, but about 9 min each here, so they are filed as medium. On 
 (`tanh/large_n.out` was added on 2026-10-12, after this run; it was checked separately with
 `python scripts/reproduce.py --only large_n`: PASS.)
 
-All 72 recorded outputs were rerun with the environment above, plus the Lean-generator check:
-**72 PASS, 0 DIFF, 0 FAIL**, and lean_gen PASS (19/19 modules identical).
-* fast tier (35 outputs + lean_gen): 36 PASS.
+All 69 recorded outputs were rerun with the environment above, plus the Lean-generator check:
+**69 PASS, 0 DIFF, 0 FAIL**, and lean_gen PASS (19/19 modules identical).
+* fast tier (32 outputs + lean_gen): 33 PASS.
 * medium tier (37 outputs): 37 PASS. `review_1_stab` first showed `DIFF` only because the recorded file ends with
   bash `time` lines and a `[exited with code 0]` trailer. Its eight data lines were identical. The normaliser now
   masks that trailer (marked PASS* in the table).
@@ -204,7 +201,7 @@ committed files alone**, without trusting our Python?
 
 | Certificate | Claims | What is committed | Recheckable from committed files alone? |
 |---|---|---|---|
-| **Lean 4 + Mathlib** (`lean/`) | sinh: c(N) ∈ ℤ ⇔ N ∈ {8,9,11,15,23}, the unit property, ξ*(8) = 8−3√7, ξ*(10) = 1/7. Conj13: b_n closed form and uniqueness for all n ≥ 4, the Fejér identity, the spectral gap, the c₄ closed forms symbolically in n from the printed h₂, h₄, f₂, E_ij, Table 1 over ℚ, the P1 and P2 corrections. tanh: the W_k closed form, the compact a_m, reciprocity, the characteristic polynomial; N = 2–7 stable for all r; for N = 8–16 a unique ξ* in a rational interval of width 10⁻²⁰ with a sign change; the factorisations, palindromy, the Krein window for odd N = 9–15; ξ*(8) is a unit. | The `.lean` sources, including the Bernstein-basis positivity certificates written out as literals; `lakefile.lean`, `lake-manifest.json`, `lean-toolchain`. | **Yes.** The kernel rechecks everything; `AxiomAudit.lean` lists the axioms. Trust base: Lean kernel + Mathlib at the pinned revision. Not covered: the inputs are taken as definitions (the Fourier blocks of the tanh model, and the Taylor coefficients h₂, h₄, f₂, E_ij of the Conj13 paper), the dynamics, irreducibility of f_N, and the asymptotics. |
+| **Lean 4 + Mathlib** (`lean/`) | sinh: c(N) ∈ ℤ ⇔ N ∈ {8,9,11,15,23}, the unit property, ξ*(8) = 8−3√7, ξ*(10) = 1/7. Conj13: b_n closed form and uniqueness for all n ≥ 4, the Fejér identity, the spectral gap, the c₄ closed forms symbolically in n from the stated h₂, h₄, f₂, E_ij, Table 1 over ℚ. tanh: the W_k closed form, the compact a_m, reciprocity, the characteristic polynomial; N = 2–7 stable for all r; for N = 8–16 a unique ξ* in a rational interval of width 10⁻²⁰ with a sign change; the factorisations, palindromy, the Krein window for odd N = 9–15; ξ*(8) is a unit. | The `.lean` sources, including the Bernstein-basis positivity certificates written out as literals; `lakefile.lean`, `lake-manifest.json`, `lean-toolchain`. | **Yes.** The kernel rechecks everything; `AxiomAudit.lean` lists the axioms. Trust base: Lean kernel + Mathlib at the pinned revision. Not covered: the inputs are taken as definitions (the Fourier blocks of the tanh model, and the Taylor coefficients h₂, h₄, f₂, E_ij of the Conj13 paper), the dynamics, irreducibility of f_N, and the asymptotics. |
 | **Arb ball enclosures** (`tanh/certify_v2.py`, python-flint/Arb at 400 bits; also `conj13/tanh_even_exact.py`) | tanh note Thm 6 / Table 1: ξ*(N) to 55 digits for N = 8–16; r*, r_E*; the EM threshold ξ_EM; tanh n = 8, 10, 12: sign of h₄ at ξ*. | Only the *results* (`certify_v2.out`: the ball midpoints, radii, the minimal polynomials and their discriminants). The rational isolating intervals [a, b] that the balls are tested against are **not** printed; only their widths are. | **Partly.** The printed minimal polynomials can be checked independently with any CAS: irreducibility, palindromy, the discriminant, and a root near the printed value. The certification step itself ("the Arb ball lies inside an exact isolating interval, and A_crit changes sign at a and b") exists only as `assert`s in the script. Rechecking it means rerunning `certify_v2.py`, so one has to trust sympy's root isolation and the Arb bindings. For N = 8–16 the Lean `cert_N*` theorems give an independent, kernel-checked certificate of the same facts at 10⁻²⁰ width. Only the 55-digit precision rests on Arb. |
 | **GF(p) checks** (`conj13/paper/table_check.py`, `conj13/review3/run_exact.py` via `kkt_exact.py`) | Conj13 paper Table 1 (n = 4–25): ν_e1 = 0 (threshold), ν_e2 = 0 (no cubic term), c₄ equal to the closed form. Odd-n formula, n = 5–25. | The code and the outputs, which record only `True` per n. The primes are deterministic (the first three p ≡ 1 mod 4n above 2⁶¹ with the right quadratic residue), but the residues themselves are not recorded. | **Rerun only**, and it is **not a proof certificate**. The check shows that an algebraic identity over ℚ(ζ_n, √d) holds modulo three ~61-bit primes, for both conjugates of λ. Without a bound on the height (degree and size) of the quantity that should vanish, this is overwhelming evidence, not a proof. No height bound is given in the repo. It is deterministic and fast, so anyone can rerun it, but nothing is left for a third party to check without running our KKT code. Table 1 itself is proved over ℚ in Lean (`Conj13Algebra.lean`), starting from the printed Taylor coefficients. |
 | **"Exact Sturm" root counting** (`tanh/certify.py`, `certify_v2.py`, `identities.py`; the words "certified, exact Sturm" in `certify*.out`) | N ≤ 7: a_m, b_m and det > 0 on all of (0,1); for N ≥ 8, b_m > 0 and the other modes cross earlier. | Nothing beyond the verdict lines. | **No, not from the files.** Despite the label, no Sturm sequence is computed or stored. The scripts call sympy's `Poly.intervals`, which isolates real roots by the Vincent–Akritas–Strzeboński continued-fraction method (Descartes' rule of signs). That is exact rational arithmetic, but no certificate is emitted. Rechecking means rerunning, or using another CAS on the polynomials from `tanh/exact.py`, which are not written to any file. For N = 2–16 the same sign facts are proved in Lean by Bernstein-basis certificates. So the Lean files, not the Sturm label, are the recheckable certificate. This applies to the research scripts only: the `havelock` package's run-time certificates (`havelock cert` / `havelock verify`, docs/certificates.md) do use exact Sturm counts and are independently re-checkable. |

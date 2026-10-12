@@ -35,11 +35,8 @@ PDF was obtained and the relevant sections were read; "abstract only" means noth
   degrees, minimal polynomials, palindromy or the ξ*(8) unit; the separation of spectral and
   energy–momentum thresholds (the odd-N Krein window); the statement "N ≤ 7 stable at every radius" (her Fig.
   5a is consistent with it on the range plotted); large-N asymptotics.
-  **Fig. 5a crossings (resolved).** Read by eye, the zero crossings in her Fig. 5a are at K ≈ −0.25 (N = 8) and
-  K ≈ −0.40 (N = 9), while our thresholds predict K = −r*² = −0.282 and −0.489. A reimplementation of her
-  stated equations reproduces our ξ*(8) to 1e-41 and our ξ_EM(9) exactly, so her equations and our thresholds
-  agree. Her plotted K < 0 curves appear to be matched instead by the pair law −ln sinh D, i.e. her eq. (17) with the
-  sign of one term flipped; her qualitative conclusions are unaffected. Details: `tanh/boatto_check/RESULT.md`.
+  **Reimplementation.** Her stated equations, implemented as written, reproduce our ξ*(8) to 1e-41 and our
+  ξ_EM(9) exactly, so her equations and our thresholds agree. Details: `tanh/boatto_check/README.md`.
 - **Montaldi & Nava-Gaxiola (2014)** and **Nava-Gaxiola's thesis (2013)**: full text; same (tanh/Kimura)
   Hamiltonian; only N = 2, 3 analysed; no ring thresholds. Both send the reader to Hwang–Kim (2013) for rings.
 - **Hwang & Kim (2013)**: **abstract only**. Its abstract says "the configuration of rings of vortices is

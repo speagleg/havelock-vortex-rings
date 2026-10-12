@@ -35,11 +35,6 @@ import Havelock
 #print axioms Havelock.Conj13.table_values
 #print axioms Havelock.Conj13.table_n7
 #print axioms Havelock.Conj13.table_n8
-#print axioms Havelock.Conj13.P1_n7
-#print axioms Havelock.Conj13.P1_n8
-#print axioms Havelock.Conj13.P1_even_rows
-#print axioms Havelock.Conj13.P2_complete_square
-#print axioms Havelock.Conj13.P2_n7
 #print axioms Havelock.Conj13.fejer
 #print axioms Havelock.Conj13.sum_cos_sq_mul_cos
 
@@ -147,3 +142,90 @@ import Havelock
 #print axioms Havelock.Tanh.LargeN.row_stable_iff
 #print axioms Havelock.Tanh.LargeN.row_definite_iff
 #print axioms Havelock.Tanh.LargeN.rowMyy_half_crit
+#print axioms Havelock.Tanh.LargeN.pair_hessian_row
+#print axioms Havelock.Tanh.LargeN.row_force_balance_y
+#print axioms Havelock.Tanh.LargeN.row_bloch_from_hessian
+#print axioms Havelock.Tanh.LargeN.flowBlock_hasEigenvalue_iff
+#print axioms Havelock.Tanh.LargeN.flowBlock_re_eigenvalues_iff
+#print axioms Havelock.Tanh.LargeN.hessBlock_posDef_iff
+#print axioms Havelock.Tanh.LargeN.specStable_iff_spectral
+#print axioms Havelock.Tanh.LargeN.emDefinite_iff_posDef
+#print axioms Havelock.Tanh.LargeN.row_spectral_iff
+#print axioms Havelock.Tanh.LargeN.row_posDef_iff
+#print axioms Havelock.Tanh.LargeN.aCrit_strictAntiOn
+#print axioms Havelock.Tanh.LargeN.aBlock_half_threshold_of_ge_17
+#print axioms Havelock.Tanh.LargeN.xiStar_unique_of_ge_17
+#print axioms Havelock.Tanh.LargeN.unique_threshold_of_ge_eight
+#print axioms Havelock.Tanh.LargeN.stable_all_radii_of_le_seven
+
+-- Tanh model: irreducibility of f_N (TanhIrred.lean)
+#print axioms Havelock.Tanh.Irred.irreducible_of_irreducible_map_zmod
+#print axioms Havelock.Tanh.Irred.dvd_X_pow_sub_X
+#print axioms Havelock.Tanh.Irred.irreducible_of_checkAll
+#print axioms Havelock.Tanh.Irred.f8_irreducible
+#print axioms Havelock.Tanh.Irred.f9_irreducible
+#print axioms Havelock.Tanh.Irred.f10_irreducible
+#print axioms Havelock.Tanh.Irred.f11_irreducible
+#print axioms Havelock.Tanh.Irred.f12_irreducible
+#print axioms Havelock.Tanh.Irred.f13_irreducible
+#print axioms Havelock.Tanh.Irred.f14_irreducible
+#print axioms Havelock.Tanh.Irred.f15_irreducible
+#print axioms Havelock.Tanh.Irred.f16_irreducible
+
+-- Tanh model: derivation of the blocks (TanhBlocks.lean; note Lemma 1, Thm 2)
+#print axioms Havelock.Tanh.fejerC
+#print axioms Havelock.Tanh.ring_critical
+#print axioms Havelock.Tanh.ring_critical_iff
+#print axioms Havelock.Tanh.grad_formula
+#print axioms Havelock.Tanh.hessQ_eq
+#print axioms Havelock.Tanh.hessSS_eq
+#print axioms Havelock.Tanh.hessTT_eq
+#print axioms Havelock.Tanh.hessST_eq
+#print axioms Havelock.Tanh.hessTS_eq
+#print axioms Havelock.Tanh.blocks_eigen
+#print axioms Havelock.Tanh.blocks_eigen_zero
+#print axioms Havelock.Tanh.blocks_hermitian
+
+-- Sinh model: mode decomposition and threshold (SinhModes.lean)
+#print axioms Havelock.Sinh.sinh_ring_critical_iff
+#print axioms Havelock.Sinh.sinhD_omega
+#print axioms Havelock.Sinh.sinh_blocks_eigen
+#print axioms Havelock.Sinh.sinh_blocks_hermitian
+#print axioms Havelock.Sinh.threshold
+#print axioms Havelock.Sinh.threshold_strict
+#print axioms Havelock.Sinh.threshold_cosh
+#print axioms Havelock.Sinh.stable_small
+#print axioms Havelock.Sinh.threshold_xiStar
+#print axioms Havelock.Sinh.xiStar_add_inv
+
+-- Conjecture 13: nonlinear-stability core, abstract (Conj13Stability.lean)
+#print axioms Havelock.Conj13.Lyapunov.lyapunov_on_section
+#print axioms Havelock.Conj13.Lyapunov.stable_modulo_orbit
+#print axioms Havelock.Conj13.Lyapunov.stable_modulo_orbit_global
+#print axioms Havelock.Conj13.Lyapunov.lemma_B1
+#print axioms Havelock.Conj13.Lyapunov.lemma_B2
+#print axioms Havelock.Conj13.Lyapunov.lemma_B3
+#print axioms Havelock.Conj13.Lyapunov.quartic_form_coercive
+
+-- Tanh model: the full linearised flow (LinearFlow.lean; note Prop 3)
+#print axioms Havelock.Tanh.LargeN.linFlow_mode
+#print axioms Havelock.Tanh.LargeN.linFlow_hasEigenvalue_iff
+#print axioms Havelock.Tanh.LargeN.linFlow_spectral_iff
+#print axioms Havelock.Tanh.LargeN.hessMat_parseval
+#print axioms Havelock.Tanh.LargeN.hessMat_posDef_compl_iff
+#print axioms Havelock.Tanh.LargeN.hessQ_posDef_compl_iff
+
+-- Conjecture 13: series inputs derived from the Hamiltonian (Conj13Series.lean)
+#print axioms Havelock.Conj13.Config.Ham_stag_sub
+#print axioms Havelock.Conj13.EvenQuartic.Ham_curve_jet
+#print axioms Havelock.Conj13.EvenQuartic.c4even_limit
+#print axioms Havelock.Conj13.EvenQuartic.c4even_limit_at_bn
+#print axioms Havelock.Conj13.OddSums.sum_inv_one_sub_cos
+#print axioms Havelock.Conj13.Odd.Ham_oddLine_jet
+#print axioms Havelock.Conj13.Odd.J1_oddAnsatz_jet
+#print axioms Havelock.Conj13.Odd.epsOdd_hasDerivAt
+#print axioms Havelock.Conj13.Odd.oddNorm_pow4
+#print axioms Havelock.Conj13.Taylor.even_iteratedDeriv
+#print axioms Havelock.Conj13.Taylor.odd_iteratedDeriv
+#print axioms Havelock.Conj13.Taylor.even_iteratedDeriv_at_bn
+#print axioms Havelock.Conj13.Taylor.odd_iteratedDeriv_at_bn

@@ -1,5 +1,5 @@
-"""Precise zero crossings of Boatto's S~ (reimplemented, her variables) for three pair laws, mapped to
-xi = tanh^2(sqrt|K| r_o / 2) with r_o = 1, and compared with ../blocks.py (tanh) and the sinh closed form.
+"""Precise zero crossings of Boatto's S~ (reimplemented from her equations, her variables), mapped to
+xi = tanh^2(sqrt|K| r_o / 2) with r_o = 1, and compared with ../blocks.py (tanh).
 Mode-resolved: for mode m we use det of the Hermitian 2x2 block (Q_m, G_m; G_m*, P_m), whose sign change
 (with Q_m > 0) is exactly the definiteness boundary."""
 import sys, sympy as sp, mpmath as mp
@@ -7,7 +7,6 @@ sys.path.insert(0, '..')
 import boatto_hessian as bh
 from blocks import blocks
 mp.mp.dps = 40
-bh.FORMS[('sinhD',-1)] = bh.c*(sp.log(bh.d-1)+sp.log(bh.d+1))   # = -(1/2pi) ln sinh(D)  (Fig 5a fit)
 def modeblock(N, K, model, m):
     S,_ = bh.hessian(N, K, model)
     v = [mp.exp(2j*mp.pi*m*a/N)/mp.sqrt(N) for a in range(N)]
@@ -24,13 +23,10 @@ print('Map (r_o = 1 geodesic, her Remark 2 p.361-362):  xi = tanh^2(sqrt(-K)/2),
 for N, g in [(8,-0.28),(9,-0.49),(10,-0.7)]:
     m = N//2
     xs = mp.findroot(lambda x: blocks(N,x,m)[0], {8:0.067,9:0.11,10:0.166}[N])
-    Kt = Kcross(N,'boatto',g); Ks = Kcross(N,'sinh',g); Kd = Kcross(N,'sinhD',g)
+    Kt = Kcross(N,'boatto',g)
     print('N=%d' % N)
     print('   ours (blocks.py) xi* = %s  ->  K = %s' % (mp.nstr(xs,25), mp.nstr(K_of(xs),20)))
     print('   reimpl. tanh (her eq.17)  K* = %s  ->  xi = %s   |diff xi| = %s' % (mp.nstr(Kt,20), mp.nstr(xi_of(Kt),25), mp.nstr(abs(xi_of(Kt)-xs),3)))
-    print('   reimpl. sinh(D/2)         K* = %s  ->  xi = %s   4 xi = %s' % (mp.nstr(Ks,20), mp.nstr(xi_of(Ks),20), mp.nstr(4*xi_of(Ks),8)))
-    print('   reimpl. sinh(D)  [Fig5a]  K* = %s  ->  xi = %s' % (mp.nstr(Kd,20), mp.nstr(xi_of(Kd),20)))
-print('sinh closed form N=8: 8-3*sqrt(7) =', mp.nstr(8-3*mp.sqrt(7),20))
 # per-mode check: sign/ratio of reimplemented P_m vs our a_m at K=-0.25, N=8 (G_4 = 0 so P_4 is the eigenvalue)
 K = mp.mpf('-0.25'); xi = xi_of(K)
 print('K=-0.25 -> xi = %s' % mp.nstr(xi,15))

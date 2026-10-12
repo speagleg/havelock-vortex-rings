@@ -38,8 +38,8 @@ Conjecture 13 says that the ring is still stable *at* b_n.
 | Closed form for the quartic coefficient on the level set, even n: c₄ = (n−2)(m⁴+40m²+48m+16)/(192n(n−1)), m = n−2 | PROVED; the algebra from the series coefficients onward is Lean-checked. Also reproduced numerically for even n = 8–16 by the [independent check](../independent_check/README.md) (level-set quartic from the Cartesian Hamiltonian, relative difference ≤ 5·10⁻¹⁰) |
 | Closed form, odd n ≥ 5: c₄ = (n−1)(n−3)(n²−9n+38)/(128n). Positivity is immediate (discriminant −71). The formula vanishes at n = 3, which is why n = 3 rests on Montaldi–Tokieda's own argument. | PROVED; the algebra is Lean-checked. Also reproduced numerically for n = 9–21 (odd) by the [independent check](../independent_check/README.md) (relative difference ≤ 7·10⁻⁹), and 9/14 in the plane at n = 7 |
 | Exact table of c₄ for n = 4–25 | PROVED (Lean, exact over ℚ), plus an independent check modulo three 61-bit primes |
-| The series coefficients h₂, h₄, f₂, E_ij that the closed forms start from | Computer algebra (sympy). Derived twice independently and printed in the paper; **not** Lean-checked |
-| A comparison with intermediate steps of the published argument (paper §7, notes P1–P3), on our reading of it: their computation evaluates the quartic on a linear slice rather than the level set (6/7 against 9/14 at n = 7), and with the weights of their Lemma 8 the key combination is δ − 3γ²/β. None of this affects their conclusions, which our results confirm. | Our direct recomputation reproduces their printed β, γ, δ to every printed digit at n = 7, 9, 11 (`conj13/review/p2_mt_coeffs.py`). The normalisation-free ratio test is `conj13/review/p2_ratio_test.py` |
+| The series coefficients h₂, h₄, f₂, E_ij that the closed forms start from | Computer algebra (sympy), derived twice independently and stated in the paper. h₂, h₄ (even n), f₂ and the J₁ constraint (odd n) and both normalisations are also **derived from the Hamiltonian in Lean** (`Conj13Series.lean`); the odd fourth-order E_ij are not |
+| §5 nonlinear-stability argument | PROVED (paper). Its analytic core (Lemmas B1–B4, Theorem 17) is Lean-checked in an abstract setting (`Conj13Stability.lean`); the instantiation to the vortex ring is not |
 
 ## 2. The tanh (Kimura) model on the hyperbolic plane
 
@@ -53,12 +53,12 @@ qualitative picture are hers. Hwang–Kim (2013) is closed access and unread; it
 
 | Claim | Status |
 |---|---|
-| In log-polar coordinates the energy–momentum Hessian splits into 2×2 Fourier blocks whose entries are explicit rational functions of ξ = tanh²(r/2) | PROVED (note, Thm 2); the block identities are Lean-checked |
+| In log-polar coordinates the energy–momentum Hessian splits into 2×2 Fourier blocks whose entries are explicit rational functions of ξ = tanh²(r/2) | PROVED (note, Thm 2); **derived from the Hamiltonian in Lean** (`TanhBlocks.lean`: criticality, the Hessian as circulant matrices, its Fourier blocks), and the full 2N-dimensional linearisation's spectrum is the union of the block spectra (`LinearFlow.lean`) |
 | Reciprocity: under ξ ↦ 1/ξ, a_m and b_m are invariant and g_m changes sign | PROVED; Lean-checked |
 | N ≤ 7: the ring is stable at every radius | CERTIFIED (exact rational root isolation), and Lean-checked (Bernstein certificates) |
 | N = 8–16: the threshold ξ*(N) is the unique root of an explicit integer polynomial f_N in (0, 1), and the critical mode is ⌊N/2⌋ | CERTIFIED (exact root isolation plus Arb enclosure, 25 digits), and Lean-checked (uniqueness, sign change and an interval of width 10⁻²⁰). For N = 8–12 and 16, also reproduced to at least 20 digits by bisection on the full 2N×2N linearisation in the [independent check](../independent_check/README.md) |
-| f_N is irreducible and palindromic; degrees 10, 16, 12, 20, 16, 24, 18, 28, 22 for N = 8–16 | CERTIFIED (PARI/GP `polisirreducible`, plus a second check by factorisation patterns mod p; `tanh/irreducibility/`). Not in Lean. Irreducibility over ℚ and palindromy also confirmed with sympy by the [independent check](../independent_check/README.md) |
-| ξ*(8) is an algebraic unit of degree 10; ξ*(9)–ξ*(16) are not algebraic integers | Unit property: Lean. Degree and non-integrality: PARI |
+| f_N is irreducible and palindromic; degrees 10, 16, 12, 20, 16, 24, 18, 28, 22 for N = 8–16 | CERTIFIED (PARI/GP `polisirreducible`, plus a second check by factorisation patterns mod p; `tanh/irreducibility/`). **Lean-checked** too (`TanhIrred.lean`: mod-p certificates for p = 7, 13, 107, 17, 11, 101, 3, 29, 163, checked by kernel reduction). Irreducibility over ℚ and palindromy also confirmed with sympy by the [independent check](../independent_check/README.md) |
+| ξ*(8) is an algebraic unit of degree 10; ξ*(9)–ξ*(16) are not algebraic integers | Unit property and irreducibility (hence the degrees): Lean. Non-integrality from the leading coefficients: PARI and Lean data |
 | For odd N = 9, 11, 13, 15, a "Krein window" lies between the spectral threshold and the energy–momentum threshold. In it the ring is linearly (spectrally) stable; nonlinear stability is undecided. Width 3.22×10⁻⁸ at N = 9. | Non-emptiness for N = 9, 11, 13, 15 is Lean-checked; the widths are CERTIFIED. At N = 9 the [independent check](../independent_check/README.md) finds the reduced Hessian indefinite at ξ* + 3.0·10⁻⁸ and definite at ξ* + 3.4·10⁻⁸, consistent with the width. Non-emptiness for every odd N ≥ 9 is now PROVED (row below) |
 | Exact symbol form: with τ = −(N/2) ln ξ and x = 1 − 2m/N, b_m/N² and g_m/N² are explicit functions of (x, τ), and a_m/N² is one plus a term that depends on N and τ only (of order N⁻²) | PROVED (note, Thm 11); checked against the block formulas to 10⁻⁵⁸ (`tanh/large_n.out`). **Lean-checked**, together with everything in the rows below that is marked PROVED (`lean/Havelock/TanhLargeN.lean`; see [lean.md](lean.md)) |
 | b_m > 0 and the critical mode is ⌊N/2⌋, for **every** N and every radius (so the ring is spectrally stable iff a_⌊N/2⌋ ≥ 0) | PROVED (note, Lemmas 12–13, Cor. 14). Previously certified only for N ≤ 16 |
@@ -67,7 +67,7 @@ qualitative picture are hers. Hwang–Kim (2013) is closed access and unread; it
 | Second order: cosh r* = κ∞N + C₁/N + O(N⁻³), C₁ = 0.5412188 (even N), 0.4010382 (odd N) | Derived, without written remainder bounds; matches the exact thresholds to 2·10⁻⁶ at N = 800, 801. The even value explains the earlier fitted 0.541 |
 | Energy–momentum threshold: equal to the spectral threshold for **every** even N (no Krein window); for **every** odd N ≥ 9 a non-empty Krein window, of width ξ_EM − ξ* = O(N⁻³); for both parities cosh r_EM = κ∞N + O(1/N). The key inequality: in the symbol variables, the EM determinant is N⁴β[Φ_N(τ) + G(x, τ)] with G ≥ 0 | PROVED (note, Lemma 17 and Thm 18). Previously certified only for N ≤ 16. The limiting window constant N³(ξ_EM − ξ*) → 0.0037 is derived, not proved |
 | Physical picture: the large-N limit is an infinite vortex row on a horocycle; the critical mode is the row's pairing mode; the row is spectrally stable iff its spacing is at least ℓ*, with definite Hessian iff the spacing exceeds ℓ* (no Krein window) | PROVED (note, Prop. 19 and Cor. 20, by four classical lattice sums incl. one Poisson summation); confirmed against direct lattice sums to 4·10⁻¹² (`tanh/large_n.out`) |
-| Boatto's equations, implemented as written, reproduce our ξ*(8) to 10⁻⁴¹ and ξ_EM(9) exactly. Her plotted K < 0 curves (Fig. 5a/5b) appear to match the pair law −ln sinh D instead, i.e. her eq. (17) with one sign flipped; her qualitative conclusions are unaffected. | NUMERICAL comparison (digitised figure, ±0.002 in K); `tanh/boatto_check/RESULT.md` |
+| Boatto's equations, implemented as written, reproduce our ξ*(8) to 10⁻⁴¹ and ξ_EM(9) exactly. | NUMERICAL reimplementation; `tanh/boatto_check/` |
 
 Thresholds for N = 8–16 (ξ = tanh²(r/2), r the hyperbolic ring radius, curvature −1):
 
@@ -95,5 +95,6 @@ Lean-checked. The [independent check](../independent_check/README.md) reproduces
 - **A specialist reader.** Montaldi and Tokieda are the natural readers for both results.
 - **Hwang–Kim (2013).** It needs journal access.
 - **Odd-n, n ≥ 5 limit.** The odd closed form is derived for n ≥ 5. The case n = 3 relies on Montaldi–Tokieda.
-- **Not formalised.** The derivation of the series coefficients (Conjecture 13) and of the Fourier blocks (tanh) are
-  computer algebra. The dynamics are not formalised in either case.
+- **Not formalised.** Conjecture 13: the odd fourth-order coefficients E_ij and the structural steps of the
+  expansion; the instantiation of §5 to the vortex ring. Tanh: that κ₀⁻¹JH is the derivative of the vortex vector
+  field. Everything else listed above as Lean-checked is in `lean/` ([lean.md](lean.md)).

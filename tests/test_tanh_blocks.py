@@ -66,7 +66,7 @@ def test_fd_hessian_matches_tanh_blocks(N, v):
 
 
 def test_fd_negative_control_sinh_blocks_do_not_fit_tanh():
-    # a Boatto-type modelling error (wrong pair law) must be caught: the sinh blocks at the same xi do not match
+    # a modelling error (a different pair interaction) must be caught: the sinh blocks at the same xi do not match
     mdl = get_model("tanh")
     with mp.workdps(40):
         E, _, _ = fd_spectrum(mdl, 8, mp.mpf("0.3"), mp.mpf("1e-10"))

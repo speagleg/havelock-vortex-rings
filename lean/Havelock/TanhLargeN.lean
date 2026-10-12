@@ -1,5 +1,5 @@
 /-
-Havelock — tanh model, large N (tanh/note_tanh.tex, section "Large N", Theorems 11–18, Prop 19, Cor 20).
+Havelock — tanh model, large N (tanh/note_tanh.tex, section "Large N", Theorems 11–18, Prop 19, Cor 20, Prop 21).
 
 Modules, in dependency order (CI builds them one at a time in this order):
 * `LargeN.Defs`             the explicit symbol functions `Q, R, β, ψ, γ, E_N, Φ_N, Φ, K, G, 𝓛`.
@@ -18,11 +18,22 @@ Modules, in dependency order (CI builds them one at a time in this order):
 * `LargeN.RowFourier`       the four lattice sums of note Prop 19 (via Fourier coefficients on the circle).
 * `LargeN.RowSymbol`        note Prop 19: `row_bloch_symbol` (Bloch symbol of the horocyclic row, velocity `v`).
 * `LargeN.RowStability`     note Cor 20: `row_stable_iff`, `row_definite_iff` (critical spacing ℓ* = 2π/τ∞).
+* `LargeN.RowHessian`       note Prop 19 (proof): the per-pair Hessian entries and the force balance, derived
+                            as derivatives of the pair term (`pair_hessian_row`, `row_bloch_from_hessian`).
+* `LargeN.Dynamics`         note Prop 3: block criteria ⇔ eigenvalues on the imaginary axis / positive
+                            definiteness (`specStable_iff_spectral`, `emDefinite_iff_posDef`, `row_spectral_iff`).
+* `LargeN.OddN`             note Prop 21: one threshold for every N ≥ 17 (`xiStar_unique_of_ge_17`).
+* `LargeN.AllN`             note Prop 21 with Thm 7: one threshold for every N ≥ 8, stability at all radii for
+                            N ≤ 7 (`unique_threshold_of_ge_eight`, `stable_all_radii_of_le_seven`).
+* `Tanh.LinearFlow`         note Prop 3 for the full system: L = κ₀⁻¹ J H on ℂ^{2N}; Fourier modes are invariant
+                            (`linFlow_mode`), spec L = ⋃_m spec(κ₀⁻¹ J₀ M_m) (`linFlow_hasEigenvalue_iff`),
+                            spectral stability ⟺ `specStable` (`linFlow_spectral_iff`), and positivity of the
+                            Hessian off mode 0 ⟺ `emDefinite` (`hessQ_posDef_compl_iff`).
 
 Not formalised: the derivation of the Fourier blocks (Thm 2 is the starting point, as in
-`TanhAlgebra.lean`); for the row, the per-pair Hessian entries are taken as definitions from the proof of
-Prop 19 (the second derivatives of the pair term are not derived in Lean); and the dynamics (stability is
-stated through the block/Bloch-matrix criteria of note Prop 3).
+`TanhAlgebra.lean`; it is derived from the Hamiltonian in `TanhBlocks.lean`); that L = κ₀⁻¹ J H is the derivative
+of the vortex vector field (L is defined that way); and, for the infinite row, the reduction of its linearised flow
+to Bloch modes.
 -/
 import Havelock.Tanh.LargeN.Defs
 import Havelock.Tanh.LargeN.Symbol
@@ -39,3 +50,8 @@ import Havelock.Tanh.LargeN.ThresholdSpacing
 import Havelock.Tanh.LargeN.RowFourier
 import Havelock.Tanh.LargeN.RowSymbol
 import Havelock.Tanh.LargeN.RowStability
+import Havelock.Tanh.LargeN.RowHessian
+import Havelock.Tanh.LargeN.Dynamics
+import Havelock.Tanh.LargeN.OddN
+import Havelock.Tanh.LargeN.AllN
+import Havelock.Tanh.LinearFlow

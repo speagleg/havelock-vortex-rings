@@ -30,8 +30,8 @@ value, and `nonlinear()` at the bifurcation point (the threshold's `r`).
 
 - Hamiltonian H = −Σ ln tanh(d/2) on H² (Kimura's Hamiltonian; tanh/note_tanh.pdf eq. (1)), Poincaré disk, curvature
   −1; parameter `xi` = tanh²(r/2) ∈ (0, 1); stable for xi above the threshold.
-- **Blocks: PROVED** (note Thm 2), with a radial–tangential coupling g_m. The Boatto (2008) discrepancy was resolved
-  in tanh/boatto_check/RESULT.md (her equations give our thresholds; her figure used a different pair law).
+- **Blocks: PROVED** (note Thm 2), with a radial–tangential coupling g_m. Boatto's (2008) equations, implemented as
+  written, give the same thresholds (tanh/boatto_check/).
 - **Threshold, any N <= 64: CERTIFIED** at run time: Arb root isolation of the irreducible factor of A_⌊N/2⌋, exact
   Sturm counts, exact signs of every block on both sides, and no root of any a_m, b_m on the stable side. The basis
   adds "Lean-checked" (`Havelock.Tanh.cert_N{N}`) for 8 <= N <= 16 and `stable_N{N}` for N <= 7. N <= 7: stable at

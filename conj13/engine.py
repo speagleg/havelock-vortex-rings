@@ -13,7 +13,6 @@ Effective (reduced, centre-direction) function:
   f_eff(eps) = min { H(q) - H(q0) : q = q0 + eps*e + v, v in span(F) + span(Nn), J(q) = J(q0) }
 where e spans (part of) the kernel of the constrained Hessian, F = the other constrained-Hessian eigvectors,
 Nn = momentum-normal directions; rotation is gauge-fixed by v _|_ t (t = rotation generator).
-Option linear=True replaces J(q)=J(q0) by the LINEAR slice dJ(q0)(q-q0)=0, i.e. MT's Prop. 9 setting.
 """
 import sympy as sp
 import mpmath as mp
@@ -188,14 +187,14 @@ class Ring:
         vecs = [P*Q[:, k] for k in range(len(Tb))]
         return [E[k] for k in range(len(Tb))], vecs, normals, tvec
 
-    def f_eff(self, eps, e, F, normals, linear=False, guess=None, tol=None):
+    def f_eff(self, eps, e, F, normals, guess=None, tol=None):
         """Minimise H over q0 + eps e + span(F) + span(normals) subject to the momentum constraint."""
         n = self.n
         m, k = len(F), len(normals)
         G0 = self.gradJ(self.q0)
         tol = tol or mp.mpf(10)**(-mp.mp.dps + 8)
         X = guess if guess is not None else [mp.mpf(0)]*(m + 2*k)
-        if guess is None and not linear:
+        if guess is None:
             X[m+k+2] = self.omega   # multiplier of J3 at the ring
         def build(X):
             v = mp.matrix(self.q0) + eps*e
@@ -206,17 +205,11 @@ class Ring:
             return [v[r] for r in range(2*n)]
         def resid(X):
             q = build(X)
-            g = mp.matrix(self.gradH(q, with_omega=linear))
-            if linear:
-                cons = [sum(G0[a][r]*(q[r]-self.q0[r]) for r in range(2*n)) for a in range(3)]
-                GJ = [mp.matrix(G0[a]) for a in range(3)]
-            else:
-                Jq = self.J(q)
-                cons = [Jq[a] - self.Jmu[a] for a in range(3)]
-                GJ = [mp.matrix(gg) for gg in self.gradJ(q)]
+            g = mp.matrix(self.gradH(q, with_omega=False))
+            Jq = self.J(q)
+            cons = [Jq[a] - self.Jmu[a] for a in range(3)]
+            GJ = [mp.matrix(gg) for gg in self.gradJ(q)]
             nu = X[m+k:]
-            if linear:
-                cons = cons  # linear slice; Hhat gradient used (J3 not conserved on the slice)
             # Lagrange: grad H - sum nu_a grad J_a  projected on the free directions
             L = g
             for a in range(3):
@@ -242,8 +235,6 @@ class Ring:
             raise RuntimeError(f"Newton failed, resid {nr}")
         q = build(X)
         val = self.H(q) - self.H(self.q0)
-        if linear:
-            val -= self.omega*(self.J(q)[2] - self.Jmu[2])   # Hhat on the linear slice (J3 not fixed)
         return val, X
 
 

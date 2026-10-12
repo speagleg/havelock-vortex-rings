@@ -1,6 +1,6 @@
 """Conj13, odd n, MT family: fast reduced quartic.  Same as reduced_quartic.py, but the minimisation is
 restricted to the Fourier modes that can couple to a^2 at cubic order (D_n-invariance, MT Prop. 12(iii)
-plus the V_0 radial direction that MT omit): modes 0 and 1 (radial and tangential) plus the second kernel
+plus the V_0 radial direction): modes 0 and 1 (radial and tangential) plus the second kernel
 vector.  The other modes enter f_eff only at O(eps^6), so c4 is unchanged (checked against the full
 minimisation of reduced_quartic.py for n = 5..11).  Kernel = mode (n-1)/2 radial (MT: the Hessian is
 diagonal in (r, theta) for this model, eq. (2.2)/(2.6)); verified numerically: gradient and Hessian
@@ -49,14 +49,12 @@ def run(n):
     S = modevecs(n, 0) + modevecs(n, 1) + [list(e2)]
     F = Ring._gs(S, basis=Nb + [e1])
     for name, e, extra in (('e1', e1, []),):
-        for linear in (False, True):
-            eps = [mp.mpf(k)/2000 for k in (-5, -4, -3, -2, -1, 1, 2, 3, 4, 5)]
-            vals = [R.f_eff(ep, e, F, normals, linear=linear)[0] for ep in eps]
-            c = fit_even_poly(eps, vals, list(range(2, 12)))
-            tag = 'linear-slice (MT)' if linear else 'constrained J=mu '
-            print(f"   {tag}: c2={mp.nstr(c[0], 5)} c3={mp.nstr(c[1], 5)} c4={mp.nstr(c[2], 18)}  "
-                  f"identify: {mp.identify(c[2]) if not linear else ''}")
-            sys.stdout.flush()
+        eps = [mp.mpf(k)/2000 for k in (-5, -4, -3, -2, -1, 1, 2, 3, 4, 5)]
+        vals = [R.f_eff(ep, e, F, normals)[0] for ep in eps]
+        c = fit_even_poly(eps, vals, list(range(2, 12)))
+        print(f"   constrained J=mu : c2={mp.nstr(c[0], 5)} c3={mp.nstr(c[1], 5)} c4={mp.nstr(c[2], 18)}  "
+              f"identify: {mp.identify(c[2])}")
+        sys.stdout.flush()
 
 if __name__ == '__main__':
     for a in sys.argv[1:]:

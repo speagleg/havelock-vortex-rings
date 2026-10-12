@@ -38,8 +38,8 @@ every radius. For odd $N$ the energy--momentum (Hessian-definiteness) threshold 
 threshold. In the gap the ring is linearly (spectrally) stable, and its nonlinear stability is undecided (a Krein
 window). In the variable $\tau=-\frac N2\ln\xi$ the blocks are, up to an $m$-independent term of order $N^{-2}$, a
 function of $m/N$. From this exact identity we prove, for every $N$ and every radius, that $b_m>0$ and that the critical
-mode is $\lfloor N/2\rfloor$; for every even $N\ge8$ that the threshold is unique and equals the energy--momentum
-threshold; and for every odd $N\ge9$ that the Krein window is non-empty, of width $O(N^{-3})$. We also prove
+mode is $\lfloor N/2\rfloor$; for every $N\ge8$ that the threshold is unique; for every even $N$ that it equals the
+energy--momentum threshold; and for every odd $N\ge9$ that the Krein window is non-empty, of width $O(N^{-3})$. We also prove
 $\cosh r_*=\kappa_\infty N+O(1/N)$, with $\kappa_\infty=1/(2\eta_\infty)\approx0.1343122$ and $\eta_\infty$ the root of
 $(\coth\eta-1/\eta)^2=2\tanh(\eta)/\eta$. Physically, a large ring stabilises once neighbouring vortices are more than
 $\ell_*=\pi/\eta_\infty\approx0.844$ curvature radii apart, which is exactly the critical spacing of an infinite vortex row
@@ -62,7 +62,7 @@ first sentence, for linear stability. The Hessian at the ring reduces to explici
 $N\le16$ it is certified together with its minimal polynomial (\S\ref{sec:cert}). On the guess in the second sentence:
 the stability picture of their \S2 carries over qualitatively. Rings with $N\le7$ are stable at every radius; for
 $N\ge8$ a ring is stable exactly beyond a threshold radius, and the critical mode is $\lfloor N/2\rfloor$ (proved for
-every $N$ for the critical mode, and for every even $N$ for the uniqueness of the threshold; \S\ref{sec:asym}). There is
+every $N$, both for the critical mode and for the uniqueness of the threshold; \S\ref{sec:asym}). There is
 one structural difference. The tanh blocks have a radial--tangential coupling, and for odd $N$ it separates the spectral
 threshold from the energy--momentum threshold (\S\ref{sec:krein}); this has no counterpart in the sinh model. We do not
 study the bifurcations themselves, which are the subject of their \S3. So their guess about the bifurcation types
@@ -82,12 +82,8 @@ two thresholds. Her criterion is Hessian definiteness, i.e.\ our energy--momentu
 geodesic radius $1$ while $K$ varies, so $K=-r^2$ with $\xi=\tanh^2(r/2)$. Implemented as written, her equations
 (14), (17) and (31) reproduce our thresholds exactly: $K_*(8)=-0.28218454857650$, i.e.\ $\xi_*(8)$ to $10^{-41}$, and
 $K_{\rm EM}(9)=-0.48869837$, i.e.\ our $\xi_{\rm EM}(9)$, including the certified gap $\xi_{\rm EM}-\xi_*=3.22\cdot10^{-8}$.
-Her Fourier blocks equal ours up to $m$-independent factors. The zero crossings in her Fig.~5a lie slightly elsewhere, at
-$K\approx-0.2465$ ($N=8$) and $-0.3964$ ($N=9$), digitised to $\pm0.002$. These are reproduced to plotting accuracy by the pair
-law $-\ln\sinh D$ ($D$ the full geodesic distance), i.e.\ her eq.~(17) with the sign of the $\ln(d+1)$ term flipped,
-which gives $-0.24656$ and $-0.39692$. The difference therefore seems to lie in the computation behind the plotted
-$K<0$ curves rather than in the model, and it leaves her qualitative conclusions unchanged; her $K>0$ curves agree
-with her equations. We may of course have misread her conventions. Details and scripts: \texttt{tanh/boatto\_check/}.
+Her Fourier blocks equal ours up to $m$-independent factors. The reimplementation of her equations is in
+\texttt{tanh/boatto\_check/}.
 \item Montaldi--Nava-Gaxiola~\cite{MNG} and Nava-Gaxiola's thesis~\cite{NG} use the same Hamiltonian but analyse only
 $N=2,3$. Both point to Hwang--Kim~\cite{HK} for rings.
 \item Hwang--Kim 2013~\cite{HK}: we saw only the abstract (``the configuration of rings of vortices is investigated
@@ -109,7 +105,7 @@ of the blocks (Thm.~\ref{thm:symbol}); $b_m>0$ and critical mode $\lfloor N/2\rf
 (Lemmas~\ref{lem:bpos}, \ref{lem:crit}); a unique threshold for every even $N\ge8$ (Prop.~\ref{prop:evenN}); the large-$N$
 limit $\cosh r_*=\kappa_\infty N+O(1/N)$ and the critical spacing $\ell_*$ (Thm.~\ref{thm:largeN}); the horocyclic
 vortex row as the limit problem, stable iff its spacing is at least $\ell_*$ (Prop.~\ref{prop:row}, Cor.~\ref{cor:row}); energy--momentum
-threshold equal to the spectral one for every even $N$, a non-empty Krein window of width $O(N^{-3})$ for every odd
+threshold equal to the spectral one for every even $N$; a unique threshold for every $N\ge8$ (Prop.~\ref{prop:oddN}); a non-empty Krein window of width $O(N^{-3})$ for every odd
 $N\ge9$, and the same limit $\kappa_\infty$ (Thm.~\ref{thm:em}).\\
 \textbf{CERTIFIED} (exact arithmetic, $N\le16$) & $b_m>0$ on $(0,1)$; critical mode $\lfloor N/2\rfloor$; the value of
 $\xi_*(N)$ and the sign change of $a_{\rm crit}$ at $\xi_*$; $N\le7$ stable for all $r$; odd-$N$ energy--momentum
@@ -117,7 +113,7 @@ threshold strictly above $\xi_*$. Exact rational root isolation (sympy) and Arb 
 \textbf{CERTIFIED by computer algebra (PARI/GP)}, $8\le N\le16$ & Irreducibility over $\mathbb Q$ of the threshold
 polynomial $f_N$, hence: $f_N$ is the minimal polynomial of $\xi_*(N)$, the degrees (\ref{eq:deg}) and leading
 coefficients of Table~\ref{tab:cert}, palindromy of the minimal polynomial, $\xi_*(8)$ a unit, $\xi_*(N)$ not an
-algebraic integer for $N\ge9$ (\S\ref{sec:irred}). Not checked in Lean.\\
+algebraic integer for $N\ge9$ (\S\ref{sec:irred}). Irreducibility is also checked in Lean (see below).\\
 \textbf{Lean} (checked in the repository's CI build) & In \texttt{lean/Havelock/TanhAlgebra.lean}.
 Taking the block formulas of Thm.~\ref{thm:blocks} as definitions, Lean checks:
 (i)~reciprocity of $a_m$ and the even-$N$ threshold equation;
@@ -126,12 +122,15 @@ with $\xi_*$ located to within $10^{-20}$ in a rational interval;
 (iii)~$\xi_*(8)$ is an algebraic integer and a unit;
 (iv)~the odd-$N$ Krein window is non-empty for $N=9,11,13,15$.
 (v)~in \texttt{lean/Havelock/TanhLargeN.lean}, every PROVED statement of \S\ref{sec:asym} (Thms~\ref{thm:symbol}--\ref{thm:em},
-Prop.~\ref{prop:row}, Cor.~\ref{cor:row}), including the rates; for the row, the per-pair Hessian entries are taken from
-the proof of Prop.~\ref{prop:row} as definitions.
-Lean does \emph{not} check irreducibility (that is the PARI item above), the derivation of the blocks, or the
-dynamics.\\
-\textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$; uniqueness of the
-threshold for odd $N\ge17$.\\
+Prop.~\ref{prop:row}, Cor.~\ref{cor:row}, Prop.~\ref{prop:oddN}), including the rates and the row's per-pair Hessian
+entries; (vi)~in \texttt{TanhBlocks.lean}, Lemma~\ref{lem:re} and Thm.~\ref{thm:blocks} derived from the Hamiltonian
+(criticality, the Hessian as circulant matrices, its Fourier blocks); (vii)~in \texttt{LinearFlow.lean}, that the
+spectrum of the full $2N$-dimensional linearisation $\kappa_0^{-1}JH$ is the union of the block spectra, so that
+Prop.~\ref{prop:lin}'s criteria are statements about the whole system; (viii)~in \texttt{TanhIrred.lean},
+irreducibility of $f_8,\dots,f_{16}$ over $\mathbb Q$ by mod-$p$ certificates checked in the kernel.
+Lean does \emph{not} check that $\kappa_0^{-1}JH$ is the derivative of the vortex vector field (it is defined so), or
+nonlinear (Lyapunov) stability.\\
+\textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$.\\
 \textbf{NUMERICAL} & The $1/N$ coefficients
 $C_1$ (derived, remainder not bounded); the constant $W$ in the Krein-window width, and the critical block being the
 only indefinite block on the whole window for odd $N\ge17$ (\S\ref{sec:asym}).\\\bottomrule
@@ -431,7 +430,7 @@ $\max|\mathrm{Re}\,\sigma|\le4\cdot10^{-19}$ (NUMERICAL).
 \paragraph{Structure of the numerator.} For even $N\in\{8,\dots,16\}$, $A_{N/2}$ factors over $\mathbb Q$ as
 a constant times $(\xi-1)^4(\xi^{N/2}+1)$, times one further factor $(\xi+1)$ when $N\equiv2\pmod4$, times the minimal polynomial of $\xi_*$. So $(\xi+1)^2$ divides $A_{N/2}$ exactly when $N\equiv2\pmod4$, with one copy of $(\xi+1)$ coming from $\xi^{N/2}+1$. (An earlier draft counted this copy twice; the corrected form is checked in Lean, \texttt{A\_crit\_factor\_N8}--\texttt{N16}.) These cyclotomic factors have roots on $|\xi|=1$ and are spurious.
 
-\subsection{Irreducibility (CERTIFIED by PARI/GP)}\label{sec:irred}
+\subsection{Irreducibility (CERTIFIED by PARI/GP, and checked in Lean)}\label{sec:irred}
 Scripts and output are in \texttt{tanh/irreducibility/}. The polynomials $f_N$ ($8\le N\le16$) are read from
 \texttt{lean/Havelock/TanhAlgebra.lean}; \texttt{extract.py} recomputes them from \texttt{exact.py} (factor
 $A_{\lfloor N/2\rfloor}$ and take the factor with a root in $(0,1)$) and finds the two sources identical. With PARI/GP 2.15.4
@@ -609,7 +608,7 @@ At $r\to0$ the limit $-(N^2-8N+8)/N^2$ is the planar (Thomson--Havelock) value, 
 $N$ the same computation gives $8a_{(N-1)/2}/N^2=P_{12}+P_3-3/N^2$, where $P_{12}=2\mu\tanh\eta-(\coth\eta-\mu)^2$ and
 $P_3=\big[\frac2N\sinh v\sinh Nv-2\cosh Nv(\cosh v-1)\big]/\sinh^2Nv$, $v=\tau/N$; its planar limit is $-(N-1)(N-7)/N^2$. The
 term $P_3$ is not monotone, but where it increases its slope is below $0.61\%$ of $|P_{12}'|$ for the sampled odd
-$N\in\{9,11,15,21,51,101,1001\}$, and below $37.5\%$ for $N=3$ (\texttt{large\_n.out}, NUMERICAL). So for odd $N$ the threshold is unique numerically; we have not proved it.
+$N\in\{9,11,15,21,51,101,1001\}$, and below $37.5\%$ for $N=3$ (\texttt{large\_n.out}, NUMERICAL). For odd $N\ge17$ the threshold is nevertheless unique: see Prop.~\ref{prop:oddN} at the end of this section.
 
 \paragraph{The limit.} Let $E_\infty(\tau)=\coth\tau/\tau-1/(2\tau^2)$ and
 $\Phi(\tau):=E_\infty(\tau)-\frac1{4\sinh^2\tau}-\psi(0,\tau)$, the $N\to\infty$ limit of $a_{\lfloor N/2\rfloor}/N^2$. With $\eta=\tau/2$,
@@ -831,6 +830,50 @@ The sparse limit $\ell\gg R$ gives $8\Phi\to2$, stable. Heuristically: the tanh 
 ($-\ln\tanh(d/2)\approx2e^{-d}$), so for large spacing the coupling between neighbours is too weak to drive the pairing
 mode, and $\ell_*$ is where the two effects balance.
 
+\subsection*{Odd $N$: the threshold is unique}
+\begin{proposition}[PROVED]\label{prop:oddN}
+For every odd $N\ge17$, $a_{(N-1)/2}$ has exactly one zero in $\xi\in(0,1)$, at which it changes sign from negative to
+positive; equivalently, as a function of $\tau$ it is positive on $(0,5]$, negative on $[10,\infty)$ and strictly
+decreasing on $[5,10]$. With Cor.~\ref{cor:alln}, Prop.~\ref{prop:evenN} (even $N$) and Thm.~\ref{thm:cert}(b) (odd
+$N\le15$), every $N\ge8$ has exactly one spectral threshold; by Thm.~\ref{thm:cert}(a) every $N\le7$ is stable at every
+radius.
+\end{proposition}
+\begin{proof}
+Write $x=1/N$, so $a_{(N-1)/2}/N^2=\Phi_N(\tau)+\varepsilon_N(\tau)$ with $\Phi_N=\Phi+\Delta_N$ strictly decreasing
+(the expression in Prop.~\ref{prop:evenN} equals $8\Phi_N$ for every $N$, and its monotonicity proof needs only
+$N/2>1$) and $\varepsilon_N=\psi(0,\tau)-\psi(x,\tau)=\frac{x^2}8+\frac{\tilde D}{4\sinh^2\tau}$,
+$\tilde D:=\cosh\tau-Q(x,\tau)$.
+
+\emph{(i) $0\le\varepsilon_N\le x^2/4$.} The lower bound is Lemma~\ref{lem:crit}. For the upper bound let
+$D=\frac{x^2}2\sinh^2\tau-\tilde D$; then $D(0)=0$ and
+$D'=\sinh\tau\,[x^2(\cosh\tau-\cosh x\tau)+(\cosh x\tau-1)]\ge0$, so $\tilde D\le\frac{x^2}2\sinh^2\tau$. The lower bound
+$\tilde D\ge-\frac{x^2}2\sinh^2\tau$ is $\varepsilon_N\ge0$. Hence $|\tilde D|\le\frac{x^2}2\sinh^2\tau$ (and $\tilde D$ does take both
+signs).
+
+\emph{(ii) Location.} By the bounds on $\Delta_N$ in the proof of Thm.~\ref{thm:largeN},
+$-\frac1{2N^2}-\frac{\delta^2}2\le\Delta_N\le\frac\tau{3N^2}$. With $\Phi(5)=0.0516\ldots$ and $\Phi(10)=-0.0300\ldots$ this gives,
+for $N\ge17$, $\Phi_N(5)>0.049$ and $\Phi_N(10)+x^2/4<-0.017$. As $\Phi_N$ decreases and $0\le\varepsilon_N\le x^2/4$, the
+critical block is positive for $\tau\le5$ and negative for $\tau\ge10$.
+
+\emph{(iii) Slope on $[5,10]$.} With $\eta=\tau/2$, $-\Phi'=\frac18\big[(\tanh\eta-\eta\operatorname{sech}^2\eta)/\eta^2+\mathcal L\mathcal L'\big]$.
+On $\eta\in[2.5,5]$: $\tanh\eta-\eta\operatorname{sech}^2\eta$ is increasing (its derivative is
+$2\eta\operatorname{sech}^2\eta\tanh\eta$), so it is at least its value $0.920$ at $2.5$; $\mathcal L\ge1-1/\eta\ge0.6$; and
+$\mathcal L'\ge\frac1{25}-\sinh^{-2}2.5>0.0126$. So $-\Phi'\ge\frac18(0.92/25+0.6\cdot0.0126)>0.0055$. Next,
+$\Delta_N'=\delta'(\coth\tau-\frac1\tau-\delta)+\delta(\frac1{\tau^2}-\frac1{\sinh^2\tau})$ with $0<\delta'=\mathcal L'(\tau/N)/N^2\le\frac1{3N^2}$,
+$0<\coth\tau-\frac1\tau-\delta<0.91$, and $0<\delta<\frac\tau{3N^2}$ with $\frac1{\tau^2}-\frac1{\sinh^2\tau}\le\frac1{\tau^2}$, so
+$|\Delta_N'|\le\frac{0.91}{3N^2}+\frac1{3\tau N^2}\le\big(\frac{0.91}3+\frac1{15}\big)\frac1{N^2}=\frac{0.37}{N^2}$. Finally
+$\tilde D'=\sinh\tau\,[1-(1-x^2)\cosh x\tau]$ and $|1-(1-x^2)\cosh w|\le\cosh w\,(x^2+w^2/2)$, so with (i)
+\[
+|\varepsilon_N'|\le\frac{|\tilde D'|}{4\sinh^2\tau}+\frac{|\tilde D|\cosh\tau}{2\sinh^3\tau}
+\le x^2\Big[\frac{\cosh(x\tau)(1+\tau^2/2)}{4\sinh\tau}+\frac{\coth\tau}4\Big]\le0.31\,x^2
+\]
+on $[5,10]$ for $x\le\frac1{17}$, since $(1+\tau^2/2)/\sinh\tau$ is decreasing there, $\cosh(x\tau)\le\cosh\frac{10}{17}$ and
+$\coth\tau\le\coth5$ (the bracket is at most $0.304$). Altogether $\frac d{d\tau}(a_{\rm crit}/N^2)\le-0.0055+0.68/N^2<0$ for
+$N\ge17$.
+\end{proof}
+The constants are crude: on $[5,10]$ the true values are $-\Phi'\ge0.0089$, $|\Delta_N'|\le1/(3N^2)$ and
+$|\varepsilon_N'|\le0.012\,x^2$ (\texttt{large\_n.out}, item~9). For $N\le15$ the certified Thm.~\ref{thm:cert} gives uniqueness.
+
 \section{Comparison with the sinh model and the flat disk}\label{sec:compare}
 \begin{center}
 \begin{tabular}{lll}\toprule
@@ -872,9 +915,7 @@ hard-wall condensate.
 \section{Limitations}
 \begin{itemize}
 \item \textbf{Literature.} Boatto~\cite{Boatto} computed the stability ranges of this model numerically, with the same
-block structure (\S\ref{sec:motivation}). Her equations reproduce our values exactly; her plotted $K<0$ curves
-appear to correspond to a different pair law (\S\ref{sec:motivation}), a reading a specialist should
-confirm. Kimura~\cite{Kimura} and
+block structure (\S\ref{sec:motivation}). Her equations reproduce our values exactly. Kimura~\cite{Kimura} and
 Hwang--Kim 2013~\cite{HK} could not be obtained beyond their abstracts. A human with journal access needs to check
 (i)~which Hamiltonian Kimura uses (the tanh attribution here rests on~\cite{MT,MNG,NG,Boatto}) and (ii)~whether
 Hwang--Kim 2013 already contains ring stability thresholds for this model. Until then, the novelty claim in
@@ -883,9 +924,9 @@ Hwang--Kim 2013 already contains ring stability thresholds for this model. Until
 (verdict: confirmed with scope fixes, all applied here). No human expert in point-vortex dynamics has reviewed it.
 \item \textbf{Large $N$.} The limit $\cosh r_*/N\to\kappa_\infty$ and the critical spacing are proved
 (Thm.~\ref{thm:largeN}), and so is the horocyclic-row picture (Prop.~\ref{prop:row}); the $1/N$ coefficients are derived
-without remainder bounds. For odd $N\ge17$ uniqueness of the threshold is numerical only.
+without remainder bounds.
 \item \textbf{Finite range.} Palindromy, irreducibility and the degree pattern are certified only for
-$N\le16$ (Conjecture~\ref{conj:deg}). Irreducibility is certified by PARI/GP, not by Lean.
+$N\le16$ (Conjecture~\ref{conj:deg}). Irreducibility for $N\le16$ is certified by PARI/GP and checked in Lean.
 \item \textbf{Nonlinear stability.} This is stated only via Hessian definiteness and modulo $SO(2,1)$ (Remark~\ref{rem:em}). In the
 odd-$N$ Krein window the ring is linearly (spectrally) stable and nonlinear stability is undecided; at the threshold
 itself it is open.

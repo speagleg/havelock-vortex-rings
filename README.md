@@ -52,8 +52,7 @@ tractable analytically".
   Physically, a large ring stabilises once neighbouring vortices are more than ℓ* ≈ 0.844 curvature radii apart,
   measured along the ring. That is exactly the critical spacing of an infinite vortex row on a horocycle, the
   ring's N → ∞ limit.
-- Implemented as written, Boatto's equations reproduce our values exactly. Her plotted hyperbolic-plane curves sit
-  slightly elsewhere; the note discusses a likely reason, which leaves her qualitative conclusions unchanged.
+- Implemented as written, Boatto's equations reproduce our thresholds exactly.
 
 Note: [tanh/note_tanh.pdf](tanh/note_tanh.pdf).
 
@@ -66,9 +65,9 @@ The sinh model, whose thresholds Montaldi and Tokieda already know, is written u
 |---|---|---|
 | Lean formalisation of the exact algebra | `cd lean && lake exe cache get && lake build`, then `lake env lean AxiomAudit.lean`. With less than 16 GB of RAM, build module by module as in [docs/lean.md](docs/lean.md). | about 25 min |
 | Package test suite | `pip install -e ".[dev]" && pytest -q` | ~3 min |
-| Re-run the computations behind the papers | `pip install -r requirements.txt`, then `python scripts/reproduce.py --tier fast`. See [REPRODUCE.md](REPRODUCE.md). All 73 recorded outputs reproduce byte for byte. | fast tier ~25 min; medium ~2 h |
+| Re-run the computations behind the papers | `pip install -r requirements.txt`, then `python scripts/reproduce.py --tier fast`. See [REPRODUCE.md](REPRODUCE.md). All 70 recorded outputs reproduce byte for byte. | fast tier ~25 min; medium ~2 h |
 | Irreducibility certificates (tanh) | `cd tanh/irreducibility && gp -q irreducibility.gp` | seconds |
-| Boatto comparison | [tanh/boatto_check/RESULT.md](tanh/boatto_check/RESULT.md) | — |
+| Reimplementation of Boatto's equations | [tanh/boatto_check/README.md](tanh/boatto_check/README.md) | — |
 
 CI builds the Lean library on every push. The build fails on any `sorry`, `admit`, `native_decide` or extra axiom,
 and on any main theorem that depends on an axiom other than `propext`, `Classical.choice` and `Quot.sound`.

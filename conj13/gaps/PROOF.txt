@@ -183,7 +183,7 @@ Verification of (A1)-(A4) for the vortex ring at b_n, n >= 4, all three geometri
       V_{n/2}. Odd n, it acts on K0 ~ C by e^{2 pi i l/n} with l = (n-1)/2 and gcd(l, n) = 1; then a^p abar^q
       (p+q = 3) is never invariant for n >= 5, and the only invariant quartic is |a|^4. h, J and the
       Fourier complement E are Z_n-equivariant, so g is Z_n-invariant. Hence q4 = c4 |a|^4, with c4 the
-      LEVEL-SET effective quartic of derivation.txt / review/NOTES.txt (not MT's linear-slice quantity, P1).
+      LEVEL-SET effective quartic of derivation.txt / review/NOTES.txt.
       c4 > 0 is supplied by
         even n: c4 = (n-2)(n^4 - 8n^3 + 64n^2 - 144n + 96)/(192 n (n-1)) > 0 (symbolic, two readers);
         odd n:  c4 = (n-1)(n-3)(n^2 - 9n + 38)/(128 n) > 0 (symbolic derivation for all odd n,
@@ -203,7 +203,7 @@ A strict local minimum (Lemma B1) is isolated in its level set. For PSL(2,R) (mu
 "stable modulo G" for the sphere and H^2 cases with no nondegeneracy assumption. The plane (SE(2)) is
 not covered verbatim, because MT's J is equivariant only for an affine action (cocycle). Theorem 2 above
 gives the stronger G_mu-stability in all three cases and is the result we rely on.
-Not used: MT Prop. 9 / ref [17] (compact G; and it is stated on the linear slice, see P1);
+Not used: MT Prop. 9 / ref [17] (compact G);
 Montaldi-Rodriguez-Olmos Thm 3.6 (formal stability only). We found no published theorem that states
 G_mu-stability for degenerate (non-formal) minima with noncompact G. The construction of Lemmas A + B3
 (cross-section, then an energy-momentum function with a (J - mu)^2 penalty) is classical in spirit

@@ -1,9 +1,8 @@
 """Conj13: reduced (effective) quartic coefficient of the Hamiltonian along the critical mode,
 computed numerically (NUMERICAL, mpmath 40 digits) by constrained minimisation (engine.py).
 For each case: spectrum check of the constrained Hessian (kernel dimension, min positive eigenvalue),
-then c2, c4 (cubic vanishes by symmetry; checked via odd fit) of f_eff(eps) both
-  - constrained : on the true momentum level set J = mu (correct reduced Hamiltonian),
-  - linear      : on MT's linear symplectic slice N (MT Prop. 9 / Lemma 8 setting).
+then c2, c4 (cubic vanishes by symmetry; checked via odd fit) of f_eff(eps) on the momentum level set J = mu
+(the reduced Hamiltonian).
 Even n: compares with the exact closed form h4 of even_exact.py.
 usage: python reduced_quartic.py CASE...   (CASE like  MT:-1:8  sphere/plane/hyperbolic via lam sign, or tanh:8)
 """
@@ -43,17 +42,15 @@ def run(model, n, lam_sign=None):
     dirs = [('e1', ker[0], ker[1:])]
     if nk == 2:
         dirs.append(('(e1+e2)/sqrt2', (ker[0]+ker[1])/mp.sqrt(2), [(ker[0]-ker[1])/mp.sqrt(2)]))
-    for linear in (False, True):
-        for name, e, rest in dirs:
-            eps = [mp.mpf(k)/2000 for k in (-5, -4, -3, -2, -1, 1, 2, 3, 4, 5)]
-            vals, guess = [], None
-            for ep in eps:
-                v, _ = R.f_eff(ep, e, F[:]+rest, normals, linear=linear)
-                vals.append(v)
-            c = fit_even_poly(eps, vals, list(range(2, 12)))
-            tag = 'linear-slice (MT)' if linear else 'constrained J=mu '
-            print(f"   {tag} dir {name}: c2={mp.nstr(c[0], 5)}  c3={mp.nstr(c[1], 5)}  c4={mp.nstr(c[2], 15)}")
-            results[(linear, name)] = c[2]
+    for name, e, rest in dirs:
+        eps = [mp.mpf(k)/2000 for k in (-5, -4, -3, -2, -1, 1, 2, 3, 4, 5)]
+        vals = []
+        for ep in eps:
+            v, _ = R.f_eff(ep, e, F[:]+rest, normals)
+            vals.append(v)
+        c = fit_even_poly(eps, vals, list(range(2, 12)))
+        print(f"   constrained J=mu  dir {name}: c2={mp.nstr(c[0], 5)}  c3={mp.nstr(c[1], 5)}  c4={mp.nstr(c[2], 15)}")
+        results[name] = c[2]
     if model == 'MT' and n % 2 == 0 and r0 == 1:
         # exact h4 (even_exact.py) converted: tau = g(u+)-g0, u+ = (1+eps/sqrt n)^2, g'(1)=1/(1+b)^2
         nn = mp.mpf(n); m = nn-2

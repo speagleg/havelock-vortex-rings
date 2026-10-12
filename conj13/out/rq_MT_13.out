@@ -2,5 +2,3 @@
    kernel eigs: ['1.14e-39', '1.76e-39'];  min of the other 20 eigs: 2.0
    constrained J=mu  dir e1: c2=-3.3824e-25  c3=6.1205e-25  c4=6.49038461538462
    constrained J=mu  dir (e1+e2)/sqrt2: c2=-3.3824e-25  c3=-3.7457e-25  c4=6.49038461538462
-   linear-slice (MT) dir e1: c2=-6.3204e-26  c3=3.3672e-25  c4=10.9142245082478
-   linear-slice (MT) dir (e1+e2)/sqrt2: c2=-6.3204e-26  c3=-2.0611e-25  c4=10.9142245082478

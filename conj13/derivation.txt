@@ -30,18 +30,9 @@ So the conjecture concerns lambda*r0^2 = b_n: sphere for n = 4, 5, 6 (b_n = 0.26
 for n = 7 (b_7 = 0), hyperbolic plane (sinh model) for n >= 8 (b_n = -xi*(n) of note.tex; b_8 = -(8-3sqrt7)).
 It is NOT a statement about the tanh (image/Kimura) model; Sec. 5 below treats that model separately.
 
-Relevant MT machinery (verbatim excerpts, p.19-23):
- Lemma 8: f analytic near 0, degenerate critical point, B = d2f(0), C = d3f(0), D = d4f(0). "If B is
-   positive-semidefinite and if for all a in Ker B\{0}, b in R^n we have Ca^3 = 0,
-   Da^4 + 6Ca^2b + 3Bb^2 > 0, then f is strictly positive on a punctured neighbourhood of 0."
- Proposition 9: "If the hypotheses of Lemma 8 are satisfied with R^n replaced by N and f by H^, then the
-   relative equilibrium is Lyapunov stable." (N = symplectic slice, a G_x-invariant complement to
-   T0 = g.x cap Ker dJ inside Ker dJ; H^ = H - omega J the augmented Hamiltonian; the proof says the
-   hypotheses "applied on M_mu are equivalent to the same hypotheses applied on N".)
- Lemma 10 (even n): "For all a in V_{n/2} and b in N, we have Ca^2b = 0."
- (3.9) (odd n): "The key quantity Da4 + Ca2b + Bb2 becomes, on completing the square,
-   delta|z|^4 + 2gamma Re(z^2 w) + beta|w|^2 = ... Manifestly this is positive ... iff delta > 0 and
-   beta delta > gamma^2."  n = 7: beta = 21/(2 pi r0^2), gamma = 63/(4 pi r0^3), delta = 1071/(8 pi r0^4).
+Relevant MT machinery: Proposition 9 (p.20), the energy-momentum criterion for Lyapunov stability of the
+relative equilibrium (based on their reference [17]); Lemma 10 and Proposition 12 (p.20-22), the symmetry
+facts for the critical mode.
 
 1. Literature status (searches 2026-10-10)
 ------------------------------------------
@@ -54,9 +45,7 @@ Relevant MT machinery (verbatim excerpts, p.19-23):
   normal form hyperbolic polygon; Garcia-Azpeitia; Boatto; Kurakin) found no resolution.
 - Plane n = 7: Kurakin & Yudovich, Chaos 12 (2002) 574-595 (abstract read via Crossref: "we prove that for
   n=7 the nonlinear stability still takes place"); Schmidt (cited by MT). The value "quartic coefficient
-  63/16" could NOT be checked: the KY paper is paywalled and I did not read it. (Observation only:
-  MT's own n=7 numbers, with Lemma 8's weights as in Sec. 3, give 189/(4 pi) for the true reduced quartic in MT units,
-  and 189/48 = 63/16; this is a normalisation coincidence until someone reads KY.)
+  63/16" could NOT be checked: the KY paper is paywalled and I did not read it.
 - Sphere n = 4, 5, 6 at the critical latitude: Borisov & Kilin, RCD 5 (2000) (arXiv nlin/0503068, read):
   "The problem of stability at theta0 = theta0* at N = 4, 5 and 6 requires separate analysis with
   respect to nonlinear terms and remains unsolved to the present day." Kurakin, Doklady Physics (2003), doi:10.1134/1.1560737,
@@ -64,8 +53,7 @@ Relevant MT machinery (verbatim excerpts, p.19-23):
   sufficient conditions for stability and instability of the stationary rotation of ... n identical point
   vortices located at the same latitude on a sphere". This very probably settles the sphere boundary
   cases, but I could not read the paper, so I do not know his conclusion or method. UNVERIFIED.
-- Hyperbolic plane, odd n >= 13: nothing found. As far as I can tell this part is OPEN, and the MT
-  proofs for the other n have the gaps described in Sec. 3.
+- Hyperbolic plane, odd n >= 13: nothing found. As far as I can tell this part is OPEN.
 
 2. Method
 ---------
@@ -98,25 +86,12 @@ rho_+, rho_- (MT Sec. 3.4). So f_eff is EXACTLY (to all orders) the restriction 
 the pair sum is   sum log|z_i-z_j|^2 = M(M-1)/2 (log u+ + log u-) + 2M log(u+^{M/2} + u-^{M/2}) + const,
 and on the curve g(u_pm) = g0 +- tau, g(u) = u/(1+lambda u), everything is elementary (even_exact.py).
 
-3. Two problems in MT's proof (found here; conclusions survive)
------------------------------------------------------------------
-(P1) Linear slice vs level set. Lemma 8 is applied to H^ restricted to the LINEAR slice q0 + N
-  (Prop. 9; in the even case, MT expand along the straight line z_j = (r0 + (-1)^j t) e^{2 pi i j/n}, which
-  changes J3 at O(t^2)). Because the kernel is degenerate, the 4th-order term of the reduced Hamiltonian
-  also contains the curvature of J^{-1}(mu): the O(eps^2) correction along the radial mode-0 direction,
-  which Lemma 10 / Prop. 12(iii) exclude because "V0 cap N = {0}". These terms are not zero:
-    n=8 : level set c4 = 95/56 = 1.6964...,  linear slice 2.27794...
-    n=7 : level set 9/14,                    linear slice 6/7.
-  The linear-slice quantity is not the reduced Hamiltonian's quartic coefficient, so Prop. 9 as stated
-  does not apply. The coefficient that does decide stability is the level-set c4.
-(P2) Weights in (3.9). With Lemma 8's weights the completed square is delta - 3 gamma^2/beta (the display
-  in (3.9) shows delta - gamma^2/beta; we read the weights as intended). Check: with MT's n=7 values, (delta - 3gamma^2/beta)/delta = 8/17, which is exactly
-  the ratio (linear-slice min)/(straight line) = (6/7)/(51/28) computed independently by engine.py
-  (mt_n7_check.out). MT's printed ratio is 14/17. MT's n = 5, 9, 11 numbers stay positive with the weights
-  (beta delta - 3gamma^2 = 341, 687, 4015 in their units).
-(P3, minor) MT's printed even-n t^4 coefficient T differs slightly from our symbolic recomputation of the same
-  straight-line expansion. The relative difference is 9b^2(...)/(...), i.e. 0.1% at n=8 and 0.5% at n=10.
-  Our version agrees with engine.py to 15 digits. It does not affect any sign.
+3. Why the level set
+--------------------
+Because the kernel is degenerate, the 4th-order term of the reduced Hamiltonian also contains the curvature
+of J^{-1}(mu): moving along the kernel changes J3 at O(eps^2), so a curve in the level set has an O(eps^2)
+component along the radial mode-0 direction, which couples to a^2 at cubic order. We therefore compute c4
+on the level set J = mu itself (f_eff in Sec. 2), with all momentum components held fixed.
 
 4. Results: MT family (the conjecture's own setting)
 ----------------------------------------------------
@@ -134,21 +109,21 @@ and on the curve g(u_pm) = g0 +- tau, g(u) = u/(1+lambda u), everything is eleme
   n = 4, 6 are the sphere thresholds b = 2-sqrt3, 9-4sqrt5; n = 8 is the sinh threshold
   b = -(8-3sqrt7), where c4 = 95/56.
 4b. Odd n: NUMERICAL (40-digit constrained minimisation, eps-fit with c2, c3 ~ 1e-25).
-  n    b_n            level-set c4 (true)   linear-slice (MT P1)
-  5    +0.171573      0.225 = 9/40          0.204657   (sphere)
-  7     0             9/14                  6/7        (plane)
-  9    -0.101021      19/12                 2.578146
-  11   -0.171573      75/22                 5.795598
-  13   -0.225148      675/104               10.914225
-  15   -0.267949      11.2 = 56/5           18.328410  (full and fast minimisation agree)
-  17   -0.303337      17.911764705882353    28.426978
-  19   -0.333333      27                    41.595395
-  21   -0.359246      38.839285714285714    58.216927
-  25   -0.402130      72.27                 103.345178
+  n    b_n            level-set c4
+  5    +0.171573      0.225 = 9/40          (sphere)
+  7     0             9/14                  (plane)
+  9    -0.101021      19/12
+  11   -0.171573      75/22
+  13   -0.225148      675/104
+  15   -0.267949      11.2 = 56/5           (full and fast minimisation agree)
+  17   -0.303337      17.911764705882353
+  19   -0.333333      27
+  21   -0.359246      38.839285714285714
+  25   -0.402130      72.27
   Both kernel directions e1 and (e1+e2)/sqrt2 give the same c4, as the unique quartic invariant |a|^4
   requires. The rational values n = 5..13 fit
     c4_odd(n) = (n-1)(n-3)(n^2 - 9n + 38) / (128 n),
-  and this formula PREDICTS n = 15, 17, 19, 21, 25 to all 18 printed digits (out-of-sample).
+  and this formula PREDICTS n = 15, 17, 19, 21, 25 to all 18 digits shown (out-of-sample).
   n^2 - 9n + 38 has negative discriminant, so the identified formula is > 0 for every odd n >= 5. The
   formula is identified, not proved: a proof needs the Fourier-sum closed forms for modes l_c, 0, 1
   (see Sec. 7).
@@ -168,7 +143,7 @@ term is again a product: sum log|1 - z_i conj z_j|^2 = M log[(1-u+^M)/(1-u+)] + 
  - h4(u0) for n = 8 is (u0-1)^6 * [degree-22 palindromic polynomial with ALL coefficients positive] /
    (positive denominator). So h4 > 0 on all of (0,1), in particular at xi*(8). Arb ball:
    h4(xi*) = 188389.6854000151821696240652 +- 4e-25. Also n = 10: 6152.61... and n = 12: 1346.96..., both > 0.
- - engine.py (tanh, n = 8): level-set c4 = 373.2727, linear slice 502.43; smallest non-kernel constrained
+ - engine.py (tanh, n = 8): level-set c4 = 373.2727; smallest non-kernel constrained
    eigenvalue 14.756 (NUMERICAL).
  Status: the sign of the quartic is exact. Transverse positivity at xi* is NUMERICAL. The tanh threshold
  itself is still unreviewed (but now confirmed by a second route).
@@ -196,8 +171,8 @@ with stability at threshold, but it is not a proof.
 7. Verdict
 ----------
 - Even n (MT family: sphere n = 4, 6 and sinh-H^2 n >= 8, including n = 8 at xi* = 8-3sqrt7): Conjecture 13
-  holds. The correct reduced quartic is given by an exact closed form, positive for all even n. This
-  repairs MT's even-n proof, whose conclusion was right but whose slice argument (P1) was incomplete.
+  holds, as MT proved. The reduced quartic on the level set is given by an exact closed form, positive for
+  all even n.
   Label: PROVED (exact symbolic) modulo (i) MT Prop. 9 / ref [17] (strict min of the reduced Hamiltonian
   implies Lyapunov stability modulo G_mu), and (ii) second-reader review of the symmetric-criticality step.
 - Odd n: NUMERICAL. c4 > 0 for n = 5, ..., 25, with the identified formula (n-1)(n-3)(n^2-9n+38)/(128n)
@@ -205,35 +180,32 @@ with stability at threshold, but it is not a proof.
   all n.
 - tanh model, n = 8 (and 10, 12): the even-n analogue holds (exact sign of the quartic, numerical
   transverse positivity).
-- Novelty: POSSIBLY-NEW (the level-set correction, the even-n closed form, the odd-n formula, the tanh
+- Novelty: POSSIBLY-NEW (the even-n closed form, the odd-n formula, the tanh
   analogue). KNOWN: the even-n conclusion (claimed by MT) and n = 7 (KY 2002). Sphere n = 4, 5, 6: possibly in
   Kurakin 2004 (unread).
 
 8. What a second reader must check
 ----------------------------------
-1. That the level-set f_eff (not MT's linear slice) is the right object, i.e. (P1). Concretely, check that
-   the O(eps^2) correction along the radial mode-0 direction changes the eps^4 coefficient. (n = 8: 95/56 vs
-   2.2779; the closed forms make this checkable by hand.)
+1. That the level-set f_eff is the right object (Sec. 3). Concretely, check that the O(eps^2) correction
+   along the radial mode-0 direction enters the eps^4 coefficient (the closed forms make this checkable by hand).
 2. The symmetric-criticality step: Fix(D_{n/2}) cap J^{-1}(mu) is the whole slaving manifold, and the
    mode-1 momenta get no a^2 term.
 3. The product formulas and the closed-form pair sums (numerically checked in both scripts).
 4. MT Prop. 9's use of [17] for noncompact G (SL(2,R)) with G_mu = SO(2): its exact hypotheses.
-5. The factor-3 claim (P2) against Lemma 8's weights.
-6. Odd n: a proof of c4_odd(n). Route: write s_k = eps cos(l_c phi_k) + eps^2(modes 0, 1) and
+5. Odd n: a proof of c4_odd(n). Route: write s_k = eps cos(l_c phi_k) + eps^2(modes 0, 1) and
    theta_k = eps^2(mode 1), expand log(2cosh ds - 2cos(phi + dtheta)) to 4th order, and reduce the sums
    to S_s(p) = sum_d e^{i p phi_d} (1 - cos phi_d)^{-s}, s <= 3. These are polynomials in (n, p) for
    0 <= p <= n, provable by the second-difference recursion in p.
-7. Kurakin 2004 (sphere) and Kurakin-Yudovich 2002 (63/16): read them.
+6. Kurakin 2004 (sphere) and Kurakin-Yudovich 2002 (63/16): read them.
 
 9. Files (all in this directory)
 --------------------------------
-even_exact.py / out/even_exact.out      exact even-n reduced function, threshold check, MT-T comparison
+even_exact.py / out/even_exact.out      exact even-n reduced function, threshold check
 even_formula.py / out/even_formula.out  symbolic proof of the closed form on the threshold
-engine.py                               40-digit Cartesian engine: constrained Hessian, level-set and
-                                        linear-slice effective quartic (no symmetry assumptions)
+engine.py                               40-digit Cartesian engine: constrained Hessian, level-set
+                                        effective quartic (no symmetry assumptions)
 reduced_quartic.py / out/rq_*.out       full minimisation: MT n = 4..13, 15; tanh n = 8
 reduced_quartic_fast.py / out/rqf_*.out odd n up to 25 (modes 0, 1, kernel only; validated against full)
-mt_n7_check.py / out/mt_n7_check.out    reproduces MT's n=7 ratio with Lemma 8's weights
 tanh_even_exact.py / out/tanh_even_exact.out   tanh n = 8, 10, 12: threshold polynomial, h4, Arb sign
 integrate.py / out/int_*.out, out/D_*.npy, out/integration_summary.out   direct integrations
 test_engine.py                          early engine smoke test (heptagon)

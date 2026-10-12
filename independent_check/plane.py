@@ -1,7 +1,5 @@
 """Plane, n=7 (Thomson/Havelock heptagon, MT b_7 = 0). Independent level-set quartic.
 H = -sum ln|z_i-z_j|^2, J3 = sum |z|^2, J1 = sum x, J2 = sum y; ring radius 1.
-Also computes the quartic on the *linear slice* (no momentum constraint / no slaving along
-momentum directions) to test the paper's P1 claim 9/14 (level set) vs 6/7 (linear slice).
 """
 import mpmath as mp
 mp.mp.dps = 40

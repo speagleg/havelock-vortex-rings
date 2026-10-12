@@ -5,9 +5,6 @@ Ring z_k = exp(2 pi i k/n), r0 = 1, lam = b_n.
 f(eps) = min{ H(q)-H(q0) : e.(q-q0)=eps, t.(q-q0)=0, e2.(q-q0)=0 (odd n), J(q)=J(q0) }
 e = unit Euclidean vector, radial Fourier mode l=floor(n/2): dz_k = c cos(l phi_k) e^{i phi_k}.
 Solved by Newton on the KKT system at high precision; c4 by polynomial extrapolation in eps.
-Also computes the LINEAR-SLICE quantity (MT Lemma 8 on the affine slice q0 + ker dJ cap t^perp)
-for comparison:  f_lin(eps) = min{ Hhat(q) : q-q0 in ker dJ(q0), e.(q-q0)=eps, t.(q-q0)=0 },
-Hhat = H - omega.J (omega the multiplier at the ring).
 """
 import mpmath as mp, sys
 mp.mp.dps = int(sys.argv[3]) if len(sys.argv)>3 else 60
@@ -92,21 +89,15 @@ def solve(n,lam,eps,mode,q_init=None):
     q=list(q_init) if q_init else [q0[i]+eps*e[i] for i in range(N)]
     nc=len(lin)+3; mult=[mp.mpf(0)]*nc
     if mode=='level': mult[len(lin)+2]=omega
+    assert mode=='level'
     for it in range(60):
         val,g,Hs=H_grad_hess(q,n,lam)
-        if mode=='level':
-            Jv,Jg,Jh=J_grad_hess(q,n,lam)
-            cons=[mp.fsum(lin[a][i]*(q[i]-q0[i]) for i in range(N))-rhs_lin[a] for a in range(len(lin))]+[Jv[m]-J0[m] for m in range(3)]
-            C=lin+Jg
-            L=Hs.copy()
-            for m in range(3): L-= mult[len(lin)+m]*Jh[m]
-            obj_g=g
-        else:  # linear slice, Hhat
-            Jv,Jg,Jh=J_grad_hess(q,n,lam)
-            obj_g=[g[i]-omega*Jg[2][i] for i in range(N)]
-            L=Hs-omega*Jh[2]
-            cons=[mp.fsum(lin[a][i]*(q[i]-q0[i]) for i in range(N))-rhs_lin[a] for a in range(len(lin))]+[mp.fsum(G0[m][i]*(q[i]-q0[i]) for i in range(N)) for m in range(3)]
-            C=lin+G0
+        Jv,Jg,Jh=J_grad_hess(q,n,lam)
+        cons=[mp.fsum(lin[a][i]*(q[i]-q0[i]) for i in range(N))-rhs_lin[a] for a in range(len(lin))]+[Jv[m]-J0[m] for m in range(3)]
+        C=lin+Jg
+        L=Hs.copy()
+        for m in range(3): L-= mult[len(lin)+m]*Jh[m]
+        obj_g=g
         K=mp.zeros(N+nc,N+nc); r=mp.zeros(N+nc,1)
         for i in range(N):
             for j in range(N): K[i,j]=L[i,j]
@@ -118,9 +109,7 @@ def solve(n,lam,eps,mode,q_init=None):
         q=[q[i]+d[i] for i in range(N)]; mult=[mult[a]+d[N+a] for a in range(nc)]
         if mp.norm(d)<mp.mpf(10)**(-mp.mp.dps+8): break
     val,_,_=H_grad_hess(q,n,lam); val0,_,_=H_grad_hess(q0,n,lam)
-    if mode=='level': return val-val0, q
-    Jv,_,_=J_grad_hess(q,n,lam)
-    return (val-omega*Jv[2])-(val0-omega*J0[2]), q
+    return val-val0, q
 
 def c4(n,lam,mode,epss):
     fs=[]
@@ -138,7 +127,7 @@ if __name__=='__main__':
     n=int(sys.argv[1]); lamstr=sys.argv[2]
     lam = mp.mpf(0) if lamstr=='0' else mp.mpf(eval(lamstr,{'sqrt':mp.sqrt}))
     epss=[mp.mpf(k)/200 for k in range(1,7)]
-    for mode in ('level','linear'):
-        v,fs=c4(n,lam,mode,epss)
-        print(n, lamstr, mode, 'c4 =', mp.nstr(v,25), ' raw f/eps^4:', [mp.nstr(f,10) for f in fs[:3]])
-        if mode=='level': print('   identify:', mp.identify(v), ' pslq w/ sqrt7:', mp.identify(v,['sqrt(7)']))
+    mode='level'
+    v,fs=c4(n,lam,mode,epss)
+    print(n, lamstr, mode, 'c4 =', mp.nstr(v,25), ' raw f/eps^4:', [mp.nstr(f,10) for f in fs[:3]])
+    print('   identify:', mp.identify(v), ' pslq w/ sqrt7:', mp.identify(v,['sqrt(7)']))

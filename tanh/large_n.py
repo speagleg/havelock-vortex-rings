@@ -220,3 +220,27 @@ for N in [17, 21, 31, 61, 121, 241]:
         xi = xs + (xe-xs)*j/10
         ok &= Dm(xi, m0) < 0 and all(Dm(xi, m) > 0 and blocks(N, xi, m)[0] > 0 for m in range(1, N//2+1) if m != m0)
     print(f"   N={N:4d}: {ok}")
+
+print("\n9. Odd-N uniqueness (Prop 21): the true constants on [5,10] behind the proof's crude bounds")
+mp.mp.dps = 40
+g = [5 + mp.mpf(k)/100 for k in range(501)]
+print("   min -Phi' on [5,10]:", mp.nstr(min(-mp.diff(Phi, t) for t in g), 5), "(proof uses > 0.0055)")
+
+
+def DeltaN(N, t):
+    k = mp.coth(t/N)/N
+    return (k*mp.coth(t) - k**2/2 - 1/(2*mp.mpf(N)**2)) - (mp.coth(t)/t - 1/(2*t**2))
+
+
+for N in [17, 101]:
+    print(f"   N={N}: max N^2 |Delta_N'| on [5,10] = {mp.nstr(max(abs(mp.diff(lambda u: DeltaN(N, u), t)) for t in g)*N**2, 5)}"
+          " (proof uses 0.37; limit 1/3)")
+for N in [17, 101]:
+    x = mp.mpf(1)/N
+    print(f"   N={N}: max |eps_N'|/x^2 on [5,10] = "
+          f"{mp.nstr(max(abs(mp.diff(lambda u: psi(0, u) - psi(x, u), t)) for t in g)/x**2, 5)} (proof uses 0.31)")
+print("   sign changes of a_crit over tau in (0, 40] (odd N >= 17):")
+for N in [17, 19, 25, 51, 101]:
+    ts = [mp.mpf(k)/20 for k in range(1, 801)]
+    v = [blocks(N, mp.e**(-2*t/N), N//2)[0] for t in ts]
+    print(f"   N={N}: {sum(1 for i in range(len(v)-1) if (v[i] > 0) != (v[i+1] > 0))}")

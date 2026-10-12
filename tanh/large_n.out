@@ -81,3 +81,16 @@
    N=  61: True
    N= 121: True
    N= 241: True
+
+9. Odd-N uniqueness (Prop 21): the true constants on [5,10] behind the proof's crude bounds
+   min -Phi' on [5,10]: 0.0089773 (proof uses > 0.0055)
+   N=17: max N^2 |Delta_N'| on [5,10] = 0.32625 (proof uses 0.37; limit 1/3)
+   N=101: max N^2 |Delta_N'| on [5,10] = 0.33301 (proof uses 0.37; limit 1/3)
+   N=17: max |eps_N'|/x^2 on [5,10] = 0.011768 (proof uses 0.31)
+   N=101: max |eps_N'|/x^2 on [5,10] = 0.011803 (proof uses 0.31)
+   sign changes of a_crit over tau in (0, 40] (odd N >= 17):
+   N=17: 1
+   N=19: 1
+   N=25: 1
+   N=51: 1
+   N=101: 1

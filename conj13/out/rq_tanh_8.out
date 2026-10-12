@@ -1,4 +1,3 @@
 == model=tanh n=8 lam*r0^2=-0.067356223004081262268  omega=-44.2656366321637
    kernel eigs: ['9.24e-39'];  min of the other 11 eigs: 14.75623149
    constrained J=mu  dir e1: c2=6.036e-24  c3=-4.792e-30  c4=373.272682375425
-   linear-slice (MT) dir e1: c2=3.0024e-23  c3=-6.7703e-30  c4=502.430746264566
