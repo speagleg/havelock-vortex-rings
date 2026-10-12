@@ -50,7 +50,8 @@ tractable analytically".
   window, of width O(N⁻³).
 - Large rings: cosh r* = κ∞N + O(1/N) with κ∞ = 0.13431… defined by (coth η − 1/η)² = 2 tanh(η)/η, η = 1/(2κ∞).
   Physically, a large ring stabilises once neighbouring vortices are more than ℓ* ≈ 0.844 curvature radii apart,
-  measured along the ring.
+  measured along the ring. That is exactly the critical spacing of an infinite vortex row on a horocycle, the
+  ring's N → ∞ limit.
 - Implemented as written, Boatto's equations reproduce our values exactly. Her plotted hyperbolic-plane curves sit
   slightly elsewhere; the note discusses a likely reason, which leaves her qualitative conclusions unchanged.
 

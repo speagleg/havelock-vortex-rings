@@ -110,7 +110,7 @@ for N in [3, 5, 7, 9, 11, 15, 21, 51, 101, 1001]:
     print(f"   N={N:5d}: max_v P3'/|P12'| (where P3' > 0) = {mp.nstr(r, 4)}")
 mp.mp.dps = 60
 
-print("\n6. Infinite vortex row on the horocycle y = 1 (upper half-plane), spacing ell (NUMERICAL, K = 2e5 terms)")
+print("\n6. Infinite vortex row on the horocycle y = 1 (upper half-plane), spacing ell: check of Prop 19 by direct lattice sums (K = 2e5 terms)")
 x0, y0, x1, y1 = sp.symbols('x0 y0 x1 y1', real=True)
 gpair = -(sp.log(sp.sqrt((x0-x1)**2+(y0-y1)**2)) - sp.log(sp.sqrt((x0-x1)**2+(y0+y1)**2)))
 qv = [x0, y0, x1, y1]

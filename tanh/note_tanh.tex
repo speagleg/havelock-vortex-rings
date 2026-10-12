@@ -42,7 +42,8 @@ mode is $\lfloor N/2\rfloor$; for every even $N\ge8$ that the threshold is uniqu
 threshold; and for every odd $N\ge9$ that the Krein window is non-empty, of width $O(N^{-3})$. We also prove
 $\cosh r_*=\kappa_\infty N+O(1/N)$, with $\kappa_\infty=1/(2\eta_\infty)\approx0.1343122$ and $\eta_\infty$ the root of
 $(\coth\eta-1/\eta)^2=2\tanh(\eta)/\eta$. Physically, a large ring stabilises once neighbouring vortices are more than
-$\ell_*=\pi/\eta_\infty\approx0.844$ curvature radii apart; numerically, the limit problem is a vortex row on a horocycle. In
+$\ell_*=\pi/\eta_\infty\approx0.844$ curvature radii apart, which is exactly the critical spacing of an infinite vortex row
+on a horocycle. In
 the sinh model, $\cosh r_*\sim\sqrt N/2$.
 \end{abstract}
 
@@ -106,7 +107,8 @@ treats the sinh model, where everything is known~\cite{MT}. We use these labels:
 (Prop.~\ref{prop:lin}); reciprocity (Prop.~\ref{prop:recip}); threshold equation and even-$N$ form. Exact symbol form
 of the blocks (Thm.~\ref{thm:symbol}); $b_m>0$ and critical mode $\lfloor N/2\rfloor$ for every $N$ and radius
 (Lemmas~\ref{lem:bpos}, \ref{lem:crit}); a unique threshold for every even $N\ge8$ (Prop.~\ref{prop:evenN}); the large-$N$
-limit $\cosh r_*=\kappa_\infty N+O(1/N)$ and the critical spacing $\ell_*$ (Thm.~\ref{thm:largeN}); energy--momentum
+limit $\cosh r_*=\kappa_\infty N+O(1/N)$ and the critical spacing $\ell_*$ (Thm.~\ref{thm:largeN}); the horocyclic
+vortex row as the limit problem, stable iff its spacing is at least $\ell_*$ (Prop.~\ref{prop:row}, Cor.~\ref{cor:row}); energy--momentum
 threshold equal to the spectral one for every even $N$, a non-empty Krein window of width $O(N^{-3})$ for every odd
 $N\ge9$, and the same limit $\kappa_\infty$ (Thm.~\ref{thm:em}).\\
 \textbf{CERTIFIED} (exact arithmetic, $N\le16$) & $b_m>0$ on $(0,1)$; critical mode $\lfloor N/2\rfloor$; the value of
@@ -127,7 +129,7 @@ Lean does \emph{not} check irreducibility (that is the PARI item above), the der
 dynamics.\\
 \textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$; uniqueness of the
 threshold for odd $N\ge17$.\\
-\textbf{NUMERICAL} & The identification of the large-$N$ limit with a horocyclic vortex row; the $1/N$ coefficients
+\textbf{NUMERICAL} & The $1/N$ coefficients
 $C_1$ (derived, remainder not bounded); the constant $W$ in the Krein-window width, and the critical block being the
 only indefinite block on the whole window for odd $N\ge17$ (\S\ref{sec:asym}).\\\bottomrule
 \end{tabular}
@@ -744,17 +746,81 @@ $\cosh r_*\sim\sqrt N/2$, so the threshold spacing $\approx\pi/\sqrt N$ tends to
 
 \paragraph{The limit object is a vortex row on a horocycle.} As $N\to\infty$ at fixed $\tau$, the ring radius tends to
 infinity while the spacing $2\pi\sinh r/N\to2\pi/\tau$ stays fixed, and the geodesic curvature $\coth r$ of the ring
-tends to $1$, that of a horocycle. In the upper half-plane take the horocycle $\operatorname{Im}z=1$ and the infinite row
-$z_k=k\ell+i$, translating along it under the parabolic isometries, with $F=H-vJ$, $J=-\sum1/y_j$ the momentum of
-$x$-translation for the area form $dx\,dy/y^2$. The Bloch symbol of $\operatorname{Hess}F$ at wavenumber $\theta$ (phase
-$2\pi\theta$ between neighbours), multiplied by $(\ell/2\pi)^2$, agrees with $(\alpha,\beta,\gamma)$ at $x=1-2\theta$,
-$\tau=2\pi/\ell$, where $\alpha=E_\infty-\frac1{4\sinh^2\tau}-\psi$ is the limit of $a_m/N^2$. The agreement is to
-$4\cdot10^{-12}$ at four spacings and three wavenumbers (\texttt{large\_n.out}, item~6; NUMERICAL, from lattice sums; we have
-not derived it by Poisson summation). So $m/N$ becomes the Bloch wavenumber. The critical mode $\theta=\frac12$
-displaces neighbours in opposite normal directions (its growing eigenvector also has a tangential part): it is the
-pairing instability of a vortex row. By
-Lemmas~\ref{lem:bpos} and~\ref{lem:crit} applied to the limit symbol, the horocyclic row is spectrally stable exactly when
-$\ell\ge\ell_*$, granted the numerically verified identification.
+tends to $1$, that of a horocycle. In the upper half-plane (curvature $-1$, area form $dx\,dy/y^2$) the tanh pair term is
+$-\ln\tanh(d/2)=-\ln|z-w|+\ln|z-\bar w|$. Take the horocycle $\operatorname{Im}z=1$ and the infinite row $z_k=k\ell+i$,
+$k\in\mathbb Z$. The $x$-translations are isometries with momentum $J=-\sum_j1/y_j$; put $F=H-vJ$. (The pair term and its
+image each pull like $1/k$, but together their force decays like $k^{-3}$ in $x$ and $k^{-2}$ in $y$, so the equations of
+motion of the row converge absolutely; $H$ and $J$ themselves are infinite and enter only through these.) The Hessian of $F$ at the
+row couples sites through absolutely summable terms (each of order $1/k^2$), so on the Bloch wave
+$(\delta x_k,\delta y_k)=e^{2\pi i\theta k}(X,Y)$ it acts as a Hermitian $2\times2$ matrix $M(\theta)$, $0\le\theta\le1$.
+
+\begin{proposition}[horocyclic row; PROVED]\label{prop:row}
+The row is a relative equilibrium, translating with $v=\frac12(\tau\coth\tau-1)$, where $\tau:=2\pi/\ell$. Its Bloch
+symbol is the large-$N$ limit of the ring blocks:
+\[
+\Big(\frac\ell{2\pi}\Big)^2M(\theta)=\begin{pmatrix}\beta&i\gamma\\-i\gamma&\alpha\end{pmatrix}(x,\tau),\qquad x=1-2\theta,\qquad
+\alpha:=E_\infty-\frac1{4\sinh^2\tau}-\psi,
+\]
+in the basis $(\delta x,\delta y)$. So, after rescaling ($N^{-2}$ for the ring, $(\ell/2\pi)^2$ for the row), the ring's mode
+number $m/N$ becomes the Bloch wavenumber $\theta$; the ring's tangential and outward radial directions correspond to $\delta x$
+and $-\delta y$, which maps $\theta$ to $1-\theta$ (i.e.\ $\gamma$ to $-\gamma$).
+\end{proposition}
+\begin{proof}
+Write $p_k=1/(k\ell-2i)^2$, so that $p_{-k}=\bar p_k$, and $b=2/\ell=\tau/\pi$. For $h=\operatorname{Re}f$ with $f$ holomorphic,
+$\operatorname{Hess}h=\begin{psmallmatrix}\operatorname{Re}f''&-\operatorname{Im}f''\\-\operatorname{Im}f''&-\operatorname{Re}f''\end{psmallmatrix}$.
+Applied to $-\ln|z_0-z_k|$ and $\ln|z_0-\bar z_k|$ (in the second, $\partial_{x_k}=-\partial_x$ and $\partial_{y_k}=+\partial_y$), the
+on-site block is $\operatorname{diag}(S_1,-S_1)+\sum_{k\ne0}\operatorname{Re}p_k\operatorname{diag}(-1,1)+\operatorname{diag}(0,2v)$, with
+$S_1=\sum_{k\ne0}(k\ell)^{-2}$ (the off-diagonal terms cancel in pairs), and the coupling block to site $k$ is
+$\operatorname{diag}(-1,1)(k\ell)^{-2}+\begin{psmallmatrix}\operatorname{Re}p_k&\operatorname{Im}p_k\\-\operatorname{Im}p_k&\operatorname{Re}p_k\end{psmallmatrix}$.
+Force balance in $y$ gives $v=\sum_{k\ne0}2/(k^2\ell^2+4)$. Four classical sums evaluate everything, for $0\le q:=2\pi\theta\le2\pi$:
+\begin{align*}
+&\textstyle\sum_{k\ne0}k^{-2}=\pi^2/3,\qquad \sum_{k\ge1}\cos(qk)/k^2=\pi^2/6-\pi q/2+q^2/4,\qquad
+\sum_{k\in\mathbb Z}(k^2+a^2)^{-1}=(\pi/a)\coth\pi a,\\
+&\textstyle\sum_{k\in\mathbb Z}e^{iqk}(k-ib)^{-2}=-2\pi\sum_{n\ge0}(q+2\pi n)\,e^{-b(q+2\pi n)}\quad(b>0).
+\end{align*}
+The last is Poisson summation, $\sum_kf(k)=\sum_n\hat f(2\pi n)$ with $\hat f(\omega)=\int f(t)e^{-i\omega t}dt$, which applies
+because $f(t)=e^{iqt}(t-ib)^{-2}=O(t^{-2})$ and $\hat f$ is continuous and decays exponentially: $\hat f(2\pi n)$ is
+$-2\pi(q-2\pi n)e^{-b(q-2\pi n)}$ for $q\ge2\pi n$ (residue at $t=ib$) and $0$ otherwise; the terms with $q=2\pi n$ vanish, so
+the formula holds on the closed interval $0\le q\le2\pi$. With $\pi b=\tau$ and
+$X=e^{-2\tau}$, the third sum gives $v$, and the fourth gives
+$P(\theta):=\sum_{k\ne0}e^{iqk}p_k=\frac14-\tau^2e^{-2\theta\tau}\big[\frac\theta{1-X}+\frac X{(1-X)^2}\big]$. Since
+$p_{-k}=\bar p_k$, $P$ is real, $\sum_{k\ne0}\cos(qk)\operatorname{Re}p_k=\frac12(P(\theta)+P(1-\theta))$ and
+$\sum_{k\ne0}\sin(qk)\operatorname{Im}p_k=\frac12(P(1-\theta)-P(\theta))$. The bracket in $P$ is the quantity $W_m/N$ of
+Thm.~\ref{thm:symbol} (with $\xi^m=e^{-2\theta\tau}$), so by its proof $\frac12(P(\theta)+P(1-\theta))=\frac14-\tau^2Q/(4\sinh^2\tau)$ and
+$\frac12(P(1-\theta)-P(\theta))=\tau^2\gamma$. Adding up:
+$M_{xx}=\frac{\tau^2}{12}-\frac14+\frac{\tau^2}{4\sinh^2\tau}-\big(\frac{\tau^2}{12}-\frac{\tau^2\theta(1-\theta)}2\big)+\frac14-\frac{\tau^2Q}{4\sinh^2\tau}=\tau^2\beta$,
+$M_{yy}=\tau\coth\tau-\frac12-\frac{\tau^2(1-x^2)}8-\frac{\tau^2(1+Q)}{4\sinh^2\tau}=\tau^2\alpha$ and $M_{xy}=i\tau^2\gamma$; finally
+$(\ell/2\pi)^2=\tau^{-2}$.
+\end{proof}
+\texttt{large\_n.out} (item~6) confirms the identity against direct lattice sums to $4\cdot10^{-12}$.
+
+\begin{corollary}[critical spacing of the row; PROVED]\label{cor:row}
+The horocyclic row with spacing $\ell$ (in curvature radii) is spectrally stable, i.e.\ every Bloch mode has purely
+imaginary exponents, if and only if $\ell\ge\ell_*=\pi/\eta_\infty=0.8439\ldots$. The Bloch matrix $M(\theta)$ is positive
+definite for every $0<\theta<1$ if and only if $\ell>\ell_*$; at $\ell=\ell_*$ it degenerates exactly in the pairing mode
+$\theta=\frac12$. So the spectral and the definiteness thresholds coincide: there is no Krein window.
+\end{corollary}
+\begin{proof}
+The equations of motion are $\dot q=y^2J_0\nabla F$ in the co-moving frame. Since $dF=0$ at the row, the variation of the
+Poisson tensor does not contribute, and the linearisation at $y=1$ is $J_0\operatorname{Hess}F$. On a Bloch wave this is
+$J_0M(\theta)$, so as in Prop.~\ref{prop:lin} the exponents are $\sigma=-i\gamma'\pm\sqrt{-M_{xx}M_{yy}}$ with $\gamma'=\tau^2\gamma$
+real, and stability means $M_{xx}M_{yy}\ge0$ for every $\theta$. At $\theta=0$, $\beta=\gamma=0$ and
+$M(0)=\operatorname{diag}(0,\tau^2\alpha(1,\tau))$ with $\tau^2\alpha(1,\tau)=(\tau\coth\tau-1)+\frac12(1-\tau^2/\sinh^2\tau)>0$: both
+exponents vanish, and the null direction is the translation symmetry. For $0<\theta<1$, by
+Prop.~\ref{prop:row}, $M_{xx}\propto\beta>0$ (Lemma~\ref{lem:bpos}) and $M_{yy}\propto\alpha=\Phi(\tau)+\psi(0,\tau)-\psi(x,\tau)\ge\Phi(\tau)$,
+with equality at $\theta=\frac12$ (Lemma~\ref{lem:crit}). So the row is stable iff $\Phi(2\pi/\ell)\ge0$, i.e.\ iff $\ell\ge\ell_*$.
+For definiteness, $\alpha\beta-\gamma^2=\beta(\Phi+G)$ with $G\ge0$, $G=0$ only at $x=0$ (Lemma~\ref{lem:em}).
+\end{proof}
+Spectral stability here is not bounded linear stability: there is a Jordan block at $\theta=0$ for every $\ell$ (a uniform
+change of height makes the row drift), and at $\theta=\frac12$ when $\ell=\ell_*$, so those modes grow linearly. Positive
+definiteness also holds only mode by mode: the smallest eigenvalue of $M(\theta)$ tends to $0$ as $\theta\to0$
+($\beta=O(\theta^2)$), as for mode $0$ of the ring, and we make no energy--momentum or nonlinear claim for the infinite row.
+A direct simulation of a $12$-periodic row (finite differences of the full velocity field, all images summed) reproduces
+these exponents to $2\cdot10^{-7}$ and has growth rates $2.60$, $0.98$, $0.47$ at $\ell/\ell_*=0.9$, $0.98$, $0.995$ and none
+above $\ell_*$ (independent reader, \texttt{review/horocycle\_row\_review.md}; NUMERICAL).
+So Theorem~\ref{thm:largeN} says that a large ring loses stability exactly where the horocyclic row with the same
+spacing does. The critical mode $\theta=\frac12$ displaces neighbours in opposite normal directions (its growing
+eigenvector also has a tangential part): it is the pairing instability of a vortex row.
 
 \paragraph{Why curvature stabilises.} In (\ref{eq:phi}) the dense limit $\ell\ll R$ ($\eta=\pi/\ell\to\infty$) gives
 $8\Phi\to-1$, unstable at every spacing, as for a straight row in the plane (the classical row instability~\cite{Lamb}).
@@ -813,8 +879,8 @@ Hwang--Kim 2013 already contains ring stability thresholds for this model. Until
 \item \textbf{No human specialist review.} The derivation has been re-derived and checked by an independent AI reader
 (verdict: confirmed with scope fixes, all applied here). No human expert in point-vortex dynamics has reviewed it.
 \item \textbf{Large $N$.} The limit $\cosh r_*/N\to\kappa_\infty$ and the critical spacing are proved
-(Thm.~\ref{thm:largeN}); the $1/N$ coefficients are derived without remainder bounds, and the horocyclic-row
-interpretation rests on a numerically verified identity. For odd $N\ge17$ uniqueness of the threshold is numerical only.
+(Thm.~\ref{thm:largeN}), and so is the horocyclic-row picture (Prop.~\ref{prop:row}); the $1/N$ coefficients are derived
+without remainder bounds. For odd $N\ge17$ uniqueness of the threshold is numerical only.
 \item \textbf{Finite range.} Palindromy, irreducibility and the degree pattern are certified only for
 $N\le16$ (Conjecture~\ref{conj:deg}). Irreducibility is certified by PARI/GP, not by Lean.
 \item \textbf{Nonlinear stability.} This is stated only via Hessian definiteness and modulo $SO(2,1)$ (Remark~\ref{rem:em}). In the

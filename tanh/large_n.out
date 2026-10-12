@@ -46,7 +46,7 @@
    N=  101: max_v P3'/|P12'| (where P3' > 0) = 4.072e-5
    N= 1001: max_v P3'/|P12'| (where P3' > 0) = 4.14e-7
 
-6. Infinite vortex row on the horocycle y = 1 (upper half-plane), spacing ell (NUMERICAL, K = 2e5 terms)
+6. Infinite vortex row on the horocycle y = 1 (upper half-plane), spacing ell: check of Prop 19 by direct lattice sums (K = 2e5 terms)
    max |(ell/2pi)^2 Hess(row) - limit symbol (alpha, beta, gamma)| over ell in {0.5, ell*, 1.5, 3}, theta in {0.5, 0.3, 0.1}: 3.8e-12
    radial entry at ell = ell*, theta = 1/2: 2.1e-10
 
