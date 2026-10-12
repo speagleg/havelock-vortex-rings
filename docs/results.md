@@ -9,7 +9,10 @@ Every claim in this repository carries one of these labels:
 | **NUMERICAL** | High-precision computation with no rigorous error bound. |
 
 No human specialist has reviewed any of this yet. Independent AI readers and the computer checks listed below are the
-only verification so far.
+only verification so far. One of those checks, in [`independent_check/`](../independent_check/README.md), was written
+from scratch and shares no code, series coefficients or Fourier blocks with the papers. It works from the Hamiltonian
+in Cartesian coordinates at 40–50 digits. Its results are NUMERICAL and corroborate the claims marked below; they do
+not replace the proofs or certificates.
 
 ---
 
@@ -32,8 +35,8 @@ Conjecture 13 says that the ring is still stable *at* b_n.
 |---|---|
 | The first proof for odd n ≥ 13. Our argument is uniform in n, so it also re-proves 4 ≤ n ≤ 11 by a second route. | PROVED (paper, Theorem 1) |
 | Stability is Lyapunov stability modulo rotations, via an energy–momentum argument on the momentum level set. It holds for perturbations of nearby momentum too. | PROVED (paper, §5) |
-| Closed form for the quartic coefficient on the level set, even n: c₄ = (n−2)(m⁴+40m²+48m+16)/(192n(n−1)), m = n−2 | PROVED; the algebra from the series coefficients onward is Lean-checked |
-| Closed form, odd n ≥ 5: c₄ = (n−1)(n−3)(n²−9n+38)/(128n). Positivity is immediate (discriminant −71). The formula vanishes at n = 3, which is why n = 3 rests on Montaldi–Tokieda's own argument. | PROVED; the algebra is Lean-checked |
+| Closed form for the quartic coefficient on the level set, even n: c₄ = (n−2)(m⁴+40m²+48m+16)/(192n(n−1)), m = n−2 | PROVED; the algebra from the series coefficients onward is Lean-checked. Also reproduced numerically for even n = 8–16 by the [independent check](../independent_check/README.md) (level-set quartic from the Cartesian Hamiltonian, relative difference ≤ 5·10⁻¹⁰) |
+| Closed form, odd n ≥ 5: c₄ = (n−1)(n−3)(n²−9n+38)/(128n). Positivity is immediate (discriminant −71). The formula vanishes at n = 3, which is why n = 3 rests on Montaldi–Tokieda's own argument. | PROVED; the algebra is Lean-checked. Also reproduced numerically for n = 9–21 (odd) by the [independent check](../independent_check/README.md) (relative difference ≤ 7·10⁻⁹), and 9/14 in the plane at n = 7 |
 | Exact table of c₄ for n = 4–25 | PROVED (Lean, exact over ℚ), plus an independent check modulo three 61-bit primes |
 | The series coefficients h₂, h₄, f₂, E_ij that the closed forms start from | Computer algebra (sympy). Derived twice independently and printed in the paper; **not** Lean-checked |
 | A comparison with intermediate steps of the published argument (paper §7, notes P1–P3), on our reading of it: their computation evaluates the quartic on a linear slice rather than the level set (6/7 against 9/14 at n = 7), and with the weights of their Lemma 8 the key combination is δ − 3γ²/β. None of this affects their conclusions, which our results confirm. | Our direct recomputation reproduces their printed β, γ, δ to every printed digit at n = 7, 9, 11 (`conj13/review/p2_mt_coeffs.py`). The normalisation-free ratio test is `conj13/review/p2_ratio_test.py` |
@@ -53,10 +56,10 @@ qualitative picture are hers. Hwang–Kim (2013) is closed access and unread; it
 | In log-polar coordinates the energy–momentum Hessian splits into 2×2 Fourier blocks whose entries are explicit rational functions of ξ = tanh²(r/2) | PROVED (note, Thm 2); the block identities are Lean-checked |
 | Reciprocity: under ξ ↦ 1/ξ, a_m and b_m are invariant and g_m changes sign | PROVED; Lean-checked |
 | N ≤ 7: the ring is stable at every radius | CERTIFIED (exact rational root isolation), and Lean-checked (Bernstein certificates) |
-| N = 8–16: the threshold ξ*(N) is the unique root of an explicit integer polynomial f_N in (0, 1), and the critical mode is ⌊N/2⌋ | CERTIFIED (exact root isolation plus Arb enclosure, 25 digits), and Lean-checked (uniqueness, sign change and an interval of width 10⁻²⁰) |
-| f_N is irreducible and palindromic; degrees 10, 16, 12, 20, 16, 24, 18, 28, 22 for N = 8–16 | CERTIFIED (PARI/GP `polisirreducible`, plus a second check by factorisation patterns mod p; `tanh/irreducibility/`). Not in Lean |
+| N = 8–16: the threshold ξ*(N) is the unique root of an explicit integer polynomial f_N in (0, 1), and the critical mode is ⌊N/2⌋ | CERTIFIED (exact root isolation plus Arb enclosure, 25 digits), and Lean-checked (uniqueness, sign change and an interval of width 10⁻²⁰). For N = 8–12 and 16, also reproduced to at least 20 digits by bisection on the full 2N×2N linearisation in the [independent check](../independent_check/README.md) |
+| f_N is irreducible and palindromic; degrees 10, 16, 12, 20, 16, 24, 18, 28, 22 for N = 8–16 | CERTIFIED (PARI/GP `polisirreducible`, plus a second check by factorisation patterns mod p; `tanh/irreducibility/`). Not in Lean. Irreducibility over ℚ and palindromy also confirmed with sympy by the [independent check](../independent_check/README.md) |
 | ξ*(8) is an algebraic unit of degree 10; ξ*(9)–ξ*(16) are not algebraic integers | Unit property: Lean. Degree and non-integrality: PARI |
-| For odd N = 9, 11, 13, 15, a "Krein window" lies between the spectral threshold and the energy–momentum threshold. In it the ring is linearly (spectrally) stable; nonlinear stability is undecided. Width 3.22×10⁻⁸ at N = 9. | Non-emptiness for N = 9, 11, 13, 15 is Lean-checked; the widths are CERTIFIED |
+| For odd N = 9, 11, 13, 15, a "Krein window" lies between the spectral threshold and the energy–momentum threshold. In it the ring is linearly (spectrally) stable; nonlinear stability is undecided. Width 3.22×10⁻⁸ at N = 9. | Non-emptiness for N = 9, 11, 13, 15 is Lean-checked; the widths are CERTIFIED. At N = 9 the [independent check](../independent_check/README.md) finds the reduced Hessian indefinite at ξ* + 3.0·10⁻⁸ and definite at ξ* + 3.4·10⁻⁸, consistent with the width |
 | Large N: cosh r* / N → κ∞ = 0.1343122142726… | NUMERICAL. κ∞ is a computed root of an explicit equation obtained by a formal limit. The convergence is supported numerically up to N = 800 but not proved; the 0.541/N correction is a fit |
 | Boatto's equations, implemented as written, reproduce our ξ*(8) to 10⁻⁴¹ and ξ_EM(9) exactly. Her plotted K < 0 curves (Fig. 5a/5b) appear to match the pair law −ln sinh D instead, i.e. her eq. (17) with one sign flipped; her qualitative conclusions are unaffected. | NUMERICAL comparison (digitised figure, ±0.002 in K); `tanh/boatto_check/RESULT.md` |
 
@@ -79,7 +82,7 @@ Thresholds for N = 8–16 (ξ = tanh²(r/2), r the hyperbolic ring radius, curva
 Note: [`sinh/note.pdf`](../sinh/note.pdf). The thresholds are known (Montaldi–Tokieda 2013). The note writes them in
 the form cosh² r* = q(N), with q(N) = (N−3)/4 for odd N and (N−2)²/(4(N−1)) for even N. It also classifies when the
 threshold is an algebraic unit: c(N) = ξ* + 1/ξ* is an integer exactly for N ∈ {8, 9, 11, 15, 23}. That arithmetic is
-Lean-checked.
+Lean-checked. The [independent check](../independent_check/README.md) reproduces cosh² r* = q(N) for N = 8, 9 and 13 by bisection on the full linearisation.
 
 ## Open items
 
