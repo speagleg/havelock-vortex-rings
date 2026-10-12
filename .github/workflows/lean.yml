@@ -36,7 +36,11 @@ jobs:
           # The Havelock.Tanh.* modules in the (dependency) order in which TanhAlgebra.lean imports them.
           mapfile -t tanh < <(sed -nE 's/^import (Havelock\.Tanh\.[A-Za-z0-9_]+)$/\1/p' Havelock/TanhAlgebra.lean)
           [ "${#tanh[@]}" -gt 0 ] || { echo "no Havelock.Tanh imports found"; exit 1; }
-          mods=(Havelock.SinhArithmetic Havelock.Conj13Algebra "${tanh[@]}" Havelock.TanhAlgebra Havelock)
+          # The Havelock.Tanh.LargeN.* modules, in the order in which TanhLargeN.lean imports them.
+          mapfile -t largen < <(sed -nE 's/^import (Havelock\.Tanh\.LargeN\.[A-Za-z0-9_]+)$/\1/p' Havelock/TanhLargeN.lean)
+          [ "${#largen[@]}" -gt 0 ] || { echo "no Havelock.Tanh.LargeN imports found"; exit 1; }
+          mods=(Havelock.SinhArithmetic Havelock.Conj13Algebra "${tanh[@]}" Havelock.TanhAlgebra
+                "${largen[@]}" Havelock.TanhLargeN Havelock)
           : > build.log
           for m in "${mods[@]}"; do
             echo "::group::lake build +$m"
