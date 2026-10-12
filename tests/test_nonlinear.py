@@ -38,7 +38,7 @@ def test_out_of_validity(model, N):
 
 
 def test_reproduces_recorded_table_check():
-    # research reproduction (spec 9.7): conj13/paper/table_check.out records the closed-form c4 for each n
+    # research reproduction: conj13/paper/table_check.out records the closed-form c4 for each n
     text = (REPO / "conj13/paper/table_check.out").read_text()
     rows = re.findall(r"^n=(\d+) b_n=\S+ c4\(float\)=\S+ formula=(\d+(?:/\d+)?)=", text, re.M)
     assert len(rows) == 22 and sorted(int(n) for n, _ in rows) == list(range(4, 26))   # exactly n = 4..25

@@ -15,7 +15,7 @@ SIM_SAMPLES = 2001
 LEVELSET = {"dps": 40, "steps": 6, "eps_denominator": 200}
 #: largest prime tried when searching for a mod-p irreducibility witness
 WITNESS_MAX_PRIME = 20000
-#: largest N for which tanh thresholds are certified exactly (benchmark in the v0.1 plan: N = 64 takes 10-24 s)
+#: largest N for which tanh thresholds are certified exactly (measured: N = 64 takes 10-24 s)
 TANH_EXACT_MAX_N = 64
 #: largest N for which certificate() issues a certificate (the independent verifier refuses larger N)
 VERIFY_MAX_N = 100000

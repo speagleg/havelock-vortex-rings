@@ -48,7 +48,7 @@ def test_exact_values_and_threshold_zero():
             assert all(blocks_mp("mt", n, m, b)[0] > 0 for m in range(1, n // 2))
 
 
-# Independent cross-check (spec 9.2): brute-force FD Hessian of the full 2N system vs the block eigenvalues.
+# Independent cross-check: brute-force FD Hessian of the full 2N system vs the block eigenvalues.
 # Verified while planning (dps 40, h = 1e-10): max |error| / max(1, max |eigenvalue|) <= 1.3e-19 for every case
 # below (absolute errors 1.8e-20 .. 1.2e-16); the tolerance 1e-15 relative leaves a margin of > 1000.
 @pytest.mark.parametrize("model,N,v", [

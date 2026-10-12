@@ -74,7 +74,7 @@ and on any main theorem that depends on an axiom other than `propext`, `Classica
 | `tanh/` | The tanh model: derivation, block and certification scripts, `irreducibility/`, `boatto_check/`, the Lean certificate generator in `lean_gen/`, and the note |
 | `sinh/` | The sinh-model note and its checks |
 | `lean/` | Lean 4 + Mathlib library `Havelock` ([docs/lean.md](docs/lean.md)) |
-| `docs/` | [results.md](docs/results.md): every claim with its status. [lean.md](docs/lean.md). Package docs: [quickstart.md](docs/quickstart.md), [models.md](docs/models.md), [certificates.md](docs/certificates.md). `design/`: the package's design record. `notes/`: dated working notes |
+| `docs/` | [results.md](docs/results.md): every claim with its status. [lean.md](docs/lean.md). Package docs: [quickstart.md](docs/quickstart.md), [models.md](docs/models.md), [certificates.md](docs/certificates.md). |
 | `src/` | The `havelock` Python package (`src/havelock`) |
 | `tests/` | The package's pytest suite |
 | `literature.md` | What we read, and how much of it (full text or abstract only) |

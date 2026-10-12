@@ -53,7 +53,7 @@ def test_small_rings_stable_everywhere(N):
 
 
 def test_reproduces_certify_v2_out():
-    # research reproduction (spec 9.7): minimal polynomials and 50-digit xi* recorded in tanh/certify_v2.out
+    # research reproduction: minimal polynomials and 50-digit xi* recorded in tanh/certify_v2.out
     text = (REPO / "tanh/certify_v2.out").read_text()
     blocks = re.split(r"^N=(\d+) critical mode", text, flags=re.M)
     x = sp.Symbol("x")

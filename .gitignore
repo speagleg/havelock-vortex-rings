@@ -15,3 +15,7 @@ tanh/boatto_check/mparc06-311.txt
 src/*.egg-info/
 .venv/
 .pytest_cache/
+
+# working and design notes, kept locally only
+docs/design/
+docs/notes/

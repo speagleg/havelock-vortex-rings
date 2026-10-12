@@ -37,5 +37,5 @@ where one exists), the critical mode is
 unstable just across the interval, and the threshold lies in the interval as the unique root there of the
 irreducible factor.
 
-`points`, `stable_side` and `interval_clear` extend the field list of the design spec (Section 7); without them the
+`points`, `stable_side` and `interval_clear` are what make the check global: without them the
 verifier could check the signs only at two points, not on the whole stable side.
