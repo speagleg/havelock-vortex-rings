@@ -48,12 +48,14 @@ build the modules one at a time, as CI does.
   - **Thresholds b_n for all n ≥ 4.** It proves the closed form, that b_n is the unique root in (−1, 1], and the geometry split: sphere for n ≤ 6, plane at n = 7, H² for n ≥ 8.
   - **Spectral algebra.** It proves the Fejér sum identity Σ(1−cos 2πml/n)/(1−cos 2πl/n) = m(n−m) and finds the kernel mode and spectral gap, including 3/2 at n = 4 and 8/3 at n = 5.
   - **The c₄ closed forms, symbolically in n.** The even and odd closed forms are derived from the stated level-set coefficients, and c₄ > 0 at the true threshold for every n ≥ 4. Table 1 (n = 4–25) is exact over ℚ.
-  - **Inputs:** here the Taylor-coefficient inputs (h₂, h₄, f₂, E_ij) are definitions. `Conj13Series` (below) derives h₂, h₄, f₂, the J₁ constraint and both ε-normalisations from the Hamiltonian; the odd fourth-order coefficients E_ij are still taken from the paper (computer algebra, checked mod p). `Conj13Stability` (below) has §5's argument in an abstract setting.
+  - **Inputs:** here the Taylor-coefficient inputs (h₂, h₄, f₂, E_ij) are definitions. `Conj13Series` (below) derives all of them (h₂, h₄, f₂, E_ij), the J₁ constraint and both ε-normalisations from the Hamiltonian. `Conj13Stability` (below) has §5's argument in an abstract setting.
 - `Havelock/Conj13Series.lean` (with `Havelock/Conj13/{Series,Even*,Odd*,TaylorCoeffs}.lean`): from eq. (1), for even n the
   τ²- and τ⁴-coefficients h₂, h₄ along the symmetric curve on the momentum level set (which is shown to satisfy the
   momentum constraints) and the limit (H − H₀)/ε⁴ → c₄ at b_n; for odd n the A²-coefficient f₂ along the kernel
-  line, the J₁ constraint along the ansatz, and the normalisation 64/(n²(1+λ)⁸). Not derived: the odd E_ij, and the
-  structural steps (symmetric criticality, completeness of the odd ansatz).
+  line, the A⁴ coefficient E(p,s) = E00 + E10 p + E01 s + E20 p² + E02 s² along the full odd ansatz (with no A³ term;
+  `Odd4*`, including the second-order Fejér identity), the J₁ constraint along the ansatz, and the normalisation
+  64/(n²(1+λ)⁸). Not formalised: the structural steps (symmetric criticality for even n, completeness of the odd
+  ansatz, and that the slaved minimum is the reduced Hamiltonian's quartic coefficient).
 - `Havelock/TanhAlgebra.lean` (with `Havelock/Tanh/*`): the exact-algebra layer of the tanh note, with no `sorry`. Only the standard axioms are used.
   - **For all N and m:** the W_k closed form (`HasSum`), the compact a_m, the reciprocity a_m(1/ξ) = a_m(ξ), the even-N threshold equation, and the linearisation's characteristic polynomial.
   - **For every N = 2–16:** the certification theorem. N ≤ 7 is stable for all r. For N ≥ 8, f_N has a unique root ξ* in (0, 1), located in a rational interval of width 10⁻²⁰, and the critical block changes sign there. The proofs use Bernstein positivity certificates.

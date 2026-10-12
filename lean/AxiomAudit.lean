@@ -229,3 +229,9 @@ import Havelock
 #print axioms Havelock.Conj13.Taylor.odd_iteratedDeriv
 #print axioms Havelock.Conj13.Taylor.even_iteratedDeriv_at_bn
 #print axioms Havelock.Conj13.Taylor.odd_iteratedDeriv_at_bn
+#print axioms Havelock.Conj13.Odd4.fejer1
+#print axioms Havelock.Conj13.Odd4.fejer2
+#print axioms Havelock.Conj13.Odd4.jet_pair
+#print axioms Havelock.Conj13.Odd4.jet_logPw
+#print axioms Havelock.Conj13.Odd4.Ham_oddAnsatz_jet
+#print axioms Havelock.Conj13.Odd4.Ham_oddAnsatz_jet4

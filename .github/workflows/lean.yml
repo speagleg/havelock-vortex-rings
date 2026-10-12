@@ -52,7 +52,10 @@ jobs:
                 Havelock.Conj13.LyapunovAbstract Havelock.Conj13.LyapunovAnalytic Havelock.Conj13Stability
                 Havelock.Conj13.Series Havelock.Conj13.EvenCurve Havelock.Conj13.EvenConfig
                 Havelock.Conj13.EvenQuartic Havelock.Conj13.OddSums Havelock.Conj13.OddQuadratic
-                Havelock.Conj13.OddConstraint Havelock.Conj13.TaylorCoeffs Havelock.Conj13Series
+                Havelock.Conj13.OddConstraint Havelock.Conj13.TaylorCoeffs
+                Havelock.Conj13.Odd4Fejer Havelock.Conj13.Odd4Jets Havelock.Conj13.Odd4Pair Havelock.Conj13.Odd4Trig
+                Havelock.Conj13.Odd4Inner Havelock.Conj13.Odd4PairSums Havelock.Conj13.Odd4Hamiltonian
+                Havelock.Conj13Series
                 Havelock)
           : > build.log
           for m in "${mods[@]}"; do

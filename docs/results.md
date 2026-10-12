@@ -38,7 +38,7 @@ Conjecture 13 says that the ring is still stable *at* b_n.
 | Closed form for the quartic coefficient on the level set, even n: c₄ = (n−2)(m⁴+40m²+48m+16)/(192n(n−1)), m = n−2 | PROVED; the algebra from the series coefficients onward is Lean-checked. Also reproduced numerically for even n = 8–16 by the [independent check](../independent_check/README.md) (level-set quartic from the Cartesian Hamiltonian, relative difference ≤ 5·10⁻¹⁰) |
 | Closed form, odd n ≥ 5: c₄ = (n−1)(n−3)(n²−9n+38)/(128n). Positivity is immediate (discriminant −71). The formula vanishes at n = 3, which is why n = 3 rests on Montaldi–Tokieda's own argument. | PROVED; the algebra is Lean-checked. Also reproduced numerically for n = 9–21 (odd) by the [independent check](../independent_check/README.md) (relative difference ≤ 7·10⁻⁹), and 9/14 in the plane at n = 7 |
 | Exact table of c₄ for n = 4–25 | PROVED (Lean, exact over ℚ), plus an independent check modulo three 61-bit primes |
-| The series coefficients h₂, h₄, f₂, E_ij that the closed forms start from | Computer algebra (sympy), derived twice independently and stated in the paper. h₂, h₄ (even n), f₂ and the J₁ constraint (odd n) and both normalisations are also **derived from the Hamiltonian in Lean** (`Conj13Series.lean`); the odd fourth-order E_ij are not |
+| The series coefficients h₂, h₄, f₂, E_ij that the closed forms start from | Computer algebra (sympy), derived twice independently and stated in the paper. All of them (h₂, h₄ for even n; f₂ and the fourth-order E_ij along the odd ansatz), the J₁ constraint and both normalisations are also **derived from the Hamiltonian in Lean** (`Conj13Series.lean`). The structural steps (symmetric criticality, completeness of the odd ansatz) are not formalised |
 | §5 nonlinear-stability argument | PROVED (paper). Its analytic core (Lemmas B1–B4, Theorem 17) is Lean-checked in an abstract setting (`Conj13Stability.lean`); the instantiation to the vortex ring is not |
 
 ## 2. The tanh (Kimura) model on the hyperbolic plane
@@ -95,6 +95,6 @@ Lean-checked. The [independent check](../independent_check/README.md) reproduces
 - **A specialist reader.** Montaldi and Tokieda are the natural readers for both results.
 - **Hwang–Kim (2013).** It needs journal access.
 - **Odd-n, n ≥ 5 limit.** The odd closed form is derived for n ≥ 5. The case n = 3 relies on Montaldi–Tokieda.
-- **Not formalised.** Conjecture 13: the odd fourth-order coefficients E_ij and the structural steps of the
-  expansion; the instantiation of §5 to the vortex ring. Tanh: that κ₀⁻¹JH is the derivative of the vortex vector
+- **Not formalised.** Conjecture 13: the structural steps of the expansion (symmetric criticality, completeness of
+  the odd ansatz); the instantiation of §5 to the vortex ring. Tanh: that κ₀⁻¹JH is the derivative of the vortex vector
   field. Everything else listed above as Lean-checked is in `lean/` ([lean.md](lean.md)).

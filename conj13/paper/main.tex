@@ -892,11 +892,12 @@ It also proves the threshold facts ($b_n$ in closed form, its uniqueness in $(-1
 for all $n\ge4$), the spectral algebra of Proposition~\ref{prop:spectral} (including the Fej\'er identity
 for all $n$ and the eigenvalues $3/2$ and $8/3$ at $n=4,5$). A second layer, \texttt{lean/Havelock/Conj13Series.lean},
 derives from eq.~\eqref{eq:H} the even-$n$ coefficients $h_2,h_4$ along the symmetric curve on the level set (and the
-limit $(H-H_0)/\varepsilon^4\to c_4$ at $b_n$), the odd-$n$ coefficient $f_2$ along the kernel line, the $J_1$
+limit $(H-H_0)/\varepsilon^4\to c_4$ at $b_n$), the odd-$n$ coefficients $f_2$ and $E_{ij}$ (the full fourth-order
+expansion along the ansatz, with no $A^3$ term, via the first- and second-order Fej\'er identities), the $J_1$
 constraint along the ansatz, and both normalisation factors relating $\tau$ and $A$ to $\varepsilon$. What Lean does
-\emph{not} check is the derivation of the odd fourth-order coefficients $E_{ij}$ (and hence $a_2$) and the
-structural steps (symmetric criticality, completeness of the odd ansatz); these are computer algebra, reproduced
-independently and checked against the exact $\mathrm{GF}(p)$ Cartesian computation as described above.
+\emph{not} check are the structural steps: symmetric criticality (even $n$), completeness of the odd ansatz, and
+that the slaved minimum is the quartic coefficient of the reduced Hamiltonian. These rest on the arguments of
+\S\S3--4 and on the exact $\mathrm{GF}(p)$ Cartesian computation described above.
 For Section~\ref{sec:nonlinear}, \texttt{lean/Havelock/Conj13Stability.lean} proves Lemmas~B1--B4 and
 Theorem~\ref{thm:abstract}'s argument in an abstract setting (a group acting on a metric space, the chart and the
 slice taken as hypotheses); its instantiation to the vortex ring is not formalised.
