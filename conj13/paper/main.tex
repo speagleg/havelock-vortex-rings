@@ -51,8 +51,8 @@ in deriving them.
 (iii) A self-contained energy--momentum argument for degenerate (quartic) minima. It works for the
 noncompact groups $SE(2)$ and $PSL(2,\R)$, and for the plane's affine momentum map.
 The algebra that turns the computed series coefficients into the closed forms is checked in Lean~4.
-We also record remarks on intermediate steps of the published argument; Montaldi and
-Tokieda's conclusions are correct. All verification so far has been by AI readers and
+We also compare our computation with some intermediate steps of the published argument; none of
+this affects Montaldi and Tokieda's conclusions, which our results confirm. All verification so far has been by AI readers and
 computer checks; no human specialist has yet reviewed the argument.
 \end{abstract}
 
@@ -158,8 +158,8 @@ immediate (Remark~\ref{rem:positivity}); the content is the derivation.
 involved, including the plane with its affine momentum map (Section~\ref{sec:nonlinear}).
 \item A Lean~4 check of the algebra that leads from the computed series coefficients to the closed forms
 and to Table~\ref{tab:c4} (Section~\ref{sec:limits}, which states exactly what is and is not formalised).
-\item Remarks on intermediate steps of the published argument, stated so that each can be
-checked against~\cite{MT} (Section~\ref{sec:remarks}). None of them changes any conclusion of~\cite{MT}.
+\item A comparison with intermediate steps of~\cite{MT}, given with page references so that the reader can
+check our reading (Section~\ref{sec:remarks}). None of it affects any conclusion of~\cite{MT}.
 \end{enumerate}
 
 %======================================================================
@@ -522,7 +522,7 @@ fixed by minimisation and by the constraint $J_1=0$. Mode $1$ is where Montaldi 
 and their criterion uses the analogous reduced combination of $\delta$, $\gamma$ and $\beta$ (with Lemma~8's
 weights, $\delta-3\gamma^2/\beta$; see Section~\ref{sec:remarks}). The difference is that $c_4$ is computed
 on the level set $J^{-1}(\mu)$, so it also contains the curvature term $\tfrac14Q''(w_0)$ in the $J_1$
-constraint, which a computation on the linear slice omits.
+constraint, which does not enter a computation on the linear slice.
 \end{remark}
 
 \begin{remark}
@@ -582,7 +582,8 @@ $n$ & $b_n$ & geometry & $c_4$ (level set) & decimal & linear slice (numerical)\
 \caption{Level-set effective quartic $c_4$ (Definition~\ref{def:c4}; $r_0=1$, $H$ as in~\eqref{eq:H},
 Euclidean-unit kernel vector). All 22 rational values were confirmed by the exact $\mathrm{GF}(p)$
 Cartesian KKT computation. The last column is the slaved quartic on the linear slice $x_0+N$, the
-quantity that the computation of~\cite[\S3.5]{MT} evaluates (Section~\ref{sec:remarks}, P1 and P2). It
+quantity that, on our reading, the computation of~\cite[\S3.5]{MT} evaluates (Section~\ref{sec:remarks}, P1
+and P2). It
 differs from $c_4$ in every case, and is positive in every case.}
 \label{tab:c4}
 \end{table}
@@ -701,7 +702,7 @@ $\tau^*/\sqrt{|j|}\to0.1542$. For $n=12$, $\min\Phi/j^2\to-0.013679$ and $\tau^*
 the stable side ($j>0$) the minimum is exactly $0$, attained at the ring.
 
 So there is no neighbourhood on which the reduced Hamiltonians at all nearby momenta have uniform strict
-minima. The step in Morse-lemma-based proofs that relies on such uniformity genuinely fails here. The
+minima. The step in Morse-lemma-based proofs that relies on such uniformity is therefore not available here. The
 penalty function in Lemma~\ref{lem:B3} replaces it.
 \end{remark}
 
@@ -796,21 +797,23 @@ verbatim, and the self-contained Theorem~\ref{thm:abstract} is what covers $n=7$
 
 \paragraph{Montaldi 1997.} Montaldi--Tokieda's Proposition~9 relies on~\cite{Montaldi97} (cited as
 ``cf.~[17]'' in its proof~\cite[p.~20]{MT}, and as ``[17, Theorem~1.2]'' on p.~10), whose setting
-is a compact group. For the sphere it applies, provided it is used on the reduced Hamiltonian, i.e.\ with
-the level-set quartic, rather than on the linear slice. We have read only that paper's abstract and the way
+is a compact group. For the sphere it applies; in the degenerate case we use it on the reduced
+Hamiltonian, i.e.\ with the level-set quartic. We have read only that paper's abstract and the way
 it is quoted in~\cite[pp.~10, 20]{MT}; we rely on it nowhere. Montaldi and Rodr\'\i guez-Olmos~\cite{MRO} treat
 noncompact groups, but under formal stability (a definite Hessian on the symplectic normal space), so the
-degenerate case is not covered verbatim. As stated, the published route covers neither $SE(2)$ nor
-$PSL(2,\R)$, nor the degenerate case.
+degenerate case is not covered verbatim. We did not find a published statement that covers $SE(2)$,
+$PSL(2,\R)$ and the degenerate case together, which is why Section~\ref{sec:nonlinear} gives a self-contained
+argument.
 
 %======================================================================
-\section{Remarks on intermediate steps of the published argument}\label{sec:remarks}
+\section{Comparison with intermediate steps of the published argument}\label{sec:remarks}
 
 Montaldi and Tokieda's conclusions (stability at $b_n$ for even $n$ and for $n=3,5,7,9,11$) are correct,
 and our results confirm them. Their framework (the deformation family, the Fourier blocks, the identification
 of $b_n$ and the critical modes, the invariant-theoretic Proposition~12) is what makes the present proof
-possible. The remarks below concern intermediate steps of~\cite[\S3.5]{MT} only. We state each with page and
-equation numbers of~\cite{MT} (arXiv:1210.5662v1), so that it can be checked line by line. The scripts are
+possible. The notes below compare our computation with intermediate steps of~\cite[\S3.5]{MT} only. They
+reflect our reading of the published text, and we may have missed conventions the authors intended. We give
+page and equation numbers of~\cite{MT} (arXiv:1210.5662v1), so that each point can be checked line by line. The scripts are
 in \code{conj13/review/}.
 
 \paragraph{Normalisation dictionary.} Montaldi and Tokieda's augmented Hamiltonian is
@@ -863,12 +866,13 @@ where $c_4^{\rm lin}$ is the slaved quartic on the linear slice $x_0+N$ (last co
 \paragraph{P1: linear slice versus level set.} Proposition~9~\cite[p.~20]{MT} applies Lemma~8 ``with
 $\mathbb R^n$ replaced by $N$ and $f$ by $\widehat H$''. Its proof ends: ``The claim now follows because the
 hypotheses of Lemma~8 applied on $M_\mu$ are equivalent to the same hypotheses applied on $N$.'' The
-equivalence holds for the second-order hypothesis ($B\ge0$, with the same kernel). For the quartic hypothesis
-with degenerate $B$ it does not hold in general, for the reason given in Section~\ref{sec:quartic}. A curve in
+equivalence is clear for the second-order hypothesis ($B\ge0$, with the same kernel). For the quartic
+hypothesis with degenerate $B$ it seems to us to need a further argument, for the reason given in
+Section~\ref{sec:quartic}. A curve in
 $M_\mu$ lifts to a curve in $J^{-1}(\mu)$ tangent to $N$, but its second-order part leaves $N$, chiefly along
 the radial part of $V_0$, and that component couples to $a^2$ at cubic order. Lemma~10~\cite[p.~20]{MT} and
 Proposition~12(iii)~\cite[p.~22]{MT} set the coupling to $V_0$ aside because $V_0\cap N=\{0\}$. That is
-correct on $N$, and it is what makes the computation a linear-slice one. For even $n$, Lemma~10 makes the
+right on $N$; on our reading, it also means that the computation evaluates the quartic on the linear slice. For even $n$, Lemma~10 makes the
 straight-line $t^4$ coefficient of~\cite[p.~21]{MT} the linear-slice quartic. For odd $n$, the printed
 numbers evaluate the linear-slice quantity, by~\eqref{eq:dictlin} and the ratio test below. The two
 quantities differ:
@@ -877,8 +881,7 @@ n=7:\ \ c_4=\tfrac9{14}\ \text{(level set)}\ \text{vs.}\ c_4^{\rm lin}=\tfrac67;
 n=8:\ \ c_4=\tfrac{95}{56}=1.6964\ \text{vs.}\ c_4^{\rm lin}=2.2779 .
 \]
 Table~\ref{tab:c4} shows the difference for every $n$ computed. The linear-slice value is smaller for
-$n=4,5$ and larger for $n\ge6$, so in principle a linear-slice computation could report stability when the
-reduced Hamiltonian has no minimum. For the vortex ring both quantities are positive at every $n$ in
+$n=4,5$ and larger for $n\ge6$, so in general the two need not have the same sign. For the vortex ring both quantities are positive at every $n$ in
 Table~\ref{tab:c4}, and $c_4>0$ for all $n$, so no conclusion of~\cite{MT} changes.
 
 \paragraph{P2: the weights of Lemma~8 in~(3.9).} Lemma~8~\cite[p.~19]{MT} requires $Ca^3=0$ and
@@ -888,9 +891,10 @@ $Da^4+6Ca^2b+3Bb^2>0$. On p.~23, ``the key quantity $Da^4+Ca^2b+Bb^2$ becomes, o
 =\delta\Big|z^2+\frac\gamma\delta\bar w\Big|^2+\frac{\beta\delta-\gamma^2}{\delta}|w|^2
 \qquad\text{\cite[(3.9)]{MT}},
 \]
-and the criterion is stated as $\beta\delta>\gamma^2$. This omits the weights $6$ and $3$ of Lemma~8. With the
-dictionary above, the weighted quantity is~\eqref{eq:lemma8}, so the criterion becomes
-$\delta-3\gamma^2/\beta>0$, i.e.\ $\beta\delta>3\gamma^2$.
+and the criterion is stated as $\beta\delta>\gamma^2$. As displayed, this combination does not carry the
+weights $6$ and $3$ of Lemma~8; we take them to be intended. With the dictionary above, the weighted quantity
+is~\eqref{eq:lemma8}, and the corresponding criterion is $\delta-3\gamma^2/\beta>0$, i.e.\
+$\beta\delta>3\gamma^2$.
 
 \emph{Ratio test.} The ratio $(\delta-k\gamma^2/\beta)/\delta$ does not change if $\widehat H$ or the bases of
 $V_c$ and $V_1'$ are rescaled. It can therefore be compared directly with our $c_4^{\rm lin}/q_4$ and
@@ -911,7 +915,8 @@ $c_4/q_4$ (level set)\\
 At $n=9,11$ the printed values have three or four significant figures. Script:
 \code{review/p2_ratio_test.py}, output \code{review/p2_ratio_test.out}. With Lemma~8's weights, the printed
 numbers reproduce our linear-slice ratio exactly at $n=7$, and to the printed precision at $n=9$ and $11$.
-The unweighted combination of~(3.9) matches neither of our columns. Three points of detail follow.
+The unweighted combination matches neither of our columns, which is why we read the weights as intended.
+Three points of detail follow.
 
 (a) Montaldi and Tokieda do not print the number $6/7$. It is our computation of $c_4^{\rm lin}$ at $n=7$.
 Their printed values reproduce it through~\eqref{eq:dictlin}:
@@ -920,13 +925,13 @@ $\delta-3\gamma^2/\beta=\frac{1071}{8\pi}-3\big(\frac{63}{4\pi}\big)^2\big/\frac
 
 (b) An alternative reading. At $n=7$, $\delta-\gamma^2/\beta=441/(4\pi)$, and $441/4=\frac{7^3}2\cdot\frac9{14}$.
 This suggests that the unweighted combination might be the level-set value $c_4=9/14$ under a scale
-$n^3/(2\pi)$. It is not. The scale is fixed by $\delta$: by~\eqref{eq:dict}, $\delta/q_4=3n^2/(2\pi)=147/(2\pi)$
+$n^3/(2\pi)$. The numbers do not support this reading. The scale is fixed by $\delta$: by~\eqref{eq:dict}, $\delta/q_4=3n^2/(2\pi)=147/(2\pi)$
 at $n=7$, not $343/(2\pi)$. Under that scale $\delta-\gamma^2/\beta$ corresponds to $3/2$, not $9/14$. In
-normalisation-free form, $(\delta-\gamma^2/\beta)/\delta=14/17$, while $c_4/q_4=6/17$. The same reading also
-fails at $n=9$: there $\delta-\gamma^2/\beta=182.4-13.8^2/6.9=154.8$, whereas $\frac{n^3}{2\pi}c_4=\frac{729}{2\pi}
-\cdot\frac{19}{12}\approx183.7$ (and $\frac{3n^2}{2\pi}c_4\approx61.2$). The agreement at $n=7$ is a coincidence.
+normalisation-free form, $(\delta-\gamma^2/\beta)/\delta=14/17$, while $c_4/q_4=6/17$. Nor does the reading
+fit at $n=9$: there $\delta-\gamma^2/\beta=182.4-13.8^2/6.9=154.8$, whereas $\frac{n^3}{2\pi}c_4=\frac{729}{2\pi}
+\cdot\frac{19}{12}\approx183.7$ (and $\frac{3n^2}{2\pi}c_4\approx61.2$). The agreement at $n=7$ appears to be a numerical coincidence.
 
-(c) The conclusions survive. With the weights, the printed numbers give $\beta\delta-3\gamma^2=661.5/\pi^2$
+(c) The conclusions are unaffected. With the weights, the printed numbers give $\beta\delta-3\gamma^2=661.5/\pi^2$
 ($n=7$), about $687$ ($n=9$) and about $4015$ ($n=11$), in the units of~\cite{MT}. All are positive,
 consistent with $c_4^{\rm lin}>0$ in Table~\ref{tab:c4}. In any case Theorem~\ref{thm:odd} gives $c_4>0$ on the
 level set.
@@ -937,15 +942,15 @@ the same page gives $\beta\approx1.092/r_0^2$ at $n=5$ ($\kappa=1$, $\lambda r_0
 $n=7,9,11$ it reproduces the printed $\beta$. Our direct evaluation at $n=5$ gives $\beta\approx1.092$,
 $|\gamma|\approx1.085$ and $\delta\approx5.679$; with these, $(\delta-3\gamma^2/\beta)/\delta=0.4302=c_4^{\rm lin}/q_4$.
 The printed values give $0.5818$ (weighted) and $0.8606$ (unweighted). These match neither
-$c_4^{\rm lin}/q_4=0.4302$ nor $c_4/q_4=0.4730$. We cannot reconcile the printed $n=5$ values with the
-formulas, so we do not use them. The conclusion for $n=5$ does not depend on them: Theorem~\ref{thm:odd} gives
+$c_4^{\rm lin}/q_4=0.4302$ nor $c_4/q_4=0.4730$. We have not been able to reconcile the printed $n=5$
+values with these formulas, and we may be missing a convention specific to that case; we do not use them. The conclusion for $n=5$ does not depend on them: Theorem~\ref{thm:odd} gives
 $c_4=9/40>0$, and $c_4^{\rm lin}\approx0.2047>0$ as well.
 
 \paragraph{P3: the printed even-$n$ bracket $T$.} We recomputed symbolically the straight-line
 expansion $z_j=(r_0+(-1)^jt)e^{2\pi ij/n}$ of~\cite[\S3.5.1, p.~21]{MT}. Our $t^4$ coefficient agrees with an
 independent 40-digit evaluation to 15 digits, but differs from the printed bracket $T$ (p.~21) by a small
 relative amount: $+0.10\%$ at $n=8$, $+0.49\%$ at $n=10$, $+0.06\%$ at $n=6$ and $-1.8\%$ at $n=4$ (printed
-value relative to ours). This looks like a transcription issue. It changes no sign, and the even-$n$
+value relative to ours). The differences are small and may come from rounding or transcription. They change no sign, and the even-$n$
 conclusion is in any case re-proved by Theorem~\ref{thm:even}.
 
 %======================================================================

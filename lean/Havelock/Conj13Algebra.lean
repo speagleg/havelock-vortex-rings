@@ -47,7 +47,7 @@ FORMALISED (no `sorry`; axioms: propext, Classical.choice, Quot.sound only)
 * `c4even_pos`, `c4odd_pos`, `even_quartic_pos`, `odd_quadratic_disc`: sign facts.
 * `table_values`      all 22 rationals of Table 1 (n = 4..25), exactly over ℚ;
                       `table_n7` (`9/14` at b₇ = 0), `table_n8` (`95/56` at b₈ = 3√7−8).
-§6 Remarks P1, P2 (paper sec:remarks)
+§6 Comparison P1, P2 (paper sec:remarks)
 * `P1_n7`             `9/14 < 6/7`.
 * `P1_n8`             linear-slice value at n = 8 is exactly `(199−27√7)/56 ∈ (2.2779, 2.2780)`, `> 95/56`.
 * `P1_even_rows`      linear-slice column, n = 4, 6, 10: `(9−2√3)/24 < 1/4`, `(341−64√5)/240 > 23/30`,
@@ -860,7 +860,7 @@ theorem table_n7 : C4AtThreshold 7 (9 / 14) := by
   rw [table_values.2.2.2.1] at this
   convert this using 1; norm_num
 
-/-! ## §6. Remarks P1, P2 on the published argument (paper sec:remarks) -/
+/-! ## §6. Comparison P1, P2 with the published argument (paper sec:remarks) -/
 
 /-- **P1, `n = 7`**: level-set `c₄ = 9/14` versus the linear-slice value `6/7`. (The value `6/7`
 itself is the engine's linear-slice minimum, not derived here; see P2 for its consistency with
@@ -930,7 +930,7 @@ theorem P1_even_rows :
       (by norm_num)) (by norm_num)]
     ring_nf; simp only [h5, f3, f4, f5]; ring
 
-/-- **P2 (factor 3 in MT (3.9))**: Lemma 8's weights `Da⁴ + 6Ca²b + 3Bb²` complete to
+/-- **P2 (Lemma 8's weights in MT (3.9))**: Lemma 8's weights `Da⁴ + 6Ca²b + 3Bb²` complete to
 `D − 3C²/B` (for `B > 0`), whereas the printed form `δ + 2γx + βx²` completes to `δ − γ²/β`. -/
 theorem P2_complete_square (B C D : ℝ) (hB : 0 < B) :
     IsLeast {y | ∃ x : ℝ, y = D + 6 * C * x + 3 * B * x ^ 2} (D - 3 * C ^ 2 / B) ∧

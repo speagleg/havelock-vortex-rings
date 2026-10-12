@@ -36,7 +36,7 @@ Conjecture 13 says that the ring is still stable *at* b_n.
 | Closed form, odd n ≥ 5: c₄ = (n−1)(n−3)(n²−9n+38)/(128n). Positivity is immediate (discriminant −71). The formula vanishes at n = 3, which is why n = 3 rests on Montaldi–Tokieda's own argument. | PROVED; the algebra is Lean-checked |
 | Exact table of c₄ for n = 4–25 | PROVED (Lean, exact over ℚ), plus an independent check modulo three 61-bit primes |
 | The series coefficients h₂, h₄, f₂, E_ij that the closed forms start from | Computer algebra (sympy). Derived twice independently and printed in the paper; **not** Lean-checked |
-| Remarks P1/P2 (paper §7) on intermediate steps of the published argument: the published method evaluates the quartic on a linear slice rather than the level set (6/7 against 9/14 at n = 7), and the weights of their Lemma 8 give δ − 3γ²/β. Their conclusions are correct. | Our direct recomputation reproduces their printed β, γ, δ to every printed digit at n = 7, 9, 11 (`conj13/review/p2_mt_coeffs.py`). The normalisation-free ratio test is `conj13/review/p2_ratio_test.py` |
+| A comparison with intermediate steps of the published argument (paper §7, notes P1–P3), on our reading of it: their computation evaluates the quartic on a linear slice rather than the level set (6/7 against 9/14 at n = 7), and with the weights of their Lemma 8 the key combination is δ − 3γ²/β. None of this affects their conclusions, which our results confirm. | Our direct recomputation reproduces their printed β, γ, δ to every printed digit at n = 7, 9, 11 (`conj13/review/p2_mt_coeffs.py`). The normalisation-free ratio test is `conj13/review/p2_ratio_test.py` |
 
 ## 2. The tanh (Kimura) model on the hyperbolic plane
 
@@ -58,7 +58,7 @@ qualitative picture are hers. Hwang–Kim (2013) is closed access and unread; it
 | ξ*(8) is an algebraic unit of degree 10; ξ*(9)–ξ*(16) are not algebraic integers | Unit property: Lean. Degree and non-integrality: PARI |
 | For odd N = 9, 11, 13, 15, a "Krein window" lies between the spectral threshold and the energy–momentum threshold. In it the ring is linearly (spectrally) stable; nonlinear stability is undecided. Width 3.22×10⁻⁸ at N = 9. | Non-emptiness for N = 9, 11, 13, 15 is Lean-checked; the widths are CERTIFIED |
 | Large N: cosh r* / N → κ∞ = 0.1343122142726… | NUMERICAL. κ∞ is a computed root of an explicit equation obtained by a formal limit. The convergence is supported numerically up to N = 800 but not proved; the 0.541/N correction is a fit |
-| Boatto's equations, implemented as written, reproduce our ξ*(8) to 10⁻⁴¹ and ξ_EM(9) exactly. Her plotted K < 0 curves (Fig. 5a/5b) match the pair law −ln sinh D, i.e. her eq. (17) with one sign flipped. | NUMERICAL comparison (digitised figure, ±0.002 in K); `tanh/boatto_check/RESULT.md` |
+| Boatto's equations, implemented as written, reproduce our ξ*(8) to 10⁻⁴¹ and ξ_EM(9) exactly. Her plotted K < 0 curves (Fig. 5a/5b) appear to match the pair law −ln sinh D instead, i.e. her eq. (17) with one sign flipped; her qualitative conclusions are unaffected. | NUMERICAL comparison (digitised figure, ±0.002 in K); `tanh/boatto_check/RESULT.md` |
 
 Thresholds for N = 8–16 (ξ = tanh²(r/2), r the hyperbolic ring radius, curvature −1):
 

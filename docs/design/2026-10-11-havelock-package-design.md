@@ -172,7 +172,7 @@ and it never needs the code that produced the certificate.
    - the tanh table, N = 8–16: ξ* to 25 digits, degrees, leading coefficients and critical modes.
 2. **Independent cross-check.** For several N and parameter values in every model, the exact block eigenvalues must equal
    those of a brute-force finite-difference Hessian of the full 2N-dimensional system, with momentum handled
-   correctly. This is the guard against a Boatto-type modelling error.
+   correctly. This guards against a modelling mismatch of the kind investigated in `tanh/boatto_check/`.
 3. **Certificate round-trip.** Generating a certificate and then verifying it must pass. A corrupted certificate (a
    shifted endpoint, a changed coefficient, or a flipped mode sign) must fail.
 4. **Lean export.** In CI, generate the N = 8 certificate and compile it against the Lean library.

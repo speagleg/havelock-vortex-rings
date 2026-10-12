@@ -12,10 +12,11 @@ our tanh thresholds predict K = −0.282 and −0.489. Three explanations were c
   - eq. (17): H = c Σ ln((d−1)/(d+1)), with d = cosh(√|K| D) from eq. (19)/(22);
   - she monitors the minimum non-rotational eigenvalue of the full Hessian of H̃ = H + νM in canonical (q, p).
 - Implemented faithfully from those equations, her computation gives **our** thresholds to all digits.
-- Her **Fig. 5a/5b on the hyperbolic side (K < 0)** were not produced with eq. (17). They match, point by point, the pair law
+- Her **Fig. 5a/5b on the hyperbolic side (K < 0)** do not appear to have been computed with eq. (17). They match, point by point, the pair law
   c Σ ln((d−1)(d+1)) = −(1/2π) Σ ln sinh(√|K| D),
   which is eq. (17) with the sign of the H2 = −c Σ ln(1+d) term flipped. The pair interaction is −ln sinh of the **full** distance.
 - The discrepancy is therefore consistent with a sign difference in the pair law used for the plotted K < 0 curves.
+  It does not affect her qualitative conclusions, which our results confirm; we may also have misread a convention.
   Her stated equations do not produce those curves; they produce our thresholds.
 - Her K > 0 (punctured-sphere, tan) curves agree with her equations.
 - The discrepancy is **not** (a), a mapping error: the map K = −r² is correct.

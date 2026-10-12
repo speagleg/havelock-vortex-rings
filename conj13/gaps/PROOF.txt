@@ -222,6 +222,6 @@ Dependencies:
  - even n: complete (Prop. 1, Thm 2, and the doubly-read exact c4_even);
  - odd n: complete modulo an independent second reading of the symbolic odd-n c4 derivation
    (review/odd_general*.py).
-n = 7 recovers Kurakin-Yudovich (2002) and MT Cor. 7 with a corrected proof.
+n = 7 recovers Kurakin-Yudovich (2002) and MT Cor. 7 by an independent route.
 
 Files: PROOF.txt (this), spectral_check.py/.out (gap i), nearby_momentum.py/.out (gap ii illustration).

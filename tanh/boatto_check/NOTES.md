@@ -44,14 +44,14 @@ Page numbers below are the journal's.
 - p. 363: "we (numerically) monitor the maximum and the minimum eigenvalues of S̃ … stability is assured when the minimum eigenvalue of S is positive … for N ≥ 7, we can only assure stability for sufficiently negative K."
 - Fig. 5a caption (p. 363): "minimum eigenvalue of the Hessian S versus the curvature K".
 - Her criterion counts every non-rotational eigenvalue, including the breathing mode m = 0. That mode is always positive here (4πP_0 ≈ 9–16). So her criterion is the same as our energy–momentum (Hessian-definiteness) test.
-- Minor slip: the published remark says "λ_G1 = 0 & λ_P1 = 0 → λ_1 = 0", but the rotation zero is in Q, i.e. λ_Q1 = 0. The preprint, p. 17, prints λ_Q1, which is correct.
+- Small typographical point: the published remark reads "λ_G1 = 0 & λ_P1 = 0 → λ_1 = 0"; the rotation zero is in Q, and the preprint, p. 17, prints λ_Q1.
 
 ## Map K ↔ ξ (task 2)
 r_o = 1 geodesic, so the curvature −1 radius is r = √(−K) and
 
     ξ = tanh²(√(−K)/2),        K = −(2 artanh √ξ)² = −r².
 
-This is the map the previous agent used. It is correct.
+This is the map used in the comparison; it was re-derived independently here.
 
 ## Figure digitization
 - Fig. 5a: rendered at 600 dpi (`fig/hi-15.png`, crop `fig/fig5a_crop.png`) and digitized by curve colour (`digitize_fig5a.py`). The axis frame is K ∈ [−0.6, 0.6], values in [−5, 5].

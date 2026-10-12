@@ -68,7 +68,7 @@ add('even_exact', 'conj13', ['even_exact.py'], 'conj13/out/even_exact.out', 'fas
 add('even_formula', 'conj13', ['even_formula.py'], 'conj13/out/even_formula.out', 'fast', 'exact',
     'Conj13 paper: even-n c4 closed form (n-2)(m^4+40m^2+48m+16)/(192n(n-1)) on the threshold')
 add('mt_n7_check', 'conj13', ['mt_n7_check.py'], 'conj13/out/mt_n7_check.out', 'fast', 'numerical',
-    'Conj13 paper P2: MT n = 7 ratio 14/17 vs corrected 8/17; 9/14 level-set value')
+    'Conj13 paper P2: MT n = 7 ratio 14/17 unweighted vs 8/17 with Lemma 8 weights; 9/14 level-set value')
 add('tanh_even_exact', 'conj13', ['tanh_even_exact.py'], 'conj13/out/tanh_even_exact.out', 'medium',
     'certified-interval', 'derivation.txt: tanh n = 8, 10, 12 threshold polynomial and Arb sign of h4')
 for n in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15):

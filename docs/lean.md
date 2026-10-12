@@ -46,7 +46,7 @@ build the modules one at a time, as CI does.
   - **Thresholds b_n for all n ≥ 4.** It proves the closed form, that b_n is the unique root in (−1, 1], and the geometry split: sphere for n ≤ 6, plane at n = 7, H² for n ≥ 8.
   - **Spectral algebra.** It proves the Fejér sum identity Σ(1−cos 2πml/n)/(1−cos 2πl/n) = m(n−m) and finds the kernel mode and spectral gap, including 3/2 at n = 4 and 8/3 at n = 5.
   - **The c₄ closed forms, symbolically in n.** The even and odd closed forms are derived from the printed level-set coefficients, and c₄ > 0 at the true threshold for every n ≥ 4. Table 1 (n = 4–25) is exact over ℚ.
-  - **The corrections to Montaldi–Tokieda.** The P1 comparisons are exact: 9/14 < 6/7 at n = 7, and (199 − 27√7)/56 > 95/56 at n = 8. The P2 factor-of-3 lemma is also proved.
+  - **The comparison with Montaldi–Tokieda (paper §7).** The P1 comparisons are exact: 9/14 < 6/7 at n = 7, and (199 − 27√7)/56 > 95/56 at n = 8. The P2 completing-the-square identity with Lemma 8's weights is also proved.
   - **Not formalised:** the Taylor-coefficient inputs (h₂, h₄, f₂, E_ij) are taken from the paper as definitions; they were derived by computer algebra and checked mod p. The energy–momentum and dynamics argument (§ nonlinear) is not formalised either.
 - `Havelock/TanhAlgebra.lean` (with `Havelock/Tanh/*`): the exact-algebra layer of the tanh note, with no `sorry`. Only the standard axioms are used.
   - **For all N and m:** the W_k closed form (`HasSum`), the compact a_m, the reciprocity a_m(1/ξ) = a_m(ξ), the even-N threshold equation, and the linearisation's characteristic polynomial.

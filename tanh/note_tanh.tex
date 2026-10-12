@@ -74,11 +74,12 @@ two thresholds. Her criterion is Hessian definiteness, i.e.\ our energy--momentu
 geodesic radius $1$ while $K$ varies, so $K=-r^2$ with $\xi=\tanh^2(r/2)$. Implemented as written, her equations
 (14), (17) and (31) reproduce our thresholds exactly: $K_*(8)=-0.28218454857650$, i.e.\ $\xi_*(8)$ to $10^{-41}$, and
 $K_{\rm EM}(9)=-0.48869837$, i.e.\ our $\xi_{\rm EM}(9)$, including the certified gap $\xi_{\rm EM}-\xi_*=3.22\cdot10^{-8}$.
-Her Fourier blocks equal ours up to $m$-independent factors. The zero crossings in her Fig.~5a, however, lie at
+Her Fourier blocks equal ours up to $m$-independent factors. The zero crossings in her Fig.~5a lie slightly elsewhere, at
 $K\approx-0.2465$ ($N=8$) and $-0.3964$ ($N=9$), digitised to $\pm0.002$. These are reproduced to plotting accuracy by the pair
 law $-\ln\sinh D$ ($D$ the full geodesic distance), i.e.\ her eq.~(17) with the sign of the $\ln(d+1)$ term flipped,
-which gives $-0.24656$ and $-0.39692$. We therefore attribute the difference to her numerics rather than to the model;
-her $K>0$ curves agree with her equations. Details and scripts: \texttt{tanh/boatto\_check/}.
+which gives $-0.24656$ and $-0.39692$. The difference therefore seems to lie in the computation behind the plotted
+$K<0$ curves rather than in the model, and it leaves her qualitative conclusions unchanged; her $K>0$ curves agree
+with her equations. We may of course have misread her conventions. Details and scripts: \texttt{tanh/boatto\_check/}.
 \item Montaldi--Nava-Gaxiola~\cite{MNG} and Nava-Gaxiola's thesis~\cite{NG} use the same Hamiltonian but analyse only
 $N=2,3$. Both point to Hwang--Kim~\cite{HK} for rings.
 \item Hwang--Kim 2013~\cite{HK}: we saw only the abstract (``the configuration of rings of vortices is investigated
@@ -545,7 +546,8 @@ hard-wall condensate.
 \begin{itemize}
 \item \textbf{Literature.} Boatto~\cite{Boatto} computed the stability ranges of this model numerically, with the same
 block structure (\S\ref{sec:motivation}). Her equations reproduce our values exactly; her plotted $K<0$ curves
-correspond to a different pair law (\S\ref{sec:motivation}), an attribution a specialist should confirm. Kimura~\cite{Kimura} and
+appear to correspond to a different pair law (\S\ref{sec:motivation}), a reading a specialist should
+confirm. Kimura~\cite{Kimura} and
 Hwang--Kim 2013~\cite{HK} could not be obtained beyond their abstracts. A human with journal access needs to check
 (i)~which Hamiltonian Kimura uses (the tanh attribution here rests on~\cite{MT,MNG,NG,Boatto}) and (ii)~whether
 Hwang--Kim 2013 already contains ring stability thresholds for this model. Until then, the novelty claim in

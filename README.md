@@ -45,8 +45,8 @@ tractable analytically".
 - Each threshold is a root of an irreducible palindromic integer polynomial. The thresholds are certified to 25 digits
   for N ≤ 16.
 - ξ*(8) is an algebraic unit of degree 10.
-- Boatto's equations reproduce our values exactly, but her published hyperbolic-plane curves do not. The note explains
-  why.
+- Implemented as written, Boatto's equations reproduce our values exactly. Her plotted hyperbolic-plane curves sit
+  slightly elsewhere; the note discusses a likely reason, which leaves her qualitative conclusions unchanged.
 
 Note: [tanh/note_tanh.pdf](tanh/note_tanh.pdf).
 

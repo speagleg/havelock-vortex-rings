@@ -55,7 +55,7 @@ Relevant MT machinery (verbatim excerpts, p.19-23):
 - Plane n = 7: Kurakin & Yudovich, Chaos 12 (2002) 574-595 (abstract read via Crossref: "we prove that for
   n=7 the nonlinear stability still takes place"); Schmidt (cited by MT). The value "quartic coefficient
   63/16" could NOT be checked: the KY paper is paywalled and I did not read it. (Observation only:
-  MT's own n=7 numbers, corrected as in Sec. 3, give 189/(4 pi) for the true reduced quartic in MT units,
+  MT's own n=7 numbers, with Lemma 8's weights as in Sec. 3, give 189/(4 pi) for the true reduced quartic in MT units,
   and 189/48 = 63/16; this is a normalisation coincidence until someone reads KY.)
 - Sphere n = 4, 5, 6 at the critical latitude: Borisov & Kilin, RCD 5 (2000) (arXiv nlin/0503068, read):
   "The problem of stability at theta0 = theta0* at N = 4, 5 and 6 requires separate analysis with
@@ -109,12 +109,12 @@ and on the curve g(u_pm) = g0 +- tau, g(u) = u/(1+lambda u), everything is eleme
     n=7 : level set 9/14,                    linear slice 6/7.
   The linear-slice quantity is not the reduced Hamiltonian's quartic coefficient, so Prop. 9 as stated
   does not apply. The coefficient that does decide stability is the level-set c4.
-(P2) Factor 3 in (3.9). With Lemma 8's own weights the completed square is delta - 3 gamma^2/beta, not
-  delta - gamma^2/beta. Check: with MT's n=7 values, (delta - 3gamma^2/beta)/delta = 8/17, which is exactly
+(P2) Weights in (3.9). With Lemma 8's weights the completed square is delta - 3 gamma^2/beta (the display
+  in (3.9) shows delta - gamma^2/beta; we read the weights as intended). Check: with MT's n=7 values, (delta - 3gamma^2/beta)/delta = 8/17, which is exactly
   the ratio (linear-slice min)/(straight line) = (6/7)/(51/28) computed independently by engine.py
-  (mt_n7_check.out). MT's printed ratio is 14/17. MT's n = 5, 9, 11 numbers stay positive after the correction
+  (mt_n7_check.out). MT's printed ratio is 14/17. MT's n = 5, 9, 11 numbers stay positive with the weights
   (beta delta - 3gamma^2 = 341, 687, 4015 in their units).
-(P3, minor) MT's printed even-n t^4 coefficient T does not match our symbolic recomputation of the same
+(P3, minor) MT's printed even-n t^4 coefficient T differs slightly from our symbolic recomputation of the same
   straight-line expansion. The relative difference is 9b^2(...)/(...), i.e. 0.1% at n=8 and 0.5% at n=10.
   Our version agrees with engine.py to 15 digits. It does not affect any sign.
 
@@ -233,7 +233,7 @@ engine.py                               40-digit Cartesian engine: constrained H
                                         linear-slice effective quartic (no symmetry assumptions)
 reduced_quartic.py / out/rq_*.out       full minimisation: MT n = 4..13, 15; tanh n = 8
 reduced_quartic_fast.py / out/rqf_*.out odd n up to 25 (modes 0, 1, kernel only; validated against full)
-mt_n7_check.py / out/mt_n7_check.out    reproduces MT's n=7 ratio after the factor-3 correction
+mt_n7_check.py / out/mt_n7_check.out    reproduces MT's n=7 ratio with Lemma 8's weights
 tanh_even_exact.py / out/tanh_even_exact.out   tanh n = 8, 10, 12: threshold polynomial, h4, Arb sign
 integrate.py / out/int_*.out, out/D_*.npy, out/integration_summary.out   direct integrations
 test_engine.py                          early engine smoke test (heptagon)
