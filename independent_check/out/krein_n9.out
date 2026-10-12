@@ -1,0 +1,6 @@
+xi*+ -1e-8  (#neg reduced-Hessian eigs, min eig, max|Re lambda|): (2, '-1.4627e-5', '0.00488')
+xi*+ 1e-9  (#neg reduced-Hessian eigs, min eig, max|Re lambda|): (2, '-1.0814e-5', '1.36e-24')
+xi*+ 1.6e-8  (#neg reduced-Hessian eigs, min eig, max|Re lambda|): (2, '-5.6148e-6', '4.1e-25')
+xi*+ 3.0e-8  (#neg reduced-Hessian eigs, min eig, max|Re lambda|): (2, '-7.6206e-7', '1.08e-24')
+xi*+ 3.4e-8  (#neg reduced-Hessian eigs, min eig, max|Re lambda|): (0, '7.3346e-49', '7.07e-25')
+xi*+ 1e-7  (#neg reduced-Hessian eigs, min eig, max|Re lambda|): (0, '-2.0903e-49', '5.91e-25')

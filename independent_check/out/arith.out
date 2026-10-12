@@ -1,0 +1,9 @@
+N= 8 deg=10 lead=  1 palindromic=True irreducible(Q)=True unit=True roots in (0,1)=1 match_table=True  #roots off unit circle=6
+N= 9 deg=16 lead=  4 palindromic=True irreducible(Q)=True unit=False roots in (0,1)=1 match_table=True  #roots off unit circle=12
+N=10 deg=12 lead=  7 palindromic=True irreducible(Q)=True unit=False roots in (0,1)=1 match_table=True  #roots off unit circle=8
+N=11 deg=20 lead= 10 palindromic=True irreducible(Q)=True unit=False roots in (0,1)=1 match_table=True  #roots off unit circle=16
+N=12 deg=16 lead=  7 palindromic=True irreducible(Q)=True unit=False roots in (0,1)=1 match_table=True  #roots off unit circle=10
+N=13 deg=24 lead= 18 palindromic=True irreducible(Q)=True unit=False roots in (0,1)=1 match_table=True  #roots off unit circle=20
+N=14 deg=18 lead= 23 palindromic=True irreducible(Q)=True unit=False roots in (0,1)=1 match_table=True  #roots off unit circle=12
+N=15 deg=28 lead= 28 palindromic=True irreducible(Q)=True unit=False roots in (0,1)=1 match_table=True  #roots off unit circle=24
+N=16 deg=22 lead= 17 palindromic=True irreducible(Q)=True unit=False roots in (0,1)=1 match_table=True  #roots off unit circle=14

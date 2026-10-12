@@ -77,6 +77,7 @@ and on any main theorem that depends on an axiom other than `propext`, `Classica
 | `docs/` | [results.md](docs/results.md): every claim with its status. [lean.md](docs/lean.md). Package docs: [quickstart.md](docs/quickstart.md), [models.md](docs/models.md), [certificates.md](docs/certificates.md). |
 | `src/` | The `havelock` Python package (`src/havelock`) |
 | `tests/` | The package's pytest suite |
+| `independent_check/` | A from-scratch second-reader check of both results (no shared code), with its outputs; see its README |
 | `literature.md` | What we read, and how much of it (full text or abstract only) |
 | `scripts/`, `REPRODUCE.md` | The reproduction driver and the table of every recorded output |
 

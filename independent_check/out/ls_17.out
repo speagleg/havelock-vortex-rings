@@ -1,0 +1,8 @@
+sinh N=17 xi*=0.30333704529042344577 RE residual 3.67e-39
+smallest |eig| of reduced Hessian: ['-8.6631e-39', '-8.9641e-39', '-2.0972e-38', '6.5933', '6.5933']
+signs of the rest: min 6.5933 max 237.36
+kernel dimension (excluding rotation): 2
+kernel angle 0/8 pi: E(s)/s^4 at s=+2e-3,-2e-3,+1e-3: ['194.6617126', '194.6617126', '194.6640427']
+kernel angle 1/8 pi: E(s)/s^4 at s=+2e-3,-2e-3,+1e-3: ['194.6617126', '194.6617126', '194.6640427']
+kernel angle 2/8 pi: E(s)/s^4 at s=+2e-3,-2e-3,+1e-3: ['194.6617126', '194.6617126', '194.6640427']
+kernel angle 3/8 pi: E(s)/s^4 at s=+2e-3,-2e-3,+1e-3: ['194.6617126', '194.6617126', '194.6640427']
