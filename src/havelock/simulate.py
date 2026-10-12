@@ -67,6 +67,7 @@ def simulate(model: str, N: int, value, *, perturb: float = 1e-4, t_end: float =
     Z = sol.y[:N].T + 1j * sol.y[N:].T
     q0 = pairq(ring)
     D = np.array([np.max(np.abs(pairq(z) - q0)) for z in Z])
+    D[0] = np.max(np.abs(pairq(z0) - q0))  # from the initial condition itself, not the solver's first sample
     Hs = np.array([H(z) for z in Z])
     Js = np.array([J(z) for z in Z])
     e_drift = float(np.max(np.abs(Hs - Hs[0])) / max(1.0, abs(Hs[0])))
