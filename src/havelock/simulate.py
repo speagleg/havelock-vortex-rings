@@ -10,7 +10,7 @@ import mpmath as mp
 import numpy as np
 from scipy.integrate import solve_ivp
 
-from .errors import InvalidInput
+from .errors import InvalidInput, OutOfValidityRange
 from .limits import DRIFT_FACTOR, SIM_SAMPLES, WORK_DPS
 from .models import check_N, get_model, to_fraction
 from .status import Simulation, Status, make_provenance
@@ -22,13 +22,41 @@ def _positive(name, x, upper=math.inf):
     return float(x)
 
 
+def _chart_limit(mdl, v: float) -> tuple[float, str]:
+    """Largest admissible chart radius |z| (exclusive) and its meaning: the Poincare disk |z| < 1 (tanh), the
+    chart singularity 1 + lam_r2 |z|^2 > 0 (MT family with lam_r2 < 0); none on the sphere and the plane."""
+    if mdl.family == "tanh":
+        return 1.0, "the Poincare disk |z| < 1"
+    if v < 0:
+        return 1.0 / math.sqrt(-v), f"1 + lam_r2 |z|^2 > 0, i.e. |z| < {1.0 / math.sqrt(-v):.6g}"
+    return math.inf, ""
+
+
+def _phase_space_violation(z, limit: float, where: str) -> str | None:
+    """None if the configuration z (N vortices) lies in the phase space (finite, inside the chart limit, no two
+    vortices at the same point), else a description."""
+    if not np.all(np.isfinite(z)):
+        return "a coordinate is not finite"
+    r = float(np.max(np.abs(z)))
+    if not r < limit:
+        return f"max |z| = {r:.6g} violates {where}"
+    d = np.abs(z[:, None] - z[None, :])
+    np.fill_diagonal(d, np.inf)
+    if not np.min(d) > 0:
+        return "two vortices coincide"
+    return None
+
+
 def simulate(model: str, N: int, value, *, perturb: float = 1e-4, t_end: float = 100.0, rtol: float = 1e-12,
              seed: int | None = None) -> Simulation:
     """Integrate the ring at `value`, perturbed by relative amplitude `perturb`: along the critical radial mode
     floor(N/2) when seed is None, otherwise by a Gaussian perturbation of every coordinate (numpy seed). DOP853
     with atol = rtol/100. The deviation D(t) is max over pairs of |q_ij(t) - q_ij(ring)| for the model's pair
-    invariant q; `growth` = max D / D(0) (NaN when perturb = 0). Energy and momentum drifts are relative to max(1, |initial|) and are
-    expected below drift_tolerance = 1e3 rtol."""
+    invariant q; `growth` = max D / D(0) (NaN when perturb = 0). Energy and momentum drifts are relative to
+    max(1, |initial|) and are expected below drift_tolerance = 1e3 rtol. Raises InvalidInput if the perturbed
+    initial state leaves the phase space (tanh: |z| < 1; MT family with lam_r2 < 0: 1 + lam_r2 |z|^2 > 0; no
+    coinciding vortices), and OutOfValidityRange if a sample of the computed trajectory does, or a drift is not
+    finite."""
     t0 = time.perf_counter()
     mdl = get_model(model)
     N = check_N(N)
@@ -53,6 +81,10 @@ def simulate(model: str, N: int, value, *, perturb: float = 1e-4, t_end: float =
     else:
         rng = np.random.default_rng(seed)
         z0 = ring + perturb * rho * (rng.standard_normal(N) + 1j * rng.standard_normal(N))
+    limit, where = _chart_limit(mdl, vf)
+    bad = _phase_space_violation(z0, limit, where)
+    if bad:
+        raise InvalidInput(f"the perturbed initial state is outside the phase space ({bad}); use a smaller perturb")
 
     def rhs(t, y):
         z = y[:N] + 1j * y[N:]
@@ -65,6 +97,11 @@ def simulate(model: str, N: int, value, *, perturb: float = 1e-4, t_end: float =
     if not sol.success:
         raise InvalidInput(f"integration failed: {sol.message}")
     Z = sol.y[:N].T + 1j * sol.y[N:].T
+    for i, z in enumerate(Z):
+        bad = _phase_space_violation(z, limit, where)
+        if bad:
+            raise OutOfValidityRange(f"the computed trajectory left the phase space at t = {sol.t[i]:.6g} ({bad}); "
+                                     "the integration is not reliable (try a smaller perturb or rtol)")
     q0 = pairq(ring)
     D = np.array([np.max(np.abs(pairq(z) - q0)) for z in Z])
     D[0] = np.max(np.abs(pairq(z0) - q0))  # from the initial condition itself, not the solver's first sample
@@ -72,6 +109,9 @@ def simulate(model: str, N: int, value, *, perturb: float = 1e-4, t_end: float =
     Js = np.array([J(z) for z in Z])
     e_drift = float(np.max(np.abs(Hs - Hs[0])) / max(1.0, abs(Hs[0])))
     j_drift = float(np.max(np.linalg.norm(Js - Js[0], axis=1)) / max(1.0, float(np.linalg.norm(Js[0]))))
+    if not (math.isfinite(e_drift) and math.isfinite(j_drift)):
+        raise OutOfValidityRange(f"energy or momentum drift is not finite (energy {e_drift}, momentum {j_drift}); "
+                                 "the integration is not reliable")
     growth = float(D.max() / D[0]) if D[0] > 0 else float("nan")
     return Simulation(status=Status.NUMERICAL,
                       basis=("scipy DOP853, rtol = %g, atol = rtol/100; Hamilton's equations of the model in its "

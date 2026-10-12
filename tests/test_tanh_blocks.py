@@ -52,7 +52,7 @@ def test_model_conversions():
         m.check_value(Fraction(1))
 
 
-# Spec 9.2 cross-check for the tanh model. Verified while planning (dps 40, h = 1e-10): absolute errors
+# Finite-difference cross-check for the tanh model. Verified while planning (dps 40, h = 1e-10): absolute errors
 # 5.8e-20 (N=5, 0.5), 7.2e-19 (N=8, 0.0673), 3.9e-19 (N=9, 0.2), 2.1e-18 (N=12, 0.9); relative <= 9e-20.
 @pytest.mark.parametrize("N,v", [(5, "0.5"), (8, "0.0673"), (9, "0.2"), (12, "0.9")])
 def test_fd_hessian_matches_tanh_blocks(N, v):
@@ -87,6 +87,7 @@ def test_tanh_stability(N, xi, verdict):
 def test_krein_window_is_explained():
     s = stability("tanh", 9, "0.11287108")      # xi*(9) = 0.1128710632... < 0.11287108 < xi_EM(9) = 0.1128710954...
     assert "Krein window" in s.basis
+    assert "hypotheses of a specific energy–momentum theorem have not been verified" in s.basis
     k = s.blocks[3]
     assert k.a > 0 and k.b > 0 and k.a * k.b - k.g ** 2 < 0
     assert all(abs(e.real) < 1e-25 for e in k.eigenvalues)

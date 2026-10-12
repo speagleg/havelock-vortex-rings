@@ -1,7 +1,7 @@
 #!/bin/bash
 # Re-runs every independent check and writes the outputs to out/.
 # Needs python with mpmath and sympy. Jobs run in parallel; the slowest (tanh N=16 bisection)
-# takes about 30 minutes on one core, the rest a few minutes each.
+# takes about 5 minutes, the rest a few minutes each.
 set -e
 cd "$(dirname "$0")"
 mkdir -p out

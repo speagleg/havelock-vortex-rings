@@ -1,7 +1,7 @@
 /-
 Havelock — Vortex-ring stability thresholds on H² (sinh model): the arithmetic core.
 
-Setting (proved on paper in sinh/note.tex, NOT formalised here):
+Setting (sinh/note.tex; derived from the Hamiltonian in `SinhModes.lean`, taken as given here):
 for the sinh model the N-ring is marginally stable at cosh² r* = q(N) with
   q(N) = (N−3)/4 (N odd),  q(N) = (N−2)²/(4(N−1)) (N even),
 and ξ* = tanh²(r*/2) = (√q − 1)/(√q + 1) satisfies ξ* + 1/ξ* = c(N) := 2 + 4/(q(N) − 1).
@@ -22,8 +22,10 @@ Formalised here (no `sorry`):
                             integer (rationality ⇒ not integral is the rational root theorem; stated
                             on paper, `not_isIntegral_one_seventh` formalises it for 1/7).
 
-NOT formalised: the dynamics (Hessian, Fourier block-diagonalisation, C₁ formula), and the converse
-"ξ* algebraic integer ⇒ c ∈ ℤ" for irrational ξ* (minimal-polynomial argument, on paper).
+The Hessian, its Fourier block-diagonalisation and the threshold q(N) ≤ cosh² r are derived in `SinhModes.lean`.
+NOT formalised anywhere in the library: the converse "ξ* algebraic integer ⇒ c ∈ ℤ" for irrational ξ*
+(minimal-polynomial argument, on paper), the dynamics beyond the Hessian (that the linearised flow is the
+derivative of the vortex vector field) and nonlinear stability.
 -/
 import Mathlib.Algebra.Order.Ring.Star
 import Mathlib.Analysis.Real.Sqrt

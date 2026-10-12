@@ -15,19 +15,29 @@ _BASIS = {
            "MT (2.6)); EM-stable = a_m > 0 and b_m > 0 for m = 1..floor(N/2), which makes the reduced Hessian "
            "positive definite (paper Proposition 4, MT Thm 2)"),
     "tanh": ("exact rational evaluation of the blocks of tanh/note_tanh.tex Thm 2 (Fourier blocks, PROVED); "
-             "criteria of note Proposition 3: spectrally stable iff every a_m b_m >= 0, EM-stable iff a_m > 0 and "
-             "a_m b_m - g_m^2 > 0 for every m (Lyapunov conclusions only modulo SO(2,1), note Remark 4)"),
+             "criteria of note Proposition 3: spectrally stable iff every a_m b_m >= 0; EM-stable means a_m > 0 and "
+             "a_m b_m - g_m^2 > 0 for every m, i.e. the Hessian is positive definite on the non-rotational modes. "
+             "Note Remark 4: any Lyapunov conclusion is stated only modulo SO(2,1), and the hypotheses of a specific "
+             "energy–momentum theorem have not been verified for the tanh model"),
 }
 
 
-def _annotate(basis: str, blocks, verdict: str) -> str:
+_EQUATOR = ("lam_r2 = 1 is the equator, outside the range |b| < 1 of paper Proposition 3 and Proposition 4 (at the "
+            "equator the momentum is fixed by all of SO(3)); the blocks are the exact values of the same formulas at "
+            "b = 1, evaluated at run time (CERTIFIED arithmetic), not a paper theorem. ")
+
+
+def _annotate(basis: str, blocks, verdict: str, equator: bool = False) -> str:
     """Append a phrase for every reason a "spectrally-stable-only" verdict is not EM-stable (unstable and
     EM-stable verdicts need none). The reasons are exhaustive: a_m = 0; b_m = 0 with a_m != 0; a_m b_m > 0 with
     a_m b_m - g_m^2 <= 0 (Krein window); a_m < 0, b_m < 0 with a_m b_m - g_m^2 > 0 (negative definite)."""
     if verdict != "spectrally-stable-only":
         return basis
     zero = [k.m for k in blocks if k.a == 0]
-    if zero:
+    if zero and equator:
+        basis += (f"; a_m = 0 exactly for m = {zero}: at the equator a_1 = 0 for every N (the tilts of the ring are "
+                  "rotations about horizontal axes); havelock.nonlinear does not treat this case")
+    elif zero:
         basis += f"; a_m = 0 exactly for m = {zero}: a degenerate (bifurcation) point, see havelock.nonlinear"
     bzero = [k.m for k in blocks if k.b == 0 and k.a != 0]
     if bzero:
@@ -57,7 +67,9 @@ def stability(model: str, N: int, value) -> Stability:
     window a_m b_m > 0 >= a_m b_m - g_m^2; or a negative-definite block a_m, b_m < 0, a_m b_m - g_m^2 > 0);
     `basis` names each case that occurs;
     "unstable": some a_m b_m < 0 (a real pair of eigenvalues). The value is used exactly (floats by their
-    binary value), so every sign is decided exactly."""
+    binary value), so every sign is decided exactly. MT family: PROVED for -1 < lam_r2 < 1 (paper Propositions 3
+    and 4); at the equator lam_r2 = 1 the same formulas are evaluated exactly but the result is labelled CERTIFIED,
+    since the paper's propositions cover |b| < 1 only."""
     t0 = time.perf_counter()
     mdl = get_model(model)
     N = check_N(N)
@@ -73,9 +85,10 @@ def stability(model: str, N: int, value) -> Stability:
     em = all(k.a > 0 and k.a * k.b - k.g * k.g > 0 for k in blocks)
     spectral = all(k.a * k.b >= 0 for k in blocks)
     verdict = "EM-stable" if em else ("spectrally-stable-only" if spectral else "unstable")
-    basis = _BASIS[mdl.family]
-    basis = _annotate(basis, blocks, verdict)
-    status = Status.PROVED if mdl.family == "mt" else Status.CERTIFIED
+    equator = mdl.family == "mt" and v == 1
+    basis = (_EQUATOR if equator else "") + _BASIS[mdl.family]
+    basis = _annotate(basis, blocks, verdict, equator)
+    status = Status.PROVED if mdl.family == "mt" and not equator else Status.CERTIFIED
     return Stability(status=status, basis=basis,
                      provenance=make_provenance("stability", {"model": mdl.name, "N": N, "value": str(v)}, t0),
                      model=mdl.name, N=N, value=v, verdict=verdict, geometry=mdl.geometry(v), blocks=tuple(blocks),

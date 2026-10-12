@@ -9,7 +9,7 @@ from pathlib import Path
 
 from ..certify import certify_threshold
 from ..errors import CertificationFailed, InvalidInput
-from ..limits import VERIFY_MAX_N
+from ..limits import CERT_MAX_DIGITS, VERIFY_MAX_N
 from ..models import get_model
 from ..status import Status, Threshold, jsonable, make_provenance
 from .verify import SCHEMA, VerifyReport, verify_dict
@@ -35,6 +35,16 @@ def _to_data(t: Threshold, c, prov) -> dict:
         "interval_clear": dict(c.interval_clear),
         "provenance": jsonable(prov),
     }
+
+
+def _no_duplicate_keys(pairs):
+    """json object_pairs_hook: a repeated key would let a later value silently replace an earlier one."""
+    out = {}
+    for k, v in pairs:
+        if k in out:
+            raise ValueError(f"duplicate key {k!r} in a JSON object")
+        out[k] = v
+    return out
 
 
 @dataclass(frozen=True)
@@ -92,8 +102,8 @@ class Certificate:
             is_text = isinstance(data, str) and data.lstrip()[:1] in ("{", "[")
             text = data if is_text else Path(data).read_text()
             try:
-                data = json.loads(text)
-            except (ValueError, RecursionError) as e:   # JSONDecodeError, int-digit limit, deep nesting
+                data = json.loads(text, object_pairs_hook=_no_duplicate_keys)
+            except (ValueError, RecursionError) as e:   # JSONDecodeError, duplicate key, int-digit limit, deep nesting
                 return VerifyReport(False, [f"not valid JSON: {e}"], 0)
         if not isinstance(data, dict):
             return VerifyReport(False, ["certificate must be a JSON object"], 0)
@@ -115,4 +125,8 @@ def certificate(t) -> Certificate:
     if c is None:
         c = certify_threshold(mdl.family, t.N, mdl.family_domain, mdl.stable_side, witness=True)
     prov = make_provenance("certificate", {"model": t.model, "N": t.N}, t0)
+    cap = 10 ** CERT_MAX_DIGITS
+    if any(abs(q.numerator) >= cap or q.denominator >= cap for q in (*c.interval, *c.points)):
+        raise CertificationFailed(f"an endpoint has more than {CERT_MAX_DIGITS} digits, above the verifier's cap "
+                                  "(hv.limits()['certificate_max_digits']); use a smaller starting precision")
     return Certificate(_to_data(t, c, prov))

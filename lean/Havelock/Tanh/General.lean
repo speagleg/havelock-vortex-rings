@@ -121,6 +121,34 @@ theorem aBlock_recip (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) (h0 : ξ ≠ 0) (h1 :
   field_simp
   ring
 
+/-- Reciprocity (note Prop 5): `b_m(1/ξ) = b_m(ξ)` as rational functions. -/
+theorem bBlock_recip (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) (h0 : ξ ≠ 0) (hX : ξ ^ N ≠ 1) :
+    bBlock N m ξ⁻¹ = bBlock N m ξ := by
+  obtain ⟨k, rfl⟩ : ∃ k, N = m + k := ⟨N - m, by omega⟩
+  have hne : (1 : ℝ) - ξ ^ m * ξ ^ k ≠ 0 := by rw [← pow_add]; exact sub_ne_zero.mpr (Ne.symm hX)
+  have hne' : ξ ^ m * ξ ^ k - 1 ≠ 0 := by rw [← pow_add]; exact sub_ne_zero.mpr hX
+  have e1 : m + k - m = k := by omega
+  unfold bBlock W
+  rw [e1]
+  push_cast
+  simp only [inv_pow, pow_add]
+  field_simp
+  ring
+
+/-- Reciprocity (note Prop 5): `g_m(1/ξ) = -g_m(ξ)` as rational functions. -/
+theorem gBlock_recip (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) (h0 : ξ ≠ 0) (hX : ξ ^ N ≠ 1) :
+    gBlock N m ξ⁻¹ = -gBlock N m ξ := by
+  obtain ⟨k, rfl⟩ : ∃ k, N = m + k := ⟨N - m, by omega⟩
+  have hne : (1 : ℝ) - ξ ^ m * ξ ^ k ≠ 0 := by rw [← pow_add]; exact sub_ne_zero.mpr (Ne.symm hX)
+  have hne' : ξ ^ m * ξ ^ k - 1 ≠ 0 := by rw [← pow_add]; exact sub_ne_zero.mpr hX
+  have e1 : m + k - m = k := by omega
+  unfold gBlock W
+  rw [e1]
+  push_cast
+  simp only [inv_pow, pow_add]
+  field_simp
+  ring
+
 /-- `a_{N-m} = a_m` (note Thm 2). -/
 theorem aBlock_symm (N m : ℕ) (hm : m ≤ N) (ξ : ℝ) : aBlock N (N - m) ξ = aBlock N m ξ := by
   obtain ⟨k, rfl⟩ : ∃ k, N = m + k := ⟨N - m, by omega⟩

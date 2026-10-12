@@ -30,10 +30,10 @@ Modules, in dependency order (CI builds them one at a time in this order):
                             spectral stability ⟺ `specStable` (`linFlow_spectral_iff`), and positivity of the
                             Hessian off mode 0 ⟺ `emDefinite` (`hessQ_posDef_compl_iff`).
 
-Not formalised: the derivation of the Fourier blocks (Thm 2 is the starting point, as in
-`TanhAlgebra.lean`; it is derived from the Hamiltonian in `TanhBlocks.lean`); that L = κ₀⁻¹ J H is the derivative
-of the vortex vector field (L is defined that way); and, for the infinite row, the reduction of its linearised flow
-to Bloch modes.
+The Fourier blocks are the definitions of `TanhAlgebra.lean` (Thm 2), derived from the Hamiltonian in
+`TanhBlocks.lean`. Not formalised: that L = κ₀⁻¹ J H is the derivative of the vortex vector field (L is defined
+that way); for the infinite row, the reduction of its linearised flow to Bloch modes; and the second-order
+constants C₁ and W, which the note labels as derived.
 -/
 import Havelock.Tanh.LargeN.Defs
 import Havelock.Tanh.LargeN.Symbol

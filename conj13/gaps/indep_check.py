@@ -1,4 +1,4 @@
-"""Second-reader independent check of PROOF.txt (gaps i and ii). Does not import the candidate code.
+"""Independent check of the spectral and nearby-momentum arguments (paper Prop. spectral, Lemmas B2-B3). Does not import the other code.
 
 Model: MT (1.12) in the uniform chart, sigma = 1 + lam|z|^2, Omega = sum 2 dx^dy/sigma^2 (MT (1.8)),
 H = -sum_{i<j} log(|zi-zj|^2/(sigma_i sigma_j)),  J = sum (x/sigma, y/sigma, |z|^2/sigma).

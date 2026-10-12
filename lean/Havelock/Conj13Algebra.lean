@@ -52,22 +52,25 @@ FORMALISED (no `sorry`; axioms: propext, Classical.choice, Quot.sound only)
 * `sum_cos_eq_zero`   `Σ_{k<n} cos(2πjk/n) = 0` for `n ∤ j`.
 * `sum_cos_sq_mul_cos` `Σ_k cos²(lφ_k)cos φ_k = n/4`, `l = (n−1)/2`, odd n ≥ 3 (used in the `J₁` constraint).
 
-NOT FORMALISED (taken as input from the paper / sympy scripts)
-* The Taylor expansions that PRODUCE the stated coefficients `h₂, h₄` (even: expansion of `H` along
-  `Fix(D_M) ∩ J⁻¹(μ)`, product formulas `Π(x − yω) = x^M + y^M`) and `f₂, E₀₀…E₀₂` (odd: canonical
-  coordinates, residue evaluation of root-of-unity sums). These are DEFINITIONS here, copied from
-  main.tex; everything downstream of them (threshold reduction, elimination of `s`, minimisation over `p`,
-  evaluation at `b_n`, the table) is proved.
-* The normalisation factors `ε ↔ τ` (even) and `ε ↔ A` (odd), i.e. that `c₄ = h₄(2/(1+λ)²)⁴/n²`
-  and `c₄ = 64/(n²(1+λ)⁸) min E` are the quartic along the Euclidean-unit kernel vector; they are
-  part of the definitions `c4evenOf`, `c4oddSet`.
-* Symmetric criticality (even n), completeness of the odd ansatz, vanishing of the cubic term,
-  the identification of the slaved minimum with the reduced Hamiltonian's quartic (Def. c4).
-* The full Hessian computation behind Prop. blocks (pair-log second derivatives, block-diagonalisation)
-  beyond the one-body part, the Fourier sums `Σ e^{iφ}cos φ = n/2` etc. used to write `dJ₊` on `V₁`,
-  and the derivative computation of `{J₁, J₂}`.
-* All of sec:nonlinear (Lemmas A, B1–B4, thm:abstract: the energy–momentum / Lyapunov argument), the dynamics,
-  the reduction `J⁻¹(μ)/K` as a manifold, and the numerical integrations.
+In this module the Taylor coefficients `h₂, h₄` (even n) and `f₂, E₀₀…E₀₂` (odd n) and the normalisation
+factors `ε ↔ τ`, `ε ↔ A` (in `c4evenOf`, `c4oddSet`) are DEFINITIONS copied from main.tex; `Conj13Series.lean`
+derives all of them from the Hamiltonian, including the absence of an A³ term along the odd ansatz.
+`Conj13Stability.lean` has sec:nonlinear (Lemmas B1–B4, Theorem 17) in an abstract setting.
+
+NOT FORMALISED anywhere in the library (on paper / sympy scripts only)
+* Prop. blocks / Prop. spectral beyond the integer and 2×2 algebra above: the Hessian of F at the ring
+  (pair-log second derivatives and block-diagonalisation), `a_m = C₁ − m(n−m)` and the eigenvalues `b_m`
+  as Hessian eigenvalues, the kernel being the radial mode V_{n/2}, and positivity on E. Here `a₁, b₁`
+  are inputs to `V1'_n4`, `V1'_n5`; only the one-body part (`phi_crit_and_C1`) is derived.
+* The Fourier sums `Σ e^{iφ}cos φ = n/2` etc. used to write `dJ₊` on `V₁`, and the derivative computation
+  of `{J₁, J₂}` (`bracket_value` is the algebra only).
+* Symmetric criticality (even n), completeness of the odd ansatz, and the identification of the slaved
+  minimum with the reduced Hamiltonian's quartic (Def. c4).
+* For sec:nonlinear: Lemma A (the slice), the manifold chart on S/K, existence of the slaving map β and the
+  slaving inequality (hypotheses `hβ`, `hslave` of `lemma_B1`), and the hand-off from B3 to B4, which goes
+  through the chart (a hypothesis); the verification of (A1)–(A4) for the ring.
+* The dynamics (existence and global existence of the flow, conservation of H and J), the reduction
+  `J⁻¹(μ)/K` as a manifold, and the numerical integrations.
 -/
 import Mathlib.Algebra.Order.Ring.Star
 import Mathlib.Algebra.Order.Star.Real
@@ -521,7 +524,7 @@ noncomputable def c4evenOf (M b : ℝ) : ℝ := h4 M b * (2 / (1 + b) ^ 2) ^ 4 /
 def c4even {K : Type*} [Field K] (n : K) : K :=
   (n - 2) * ((n - 2) ^ 4 + 40 * (n - 2) ^ 2 + 48 * (n - 2) + 16) / (192 * n * (n - 1))
 
-/-- The even closed form in the `n`-polynomial shape of derivation.txt / PROOF.txt. -/
+/-- The even closed form of paper Thm even (`conj13/paper/main.tex`), expanded as a polynomial in `n`. -/
 theorem c4even_alt {K : Type*} [Field K] (n : K) :
     c4even n = (n - 2) * (n ^ 4 - 8 * n ^ 3 + 64 * n ^ 2 - 144 * n + 96) / (192 * n * (n - 1)) := by
   unfold c4even; ring

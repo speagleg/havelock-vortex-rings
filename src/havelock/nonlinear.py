@@ -169,17 +169,20 @@ def _tanh_nonlinear(mdl, N, t, t0, inputs):
     if N % 2:
         raise OutOfValidityRange(
             f"N = {N} is odd: at the spectral threshold xi* the critical block has a_m = 0, so its determinant is "
-            "a b - g^2 = -g^2 <= 0 and the block is not positive definite (tanh/note_tanh.tex; for N = 9, 11, 13, 15 "
-            "the note proves a Krein window above xi*, where the ring is linearly stable but the Hessian is "
-            "indefinite). The energy-momentum argument behind the quartic (c4) test needs a definite block, so c4 "
-            "is not defined here; nonlinear stability at xi* is undecided")
+            "a b - g^2 = -g^2 < 0 and the block is indefinite. For every odd N >= 9, note_tanh Theorem 18(b) proves a "
+            "non-empty Krein window above xi*, where the ring is linearly stable but the Hessian is indefinite. The "
+            "energy-momentum argument behind the quartic (c4) test needs a definite block, so c4 is not defined here; "
+            "nonlinear stability at xi* is undecided")
     c4 = c4_level_set("tanh", N, t.value)
     verdict = "stable" if c4 > mp.mpf("1e-8") else ("unstable" if c4 < -mp.mpf("1e-8") else "undecided")
-    basis = ("NUMERICAL: level-set engine (Newton on the KKT system on J^{-1}(mu), eps = k/200, k = 1..6, Neville "
-             "extrapolation; port of conj13/review/c4_levelset.py), Euclidean-unit kernel vector in the Poincare-disk "
-             "chart, H as in tanh/note_tanh.tex eq. (1). c4 > 0 indicates a strict (quartic) minimum of the reduced "
-             "Hamiltonian; the energy–momentum argument of conj13/paper Section nonlinear has not been checked for "
-             "this model, and any stability conclusion is modulo SO(2,1). No closed form for tanh c4 is known")
+    basis = (f"NUMERICAL: the verdict {verdict!r} rests on the sign of a NUMERICAL c4 (no error bound) and is not a "
+             "proved or certified statement. Level-set engine (Newton on the KKT system on J^{-1}(mu), eps = k/200, "
+             "k = 1..6, Neville extrapolation; port of conj13/review/c4_levelset.py), Euclidean-unit kernel vector in "
+             "the Poincare-disk chart, H as in tanh/note_tanh.tex eq. (1). c4 > 0 indicates a strict (quartic) "
+             "minimum of the reduced Hamiltonian; the energy–momentum argument of conj13/paper Section nonlinear has "
+             "not been checked for this model (note_tanh Remark 4: the hypotheses of a specific energy–momentum "
+             "theorem are not verified), and any stability conclusion is modulo SO(2,1). No closed form for tanh c4 "
+             "is given here")
     return Nonlinear(status=Status.NUMERICAL, basis=basis, provenance=make_provenance("nonlinear", inputs, t0),
                      model=mdl.name, N=N, value=t.value, mode=t.mode, c4=c4, verdict=verdict,
                      method="level-set engine", r=t.r)

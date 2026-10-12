@@ -56,11 +56,17 @@ def _mt_threshold(mdl, N, t0, inputs, strict, precision):
         value = mp.mpf(str(sp.N(bn, WORK_DPS + 10)))
         r, xi, cosh_r = mdl.radius(value), mdl.xi(value), mdl.cosh_r(value)
     basis = _SINH_BASIS if mdl.name == "sinh" else _MT_BASIS
+    side = "below"
     if mdl.name == "plane":
-        basis = "the plane has no length scale: every ring with N = 7 sits at the bifurcation point b_7 = 0; " + basis
+        # a one-point view: there is no stable side inside it
+        side = None
+        basis = ("degenerate view: the plane is the single value lam_r2 = 0 (no length scale), and every ring with "
+                 "N = 7 sits exactly at the bifurcation point b_7 = 0 (spectrally stable, a_3 = 0); the stable side "
+                 "lam_r2 < 0 of the mt family lies in the sinh geometry, the unstable side lam_r2 > 0 on the sphere; "
+                 + basis)
     return Threshold(status=Status.PROVED, basis=basis, provenance=make_provenance("threshold", inputs, t0),
                      model=mdl.name, N=N, value=value, exact=bn, mode=N // 2, geometry=geometry,
-                     stable_side="below", xi=xi, r=r, cosh_r=cosh_r)
+                     stable_side=side, xi=xi, r=r, cosh_r=cosh_r)
 
 
 def _tanh_numerical(N: int):
@@ -83,6 +89,23 @@ def _tanh_numerical(N: int):
             else:
                 hi = mid
         return (lo + hi) / 2, m
+
+
+def _tanh_theory(N: int) -> str:
+    """What tanh/note_tanh.tex proves about the threshold of the N-ring (N >= 8), with its statement numbers."""
+    if N % 2 == 0:
+        unique = "note_tanh Proposition 15 (every even N >= 8)"
+    elif N <= 15:
+        unique = "note_tanh Theorem 7(b) (certified for 8 <= N <= 16)"
+    else:
+        unique = "note_tanh Proposition 21 (every odd N >= 17)"
+    text = (f"the only sign change of a_floor(N/2) in (0, 1), {unique}; critical mode floor(N/2) for every N, "
+            "Corollary 14")
+    if N % 2 == 0:
+        return (text + "; for every even N the energy-momentum threshold equals xi* (Theorem 18(a)), so the ring is "
+                "EM-stable for xi > xi*")
+    return (text + "; for every odd N >= 9 the Krein window is non-empty, xi_EM > xi* (Theorem 18(b)): just above xi* "
+            "the ring is spectrally stable but the Hessian is indefinite, and nonlinear stability there is undecided")
 
 
 def _tanh_threshold(mdl, N, t0, inputs, strict, precision):
@@ -114,16 +137,13 @@ def _tanh_threshold(mdl, N, t0, inputs, strict, precision):
         value = exact.approx(WORK_DPS)
         r, cosh_r = mdl.radius(value), mdl.cosh_r(value)
     lean = f"; Lean-checked: Havelock.Tanh.cert_N{N} (note_tanh Theorem 7(b))" if 8 <= N <= 16 else ""
-    cite = ("note_tanh Theorem 7" if N <= 16
-            else "as in note_tanh Theorem 7 (proved there for N <= 16); certified here at run time")
-    # odd N: claim the Krein gap only when the certificate proves it, i.e. the exact sign of D_crit = a b - g^2 is
-    # negative at the rational point just above the interval (there the ring is not EM-stable, so xi_EM > xi*)
+    # odd N: report the run-time evidence for the Krein window when the certificate has it, i.e. the exact sign of
+    # D_crit = a b - g^2 is negative at the rational point just above the interval
     above_signs = c.mode_signs.get(c.mode, {}).get("above", {})
-    krein = (f"; the energy-momentum threshold xi_EM lies strictly above xi* (exact D_{c.mode} < 0 at the rational "
-             f"point {float(c.points[1]):.6g} just above the interval; Krein window: linearly stable, nonlinear "
-             "stability undecided)" if N % 2 and above_signs.get("D") == -1 else "")
-    basis = (f"spectral threshold xi* ({cite}){krein}. CERTIFIED at run time: Arb root isolation ({c.bits} bits) "
-             f"inside an exact rational interval of width "
+    seen = (f" (seen here at run time: exact D_{c.mode} < 0 at the rational point {float(c.points[1]):.6g} just above "
+            "the interval)" if N % 2 and above_signs.get("D") == -1 else "")
+    basis = (f"spectral threshold xi* ({_tanh_theory(N)}){seen}. CERTIFIED at run time: Arb root isolation "
+             f"({c.bits} bits) inside an exact rational interval of width "
              f"< 2^-{c.bits - 8}, exact Sturm count 1, no B_m and no A_m (m != {c.mode}) vanishing in the interval "
              f"(exact Sturm counts), exact signs of every block on both sides, and no root of any "
              f"a_m, b_m on ({float(hi):.6g}, 1); blocks of tanh/note_tanh.tex Thm 2 (PROVED); critical mode {c.mode}"
@@ -138,8 +158,11 @@ def _tanh_fallback(mdl, N, t0, inputs, reason):
     with mp.workdps(WORK_DPS):
         r, cosh_r = mdl.radius(value), mdl.cosh_r(value)
     return Threshold(status=Status.NUMERICAL, fallback_from=Status.CERTIFIED,
-                     basis=f"NUMERICAL (strict=False): {reason}. Largest sign change of a_{m} on a grid, refined by "
-                           "bisection; the other modes are not checked",
+                     basis=(f"NUMERICAL (strict=False): {reason}. The value is the largest sign change of a_{m} on a "
+                            f"grid, refined by bisection; only a_{m} is evaluated at run time. Spectral threshold xi* "
+                            f"is {_tanh_theory(N)}" if N >= 8 else
+                            f"NUMERICAL (strict=False): {reason}. Largest sign change of a_{m} on a grid, refined by "
+                            f"bisection; only a_{m} is evaluated"),
                      provenance=make_provenance("threshold", inputs, t0), model="tanh", N=N, value=value, exact=None,
                      mode=m, geometry="H2", stable_side="above", xi=value, r=r, cosh_r=cosh_r)
 

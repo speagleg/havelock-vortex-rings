@@ -5,9 +5,9 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    # Private-repo ubuntu-latest runners have 2 CPUs and 8 GB of RAM. The tanh certificates are split into
-    # modules (lean/Havelock/Tanh/) that are built ONE AT A TIME below: a plain parallel `lake build` would
-    # check several large modules at once and can run out of memory.
+    # Private-repo ubuntu-latest runners have 2 CPUs and 8 GB of RAM. scripts/build_lean.sh builds the modules
+    # ONE AT A TIME, in dependency order: a plain parallel `lake build` would check several large modules at once
+    # and can run out of memory.
     runs-on: ubuntu-latest
     timeout-minutes: 240
     defaults:
@@ -30,43 +30,10 @@ jobs:
         working-directory: lean
         run: lake exe cache get
       - name: Build (one module at a time)
-        working-directory: lean
         run: |
           free -h
-          # The Havelock.Tanh.* modules in the (dependency) order in which TanhAlgebra.lean imports them.
-          mapfile -t tanh < <(sed -nE 's/^import (Havelock\.Tanh\.[A-Za-z0-9_]+)$/\1/p' Havelock/TanhAlgebra.lean)
-          [ "${#tanh[@]}" -gt 0 ] || { echo "no Havelock.Tanh imports found"; exit 1; }
-          # The Havelock.Tanh.LargeN.* modules, in the order in which TanhLargeN.lean imports them.
-          mapfile -t largen < <(sed -nE 's/^import (Havelock\.Tanh\.LargeN\.[A-Za-z0-9_]+)$/\1/p' Havelock/TanhLargeN.lean)
-          [ "${#largen[@]}" -gt 0 ] || { echo "no Havelock.Tanh.LargeN imports found"; exit 1; }
-          # The irreducibility modules, in the order in which TanhIrred.lean imports them.
-          mapfile -t irred < <(sed -nE 's/^import (Havelock\.Tanh\.Irred[A-Za-z0-9_]+)$/\1/p' Havelock/TanhIrred.lean)
-          [ "${#irred[@]}" -gt 0 ] || { echo "no Havelock.Tanh.Irred imports found"; exit 1; }
-          # The block-derivation modules, in the order in which TanhBlocks.lean imports them.
-          mapfile -t blocks < <(sed -nE 's/^import (Havelock\.Tanh\.Blocks[A-Za-z0-9_]*)$/\1/p' Havelock/TanhBlocks.lean)
-          [ "${#blocks[@]}" -gt 0 ] || { echo "no Havelock.Tanh.Blocks imports found"; exit 1; }
-          mods=(Havelock.SinhArithmetic Havelock.Conj13Algebra "${tanh[@]}" Havelock.TanhAlgebra
-                "${blocks[@]}" Havelock.TanhBlocks "${largen[@]}" Havelock.Tanh.LinearFlow Havelock.TanhLargeN
-                "${irred[@]}" Havelock.TanhIrred
-                Havelock.Sinh.Hessian Havelock.Sinh.Threshold Havelock.SinhModes
-                Havelock.Conj13.LyapunovAbstract Havelock.Conj13.LyapunovAnalytic Havelock.Conj13Stability
-                Havelock.Conj13.Series Havelock.Conj13.EvenCurve Havelock.Conj13.EvenConfig
-                Havelock.Conj13.EvenQuartic Havelock.Conj13.OddSums Havelock.Conj13.OddQuadratic
-                Havelock.Conj13.OddConstraint Havelock.Conj13.TaylorCoeffs
-                Havelock.Conj13.Odd4Fejer Havelock.Conj13.Odd4Jets Havelock.Conj13.Odd4Pair Havelock.Conj13.Odd4Trig
-                Havelock.Conj13.Odd4Inner Havelock.Conj13.Odd4PairSums Havelock.Conj13.Odd4Hamiltonian
-                Havelock.Conj13Series
-                Havelock)
-          : > build.log
-          for m in "${mods[@]}"; do
-            echo "::group::lake build +$m"
-            start=$SECONDS
-            lake build "+$m" 2>&1 | tee -a build.log
-            echo "$m: $((SECONDS - start)) s"
-            echo "::endgroup::"
-          done
-          lake build 2>&1 | tee -a build.log   # the default target; must be a no-op by now
-          if grep -n "declaration uses 'sorry'" build.log; then echo "sorry in build log"; exit 1; fi
+          bash scripts/build_lean.sh --list
+          bash scripts/build_lean.sh
       - name: Axiom gate
         working-directory: lean
         run: |

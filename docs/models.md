@@ -23,37 +23,43 @@ value, and `nonlinear()` at the bifurcation point (the threshold's `r`).
   1).
 - **n = 2, 3 on the sphere / full family: OutOfValidityRange.** Eq. (2) has its only root at the equator b = 1, and
   c4 = 0 at n = 3; the case rests on Montaldi–Tokieda's own argument.
-- **stability(): PROVED** from exact signs of the blocks at the (exact rational) value.
-- **simulate(): NUMERICAL** always.
+- **stability(): PROVED** from exact signs of the blocks at the (exact rational) value, for −1 < λr₀² < 1. At the
+  equator λr₀² = 1, outside the range of paper Propositions 3 and 4, the same formulas are evaluated exactly and the
+  result is labelled CERTIFIED.
+- **plane:** the view is the single value λr₀² = 0, so `threshold("plane", 7)` reports the bifurcation point with
+  no stable side (`stable_side` None): every 7-ring in the plane sits exactly at b₇ = 0.
+- **simulate(): NUMERICAL** always. It raises `InvalidInput` if the perturbed starting state leaves the phase space
+  (1 + λr₀²|z|² > 0 for λr₀² < 0; no coinciding vortices).
 
 ## tanh model (`tanh`)
 
 - Hamiltonian H = −Σ ln tanh(d/2) on H² (Kimura's Hamiltonian; tanh/note_tanh.pdf eq. (1)), Poincaré disk, curvature
   −1; parameter `xi` = tanh²(r/2) ∈ (0, 1); stable for xi above the threshold.
-- **Blocks: PROVED** (note Thm 2), with a radial–tangential coupling g_m. Boatto's (2008) equations, implemented as
-  written, give the same thresholds (tanh/boatto_check/).
+- **Blocks: PROVED** (note Thm 2), with a radial–tangential coupling g_m. A cross-check against Boatto's (2008)
+  published equations is in tanh/boatto_check/.
 - **Threshold, any N <= 64: CERTIFIED** at run time: Arb root isolation of the irreducible factor of A_⌊N/2⌋, exact
   Sturm counts, exact signs of every block on both sides, and no root of any a_m, b_m on the stable side. The basis
   adds "Lean-checked" (`Havelock.Tanh.cert_N{N}`) for 8 <= N <= 16 and `stable_N{N}` for N <= 7. N <= 7: stable at
   every radius (CERTIFIED). Above N = 64 (`hv.limits()["tanh_exact_max_N"]`) `strict=True` raises
   `CertificationFailed`; `strict=False` returns a NUMERICAL value with `fallback_from = CERTIFIED`.
 - **Spectral versus energy–momentum threshold.** The certified threshold ξ* is the *spectral* one: the value above
-  which every block has a_m, b_m > 0 and below which the critical mode has a_m b_m < 0. For even N <= 16 it is also
-  the energy–momentum (EM) threshold (note_tanh Theorem 7); for N > 16 only the spectral threshold is certified. For
-  odd N the EM threshold can lie strictly above ξ* (the note proves this for N = 9, 11, 13, 15): on the Krein window
+  which every block has a_m, b_m > 0 and below which the critical mode has a_m b_m < 0. b_m > 0 and the critical
+  mode ⌊N/2⌋ hold for every N (note_tanh Lemmas 12–13, Corollary 14). The threshold is the only sign change of
+  a_⌊N/2⌋ in (0, 1): for every even N >= 8 by note_tanh Proposition 15, for odd 9 <= N <= 15 by the certified
+  Theorem 7(b), and for every odd N >= 17 by Proposition 21; the basis string cites the one that applies. For every
+  even N the energy–momentum (EM) threshold equals ξ* (note_tanh Theorem 18(a)), so the ring is EM-stable for
+  ξ > ξ*. For every odd N >= 9 the EM threshold lies strictly above ξ* (Theorem 18(b)): on the Krein window
   (ξ*, ξ_EM) the ring is linearly stable (a_m, b_m > 0) but the critical block has determinant
   D_m = a_m b_m − g_m² < 0, so the Hessian is indefinite there; nonlinear stability on that window is undecided by
-  this package. The threshold's basis states this gap only when the certificate proves it: the exact sign of D_crit
-  is negative at the rational point just above the threshold interval. At ξ* itself a_m = 0, so the critical block
-  is not positive definite (D_m = −g_m² ≤ 0). For N > 16 the basis cites note_tanh Theorem 7 as "proved there for
-  N <= 16"; the certification itself is done at run time. That b_m > 0 and that the critical mode is ⌊N/2⌋ are now
-  proved for every N (note_tanh Lemmas 12–13), and for large N, cosh r* = κ∞N + O(1/N) with κ∞ = 0.1343122…
-  (note_tanh Theorem 16).
+  this package. For odd N the basis also reports the run-time evidence when the certificate has it: the exact sign
+  of D_crit is negative at the rational point just above the threshold interval. At ξ* itself a_m = 0, so the
+  critical block is not positive definite (D_m = −g_m² ≤ 0). For large N, cosh r* = κ∞N + O(1/N) with
+  κ∞ = 0.1343122… (note_tanh Theorem 16).
 - **stability(): CERTIFIED** (exact signs). For odd N the window (ξ*, ξ_EM) gives the verdict
   "spectrally-stable-only".
 - **c4: NUMERICAL** (level-set engine), even N only. Odd N raises OutOfValidityRange: at ξ* the critical block is
-  indefinite (Krein window, above), so the quartic test does not apply. No closed form is known.
-- **simulate(): NUMERICAL** always.
+  indefinite (Krein window, above), so the quartic test does not apply. No closed form is given here.
+- **simulate(): NUMERICAL** always; `InvalidInput` if the perturbed starting state leaves the Poincaré disk.
 - **Lean export:** `Certificate.to_lean(path)` writes a module importing `Havelock.Tanh.General` and proving
   `Havelock.Tanh.cert_N{N}`, for tanh N = 8..16 only; other N raise `CertificationFailed` (from N = 17 the emitter's
   proof template does not apply). N = 8..16 are emitted and tested (the N = 8 export is byte-identical to the

@@ -31,8 +31,15 @@ def _print_threshold(t):
         print(f"{t.model}, N = {t.N}: {t.verdict} ({t.geometry})")
     else:
         p = get_model(t.model).param
-        rel = "<" if t.stable_side == "below" else ">"
-        print(f"{t.model}, N = {t.N}: threshold {p} = {_num(t.value)} (stable for {p} {rel} threshold), critical mode "
+        if t.stable_side is None:
+            side = "degenerate one-point view: the ring sits at the bifurcation point"
+        elif t.stable_side == "below":
+            side = f"stable for {p} < threshold"
+        elif t.N % 2:
+            side = f"spectrally stable for {p} > threshold; Krein window just above it"
+        else:
+            side = f"stable for {p} > threshold"
+        print(f"{t.model}, N = {t.N}: threshold {p} = {_num(t.value)} ({side}), critical mode "
               f"{t.mode}, geometry {t.geometry}")
         extra = [f"{k} = {_num(getattr(t, k))}" for k in ("xi", "r", "cosh_r")
                  if getattr(t, k) is not None and k != p]
@@ -127,10 +134,10 @@ def _cmd_limits(a):
 
 
 def _add_value(s):
-    """VALUE positionally, or --value VALUE (needed for negative rationals such as --value=-1/7); exactly one."""
-    s.add_argument("value", nargs="?", default=None, help="parameter value; for negative rationals use --value=-1/7")
+    """VALUE positionally, or --value VALUE; exactly one. Negative values (-0.3, -1/7, -1e-3) work either way."""
+    s.add_argument("value", nargs="?", default=None, help="parameter value, e.g. -0.3, -1/7 or -1e-3")
     s.add_argument("--value", dest="value_opt", default=None, metavar="VALUE",
-                   help="parameter value, e.g. --value=-1/7 (argparse cannot take '-1/7' positionally)")
+                   help="parameter value (alternative to the positional VALUE)")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -177,18 +184,32 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
-_NEG_VALUE = re.compile(r"^-\d+/\d+$")
+# a negative number: integer, decimal, scientific notation (-1e-3, -.3, -2.5E+4) or rational (-1/7)
+_NEG_VALUE = re.compile(r"^-(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$|^-\d+/\d+$")
+# options of `stability` / `simulate` that take a value (argparse would read a following '-1e-3' as an option)
+_VALUE_OPTIONS = ("--value", "--perturb", "--t-end", "--rtol", "--seed")
 
 
-def _negative_rationals_to_option(argv):
-    """argparse reads a positional '-1/7' as an unknown option; pass it on as --value=-1/7 instead."""
-    if len(argv) < 2 or argv[0] not in ("stability", "simulate") or any(x.startswith("--value") for x in argv):
+def _negative_values_to_option(argv):
+    """argparse reads '-1/7' or '-1e-3' as an unknown option. A negative number right after an option that takes a
+    value is attached to it ('--t-end -1' -> '--t-end=-1'); a negative number in the VALUE position is passed on as
+    --value=... (unless --value is also given, which argparse then reports)."""
+    if len(argv) < 2 or argv[0] not in ("stability", "simulate"):
         return argv
-    return [f"--value={x}" if _NEG_VALUE.match(x) else x for x in argv]
+    has_value_opt = any(x == "--value" or x.startswith("--value=") for x in argv)
+    out = []
+    for x in argv:
+        if _NEG_VALUE.match(x) and out and out[-1] in _VALUE_OPTIONS:
+            out[-1] = f"{out[-1]}={x}"
+        elif _NEG_VALUE.match(x) and not has_value_opt:
+            out.append(f"--value={x}")
+        else:
+            out.append(x)
+    return out
 
 
 def main(argv=None) -> int:
-    argv = _negative_rationals_to_option(list(sys.argv[1:] if argv is None else argv))
+    argv = _negative_values_to_option(list(sys.argv[1:] if argv is None else argv))
     args = build_parser().parse_args(argv)
     if hasattr(args, "value_opt"):
         if (args.value is None) == (args.value_opt is None):

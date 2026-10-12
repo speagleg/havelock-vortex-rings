@@ -248,7 +248,7 @@ def certify_threshold(family: str, N: int, domain, stable_side: str, start_bits:
     if st != 1:
         raise CertificationFailed(f"Sturm count of A_crit in the interval is {st}, expected 1")
 
-    # T4-I1: Check that no other blocks have roots in (L, U]
+    # no other block may have a root in (L, U]
     interval_clear = {}
     for m in modes:
         nm = numerators(family, N, m)
@@ -286,7 +286,7 @@ def certify_threshold(family: str, N: int, domain, stable_side: str, start_bits:
         raise CertificationFailed("the sign pattern on the two sides of the threshold is not the expected one "
                                   "(stable side: every a_m, b_m > 0; unstable side: a_crit b_crit < 0)")
 
-    # T4-I2 & T4-D: Check closed endpoints on the stable side (A_m, B_m only, not D_m)
+    # closed domain endpoints on the stable side (A_m, B_m only, not D_m)
     if stable_side == "above" and hi_closed:
         if not _positive_at(family, N, dhi, include_D=False):
             raise CertificationFailed(f"at the closed endpoint hi={dhi}, a block is not positive")
@@ -315,7 +315,7 @@ def certify_no_threshold(family: str, N: int, domain) -> bool:
             if sturm_count(q, dlo, dhi) != 0 or sign_at(p, mid) <= 0:
                 return False
 
-    # T4-I2: Check positivity at closed endpoints (includes D_m)
+    # positivity at closed endpoints (includes D_m)
     if lo_closed and not _positive_at(family, N, dlo, include_D=True):
         return False
     if hi_closed and not _positive_at(family, N, dhi, include_D=True):

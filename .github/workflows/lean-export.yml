@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 jobs:
   export-n8:
-    # spec 9.4: generate the N = 8 tanh certificate with the package and compile it against the Lean library
+    # Generate the N = 8 tanh certificate with the package and compile it against the Lean library.
     runs-on: ubuntu-latest
     timeout-minutes: 120
     defaults:

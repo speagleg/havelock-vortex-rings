@@ -37,8 +37,9 @@ $ havelock nonlinear mt 13                     # c4 = 675/104 > 0: stable at the
 $ havelock simulate sinh 9 -0.3 --t-end 50     # stable side (threshold -0.101): growth ~1
 $ havelock simulate sinh 9 -0.05 --t-end 50    # unstable side: growth ~10^4
 $ havelock cert sinh 8 --json cert.json
-$ havelock verify cert.json                    # VALID (… checks)
+$ havelock verify cert.json                    # VALID (44 checks)
 $ havelock threshold tanh 12                   # CERTIFIED at run time (seconds)
+$ havelock threshold tanh 9                    # odd N: "spectrally stable for xi > threshold; Krein window just above it"
 $ havelock stability tanh 9 0.11287108         # spectrally-stable-only: inside the N = 9 Krein window
 $ havelock cert tanh 8 --json cert8.json --lean CertN8.lean
 $ havelock limits
@@ -52,12 +53,14 @@ Notes on the examples:
 - `stability tanh 9 0.11287108` evaluates at a point about 2·10⁻⁸ above the spectral threshold ξ*(9), so the critical
   block has a tiny a₄ ≈ 3·10⁻⁷. All a_m b_m are positive (linearly stable), but a₄b₄ − g₄² < 0, so the ring sits in
   the Krein window, where nonlinear stability is undecided. The value is echoed as the exact rational it denotes.
-- Certified tanh thresholds take from a few seconds (small N) to about 20 s (N = 64, the size cap).
+- Certified tanh thresholds take from a few seconds (small N) to about a minute (N = 64, the size cap: 50 s of CPU
+  time on the machine used for these docs).
 
 Add `--json` to any command for machine-readable output.
 
 `stability` and `simulate` take the parameter value either positionally or as `--value VALUE` (exactly one).
-Negative decimals (`-0.3`) and negative rationals (`-1/7`) both work positionally.
+Negative decimals (`-0.3`), negative rationals (`-1/7`) and negative scientific notation (`-1e-1`) work both
+positionally and after `--value`.
 
 Exit codes: 0 success; 1 an invalid certificate (`verify`) or a failed Lean check; 2 an error (a `HavelockError`, a
 missing, unreadable or non-UTF-8 file) reported on stderr without a traceback.

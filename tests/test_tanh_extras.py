@@ -21,6 +21,8 @@ def test_tanh_nonlinear_n8():
     # verified while planning: 186.6363411877127469 (dps 40) and 186.6363411877127482 (dps 60, two eps grids)
     r = nonlinear("tanh", 8)
     assert r.status == hv.Status.NUMERICAL and r.verdict == "stable" and r.method == "level-set engine"
+    assert "rests on the sign of a NUMERICAL c4" in r.basis and "Remark 4" in r.basis
+    assert "is given here" in r.basis and "is known" not in r.basis
     assert abs(r.c4 / mp.mpf("186.63634118771274") - 1) < mp.mpf("1e-12")
 
 
@@ -51,8 +53,8 @@ def test_tanh_certificate_roundtrip(N):
 
 
 @pytest.mark.parametrize("N", [17, 18, 20, 24])
-def test_review_focus_beyond_the_table_certificates_verify(N):
-    # Review Focus 2: certificates beyond the paper's table verify too
+def test_beyond_the_table_certificates_verify(N):
+    # certificates beyond the paper's table verify too
     assert Certificate.verify(certificate(threshold("tanh", N))).ok
 
 
@@ -122,6 +124,7 @@ def test_tanh_nonlinear_odd_n_message_explains_the_krein_window():
     with pytest.raises(hv.OutOfValidityRange, match="indefinite") as e:
         nonlinear("tanh", 9)
     assert "Krein window" in str(e.value) and "linearly stable" in str(e.value)
+    assert "Theorem 18(b)" in str(e.value) and "N = 9, 11, 13, 15" not in str(e.value)
 
 
 def test_lean_export_refuses_mt_cleanly(tmp_path):
@@ -129,14 +132,14 @@ def test_lean_export_refuses_mt_cleanly(tmp_path):
         certificate(threshold("mt", 5)).to_lean(tmp_path / "x.lean")
 
 
-# ---- final review F4: Lean export range is tanh N = 8..16 ----
+# ---- Lean export range is tanh N = 8..16 ----
 def test_lean_export_refuses_n17_with_a_clear_message(tmp_path):
     with pytest.raises(hv.CertificationFailed, match=r"tanh N = 8\.\.16 only"):
         certificate(threshold("tanh", 17)).to_lean(tmp_path / "C17.lean")
     assert not (tmp_path / "C17.lean").exists()
 
 
-# ---- final review F7: r on Stability / Nonlinear / Simulation (tanh) ----
+# ---- r on Stability / Nonlinear / Simulation (tanh) ----
 def test_tanh_results_report_r():
     with mp.workdps(50):
         r = 2 * mp.atanh(mp.sqrt(mp.mpf(3) / 10))

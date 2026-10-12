@@ -1,4 +1,4 @@
-"""Odd n: symbolic-in-n derivation of the level-set quartic c4 (second reader, independent route).
+"""Odd n: symbolic-in-n derivation of the level-set quartic c4 (independent route).
 
 Coordinates: canonical (theta_k, w_k), w = u/(1+lam u) (u=|z|^2): J3 = sum w_k is LINEAR,
 J1 + i J2 = sum sqrt(P(w_k)) e^{i theta_k}, P(w) = w(1-lam w) (momentum map: momentum_check.py).

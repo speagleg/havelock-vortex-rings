@@ -5,12 +5,17 @@ re-checks every mathematical field with exact integer and rational arithmetic on
 sequences, `fractions.Fraction` evaluation). The verifier rebuilds the block numerators from the closed forms itself;
 it does not use the code that produced the certificate.
 
-## Limit on N
+## Limits and malformed input
 
 Certificates are issued only for N <= 100000 (`hv.limits()["certificate_max_N"]`), so that the independent verifier
-can always re-check them. `hv.certificate` raises `CertificationFailed` for a larger N. `verify` reports a malformed
-file (for example invalid JSON) as an invalid certificate rather than crashing; on the command line a missing,
-unreadable or non-UTF-8 file exits with code 2 and a message.
+can always re-check them. `hv.certificate` raises `CertificationFailed` for a larger N. Every rational in a
+certificate is a string `"p"` or `"p/q"` whose numerator and denominator have at most 2600 digits each
+(`hv.limits()["certificate_max_digits"]`); the verifier rejects longer ones.
+
+`verify` reports a malformed file as an invalid certificate rather than crashing. This includes invalid JSON, a JSON
+object with a repeated key (a later value would otherwise silently replace an earlier one), a field that is not in
+the schema below (at the top level, in `stable_side`, in `irreducibility_witness` and in `mode_signs` entries), and an
+over-long rational. On the command line a missing, unreadable or non-UTF-8 file exits with code 2 and a message.
 
 ## Fields (schema `havelock-threshold-certificate/1`)
 
@@ -26,7 +31,7 @@ unreadable or non-UTF-8 file exits with code 2 and a message.
 | `sturm` | number of distinct real roots of `polynomial` in the interval | must be 1; recomputed (Sturm) |
 | `interval_clear` | for every mode m, the number of distinct real roots inside `interval` of B_m, and of A_m for m other than the critical mode | recomputed (Sturm); every count must be 0, so no other block vanishes in the threshold interval |
 | `points` | rational points just below and just above the interval | outside the interval, inside the domain |
-| `mode_signs` | for every mode m: signs of A_m, B_m (and D_m = numerator of a_m b_m − g_m², when some g_m ≠ 0) at both points | recomputed; A_m and B_m are positive for every m on the stable side, and a_mode b_mode < 0 on the other. D_m is recorded but not required to be positive, because the certified threshold is the spectral one: for tanh with odd N, D_m can be negative for the critical mode just above the threshold interval (the Krein window, see docs/models.md; proved non-empty for N = 9, 11, 13, 15, and recorded in `mode_signs` whenever it shows at the upper point) |
+| `mode_signs` | for every mode m: signs of A_m, B_m (and D_m = numerator of a_m b_m − g_m², when some g_m ≠ 0) at both points | recomputed; A_m and B_m are positive for every m on the stable side, and a_mode b_mode < 0 on the other. D_m is recorded but not required to be positive, because the certified threshold is the spectral one: for tanh with odd N, D_m can be negative for the critical mode just above the threshold interval (the Krein window, see docs/models.md; proved non-empty for every odd N >= 9, note_tanh Theorem 18(b), and recorded in `mode_signs` whenever it shows at the upper point) |
 | `stable_side` | the open interval between the threshold interval and the domain end on the stable side, with the number of roots of every A_m and B_m in it | recomputed (Sturm); all zero. If the domain endpoint on the stable side is closed, the blocks must also be positive there |
 | `irreducibility_witness` | optional prime p with the factor irreducible mod p | p prime, p ∤ lead, factorisation degrees mod p equal [deg] |
 | `provenance` | package version, inputs, timing | not checked (not a mathematical field) |

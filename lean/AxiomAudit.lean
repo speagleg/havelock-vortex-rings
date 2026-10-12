@@ -42,6 +42,8 @@ import Havelock
 #print axioms Havelock.Tanh.W_hasSum
 #print axioms Havelock.Tanh.aSum_eq_aBlock
 #print axioms Havelock.Tanh.aBlock_recip
+#print axioms Havelock.Tanh.bBlock_recip
+#print axioms Havelock.Tanh.gBlock_recip
 #print axioms Havelock.Tanh.aBlock_even
 #print axioms Havelock.Tanh.numerA_recip
 #print axioms Havelock.Tanh.charpoly_block

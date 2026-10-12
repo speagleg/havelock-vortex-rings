@@ -4,7 +4,7 @@ Havelock — Vortex rings on H² in the tanh (Kimura) model, H = −Σ ln tanh(d
 Source: tanh/note_tanh.tex (theorem numbers below are the LaTeX
 counter values: Lemma 1 = lem:re, Thm 2 = thm:blocks, Prop 3 = prop:lin, Prop 5 = prop:recip,
 Thm 7 = thm:cert, Cor 8 = "N = 8: an algebraic unit", Prop 10 = "Odd N: the Krein window"),
-derivation.txt, exact.py, identities.py, certify_v2.py.
+exact.py, identities.py, certify_v2.py.
 
 Conventions. ξ = tanh²(r/2) ∈ (0,1), X = ξ^N, c = (1+ξ)/(1−ξ) (`cR`). The Fourier-block entries
 are DEFINED here by the closed forms of note Thm 2 (`aBlock`, `bBlock`, `gBlock`, with `W` the closed
@@ -21,7 +21,8 @@ FORMALISED (no `sorry`):
 * `aBlock_symm`, `bBlock_symm`, `gBlock_symm`, `gBlock_half` : a_{N−m}=a_m, b_{N−m}=b_m, g_{N−m}=−g_m,
                       g_{N/2}=0 (Thm 2, last sentence).
 * `aBlock_even`     : even-N threshold form, note eq. (even), with y = ξ^{N/2}.
-* `aBlock_recip`    : reciprocity a_m(1/ξ) = a_m(ξ) (Prop 5);
+* `aBlock_recip`, `bBlock_recip`, `gBlock_recip` : reciprocity a_m(1/ξ) = a_m(ξ), b_m(1/ξ) = b_m(ξ),
+                      g_m(1/ξ) = −g_m(ξ) (Prop 5);
   `numerA_recip`    : A_m(1/ξ) = ξ^{−(2N+2)} A_m(ξ) for A_m = 2(1−ξ)²(1−X)² a_m (§5, after Prop 5).
 * `charpoly_block`  : det(J M_m − λ) = (λ + i g_m)² + a_m b_m (Prop 3, eigenvalue formula).
 * `tanh_relations`  : for ξ = tanh²(r/2): c = cosh r and ξ + 1/ξ = 2 + 4/sinh² r (§5, natural invariant).
@@ -35,7 +36,7 @@ FORMALISED (no `sorry`):
                       Uniqueness = f_N has no other root in (0,1).
 * `A_crit_factor_N8` … `_N16` : exact factorisation of the critical numerator
                       2(1−ξ)²(1−X)² a_{⌊N/2⌋} = −k (ξ−1)⁴ · [ (ξ^{N/2}+1) (ξ+1)^{[N≡2 mod 4]} for even N ] · f_N(ξ)
-                      (k = 2 for N ≡ 0 mod 4, 1 otherwise). NOTE the single factor (ξ+1), see DISCREPANCY.
+                      (k = 2 for N ≡ 0 mod 4, 1 otherwise).
 * `fN_data`         : f_N is palindromic, has the degree and leading coefficient of Table 1.
 * `krein_N9, _N11, _N13, _N15` : Prop 10 (qualitative): just above ξ* there is a rational point where
                       all a_m, b_m > 0 (spectrally stable) but a b − g² < 0 on the critical block,
@@ -45,17 +46,20 @@ FORMALISED (no `sorry`):
 * `f8_root_unit`, `xi8_unit` : ξ*(8) is an algebraic integer whose inverse is an algebraic integer
                       (a unit); C = ξ*+1/ξ* satisfies C⁵−12C⁴−42C³−24C²+32C+32 = 0 (`f8_C_poly`).
 
-NOT FORMALISED (on paper / numerical only):
-* The derivation of the Hessian and its Fourier block-diagonalisation (Thm 2 itself: the power-sum
-  decomposition (eq:decomp), the series for ln|1−w|, the root-of-unity filter Σ_k w^{(j−k)p} w^{mk}
-  = N w^{mj}[p ≡ m], the pair-term Hessian from note.tex). Here the blocks are taken as definitions;
-  only the algebra connecting the three contributions and the closed forms is checked.
-* Lemma 1 (relative equilibrium) and the dynamics; Prop 3's stability criteria beyond the
-  characteristic polynomial; Remark 4 (energy–momentum modulo SO(2,1)); nonlinear stability.
-* Irreducibility of f_N over ℚ (hence "minimal polynomial", "degree of ξ*", the degree pattern
-  (eq:deg), and "ξ*(N) not an algebraic integer for N = 9..16" are NOT formalised; only that ξ*(N)
-  is a root of the stated palindromic f_N with the stated degree/leading coefficient).
-* The Krein-window gap sizes and the location of ξ_EM; even-N coincidence of the two thresholds.
-* Large-N asymptotics (κ∞) and all numerical fits (§7); the Arb balls and 50-digit values (we give
+Here the blocks are DEFINITIONS. Elsewhere in the library: their derivation from the Hamiltonian (Lemma 1,
+Thm 2) is `TanhBlocks.lean`; the irreducibility of f_8, …, f_16 is `TanhIrred.lean`; Prop 3's stability criteria
+as eigenvalue / positive-definiteness statements, the large-N section and the even-N equality of the two
+thresholds are `TanhLargeN.lean`.
+
+NOT FORMALISED anywhere in the library (on paper / numerical only):
+* That the linearisation κ₀⁻¹ J H is the derivative of the vortex vector field (it is defined so); Remark 4
+  (energy–momentum modulo SO(2,1)); nonlinear stability.
+* That f_N is the minimal polynomial of ξ*(N), the degree of ξ*(N) (eq:deg), and that ξ*(N) is not an
+  algebraic integer for N = 9..16: Lean proves f_N irreducible (`TanhIrred`) and its degree, leading
+  coefficient and palindromy (`fN_data`); the Gauss-lemma steps from there are on paper.
+* The sizes of the odd-N Krein windows for N = 9..15 and the numerical values of ξ_EM (Lean proves the
+  windows non-empty, and of width O(N⁻³) for large N).
+* The numerical fits of the large-N section, the second-order constants C₁ and W, and, for the infinite
+  row, the reduction of its linearised flow to Bloch modes; the Arb balls and 50-digit values (we give
   20-digit rational enclosures).
 -/

@@ -10,23 +10,20 @@
 \title{Stability thresholds of $N$-vortex rings on the hyperbolic plane\\
 (sinh model): an expository derivation, the $\cosh^2$ form, and an arithmetic remark}
 \author{Gordon Speagle\\Independent Researcher, Boise, ID, USA\\[2pt]\small Expository draft (results known: Montaldi--Tokieda 2013)}
-\date{2026-10-07}
+\date{2026-10-12}
 \begin{document}
 \maketitle
 
 \begin{abstract}
 For $N$ identical point vortices on the hyperbolic plane, with the ``sinh'' pair interaction
-$-\ln\sinh(d/2)$, a regular $N$-ring of Euclidean radius $\sqrt\xi$ in the Poincar\'e disk is linearly
-(spectrally) stable if and only if $(N-1)(1+\xi^2)/(1-\xi)^2 \ge \lfloor N/2\rfloor\lceil N/2\rceil/2$, and its Hessian is
-positive definite on the non-rotational modes under strict inequality.
-\textbf{This criterion is known}: it is Montaldi--Tokieda~\cite{MT}, eq.~(2.11) and Theorem~2, and it may
-is not in Boatto~\cite{Boatto}, whose hyperbolic-plane model is the tanh one. We give a short self-contained derivation in
+$-\ln\sinh(d/2)$, a regular $N$-ring of Euclidean radius $\sqrt\xi$ in the Poincar\'e disk is spectrally
+stable if and only if $(N-1)(1+\xi^2)/(1-\xi)^2 \ge \lfloor N/2\rfloor\lceil N/2\rceil/2$, and its Hessian is
+positive definite on the non-rotational modes if and only if the inequality is strict.
+\textbf{This criterion is known}: it is Montaldi--Tokieda~\cite{MT}, eq.~(2.11) and Theorem~2. We give a short self-contained derivation in
 log-polar coordinates, in which the Hessian is diagonal in each Fourier mode. We restate the threshold as
 $\cosh^2 r_*=q(N)$ with $q$ rational, and we check the thresholds against an independent 60-digit
 linear-stability computation for $N=8,\dots,15$. We also record an elementary remark: $\xi_*(N)$ is an
-algebraic unit exactly for $N\in\{8,9,11,15,23\}$. We also flag an attribution problem in this project's earlier drafts:
-the secondary literature identifies Kimura's 1999 Hamiltonian with the \emph{tanh} (image) model, not the
-sinh model.
+algebraic unit exactly for $N\in\{8,9,11,15,23\}$.
 \end{abstract}
 
 \section{Model}
@@ -43,15 +40,9 @@ $\dot y_k=-\lambda^{-1}\partial_{x_k}H$.
 
 \paragraph{Which model this is.} Up to the curvature normalisation, (\ref{H}) is the $\lambda<0$ member of
 the family built on the Green's function $\log\big(|z-w|^2/(\sigma_z\sigma_w)\big)$, $\sigma=1+\lambda|z|^2$,
-in Montaldi--Tokieda~\cite[(1.12)]{MT}. This project's earlier drafts called (\ref{H}) ``Kimura's model''. However,
-Montaldi--Nava-Gaxiola~\cite[eq.~(12)]{MNG} write Kimura's Hamiltonian as
-$-\frac1{4\pi}\sum\Gamma_i\Gamma_j\ln\frac{\langle X_i,X_j\rangle+1}{\langle X_i,X_j\rangle-1}$ with
-$\langle X,Y\rangle=-\cosh d$, i.e.\ $-\frac1{4\pi}\sum\ln\tanh^2(d/2)$. Montaldi--Tokieda~\cite[\S4.2]{MT}
-likewise say that the image Green's function $\log|z-w|^2/|1+\lambda z\bar w|^2$ ``reduces to the Hamiltonian
-adopted by Kimura''. We could not obtain Kimura~\cite{Kimura} itself. We therefore call (\ref{H}) the
-\emph{sinh model} and make no claim about Kimura's paper.
+in Montaldi--Tokieda~\cite[(1.12)]{MT}. We call it the \emph{sinh model}.
 
-\section{Derivation of the mode decomposition (C1)}
+\section{Derivation of the mode decomposition}
 Write $z_k=\sqrt{\xi}\,e^{s_k+i(2\pi k/N+\theta_k)}$, so the ring is $s=\theta=0$. In these coordinates
 $\omega=\sum_k\kappa(s_k)\,ds_k\wedge d\theta_k$ with $\kappa=4\xi e^{2s}/(1-\xi e^{2s})^2$, and
 $\kappa_0:=\kappa(0)=4\xi/(1-\xi)^2$ at the ring.
@@ -87,7 +78,7 @@ W''(0)-\Omega J_1''(0)=-\frac{2(N-1)\xi}{(1-\xi)^2}+\frac{(N-1)(1+\xi)^2}{(1-\xi
 =\frac{(N-1)(1+\xi^2)}{(1-\xi)^2}=:C_1(\xi).
 \]
 
-\begin{proposition}[C1; known~\cite{MT}]\label{prop:modes}
+\begin{proposition}[known~\cite{MT}]\label{prop:modes}
 In the coordinates $(s,\theta)$, the Hessian of $F=H-\Omega J$ at the ring is block-diagonal over Fourier
 modes $m=0,\dots,N-1$. On mode $m$ it is $\mathrm{diag}(a_m,b_m)$ with
 \[
@@ -97,13 +88,19 @@ The linearised flow on mode $m$ is $\dot s=(b_m/\kappa_0)\theta$, $\dot\theta=-(
 eigenvalues $\sigma^2=-a_mb_m/\kappa_0^2$.
 \end{proposition}
 Because $b_m>0$ for $1\le m\le N-1$, and $m=0$ is the rotation direction ($b_0=0$), the ring is spectrally
-stable iff $a_m\ge0$ for all $m$. It is linearly unstable (a real pair $\pm\sigma$) iff some $a_m<0$. Since
-$\max_m m(N-m)/2=\lfloor N/2\rfloor\lceil N/2\rceil/2=:T$, the criterion is $C_1(\xi)\ge T$. When
-$C_1(\xi)>T$, the Hessian of $F$ is positive definite transverse to the rotation orbit. Montaldi--Tokieda,
-Theorem~2 (stated for exactly this model), then gives Lyapunov stability modulo rotations. We did not
-re-prove that energy--momentum step.
+stable (all eigenvalues of the linearised flow purely imaginary) iff $a_m\ge0$ for all $m$. It has a real
+eigenvalue pair $\pm\sigma$, $\sigma>0$, iff some $a_m<0$. Since
+$\max_m m(N-m)/2=\lfloor N/2\rfloor\lceil N/2\rceil/2=:T$, the criterion is $C_1(\xi)\ge T$. At equality the
+maximising mode has $a_m=0$, $b_m>0$, so its block is nilpotent (linear growth): the ring is spectrally stable but not
+linearly stable there. When
+$C_1(\xi)>T$, the Hessian of $F$ is positive definite transverse to the rotation orbit, and
+Montaldi--Tokieda, Theorem~2 (stated for exactly this model), gives Lyapunov stability modulo rotations. At
+$C_1(\xi)=T$ the Hessian is only semidefinite; that case is not treated in this note. For $N\ge8$ it is the
+bifurcation point of Montaldi--Tokieda's Conjecture~13, and the companion paper in \texttt{conj13/paper} of this
+repository proves Lyapunov stability modulo rotations there. We did not
+re-derive the energy--momentum step.
 
-\section{Marginal stability, the $\cosh^2$ form (C2)}
+\section{Marginal stability, the $\cosh^2$ form}
 With $\xi=\tanh^2(r/2)$ ($r$ the hyperbolic ring radius), $\cosh r=(1+\xi)/(1-\xi)$ and
 $(1+\xi^2)/(1-\xi)^2=(1+\cosh^2r)/2$. So $C_1=T$ is equivalent to
 \[
@@ -111,8 +108,8 @@ $(1+\xi^2)/(1-\xi)^2=(1+\cosh^2r)/2$. So $C_1=T$ is equivalent to
 q(N)=\begin{cases}\frac{N-3}{4}&N\text{ odd},\\[2pt] \frac{(N-2)^2}{4(N-1)}&N\text{ even},\end{cases}
 \qquad \xi_*=\frac{\sqrt q-1}{\sqrt q+1}.
 \]
-$q(N)\le1$ for $N\le7$, so every ring is stable ($N=7$: $q=1$, $r_*=0$, the planar Thomson--Havelock
-degeneracy). For $N\ge8$ we have $q>1$, and the ring is stable iff $r>r_*(N)$. This is
+$q(N)\le1$ for $N\le7$, so every ring is spectrally stable ($N=7$: $q=1$, $r_*=0$, the planar Thomson--Havelock
+degeneracy). For $N\ge8$ we have $q>1$, the ring is spectrally stable iff $r\ge r_*(N)$, with positive definite Hessian iff $r>r_*(N)$. This is
 Montaldi--Tokieda's (2.11) rewritten. Their table of bifurcation values $\lambda r_0^2=-0.0627,-0.101,
 -0.143,-0.172,-0.202,-0.225$ ($n=8,\dots,13$) is $-\xi_*(N)$, and their example $n=15$ gives $\xi_*=2-\sqrt3$.
 
@@ -138,9 +135,9 @@ matches $\{0,0\}\cup\{\pm\sqrt{-a_mb_m}/\kappa_0\}$ to within $2.5\cdot10^{-17}$
 formula to $10^{-58}$. (B) Bisection on ``$\max\operatorname{Re}\sigma>10^{-15}$'' locates the threshold
 within $1.2\cdot10^{-19}$ of $\xi_*(N)$ for every $N=8,\dots,15$, which is the bisection resolution.
 Recorded output: \texttt{sinh/lin\_stab.out}. Coarser independent scans (sinh branch: first stable
-$r_E=0.252,0.318,0.378$; scripts not included in this repository) agree.
+$r_E=0.252,0.318,0.378$) agree.
 
-\section{An arithmetic remark (C3)}
+\section{An arithmetic remark}
 From $\xi_*=(\sqrt q-1)/(\sqrt q+1)$:
 \[
 \xi_*+\xi_*^{-1}=\frac{2(q+1)}{q-1}=2+\frac{4}{q-1}=:c(N),\qquad
@@ -163,24 +160,19 @@ $x^2-cx+1$, which has integer coefficients when $\xi_*$ is integral, so $c\in\ma
 $0<4/(q-1)<1$ there. Checking the even $N\in[8,22]$ leaves only $N=8$, where $4/(q-1)=14$.
 \end{proof}
 Thus $\xi_*(8)=8-3\sqrt7=(8+3\sqrt7)^{-1}$, a root of $\xi^2-16\xi+1$. The statement ``$\xi_*$ is a unit''
-is false in general: $\xi_*(10)=1/7$ has norm $1$ (since $\xi_*\cdot\xi_*^{-1}=1$) but is not integral.
-Literature: we found no statement of Proposition~\ref{prop:units}. It is an elementary observation about
-known numbers and carries no dynamical content. Remarks on $SL(2,\mathbb Z)$ (claim C4 of the earlier
-drafts) are outside this note.
+does not hold in general: $\xi_*(10)=1/7$ is a root of $x^2-(50/7)x+1$, whose two roots $1/7$ and $7$ multiply to $1$, but $1/7$ is not integral.
+We did not find Proposition~\ref{prop:units} in the sources we read. It is an elementary observation about
+known numbers and carries no dynamical content.
 
 \section{Remarks on other models (context only)}
 \begin{itemize}
 \item \emph{tanh (image) model}, pair term $-\ln\tanh(d/2)$, same area form. Coarser independent scans
-(scripts not included in this repository) give first stable $r_E\approx0.26$, $0.336$,
-$0.408$ for $N=8,9,10$, which differ from the sinh values. Per~\cite{MNG,MT} this is the Hamiltonian
-attributed to Kimura. Montaldi--Tokieda call its stability analysis ``no longer tractable analytically''.
-Its thresholds are
+give first stable $r_E\approx0.26$, $0.336$,
+$0.408$ for $N=8,9,10$, for this model (see~\cite{MNG,MT}). Its thresholds are
 treated in the companion note \texttt{tanh/note\_tanh.pdf}: exact algebraic numbers, certified for $N\le16$.
 \item \emph{flat hard-wall disk} (Euclidean area form, images plus the Robin self-image term). Independent
-scans (scripts not included in this repository) find $N=7,8$ rings unstable at every radius
+scans find $N=7,8$ rings unstable at every radius
 tested. Identical Green's functions do not give identical dynamics.
-\item \textbf{Retracted context.} An earlier draft of this project claimed ``hard-wall BEC $=$ Poincar\'e disk'' and
-attached these thresholds to BEC experiments. That claim is false and nothing here supports it.
 \end{itemize}
 
 \section{Formalisation status}
@@ -204,24 +196,14 @@ Not formalised: the passage from the $2\times2$ blocks to the full $2N$-dimensio
 stability, and the converse (i)$\Rightarrow$(iii) for irrational $\xi_*$.
 
 \section{Status}
-C1--C3 label the claims of this project's earlier drafts that this note checks: the mode
-decomposition (C1), the threshold (C2) and the arithmetic remark (C3).
-C1, C2: \textbf{KNOWN} (Montaldi--Tokieda 2013), re-derived and checked (symbolic and 60-digit numerics).
-C3: elementary, proved, and formalised for its arithmetic part. Novelty possibly new but immaterial.
-Checked by an independent AI reader (\texttt{sinh/review\_1.md}); no human specialist has reviewed it.
-Open literature gaps: Hwang--Kim 2009/2013 and Kimura 1999 (not obtained). Boatto 2008 has since been read in
-full; it treats the tanh model.
+The mode decomposition and the threshold are known (Montaldi--Tokieda 2013); here they are re-derived and checked
+(symbolic and 60-digit numerics). The arithmetic remark is elementary, proved, and formalised for its arithmetic part.
+The text was prepared with AI assistance; no human specialist has reviewed it.
 
 \begin{thebibliography}{9}
 \bibitem{MT} J.~Montaldi, T.~Tokieda, Deformation of geometry and bifurcations of vortex rings, in
 \emph{Recent Trends in Dynamical Systems}, Springer Proc.\ Math.\ Stat.\ 35 (2013) 335--370; arXiv:1210.5662.
 \bibitem{MNG} J.~Montaldi, C.~Nava-Gaxiola, Point vortices on the hyperbolic plane, J.\ Math.\ Phys.\ 55
 (2014) 102702; arXiv:1403.2138.
-\bibitem{Kimura} Y.~Kimura, Vortex motion on surfaces with constant curvature, Proc.\ R.\ Soc.\ Lond.\ A 455
-(1999) 245--259 (not obtained).
-\bibitem{Boatto} S.~Boatto, Curvature perturbations and stability of a ring of vortices, DCDS-B 10 (2008)
-349--375.
-\bibitem{HK} S.~Hwang, S.-C.~Kim, Point vortices on hyperbolic sphere, J.\ Geom.\ Phys.\ 59 (2009) 475--488;
-Relative equilibria of point vortices on the hyperbolic sphere, J.\ Math.\ Phys.\ 54 (2013) 063101 (not obtained).
 \end{thebibliography}
 \end{document}

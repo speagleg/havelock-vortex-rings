@@ -31,6 +31,7 @@ def test_exact_forms_and_geometry():
         assert abs(t4.r - mp.acos(1 / mp.sqrt(3))) < mp.mpf(10) ** -45
     t7 = threshold("plane", 7)
     assert t7.value == 0 and t7.geometry == "plane" and t7.r == 1
+    assert t7.stable_side is None and "degenerate view" in t7.basis and threshold("mt", 7).stable_side == "below"
     t8 = threshold("sinh", 8)
     assert sp.simplify(t8.exact + 8 - 3 * sp.sqrt(7)) == 0 and t8.geometry == "H2"
     with mp.workdps(50):
@@ -70,8 +71,8 @@ def test_value_has_50_digits_and_json():
     assert d["type"] == "Threshold" and d["value"].startswith("-0.26794919243112270647255365849")
 
 
-def test_review_focus_large_n_stays_exact():
-    # Review Focus 1: huge N in the MT family is closed-form, exact and fast
+def test_large_n_stays_exact():
+    # huge N in the MT family is closed-form, exact and fast
     t = threshold("sinh", 10001)
     assert t.status == hv.Status.PROVED and t.mode == 5000
     with mp.workdps(50):

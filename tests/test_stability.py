@@ -12,7 +12,6 @@ from havelock.stability import stability
     ("plane", 6, 0, "EM-stable"), ("plane", 8, 0, "unstable"),
     ("plane", 7, 0, "spectrally-stable-only"),           # b_7 = 0: a_3 = 0 exactly
     ("sinh", 10, "-1/7", "spectrally-stable-only"),       # b_10 = -1/7: a_5 = 0 exactly
-    ("mt", 3, 1, "spectrally-stable-only"),               # equator: a_1 = 0
 ])
 def test_verdicts(model, N, value, verdict):
     s = stability(model, N, value)
@@ -52,13 +51,24 @@ def test_invalid(args):
     ("sphere", 4, "1", "unstable"),
     ("sinh", 9, "-0.999999", "EM-stable"),
 ])
-def test_review_focus_domain_edges(model, N, value, verdict):
-    # Review Focus 4: values on a domain edge get exact verdicts
+def test_domain_edges(model, N, value, verdict):
+    # values on a domain edge get exact verdicts
     assert stability(model, N, value).verdict == verdict
 
 
-def test_review_focus_float_near_threshold_is_decided_exactly():
-    # Review Focus 5: float(b_8) is not b_8; its exact binary value decides the verdict, never "degenerate"
+@pytest.mark.parametrize("model,N,verdict", [("mt", 3, "spectrally-stable-only"), ("sphere", 2, "spectrally-stable-only"),
+                                             ("mt", 4, "unstable"), ("sphere", 7, "unstable")])
+def test_equator_is_not_labelled_proved(model, N, verdict):
+    # lam_r2 = 1 lies outside the range |b| < 1 of the paper's Propositions 3 and 4
+    s = stability(model, N, 1)
+    assert s.verdict == verdict and s.status == hv.Status.CERTIFIED
+    assert "equator" in s.basis and "not a paper theorem" in s.basis
+    assert "see havelock.nonlinear" not in s.basis and s.blocks[0].a == 0
+    assert stability(model, N, "0.999").status == hv.Status.PROVED
+
+
+def test_float_near_threshold_is_decided_exactly():
+    # float(b_8) is not b_8; its exact binary value decides the verdict, never "degenerate"
     import sympy as sp
     from havelock.models.mt import bn_exact
     b = float(sp.N(bn_exact(8), 30))

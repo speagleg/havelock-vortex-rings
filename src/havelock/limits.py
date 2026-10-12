@@ -19,6 +19,9 @@ WITNESS_MAX_PRIME = 20000
 TANH_EXACT_MAX_N = 64
 #: largest N for which certificate() issues a certificate (the independent verifier refuses larger N)
 VERIFY_MAX_N = 100000
+#: largest number of digits in a numerator or denominator of a certificate rational (verifier cap; Python's int/str
+#: conversion limit is 4300, and an endpoint at the top of the precision ladder has about 2470 digits)
+CERT_MAX_DIGITS = 2600
 
 _LIMITS = {
     "work_dps": WORK_DPS,
@@ -28,6 +31,7 @@ _LIMITS = {
     "irreducibility_witness_max_prime": WITNESS_MAX_PRIME,
     "tanh_exact_max_N": TANH_EXACT_MAX_N,
     "certificate_max_N": VERIFY_MAX_N,
+    "certificate_max_digits": CERT_MAX_DIGITS,
 }
 
 

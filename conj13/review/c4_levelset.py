@@ -1,4 +1,4 @@
-"""Independent second-reader computation of the effective quartic c4 on J^{-1}(mu)/SO(2).
+"""Independent computation of the effective quartic c4 on J^{-1}(mu)/SO(2).
 Model (MT (1.12)): chart C, sigma=1+lam|z|^2, omega=sum 2dx^dy/sigma^2,
 H = -sum_{i<j} log(|zi-zj|^2/(sigma_i sigma_j))  (no 1/4pi), J = sum (x/sigma, y/sigma, |z|^2/sigma).
 Ring z_k = exp(2 pi i k/n), r0 = 1, lam = b_n.

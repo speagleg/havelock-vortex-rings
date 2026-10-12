@@ -91,3 +91,36 @@ def test_threshold_line_names_the_parameter_and_stable_direction(capsys):
     rc, out, _ = run(capsys, "threshold", "sinh", "12")
     assert rc == 0 and "threshold lam_r2 = -0.20241086" in out and "stable for lam_r2 < threshold" in out
     assert "thm:" not in out and "prop:" not in out
+
+
+@pytest.mark.parametrize("argv", [
+    ["stability", "sinh", "9", "-1e-3"], ["stability", "sinh", "9", "--value", "-1e-3"],
+    ["stability", "sinh", "9", "-1E-3"], ["stability", "sinh", "9", "-.3"], ["stability", "sinh", "9", "-3e-1"],
+    ["stability", "sinh", "9", "--value", "-1/7"], ["stability", "sinh", "9", "--value=-1e-3"],
+])
+def test_negative_scientific_and_option_values(capsys, argv):
+    rc, out, _ = run(capsys, *argv, "--json")
+    assert rc == 0 and json.loads(out)["verdict"] in ("EM-stable", "unstable")
+
+
+def test_negative_value_after_another_option_is_not_taken_as_the_value(capsys):
+    rc, out, err = run(capsys, "simulate", "sinh", "9", "-0.3", "--t-end", "-1e-3")
+    assert rc == 2 and "t_end" in err
+
+
+def test_negative_scientific_value_is_used_exactly(capsys):
+    rc, out, _ = run(capsys, "stability", "sinh", "9", "-1e-3", "--json")
+    assert rc == 0 and json.loads(out)["value"] == "-1/1000"
+
+
+def test_tanh_threshold_line_says_spectral_and_krein_for_odd_n(capsys):
+    rc, out, _ = run(capsys, "threshold", "tanh", "9")
+    assert rc == 0 and "(spectrally stable for xi > threshold; Krein window just above it)" in out
+    rc, out, _ = run(capsys, "threshold", "tanh", "8")
+    assert rc == 0 and "(stable for xi > threshold)" in out
+
+
+def test_plane_threshold_line_is_flagged_degenerate(capsys):
+    rc, out, _ = run(capsys, "threshold", "plane", "7")
+    first = out.splitlines()[0]
+    assert rc == 0 and "degenerate one-point view" in first and "stable for lam_r2 <" not in first

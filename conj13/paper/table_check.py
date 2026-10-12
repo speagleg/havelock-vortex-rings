@@ -1,4 +1,4 @@
-"""Table check for the paper: runs the third reader's Cartesian order-by-order KKT engine
+"""Table check for the paper: runs the independent Cartesian order-by-order KKT engine
 (../review3/kkt_exact.py, no Fourier ansatz, no symmetry reduction) exactly in GF(p) (3 primes x both
 conjugates of lam) and in 40-digit floats, for n = 4..25, and compares c4 with the closed forms
   even n: (n-2)(m^4+40m^2+48m+16)/(192 n (n-1)), m = n-2;   odd n: (n-1)(n-3)(n^2-9n+38)/(128 n).

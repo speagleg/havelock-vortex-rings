@@ -1,13 +1,14 @@
-# Independent second-reader check
+# Independent check
 
-This folder is a check of both results written from scratch by a separate AI agent (Claude) that had not
-seen the derivations. It imports nothing from `havelock`, `conj13/`, `tanh/` or `sinh/`, uses none of
+This folder is an independent from-scratch implementation that checks both results, written without
+reference to the papers' derivations. It imports nothing from `havelock`, `conj13/`, `tanh/` or `sinh/`, uses none of
 their series coefficients or Fourier blocks, and works directly from the Hamiltonian in Cartesian
 coordinates on the Poincaré disk. Its numbers are NUMERICAL (40–50-digit floating point, no rigorous error
 bound), so they corroborate the papers but do not replace their proofs or certificates.
 
-Run everything with `./run_all.sh` (needs `mpmath` and `sympy`; about 30 minutes, dominated by the tanh
-N = 16 bisection). Outputs are in `out/`.
+Run everything with `./run_all.sh` (needs `mpmath` and `sympy`; the jobs run in parallel, and the slowest, the tanh
+N = 16 bisection, took about 5 minutes on a 12-core machine). Outputs are in `out/`. `scripts/reproduce.py` runs the
+same commands one at a time and compares each output with the committed one (ids `ic_*`, see `REPRODUCE.md`).
 
 ## Setting
 
@@ -44,7 +45,7 @@ the closed forms for every n tested, odd and even, under that one normalisation:
 | n | ξ*²·E₄ | closed form | relative difference |
 |---|---|---|---|
 | 7 (plane, radius 1, E₄ itself) | 0.642857138 | 9/14 | 7·10⁻⁹ |
-| 8–21 (sinh) | see `out/table.out` | (n−2)(m⁴+40m²+48m+16)/(192n(n−1)) or (n−1)(n−3)(n²−9n+38)/(128n) | ≤ 7·10⁻⁹ |
+| 8–17, 19, 21 (sinh) | see `out/table.out` | (n−2)(m⁴+40m²+48m+16)/(192n(n−1)) or (n−1)(n−3)(n²−9n+38)/(128n) | ≤ 7·10⁻⁹ |
 
 The residuals come from the small-s extrapolation. At every bifurcation point tested the reduced Hessian
 on ker dJ₃ has exactly a two-dimensional kernel besides the rotation zero, and is positive on the rest
@@ -69,4 +70,4 @@ N = 8–16 (several conjugates lie off the unit circle).
   not the argument.
 - The sphere cases n = 4, 5, 6 and the case n = 3 (the code is disk-only, plus the plane at n = 7).
 - The Lean build, PARI, or any Arb certificate.
-- Prior work (Hwang–Kim 2013, Kurakin 2003/2004, Kurakin–Yudovich) and the Boatto figure comparison.
+- Comparisons with the literature.

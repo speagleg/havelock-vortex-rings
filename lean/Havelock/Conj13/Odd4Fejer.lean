@@ -1,7 +1,6 @@
 /-
 Havelock — Conjecture 13, odd `n`: the first- and second-order Fejér sums used for the `A⁴`
-coefficient (paper `conj13/paper/main.tex`, proof of Thm odd, "Sums over roots of unity";
-`conj13/derivation.txt` §8, item 5: "provable by the second-difference recursion in p").
+coefficient (paper `conj13/paper/main.tex`, proof of Thm odd, "Sums over roots of unity").
 
 With `θ_m = 2πm/n`, for every `n ≥ 1` and `0 ≤ q ≤ n`:
 
@@ -177,7 +176,7 @@ theorem F2_zero (n : ℕ) (hn : 0 < n) : F2 n 0 = fejer2Poly n 0 := by
     · linarith
   rw [this]; unfold fejer2Poly; ring
 
-/-- **Second-order Fejér sum** (`conj13/derivation.txt` §8): for `n ≥ 1`, `0 ≤ q ≤ n`,
+/-- **Second-order Fejér sum** (paper `conj13/paper/main.tex`, proof of Thm odd): for `n ≥ 1`, `0 ≤ q ≤ n`,
 `Σ_{m=1}^{n−1} cos(2πqm/n)/(1 − cos(2πm/n))² = (n⁴ − 30n²q² + 10n² + 60nq³ − 60nq − 30q⁴ + 60q² − 11)/180`. -/
 theorem fejer2 (n q : ℕ) (hn : 0 < n) (hq : q ≤ n) :
     ∑ m ∈ Ico 1 n, Real.cos (2 * π * q * m / n) / (1 - Real.cos (2 * π * m / n)) ^ 2

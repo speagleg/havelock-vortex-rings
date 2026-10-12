@@ -108,8 +108,9 @@ class Result:
 @dataclass(kw_only=True)
 class Threshold(Result):
     """A stability threshold in the model's native parameter. `stable_side` is "below" (MT family: stable for
-    lam_r2 < value) or "above" (tanh: stable for xi > value). `exact` is a sympy expression or an
-    IsolatedRoot (minimal polynomial with an isolating interval)."""
+    lam_r2 < value), "above" (tanh: spectrally stable for xi > value; for odd N >= 9 not EM-stable just above it,
+    the Krein window), or None for the one-point plane view (N = 7), which has no stable side. `exact` is a sympy
+    expression or an IsolatedRoot (minimal polynomial with an isolating interval)."""
 
     model: str
     N: int
@@ -117,7 +118,7 @@ class Threshold(Result):
     exact: Any
     mode: int
     geometry: str
-    stable_side: str
+    stable_side: str | None
     xi: Any = None
     r: Any = None
     cosh_r: Any = None

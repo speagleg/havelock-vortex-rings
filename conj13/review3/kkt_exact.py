@@ -1,4 +1,4 @@
-"""Third reader, route B: order-by-order KKT expansion of the level-set minimisation in CARTESIAN
+"""Independent route: order-by-order KKT expansion of the level-set minimisation in CARTESIAN
 coordinates, with no Fourier ansatz, no mode selection and no residue sums.  All 2n coordinates are
 unknowns; the field is either GF(p) (exact; p = 1 mod 4n so zeta_n, i exist; sqrt(n-3) or sqrt(7)
 exists) or mpmath (to select the root b_n in (-1,1) and cross-check).

@@ -82,28 +82,28 @@ def test_certificate_requires_threshold_and_lean_is_tanh_only(tmp_path):
         certificate(threshold("mt", 8)).to_lean(tmp_path / "x.lean")
 
 
-def test_review_focus_large_n_certificate():
-    # Review Focus 1: an MT certificate for large N is a quadratic and verifies quickly
+def test_large_n_certificate():
+    # an MT certificate for large N is a quadratic and verifies quickly
     c = certificate(threshold("sinh", 501))
     assert len(c.data["polynomial"]) == 3 and Certificate.verify(c).ok
 
 
 @pytest.mark.parametrize("bad", ['[1, 2]', '{"schema": "havelock-threshold-certificate/1", "model": "sinh", "N": 8}',
                                  '{"schema": "havelock-thr'])
-def test_review_focus_malformed_json_is_invalid_not_a_crash(bad):
-    # Review Focus 3: hand-edited or truncated certificates give an INVALID report, never a traceback
+def test_malformed_json_is_invalid_not_a_crash(bad):
+    # hand-edited or truncated certificates give an INVALID report, never a traceback
     rep = Certificate.verify(bad)
     assert not rep.ok and rep.failures
 
 
-def test_review_focus_garbage_interval():
+def test_garbage_interval():
     d = copy.deepcopy(certificate(threshold("sinh", 8)).data)
     d["interval"] = ["abc", "1/0"]
     rep = Certificate.verify(d)
     assert not rep.ok and "malformed" in rep.failures[-1]
 
 
-# ---- Ruling C1: wrong-typed or malformed fields give INVALID, never a traceback ----
+# ---- wrong-typed or malformed fields give INVALID, never a traceback ----
 def _mutate(field, value):
     d = copy.deepcopy(certificate(threshold("sinh", 8)).data)
     d[field] = value
@@ -140,7 +140,7 @@ def test_verify_dict_rejects_non_dict():
     assert not verify_dict([1, 2]).ok and not verify_dict(None).ok
 
 
-# ---- Ruling T4-I1: interval_clear is re-checked independently ----
+# ---- interval_clear is re-checked independently ----
 def test_interval_clear_deleted_is_invalid():
     d = certificate(threshold("sinh", 8)).data
     del d["interval_clear"]
@@ -170,7 +170,7 @@ def test_interval_containing_another_blocks_root_is_invalid():
     assert any("interval_clear" in f and "A_" in f for f in rep.failures), rep.failures
 
 
-# ---- Ruling T4-I2: closed domain endpoints on the stable side ----
+# ---- closed domain endpoints on the stable side ----
 def test_closed_stable_endpoint_is_checked(monkeypatch):
     from havelock.certificates import verify as V
     d = certificate(threshold("sinh", 8)).data
@@ -191,7 +191,7 @@ def test_closed_stable_endpoint_is_checked(monkeypatch):
     assert not rep.ok and any("closed" in f for f in rep.failures)
 
 
-# ---- fix round 1 ----
+# ---- size limits ----
 def test_certificate_refuses_n_above_verify_max():
     from havelock.limits import VERIFY_MAX_N, limits
     assert VERIFY_MAX_N == 100000 and limits()["certificate_max_N"] == VERIFY_MAX_N
@@ -201,9 +201,10 @@ def test_certificate_refuses_n_above_verify_max():
 
 def test_verifier_literals_mirror_limits():
     from havelock.certificates import verify as V
-    from havelock.limits import TANH_EXACT_MAX_N, VERIFY_MAX_N, WITNESS_MAX_PRIME
+    from havelock.limits import CERT_MAX_DIGITS, TANH_EXACT_MAX_N, VERIFY_MAX_N, WITNESS_MAX_PRIME, limits
     assert V._MAX_N == VERIFY_MAX_N and V._MAX_PRIME == WITNESS_MAX_PRIME
-    assert V._TANH_MAX_N == TANH_EXACT_MAX_N     # final F5: raising the tanh cap must update the verifier mirror
+    assert V._MAX_DIGITS == CERT_MAX_DIGITS < 4300 and limits()["certificate_max_digits"] == CERT_MAX_DIGITS
+    assert V._TANH_MAX_N == TANH_EXACT_MAX_N     # raising the tanh cap must update the verifier mirror
 
 
 def test_json_parse_limits_are_invalid_not_a_crash():
@@ -228,7 +229,7 @@ def test_strict_types_in_mode_signs_counts_degrees():
     assert not Certificate.verify(d).ok
 
 
-# ---- final review F1: the model's view must contain the certified root ----
+# ---- the model's view must contain the certified root ----
 @pytest.mark.parametrize("view", ["sphere", "plane"])
 def test_relabelled_view_not_containing_the_threshold_is_invalid(view):
     d = copy.deepcopy(certificate(threshold("mt", 9)).data)       # b_9 < 0: threshold("sphere"|"plane", 9) has none
@@ -253,7 +254,7 @@ def test_plane_view_requires_the_root_zero():
     assert not Certificate.verify(dict(d, model="sinh")).ok and not Certificate.verify(dict(d, model="sphere")).ok
 
 
-# ---- final review F5: the verifier caps tanh N ----
+# ---- the verifier caps tanh N ----
 def test_verifier_refuses_tanh_n_above_cap_quickly():
     import time
     d = copy.deepcopy(certificate(threshold("tanh", 8)).data)
@@ -264,3 +265,107 @@ def test_verifier_refuses_tanh_n_above_cap_quickly():
     assert not rep.ok and any("limited to N <= 64" in f for f in rep.failures), rep.failures
     d["N"] = 65
     assert any("limited to N <= 64" in f for f in Certificate.verify(d).failures)
+
+
+# ---- duplicate keys and fields outside the schema ----
+def test_duplicate_json_keys_are_invalid():
+    text = certificate(threshold("sinh", 8)).to_json()
+    dup = text.replace('"model": "sinh",', '"model": "tanh", "model": "sinh",', 1)
+    assert dup != text and json.loads(dup)["model"] == "sinh"          # plain json.loads keeps the last value
+    rep = Certificate.verify(dup)
+    assert not rep.ok and any("duplicate key 'model'" in f for f in rep.failures), rep.failures
+
+
+def test_duplicate_keys_in_a_nested_object_are_invalid(tmp_path):
+    text = certificate(threshold("sinh", 8)).to_json()
+    dup = text.replace('"side": "below"', '"side": "above", "side": "below"', 1)
+    assert dup != text
+    p = tmp_path / "dup.json"
+    p.write_text(dup)
+    rep = Certificate.verify(p)
+    assert not rep.ok and any("duplicate key 'side'" in f for f in rep.failures), rep.failures
+
+
+@pytest.mark.parametrize("path", [(), ("stable_side",), ("irreducibility_witness",), ("mode_signs", "1")])
+def test_unknown_fields_are_invalid(path):
+    d = copy.deepcopy(certificate(threshold("sinh", 8)).data)
+    assert Certificate.verify(d).ok
+    target = d
+    for k in path:
+        target = target[k]
+    target["extra"] = 1
+    rep = Certificate.verify(d)
+    assert not rep.ok and any("extra" in f or "fields" in f for f in rep.failures), rep.failures
+
+
+def test_unknown_mode_keys_in_root_counts_are_invalid():
+    d = copy.deepcopy(certificate(threshold("sinh", 8)).data)
+    d["stable_side"]["root_counts"]["9"] = {"A": 0, "B": 0}
+    assert not Certificate.verify(d).ok
+
+
+def test_provenance_and_witness_are_optional():
+    d = copy.deepcopy(certificate(threshold("sinh", 8)).data)
+    del d["provenance"]
+    d["irreducibility_witness"] = None
+    assert Certificate.verify(d).ok
+
+
+# ---- rational size: a clear message below Python's int/str limit, and huge endpoints rejected quickly ----
+def test_rational_digit_cap_has_a_clear_message():
+    from havelock.limits import CERT_MAX_DIGITS
+    d = copy.deepcopy(certificate(threshold("sinh", 8)).data)
+    d["interval"] = ["-1/" + "1" * (CERT_MAX_DIGITS + 1), d["interval"][1]]
+    rep = Certificate.verify(d)
+    assert not rep.ok and any(f"more than {CERT_MAX_DIGITS} digits" in f for f in rep.failures), rep.failures
+    d["interval"][0] = "-1/" + "1" * 4400                       # beyond Python's 4300-digit limit: same message
+    rep = Certificate.verify(d)
+    assert not rep.ok and any(f"more than {CERT_MAX_DIGITS} digits" in f for f in rep.failures), rep.failures
+
+
+def test_padded_but_equal_endpoints_still_verify():
+    d = copy.deepcopy(certificate(threshold("sinh", 8)).data)
+    lo, hi = (Fraction(s) for s in d["interval"])
+    pad = 10 ** 2000
+    d["interval"] = [f"{lo.numerator * pad}/{lo.denominator * pad}", f"{hi.numerator * pad}/{hi.denominator * pad}"]
+    assert Certificate.verify(d).ok
+
+
+def _huge(q, digits):
+    den = 10 ** digits + 1
+    return str(Fraction(int(q * den), den))
+
+
+def test_huge_wrong_endpoints_are_rejected_quickly():
+    import time
+    from havelock.limits import CERT_MAX_DIGITS
+    d = copy.deepcopy(certificate(threshold("tanh", 12)).data)
+    lo, hi = (Fraction(s) for s in d["interval"])
+    w = hi - lo
+    d["interval"] = [_huge(lo - 1000 * w, CERT_MAX_DIGITS - 1), _huge(hi + 1000 * w, CERT_MAX_DIGITS - 1)]
+    t0 = time.perf_counter()
+    rep = Certificate.verify(d)
+    assert time.perf_counter() - t0 < 20
+    assert not rep.ok
+
+
+def test_huge_but_correct_enclosure_verifies_with_the_exact_counts():
+    # endpoints with ~2000 digits that still enclose the threshold tightly: every recomputed count is exact
+    import time
+    d = copy.deepcopy(certificate(threshold("tanh", 12)).data)
+    lo, hi = (Fraction(s) for s in d["interval"])
+    d["interval"] = [_huge(lo, 2000), _huge(hi, 2000)]
+    lo2, hi2 = (Fraction(s) for s in d["interval"])
+    assert lo2 <= lo and len(d["interval"][0]) > 3000
+    d["interval"][1] = str(hi2 + Fraction(1, 10 ** 2000 + 1))     # round the upper end outwards
+    d["stable_side"]["interval"][0] = d["interval"][1]
+    t0 = time.perf_counter()
+    rep = Certificate.verify(d)
+    assert rep.ok, rep.failures
+    assert time.perf_counter() - t0 < 60
+
+
+def test_certificate_refuses_endpoints_above_the_digit_cap():
+    t = threshold("tanh", 8, precision=9000)            # endpoints of ~18000 bits: more than 2600 digits
+    with pytest.raises(hv.CertificationFailed, match="more than 2600 digits"):
+        certificate(t)

@@ -18,3 +18,31 @@ keywords:
   - stability
   - computer-assisted proof
   - Lean 4
+preferred-citation:
+  type: unpublished
+  title: "Stability of the regular n-gon of point vortices at its bifurcation point: a proof of the Montaldi–Tokieda conjecture for n ≥ 4"
+  authors:
+    - family-names: Speagle
+      given-names: Gordon
+      affiliation: Independent Researcher, Boise, ID, USA
+      email: gspeagle@gmail.com
+  year: 2026
+  notes: "Draft, not peer reviewed. conj13/paper/main.pdf in this repository."
+  url: "https://github.com/speagleg/havelock-vortex-rings/blob/main/conj13/paper/main.pdf"
+references:
+  - type: unpublished
+    title: "Stability of the regular n-gon of point vortices at its bifurcation point: a proof of the Montaldi–Tokieda conjecture for n ≥ 4"
+    authors:
+      - family-names: Speagle
+        given-names: Gordon
+    year: 2026
+    notes: "Draft, not peer reviewed. conj13/paper/main.pdf in this repository."
+    url: "https://github.com/speagleg/havelock-vortex-rings/blob/main/conj13/paper/main.pdf"
+  - type: unpublished
+    title: "Stability thresholds of N-vortex rings on the hyperbolic plane (tanh model): rational Fourier blocks, palindromic threshold polynomials, and a certified table for N ≤ 16"
+    authors:
+      - family-names: Speagle
+        given-names: Gordon
+    year: 2026
+    notes: "Draft, not peer reviewed. tanh/note_tanh.pdf in this repository."
+    url: "https://github.com/speagleg/havelock-vortex-rings/blob/main/tanh/note_tanh.pdf"

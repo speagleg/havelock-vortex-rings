@@ -1,4 +1,4 @@
-\\ Threshold polynomials f_N (from TanhAlgebra.lean; checked equal to exact.py by extract.py)
+\\ Threshold polynomials f_N (from lean/Havelock/Tanh/CertN*.lean; checked equal to exact.py by extract.py)
 f = vector(16);
 f[8] = Pol([1, -12, -37, -72, -84, -88, -84, -72, -37, -12, 1]);
 f[9] = Pol([4, -24, -80, -160, -224, -259, -306, -361, -420, -361, -306, -259, -224, -160, -80, -24, 4]);

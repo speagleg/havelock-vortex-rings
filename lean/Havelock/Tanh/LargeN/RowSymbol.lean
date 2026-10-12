@@ -14,9 +14,8 @@ pair term between sites `0` and `k ≠ 0` at the row:
 * the momentum term contributes `diag(0, 2v)` on site, `v = ∑_{k≠0} 2/(k²ℓ² + 4)` (`rowVel`, from the
   `y`-force balance).
 
-These entries are taken here as the DEFINITION of the per-pair Hessian (the derivative computation itself,
-`Hess Re f = [[Re f'', −Im f''], [−Im f'', −Re f'']]` applied to `f = −log(z − z_k)` and `log(z − z̄_k)`,
-is not formalised). The Bloch symbol on `(δx_k, δy_k) = e^{2πiθk}(X, Y)` is
+These entries are taken here as the DEFINITION of the per-pair Hessian; `RowHessian.lean` derives them (and
+the force balance) as second derivatives of the pair term. The Bloch symbol on `(δx_k, δy_k) = e^{2πiθk}(X, Y)` is
 `M(θ) = ∑_{k≠0} [on(k) + e^{2πiθk} cp(k)] + diag(0, 2v)` (`rowMxx`, `rowMxy`, `rowMyx`, `rowMyy`,
 `ℤ`-indexed tsums whose `k = 0` term is set to `0`).
 

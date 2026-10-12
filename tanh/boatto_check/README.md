@@ -1,4 +1,4 @@
-# Reimplementation of Boatto (2008)
+# Cross-check against published equations: Boatto (2008)
 
 S. Boatto, "Curvature perturbations and stability of a ring of vortices", DCDS-B 10 (2008), no. 2&3, 349–375,
 doi:10.3934/dcdsb.2008.10.349. Boatto formulated this stability problem for the image ("tanh") Green's function on

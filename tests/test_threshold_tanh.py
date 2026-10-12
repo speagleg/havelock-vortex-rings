@@ -40,7 +40,7 @@ def test_note_table_1(N):
     assert t.exact.lo < Fraction(xs) + Fraction(1, 10**25) and t.exact.hi > Fraction(xs) - Fraction(1, 10**25)
     assert t._certification.irreducibility_witness == {"p": p, "degrees": [deg]}
     assert f"cert_N{N}" in t.basis
-    ic = t._certification.interval_clear                 # review fix: no B_m, and no A_m (m != mode), in the interval
+    ic = t._certification.interval_clear                 # no B_m, and no A_m (m != mode), in the interval
     assert ic and all(v == 0 for v in ic.values())
     assert set(ic) == {f"B_{m}" for m in range(1, N // 2 + 1)} | {f"A_{m}" for m in range(1, N // 2 + 1) if m != t.mode}
 
@@ -97,15 +97,15 @@ def test_size_cap_n64_certifies():
 
 
 @pytest.mark.parametrize("N,deg", [(17, 32), (18, 24), (20, 28), (24, 34)])
-def test_review_focus_beyond_the_table(N, deg):
-    # Review Focus 2: N above the paper's table but under the cap: mode floor(N/2), degree pattern (eq. deg:
+def test_beyond_the_table(N, deg):
+    # N above the paper's table but under the cap: mode floor(N/2), degree pattern (eq. deg:
     # 2N-2 odd, 3N/2-2 for N = 0 mod 4, 3N/2-3 for N = 2 mod 4), palindromic minimal polynomial
     t = threshold("tanh", N)
     assert t.status == hv.Status.CERTIFIED and t.mode == N // 2
     assert len(t.exact.poly) - 1 == deg and list(t.exact.poly) == list(reversed(t.exact.poly))
 
 
-# Controller ruling C2: certificates exist only for certified results.
+# certificates exist only for certified results
 def _fallback_threshold():
     return hv.Threshold(status=hv.Status.NUMERICAL, fallback_from=hv.Status.CERTIFIED, basis="x",
                         provenance=hv.status.make_provenance("threshold", {}, 0.0), model="tanh", N=65,
@@ -131,14 +131,17 @@ def test_certificate_refuses_real_fallback_above_cap():
         hv.certificate(t)
 
 
-KREIN = "the energy-momentum threshold xi_EM lies strictly above xi* (exact D_"
+KREIN = "for every odd N >= 9 the Krein window is non-empty, xi_EM > xi* (Theorem 18(b))"
+SEEN = "seen here at run time: exact D_"
+EVEN_EM = "for every even N the energy-momentum threshold equals xi* (Theorem 18(a))"
 
 
 def test_basis_states_spectral_threshold_and_krein_window():
     odd, even = threshold("tanh", 9), threshold("tanh", 10)
-    assert "spectral threshold xi* (note_tanh Theorem 7" in odd.basis and KREIN in odd.basis
-    assert "spectral threshold xi*" in even.basis and "Krein" not in even.basis
+    assert "spectral threshold xi* (" in odd.basis and KREIN in odd.basis and SEEN in odd.basis
+    assert "spectral threshold xi*" in even.basis and "Krein" not in even.basis and EVEN_EM in even.basis
     assert "Theorem 7(b)" in odd.basis and "Thm 6" not in odd.basis
+    assert "Proposition 15" in even.basis and "Corollary 14" in even.basis
 
 
 def test_small_ring_basis_cites_theorem_7a():
@@ -166,13 +169,13 @@ def test_small_ring_fails_closed_when_checks_disagree(monkeypatch, strict):
             th.threshold("tanh", 5, strict=False)
 
 
-def test_review_focus_n33():
+def test_n33():
     t = threshold("tanh", 33)
     assert t.status == hv.Status.CERTIFIED and t.mode == 16
     assert len(t.exact.poly) - 1 == 64       # 2N - 2 for odd N (eq. deg)
 
 
-# ---- final review F2: no certified verdict when certify_threshold returns None, for any N ----
+# ---- no certified verdict when certify_threshold returns None, for any N ----
 @pytest.mark.parametrize("strict", [True, False])
 def test_n8_fails_closed_when_no_sign_change_is_reported(monkeypatch, strict):
     import sys
@@ -187,25 +190,27 @@ def test_n8_fails_closed_when_no_sign_change_is_reported(monkeypatch, strict):
         assert t.fallback_from == hv.Status.CERTIFIED and "no certified verdict" in t.basis
 
 
-# ---- final review F3: Krein sentence only when D_crit < 0 is certified; citation scoped to N <= 16 ----
-def test_n17_basis_states_the_krein_gap_and_the_n_above_16_citation():
+# ---- citations: Theorem 18 for the Krein window / EM threshold, Propositions 15 and 21 beyond N = 16 ----
+def test_n17_basis_states_the_krein_window_and_proposition_21():
     t = threshold("tanh", 17)
     c = t._certification
     assert c.mode_signs[c.mode]["above"]["D"] == -1
-    assert KREIN in t.basis and "Krein window" in t.basis
-    assert "as in note_tanh Theorem 7 (proved there for N <= 16); certified here at run time" in t.basis
+    assert KREIN in t.basis and SEEN in t.basis
+    assert "Proposition 21 (every odd N >= 17)" in t.basis and "proved there for N <= 16" not in t.basis
 
 
-def test_n20_basis_carries_the_n_above_16_citation():
+def test_n20_basis_cites_proposition_15_and_theorem_18a():
     t = threshold("tanh", 20)
-    assert "proved there for N <= 16" in t.basis and "Krein" not in t.basis and "Lean-checked" not in t.basis
+    assert "Proposition 15 (every even N >= 8)" in t.basis and EVEN_EM in t.basis
+    assert "Krein" not in t.basis and "Lean-checked" not in t.basis and "N <= 16" not in t.basis
 
 
 def test_n9_basis_cites_theorem_7_directly():
-    assert "proved there for N <= 16" not in threshold("tanh", 9).basis
+    b = threshold("tanh", 9).basis
+    assert "Theorem 7(b) (certified for 8 <= N <= 16)" in b and "Proposition 21" not in b
 
 
-def test_krein_sentence_omitted_when_d_is_not_certified_negative(monkeypatch):
+def test_run_time_krein_evidence_omitted_when_d_is_not_certified_negative(monkeypatch):
     import dataclasses
     import sys
     th = sys.modules["havelock.threshold"]
@@ -219,4 +224,11 @@ def test_krein_sentence_omitted_when_d_is_not_certified_negative(monkeypatch):
 
     monkeypatch.setattr(th, "certify_threshold", fake)
     t = th.threshold("tanh", 9)
-    assert t.status == hv.Status.CERTIFIED and "Krein" not in t.basis and "xi_EM" not in t.basis
+    # the run-time evidence is omitted; the window itself is still stated, from note_tanh Theorem 18(b)
+    assert t.status == hv.Status.CERTIFIED and SEEN not in t.basis and KREIN in t.basis
+
+
+def test_fallback_basis_cites_the_theory_and_says_only_a_m_is_evaluated():
+    t = threshold("tanh", 65, strict=False)
+    assert "only a_32 is evaluated at run time" in t.basis and KREIN in t.basis and "Proposition 21" in t.basis
+    assert "other modes are not checked" not in t.basis

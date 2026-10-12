@@ -1,5 +1,5 @@
-# Rigorous certification for the tanh model, N = 2..16  (v2, 2026-10-10).
-# Changes from certify.py (second-reader must-fix list, LOG "second read of the C5 tanh result"):
+# Rigorous certification for the tanh model, N = 2..16 (version 2 of certify.py).
+# Differences from certify.py:
 #   (1) no floating-point root selection anywhere: Arb real roots are selected by the EXACT test
 #       imag == 0 (arb_fmpz_poly_complex_roots returns real roots with exactly zero imaginary part)
 #       plus exact rational containment of the whole ball in the rational isolating interval;
@@ -8,7 +8,12 @@
 #   (3) explicit exact sign change of A_crit at xi*: A_crit(a) < 0 < A_crit(b) at the rational endpoints,
 #       with xi* the only root of A_crit in (0,1); hence a_crit < 0 (unstable, since b_crit > 0) on (0,xi*)
 #       and every a_m > 0 (all a_m b_m > 0, spectrally stable) on (xi*,1);
-#   (4) energy-momentum threshold: interval disjointness and the EM vs spectral ordering are asserted exactly.
+#   (4) energy-momentum threshold: interval disjointness and the EM vs spectral ordering are asserted exactly;
+#   (5) root counts and signs (all exact, assertions only; they print nothing):
+#       A_1, A_2 have no root in (0,1); A_m (3 <= m < floor(N/2)) has exactly one, below xi*;
+#       D_1, D_2 have no root in (0,1); D_m (m >= 3) has exactly one, and D_m > 0 above it;
+#       the EM threshold is the root of D_crit; every other D_m root lies below the certified interval of xi*;
+#       for odd N, D_crit < 0 at the upper endpoint of the xi* interval (critical block indefinite on the window).
 # Everything else is as in certify.py:
 #  - exact integer polynomials A_m, B_m, D_m = A_m B_m - (1-x)^2 G_m^2 (sympy, from exact.py)
 #  - root counting / isolation on (0,1) with exact rational arithmetic (sympy real-root isolation)
@@ -70,7 +75,7 @@ for N in range(2,NMAX+1):
         D=A*B-sp.Poly((1-x)**2,x)*G*G
         rA,As=roots01(A); rB,Bs=roots01(B); rD,Ds=roots01(D)
         assert rB==[] and sign_at(Bs,Fr(1,2))>0, ('b_m not positive',N,m)
-        data[m]=(rA,As,rD,Ds,A)
+        data[m]=(rA,As,rD,Ds,A,D)
     mc=N//2
     if all(data[m][0]==[] for m in data):
         assert all(sign_at(data[m][1],Fr(1,2))>0 and data[m][2]==[] and sign_at(data[m][3],Fr(1,2))>0 for m in data)
@@ -95,6 +100,20 @@ for N in range(2,NMAX+1):
     # (3) exact sign change of A_crit (whole numerator; denominators are > 0 on (0,1))
     sa,sb=sign_at(Afull,a),sign_at(Afull,b)
     assert sa<0 and sb>0, ('A_crit sign change', N, sa, sb)
+    # (5) root counts and signs of the A_m and D_m (exact)
+    for m in data:
+        rA_,_,rD_,_,A_,D_=data[m]
+        if m<=2:
+            assert rA_==[] and rD_==[], ('a_m or D_m has a root for m<=2',N,m)
+            assert sign_at(A_,Fr(1,2))>0 and sign_at(D_,Fr(1,2))>0, ('a_m or D_m not positive for m<=2',N,m)
+        else:
+            assert len(rD_)==1, ('D_m root count',N,m,len(rD_))
+            assert sign_at(D_,(rD_[0][1]+1)/2)>0, ('D_m not positive above its root',N,m)
+            if m<mc:
+                assert len(rA_)==1 and rA_[0][1]<a, ('a_m root count/location',N,m)
+            if m!=mc:
+                assert rD_[0][1]<a, ('non-critical D_m root not below xi*',N,m)
+        assert sign_at(A_,(tops[m][1]+1)/2 if tops[m] else Fr(1,2))>0, ('a_m not positive above its roots',N,m)
     # (1)+(2) Arb ball, selected and checked by exact containment in [a,b]
     z,fp=real_root_in(f,a,b)
     L,U=arb_exact(z); rad=float(z.rad())
@@ -105,6 +124,7 @@ for N in range(2,NMAX+1):
     cands=[(data[m][2][-1],m) for m in data if data[m][2]]
     em,emm=max(cands,key=lambda t:t[0][0])
     em_mode=[m for iv,m in cands if iv==em]
+    assert em_mode==[mc], ('EM threshold not carried by the critical mode',N,em_mode)
     for iv,m in cands:
         if iv!=em: assert iv[1]<=em[1]  # exact
     Dm=data[em_mode[0]][3]
@@ -119,6 +139,7 @@ for N in range(2,NMAX+1):
         rel='equal to xi* (same irreducible factor; g_crit = 0 for even N)'
     else:
         assert ea>b, 'EM threshold not certainly above xi*'
+        assert sign_at(data[mc][5],b)<0, ('D_crit not negative just above xi*',N)
         rel='strictly above xi*: rational intervals disjoint, [%.3e, %.3e] above'%(float(ea-b),float(eb-a))
     pr('N=%d critical mode m=%d; modes with a_m<0 somewhere in (0,1): %s; b_m>0 all m; other modes cross strictly earlier: certified'%(N,mc,unstable_modes))
     pr('   xi*  = %s   (Arb radius %.1e; Arb ball contained in exact rational isolating interval of width %.1e: certified)'%(z.str(55,radius=False),rad,float(b-a)))

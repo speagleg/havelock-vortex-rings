@@ -10,6 +10,7 @@ traceback.
 """
 from __future__ import annotations
 
+import math
 import re
 from dataclasses import dataclass, field
 from fractions import Fraction
@@ -31,7 +32,17 @@ _VIEW = {"mt": (Fraction(-1), Fraction(1), False, True), "sphere": (Fraction(0),
 _MAX_N = 100000                          # refuse absurd sizes instead of hanging
 _MAX_PRIME = 20000                       # largest irreducibility-witness prime accepted
 _TANH_MAX_N = 64                         # tanh certificates exist only for N <= 64; larger N would stall
-_RATIONAL = re.compile(r"-?[0-9]{1,5000}(/[0-9]{1,5000})?")
+# Each integer in a rational string has at most this many digits: below Python's 4300-digit int/str conversion limit,
+# and above the ~2470 digits of an endpoint produced at the top of the precision ladder (4096 bits). Mirrors
+# havelock.limits.CERT_MAX_DIGITS (tests enforce the mirror).
+_MAX_DIGITS = 2600
+_RATIONAL = re.compile(r"-?[0-9]+(/[0-9]+)?")
+# The fields of schema havelock-threshold-certificate/1; any other key is rejected.
+_REQUIRED = ("schema", "model", "N", "mode", "polynomial", "factor_index", "interval", "endpoint_signs", "sturm",
+             "points", "mode_signs", "stable_side", "interval_clear")
+_OPTIONAL = ("irreducibility_witness", "provenance")
+_STABLE_SIDE_KEYS = {"side", "interval", "root_counts"}
+_WITNESS_KEYS = {"p", "degrees"}
 
 
 # ---- integer polynomial lists (constant term first) ----
@@ -92,16 +103,15 @@ def _tanh_numerators(N, m):
 _REBUILD = {"mt": _mt_numerators, "tanh": _tanh_numerators}
 
 
-def _ev(p, q: Fraction) -> Fraction:
-    r = Fraction(0)
-    for a in reversed(p):
-        r = r * q + a
-    return r
-
-
-def _sign(p, q):
-    v = _ev(p, q)
-    return (v > 0) - (v < 0)
+def _sign(p, q: Fraction) -> int:
+    """Exact sign of p(q) for an integer list p (constant term first): for q = a/b with b > 0 this is the sign of
+    the homogenised integer sum c_k a^k b^(d-k), computed by Horner's rule in integers (no gcd at each step)."""
+    a, b = q.numerator, q.denominator
+    r, bp = 0, 1
+    for c in reversed(p):
+        r = r * a + c * bp
+        bp *= b
+    return (r > 0) - (r < 0)
 
 
 def _fz(p):
@@ -117,10 +127,10 @@ def _strip(p, roots):
     return P
 
 
-def _sturm(P: flint.fmpz_poly, lo: Fraction, hi: Fraction) -> int:
-    """distinct real roots of P in (lo, hi]"""
+def _sturm_sequence(P: flint.fmpz_poly) -> list:
+    """Sturm sequence of the square-free part of P (empty for a constant)."""
     if P.degree() <= 0:
-        return 0
+        return []
     g = P.gcd(P.derivative())
     if g.degree() > 0:
         P = P // g
@@ -131,13 +141,60 @@ def _sturm(P: flint.fmpz_poly, lo: Fraction, hi: Fraction) -> int:
         if r == 0:
             break
         seq.append(r / abs(r.coeffs()[-1]))
+    return seq
 
-    def V(q):
-        qq = flint.fmpq(q.numerator, q.denominator)
-        s = [v > 0 for v in (t(qq) for t in seq) if v != 0]
-        return sum(1 for a, b in zip(s, s[1:]) if a != b)
 
-    return V(lo) - V(hi)
+def _variations(seq, q: Fraction) -> int:
+    qq = flint.fmpq(q.numerator, q.denominator)
+    s = [v > 0 for v in (t(qq) for t in seq) if v != 0]
+    return sum(1 for a, b in zip(s, s[1:]) if a != b)
+
+
+def _sturm_exact(seq, lo: Fraction, hi: Fraction) -> int:
+    return _variations(seq, lo) - _variations(seq, hi) if seq else 0
+
+
+def _dyadic(q: Fraction, k: int, up: bool) -> Fraction:
+    """q rounded down (up=False) or up (up=True) to a multiple of 2^-k."""
+    s = q * (1 << k)
+    return Fraction(math.ceil(s) if up else math.floor(s), 1 << k)
+
+
+def _bits(*qs: Fraction) -> int:
+    return max(max(q.numerator.bit_length(), q.denominator.bit_length()) for q in qs)
+
+
+def _sturm_count(seq, lo: Fraction, hi: Fraction) -> int:
+    """Number of distinct real roots in (lo, hi] of the polynomial whose Sturm sequence is `seq`, exactly.
+
+    Evaluating a long Sturm sequence at endpoints with thousands of digits is slow, so the count is first
+    sandwiched between the counts on dyadic intervals of 2^-k resolution rounded inwards and outwards
+    (inner <= exact <= outer, since (lo, hi] contains the inner and lies in the outer half-open interval); when the
+    two agree they give the exact count. k doubles from 64; at the endpoints' own size the exact count is used."""
+    if not seq:
+        return 0
+    k, top = 64, _bits(lo, hi)
+    while k < top:
+        olo, ohi = _dyadic(lo, k, False), _dyadic(hi, k, True)
+        ilo, ihi = _dyadic(lo, k, True), _dyadic(hi, k, False)
+        outer = _sturm_exact(seq, olo, ohi)
+        inner = _sturm_exact(seq, ilo, ihi) if ilo < ihi else 0
+        if inner == outer:
+            return outer
+        k *= 2
+    return _sturm_exact(seq, lo, hi)
+
+
+def _sturm(P: flint.fmpz_poly, lo: Fraction, hi: Fraction, cache: dict | None = None) -> int:
+    """distinct real roots of P in (lo, hi]; `cache` maps coefficient tuples to Sturm sequences"""
+    key = tuple(int(c) for c in P.coeffs())
+    if cache is None:
+        seq = _sturm_sequence(P)
+    else:
+        seq = cache.get(key)
+        if seq is None:
+            seq = cache[key] = _sturm_sequence(P)
+    return _sturm_count(seq, lo, hi)
 
 
 def _canonical_factors(P: flint.fmpz_poly):
@@ -181,7 +238,10 @@ def _dict(x, what):
 
 def _frac(s, what):
     if not isinstance(s, str) or not _RATIONAL.fullmatch(s):
-        raise ValueError(f"{what} must be a rational string 'p' or 'p/q', got {s!r}")
+        raise ValueError(f"{what} must be a rational string 'p' or 'p/q', got {s[:80] if isinstance(s, str) else s!r}")
+    if any(len(part.lstrip("-")) > _MAX_DIGITS for part in s.split("/")):
+        raise ValueError(f"{what}: a numerator or denominator has more than {_MAX_DIGITS} digits (the verifier's cap "
+                         f"on certificate rationals; genuine endpoints have at most about 2470)")
     return Fraction(s)
 
 
@@ -218,6 +278,9 @@ def verify_dict(d: dict) -> VerifyReport:
             return VerifyReport(False, fails, n)
         if not check(d.get("schema") == SCHEMA, f"schema must be {SCHEMA!r}"):
             return VerifyReport(False, fails, n)
+        unknown = sorted(str(k) for k in d if k not in _REQUIRED and k not in _OPTIONAL)
+        if not check(not unknown, f"unknown field(s) {unknown[:5]} (not in schema {SCHEMA})"):
+            return VerifyReport(False, fails, n)
         model = d["model"]
         if not check(isinstance(model, str) and model in _FAMILY, f"unknown model {model!r}"):
             return VerifyReport(False, fails, n)
@@ -232,16 +295,17 @@ def verify_dict(d: dict) -> VerifyReport:
             return VerifyReport(False, fails, n)
         dlo, dhi = _DOMAIN[fam]
         lo_closed, hi_closed = _CLOSED[fam]
+        cache = {}                       # Sturm sequences, shared by the interval and stable-side counts
         nums = {m: _REBUILD[fam](N, m) for m in range(1, N // 2 + 1)}
         poly = _int_list(d["polynomial"], "polynomial")
         if not check(_trim(poly) == nums[mode][0], "polynomial is not the numerator A_mode of the critical block"):
             return VerifyReport(False, fails, n)
         lo, hi = _frac_pair(d["interval"], "interval")
         check(dlo < lo < hi < dhi, "interval must satisfy domain_lo < lo < hi < domain_hi")
-        # F1: the certified root (the unique root of `polynomial` in (lo, hi), checked below) must lie in the view
+        # the certified root (the unique root of `polynomial` in (lo, hi), checked below) must lie in the view
         vlo, vhi, vlc, vhc = _VIEW[model]
         if vlo == vhi:     # a one-point view (the plane, lam_r2 = 0): the root must be exactly that point
-            check(lo < vlo < hi and _ev(poly, vlo) == 0,
+            check(lo < vlo < hi and _sign(poly, vlo) == 0,
                   f"the threshold is not in the {model!r} view {{{vlo}}}: need lo < {vlo} < hi and "
                   f"polynomial({vlo}) = 0")
         else:              # vlo <= lo < root < hi <= vhi: the root is strictly inside the view
@@ -257,14 +321,14 @@ def verify_dict(d: dict) -> VerifyReport:
         es = [_sign(poly, lo), _sign(poly, hi)]
         check(_int_list(d["endpoint_signs"], "endpoint_signs", 2) == es and es[0] * es[1] < 0,
               "endpoint_signs do not match, or the polynomial does not change sign")
-        check(_int(d["sturm"], "sturm") == 1 and _sturm(_fz(poly), lo, hi) == 1, "Sturm count on the interval is not 1")
+        check(_int(d["sturm"], "sturm") == 1 and _sturm(_fz(poly), lo, hi, cache) == 1, "Sturm count on the interval is not 1")
 
-        # T4-I1: no other block vanishes in (lo, hi]: B_m for every m, A_m for m != mode
+        # no other block vanishes in (lo, hi]: B_m for every m, A_m for m != mode
         expected_clear = {}
         for m, (A, B, _, _) in nums.items():
-            expected_clear[f"B_{m}"] = _sturm(_strip(B, (dlo, dhi)), lo, hi)
+            expected_clear[f"B_{m}"] = _sturm(_strip(B, (dlo, dhi)), lo, hi, cache)
             if m != mode:
-                expected_clear[f"A_{m}"] = _sturm(_strip(A, (dlo, dhi)), lo, hi)
+                expected_clear[f"A_{m}"] = _sturm(_strip(A, (dlo, dhi)), lo, hi, cache)
         got_clear = d.get("interval_clear")
         check(isinstance(got_clear, dict) and all(isinstance(v, int) and not isinstance(v, bool)
                                                   for v in got_clear.values()) and got_clear == expected_clear
@@ -275,12 +339,13 @@ def verify_dict(d: dict) -> VerifyReport:
         below, above = _frac_pair(d["points"], "points")
         check(dlo < below < lo and hi < above < dhi, "sample points must lie just outside the interval")
         ms = _dict(d["mode_signs"], "mode_signs")
-        check(sorted(int(m) for m in ms) == list(nums), "mode_signs must list every mode 1..N//2")
+        check(sorted(ms) == sorted(str(m) for m in nums), "mode_signs must list every mode 1..N//2 (keys \"1\", \"2\", ...)")
         stable_pt = "above" if _STABLE[fam] == "above" else "below"
         unstable_pt = "below" if stable_pt == "above" else "above"
         coupled = any(any(c != 0 for c in G) for (_, _, _, G) in nums.values())
         for m, (A, B, D, _) in nums.items():
             rec = _dict(ms.get(str(m), {}), f"mode_signs[{m}]")
+            check(set(rec) <= {"below", "above"}, f"mode_signs[{m}] has unknown fields {sorted(set(rec) - {'below', 'above'})}")
             for where, q in (("below", below), ("above", above)):
                 exp = {"A": _sign(A, q), "B": _sign(B, q)}
                 if coupled:
@@ -292,17 +357,20 @@ def verify_dict(d: dict) -> VerifyReport:
             _sign(nums[mode][1], {"below": below, "above": above}[unstable_pt])
         check(uA * uB < 0, "the critical mode is not unstable at the unstable-side point")
         side = _dict(d["stable_side"], "stable_side")
+        check(set(side) == _STABLE_SIDE_KEYS, f"stable_side must have exactly the fields {sorted(_STABLE_SIDE_KEYS)}")
         exp_iv = [str(hi), str(dhi)] if _STABLE[fam] == "above" else [str(dlo), str(lo)]
         check(side.get("side") == _STABLE[fam] and [str(x) for x in _frac_pair(side["interval"], "stable_side.interval")]
               == exp_iv, "stable_side must be the open interval between the threshold interval and the domain end")
         s_lo, s_hi = (Fraction(s) for s in exp_iv)
         rc = _dict(side["root_counts"], "stable_side.root_counts")
+        check(sorted(rc) == sorted(str(m) for m in nums), "stable_side.root_counts must list exactly the modes 1..N//2")
         for m, (A, B, _, _) in nums.items():
-            got = {"A": _sturm(_strip(A, (dlo, dhi)), s_lo, s_hi), "B": _sturm(_strip(B, (dlo, dhi)), s_lo, s_hi)}
+            got = {"A": _sturm(_strip(A, (dlo, dhi)), s_lo, s_hi, cache),
+                   "B": _sturm(_strip(B, (dlo, dhi)), s_lo, s_hi, cache)}
             check(_strict_eq(rc.get(str(m)), got) and got == {"A": 0, "B": 0},
                   f"stable-side root counts for mode {m}: recorded {rc.get(str(m))}, got {got}")
 
-        # T4-I2: a closed domain endpoint on the stable side must itself be stable (A_m, B_m > 0, exact signs)
+        # a closed domain endpoint on the stable side must itself be stable (A_m, B_m > 0, exact signs)
         end = dhi if _STABLE[fam] == "above" and hi_closed else dlo if _STABLE[fam] == "below" and lo_closed else None
         if end is not None:
             bad = [m for m, (A, B, _, _) in nums.items() if _sign(A, end) <= 0 or _sign(B, end) <= 0]
@@ -311,6 +379,7 @@ def verify_dict(d: dict) -> VerifyReport:
         w = d.get("irreducibility_witness")
         if w is not None and check(0 <= k < len(factors), "witness needs a valid factor"):
             w = _dict(w, "irreducibility_witness")
+            check(set(w) == _WITNESS_KEYS, f"irreducibility_witness must have exactly the fields {sorted(_WITNESS_KEYS)}")
             f = factors[k]
             p = w.get("p")
             ok_p = check(_is_prime(p) and int(f.coeffs()[-1]) % p != 0, "witness prime must be a prime "

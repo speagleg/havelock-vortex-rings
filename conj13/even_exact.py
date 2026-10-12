@@ -5,7 +5,7 @@ function, curvature 4*lambda; lambda<0 is the sinh model on H^2, lambda>0 the sp
 H = -sum_{i<j} log|z_i-z_j|^2 + (n-1) sum_j log(1+lam|z_j|^2)        (MT f(t) times 4 pi, omega-term dropped)
 J3 = sum_j g(|z_j|^2),  g(u) = u/(1+lam u)                              (MT momentum, rotations)
 Two staggered M-gons: z_{2k} = rho_+ w^{2k}, z_{2k+1} = rho_- w^{2k+1}, w = e^{2 pi i/n}.
-Closed form (product formulas, see derivation.txt Sec. 4):
+Closed form (product formulas, see the proof of Thm. even in paper/main.tex):
   sum_{pairs} log|z_i-z_j|^2 = M(M-1)/2 (log u_+ + log u_-) + 2M log(u_+^{M/2} + u_-^{M/2}) + const.
 Constrained curve: g(u_pm) = g0 +- tau (J3 exactly conserved). h(tau) = H on the curve; h is even.
 """

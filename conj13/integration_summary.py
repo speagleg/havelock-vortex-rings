@@ -1,7 +1,7 @@
 """Conj13: summary statistics of the N = 8 direct integrations (NUMERICAL).
 Reads the D(t)/D(0) traces written by integrate.py (out/D_<model>8_<rel>_<delta>.npy) for the threshold
 (rel = 0), stable-side (rel = +1e-2) and unstable-side (rel = -1e-2) runs and prints min, mean and the
-fraction of sample times with D/D0 < 0.5 (derivation.txt Sec. 6).
+fraction of sample times with D/D0 < 0.5 (paper/main.tex, Numerical confirmation).
 Reconstructed after the fact: the original summary was an inline command; this script reproduces
 out/integration_summary.out byte for byte from the committed .npy files.
 usage (from conj13/): python integration_summary.py > out/integration_summary.out

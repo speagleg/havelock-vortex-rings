@@ -1,4 +1,4 @@
-# Exact identity checks for the closed forms stated in derivation.txt (sympy).
+# Exact identity checks for the closed forms of the tanh note (note_tanh.tex), with sympy.
 import sympy as sp
 x,p,n,k=sp.symbols('x p n k',positive=True)
 N_,m_=sp.symbols('N m',positive=True,integer=True)

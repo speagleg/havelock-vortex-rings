@@ -1,6 +1,6 @@
 """Driver: route B (kkt_exact.py) for given n, in mpmath (root b_n in (-1,1)) and exactly in GF(p)
 for several primes and both conjugates of lam.  Compares with
-  odd n:  (n-1)(n-3)(n^2-9n+38)/(128 n)    even n = 8: 95/56 (second reader)."""
+  odd n:  (n-1)(n-3)(n^2-9n+38)/(128 n)    even n = 8: 95/56."""
 import sys, time, mpmath as mp
 from fractions import Fraction
 from sympy import isprime, sqrt_mod, primitive_root

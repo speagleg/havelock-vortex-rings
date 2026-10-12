@@ -19,8 +19,10 @@ For real `a, b, g` let `M = [[a, i g], [−i g, b]]` (`hessBlock`, Hermitian) an
 * Row: `rowMat ℓ θ = [[M_xx, M_xy], [M_yx, M_yy]]` (RowSymbol.lean); `row_spectral_iff`,
   `row_posDef_iff` restate note Cor. `cor:row` in these terms.
 
-Not formalised: the derivation of the blocks (or the row's Bloch matrix) from the full Hamiltonian,
-i.e. that `L` is the linearisation of the vortex dynamics on mode `m`. -/
+The blocks are derived from the Hamiltonian in `TanhBlocks.lean`, the row's per-pair Hessian entries in
+`RowHessian.lean`, and `Tanh/LinearFlow.lean` reduces the full `2N`-dimensional `κ₀⁻¹ J H` to these blocks.
+Not formalised: that `κ₀⁻¹ J H` is the derivative of the vortex vector field (it is defined so), and, for the
+infinite row, the reduction of its linearised flow to Bloch modes. -/
 
 noncomputable section
 

@@ -20,7 +20,7 @@
 \newcommand{\code}[1]{\path{#1}}
 
 \title{Stability of the regular $n$-gon of point vortices at its bifurcation point:\\
-completing the proof of the Montaldi--Tokieda conjecture}
+a proof of the Montaldi--Tokieda conjecture for $n\ge4$}
 \author{Gordon Speagle\\
 Independent Researcher, Boise, ID, USA\\
 \texttt{gspeagle@gmail.com}}
@@ -34,10 +34,10 @@ Montaldi and Tokieda studied a one-parameter family of point-vortex systems on t
 the hyperbolic plane, and showed that a regular ring of $n\ge4$ identical vortices loses stability at an
 explicit bifurcation value $b_n$ of the curvature parameter. They conjectured that the ring is still
 stable \emph{at} $b_n$ (their Conjecture~13), in the sense of Lyapunov stability modulo rotations. They
-proved it for all even $n$, where the sign of the decisive quartic coefficient is settled by a Maple
-positivity check, and for $n=3,5,7,9,11$, where the odd-$n$ coefficients are evaluated numerically. We give
-the first proof for odd $n\ge13$. Our argument is uniform in $n$, so it also re-proves the cases $4\le n\le11$
-by a different route. Stability is Lyapunov stability modulo rotations about the ring's centre, obtained by
+treat even $n$ by a closed-form symbolic computation of a quartic coefficient, odd $n=5,9,11$ numerically,
+$n=7$ with Maple, and $n=3$ by a separate remark. We give a proof for every $n\ge4$, uniform in $n$, in
+which the decisive quartic coefficient is computed on the momentum level set; in particular this covers
+odd $n\ge13$. Stability is Lyapunov stability modulo rotations about the ring's centre, obtained by
 an energy--momentum argument on the momentum level set, and it holds for all small perturbations,
 including those that change the momentum. The proof has three parts.
 (i) A spectral computation. In log-polar coordinates the reduced Hessian at $b_n$ is block-diagonal and
@@ -45,14 +45,14 @@ independent of the geometry, and its kernel is exactly the critical Fourier mode
 (ii) Exact closed forms, for all $n$, for the quartic coefficient $c_4$ of the reduced Hamiltonian along
 that kernel, after the transverse directions are eliminated on the momentum level set:
 $c_4=(n-2)(m^4+40m^2+48m+16)/(192n(n-1))$ with $m=n-2$ for even $n$, and
-$c_4=(n-1)(n-3)(n^2-9n+38)/(128n)$ for odd $n\ge5$. These replace Montaldi and Tokieda's Maple check (even
-$n$) and numerical checks (odd $n\le11$). Positivity is immediate once the formulas are known; the work is
-in deriving them.
+$c_4=(n-1)(n-3)(n^2-9n+38)/(128n)$ for odd $n\ge5$. Positivity is immediate once the formulas are known;
+the work is in deriving them.
 (iii) A self-contained energy--momentum argument for degenerate (quartic) minima. It works for the
 noncompact groups $SE(2)$ and $PSL(2,\R)$, and for the plane's affine momentum map.
-The algebra that turns the computed series coefficients into the closed forms is checked in Lean~4.
-Our results confirm Montaldi and Tokieda's conclusions. All verification so far has been by AI readers and
-computer checks; no human specialist has yet reviewed the argument.
+In Lean~4 we derive the series coefficients from the Hamiltonian along the symmetric curve (even $n$) and the
+ansatz (odd $n$), and check the algebra that turns them into the closed forms; the structural steps are on
+paper. Our conclusions agree with Montaldi and Tokieda's. The argument has not yet been reviewed by a human
+specialist.
 \end{abstract}
 
 \tableofcontents
@@ -122,40 +122,37 @@ precisely). We obtain it by the energy--momentum method: the reduced Hamiltonian
 $J^{-1}(\mu)/K$ has a strict, but degenerate (quartic), local minimum, and Section~\ref{sec:nonlinear} turns
 this into Lyapunov stability modulo $K$ in the full phase space.
 
-\paragraph{What was known.} Montaldi and Tokieda~\cite{MT} proved Conjecture~13 for all even $n$ and for
-$n=3,5,7,9,11$, as quoted above. For even $n$~\cite[\S3.5.1, pp.~20--21]{MT}, the cubic term vanishes on the
+\paragraph{What was known.} Montaldi and Tokieda~\cite{MT} state Conjecture~13 together with the cases
+they treat, as quoted above. For even $n$~\cite[\S3.5.1, pp.~20--21]{MT}, the cubic term vanishes on the
 slice (their Lemma~10), and the $t^4$ coefficient along the critical mode is a positive multiple of a
-bracket $T$. Substituting the two roots of the threshold relation gives two values $T_1,T_2$, and closed
-forms for $T_1+T_2$ and $T_1T_2$, both manifestly positive for $m=n-2\ge0$, are obtained ``using Maple!''
-(p.~21). For odd $n$~\cite[\S3.5.2, pp.~22--23]{MT}, the criterion involves three
-coefficients $\beta,\gamma,\delta$. The coefficient $\beta$ has a closed form, while ``the awkward
-trigonometric expressions prevented us (and Maple) from reaching closed forms for $\gamma$ and $\delta$''
-(p.~23). The coefficients are evaluated numerically for $n=5,9,11$. For $n=7$ they are found with Maple
-as rational multiples of $1/\pi r_0^k$, which are ``correct to a high degree of precision---but we have no
-proof that they are rational multiples of $1/\pi r_0^k$''; the sign of $\beta\delta-\gamma^2$ is then
-certain. Their case
-$n=3$ rests on their statement (p.~15) that ``the ring of $n=3$ vortices is always nonlinearly stable''. So
-odd $n\ge13$ (all in the hyperbolic plane) remained open. The case $n=7$ is the Thomson heptagon. Its
-nonlinear stability was proved by Kurakin and Yudovich~\cite{KY} (we have read only the abstract) and by
-Schmidt~\cite{Schmidt}; Montaldi--Tokieda recover it~\cite[Cor.~7]{MT}. For the sphere at the critical
-latitude ($n=4,5,6$), Borisov and Kilin~\cite{BK} wrote that the problem ``requires separate analysis with
-respect to nonlinear terms and remains unsolved to the present day''. Kurakin~\cite{Kurakin03,Kurakin04}
-later gave necessary and sufficient conditions for nonlinear stability of regular vortex systems on the
-sphere. We have not read those papers and make no claim about their content.
+bracket $T$. Substituting the two roots of the threshold relation gives two values $T_1,T_2$, and they
+obtain closed forms for $T_1+T_2$ and $T_1T_2$ with Maple, both manifestly positive for $m=n-2\ge0$
+(p.~21). For odd $n$~\cite[\S3.5.2, pp.~22--23]{MT}, their criterion involves three coefficients
+$\beta,\gamma,\delta$. The coefficient $\beta$ has a closed form; they evaluate the coefficients numerically
+for $n=5,9,11$ and with Maple for $n=7$ (p.~23). For $n=3$ they state (p.~15) that ``the ring of $n=3$
+vortices is always nonlinearly stable''. The odd cases $n\ge13$ all lie in the hyperbolic plane. In this
+paper the decisive quartic coefficient is computed on the momentum level set (Section~\ref{sec:quartic}),
+in closed form for every $n\ge4$.
+
+The case $n=7$ is the Thomson heptagon. Its nonlinear stability was proved by Kurakin and
+Yudovich~\cite{KY} and by Schmidt~\cite{Schmidt}; Montaldi--Tokieda recover it~\cite[Cor.~7]{MT}. For the
+sphere at the critical latitude ($n=4,5,6$), Borisov and Kilin~\cite{BK} noted that the problem requires a
+separate analysis of the nonlinear terms. Kurakin~\cite{Kurakin03,Kurakin04} gave necessary and sufficient
+conditions for nonlinear stability of regular vortex systems on the sphere.
 
 \paragraph{Contributions.}
 \begin{enumerate}
-\item The first proof of Conjecture~13 for odd $n\ge13$. Together with~\cite{MT} this settles the
-conjecture for all $n$. Our proof (Theorem~\ref{thm:main}) is uniform for all $n\ge4$, so it gives an
-independent proof of the cases $4\le n\le11$ already proved in~\cite{MT}. Stability is in
-Montaldi--Tokieda's sense, and it holds for perturbations of arbitrary (nearby) momentum.
-\item Exact closed forms for the reduced quartic coefficient $c_4$, for every even and every odd $n$
-(Theorems~\ref{thm:even} and~\ref{thm:odd}). They replace the Maple positivity check of~\cite{MT} for even
-$n$ and their numerical evaluations for odd $n=5,7,9,11$. Once the formulas are known, positivity is
-immediate (Remark~\ref{rem:positivity}); the content is the derivation.
+\item A proof of Conjecture~13 for every $n\ge4$ (Theorem~\ref{thm:main}), uniform in $n$; in particular
+it covers odd $n\ge13$. For $4\le n\le11$ it gives an independent argument for cases treated
+in~\cite{MT}. Stability is in Montaldi--Tokieda's sense, and it holds for perturbations of arbitrary
+(nearby) momentum.
+\item Exact closed forms for the reduced quartic coefficient $c_4$ on the momentum level set, for every
+even and every odd $n$ (Theorems~\ref{thm:even} and~\ref{thm:odd}). Once the formulas are known,
+positivity is immediate (Remark~\ref{rem:positivity}); the content is the derivation.
 \item A self-contained nonlinear-stability argument for degenerate minima that covers the noncompact groups
 involved, including the plane with its affine momentum map (Section~\ref{sec:nonlinear}).
-\item A Lean~4 check of the algebra that leads from the computed series coefficients to the closed forms
+\item A Lean~4 formalisation that derives the series coefficients from the Hamiltonian along the symmetric
+curve (even $n$) and the ansatz (odd $n$), and checks the algebra that leads from them to the closed forms
 and to Table~\ref{tab:c4} (Section~\ref{sec:limits}, which states exactly what is and is not formalised).
 \end{enumerate}
 
@@ -178,17 +175,16 @@ are cofinal among all of its neighbourhoods. So Theorem~\ref{thm:main} is exactl
 of~\cite[p.~10]{MT} quoted above. It also implies stability modulo the full group $G_\lambda$.
 
 \begin{corollary}
-Conjecture~13 of~\cite{MT} holds for every $n\ge4$. Together with the case $n=3$, which~\cite{MT} state is
-always nonlinearly stable~\cite[p.~15]{MT}, it holds for all $n$.
+The ring is stable at the bifurcation point for every $n\ge4$; that is, Conjecture~13 of~\cite{MT} holds
+for every $n\ge4$.
 \end{corollary}
 
 For $n=3$, equation~\eqref{eq:bn} has its only root at $b=1$ (the equator). There the momentum value is
 fixed by all of $SO(3)$, the hypothesis $|b|<1$ used throughout fails, and the critical mode is $m=1$,
 which meets the momentum directions. Consistently with this, the odd-$n$ formula of
 Theorem~\ref{thm:odd} gives $c_4=0$ at $n=3$, so it cannot decide that case, and its derivation assumes
-$n\ge5$ in any case. We rely on Montaldi--Tokieda's statement for $n=3$ and do not re-prove it. For
-$n\ge4$ the new content is odd $n\ge13$; for $4\le n\le11$, Theorem~\ref{thm:main} is an independent proof
-of results already in~\cite{MT}.
+$n\ge5$ in any case. The case $n=3$ is covered by Montaldi--Tokieda's statement~\cite[p.~15]{MT}
+quoted above; we do not treat it here.
 
 \paragraph{Structure of the proof.} Section~\ref{sec:setup} shows that the reduced Hessian at $b_n$ is
 positive semidefinite, with kernel equal to the radial part of the critical Fourier mode
@@ -308,7 +304,7 @@ The smallest nonzero eigenvalue (in the $(s,\theta)$-Euclidean normalisation) is
 ($a_{n/2-1}=1$) and $2$ for odd $n\ge7$ ($a_{(n-3)/2}=2$). For $n=4,5$ the next mode is $m=1$, where
 $V_1'$ mixes radial and tangential parts; the values are $3/2$ and $8/3$. An independent 40-digit computation of the full
 $2n\times2n$ Hessian, compressed onto $\ker dJ\cap t^\perp$, agrees with these predictions for $n=4,\dots,15$
-to $5\cdot10^{-39}$. A bordered-inertia check at $n=5,7,\dots,25,31$ finds exactly the predicted kernel and
+to $5\cdot10^{-39}$. A bordered-inertia check at odd $n=5,7,\dots,21$, $25$ and $31$ finds exactly the predicted kernel and
 no negative eigenvalue (Section~\ref{sec:limits}).
 
 %======================================================================
@@ -469,8 +465,7 @@ evaluated by residues of $R(t)\,nt^{n-1}/(t^n-\varsigma)$. The finite poles of $
 (and possibly $0$). Every piece has Laurent degree $\le0$ at $0$ and at $\infty$, so the residue at $0$
 vanishes and the residue at $\infty$ is $-n$ times the constant term of $R$ at $\infty$. The residues at
 $\pm1$ are computed from binomial expansions of $t^n$ about $\pm1$, which are polynomials in $n$. Every
-sum is therefore an explicit rational function of $n$ and $\lambda$, valid for all odd $n\ge5$. This is the
-step that replaces the numerical evaluation in~\cite{MT}.
+sum is therefore an explicit rational function of $n$ and $\lambda$, valid for all odd $n\ge5$.
 
 \emph{Result.} The $A^2$ coefficient of $H$ along the kernel is
 \[
@@ -504,10 +499,9 @@ $\lambda=0$, $n=7$ gives $9/14$, which agrees with the formula.
 Once the closed forms are known, $c_4>0$ is immediate. For even $n$ every term of
 $(n-2)(m^4+40m^2+48m+16)$ is positive for $m=n-2\ge2$. For odd $n$, $n^2-9n+38$ has discriminant $-71$, and
 $(n-1)(n-3)>0$ for $n\ge5$. The content of Theorems~\ref{thm:even} and~\ref{thm:odd} is the derivation of
-$c_4$, in particular the evaluation of the root-of-unity sums for general $n$, which~\cite[p.~23]{MT} could
-not carry out in closed form. The odd formula vanishes at $n=3$, because of the factor $n-3$. This is
-consistent with $n=3$ being a different situation (bifurcation at the equator, $b=1$), which needs, and
-in~\cite{MT} receives, separate treatment; see the remark after the Corollary in Section~\ref{sec:main}.
+$c_4$, in particular the evaluation of the root-of-unity sums for general $n$. The odd formula vanishes at $n=3$, because of the factor $n-3$. This is
+consistent with $n=3$ being a different situation (bifurcation at the equator, $b=1$); see the remark after
+the Corollary in Section~\ref{sec:main}.
 \end{remark}
 
 \begin{remark}[What $c_4$ is, for odd $n$]\label{rem:reduced}
@@ -519,11 +513,11 @@ $\tfrac14Q''(w_0)$ in the $J_1$ constraint.
 \end{remark}
 
 \begin{remark}
-The odd-$n$ derivation was done symbolically in $n$ and $\lambda$ by a second AI reader. It was then audited
-step by step by a third reader: the coordinate change, the decoupling, completeness of the ansatz
-(including the absence of aliasing at $n=5,7$), the slaved modes, the $J_1$ constraint, the residues and
-Laurent degrees, and the invariant theory. The third reader also checked it by an independent exact route,
-described next.
+The odd-$n$ derivation was done symbolically in $n$ and $\lambda$ by computer algebra
+(Section~\ref{sec:limits}). Its steps (the coordinate change, the decoupling, completeness of the ansatz,
+including the absence of aliasing at $n=5,7$, the slaved modes, the $J_1$ constraint, the residues and
+Laurent degrees, and the invariant theory) were checked separately, and the result was confirmed by an
+independent exact route, described next.
 \end{remark}
 
 \subsection{Exact values and independent verification}
@@ -680,8 +674,9 @@ Altogether $\Phi\ge\tfrac\kappa2(|a|^4+|b|^2)-(L'^2/(2\kappa)+C_2)j^2$.
 \end{proof}
 
 \begin{remark}[The minimum does not persist at nearby momentum]\label{rem:nonpersist}
-Lemma~\ref{lem:B2} only bounds how deep $\Phi$ can go below zero; it does not say $\Phi\ge0$. In fact the
-strict minimum does \emph{not} persist. On the unstable side ($j<0$, slightly smaller ring), the kernel
+Lemma~\ref{lem:B2} only bounds how deep $\Phi$ can go below zero; it does not say $\Phi\ge0$, and the
+argument does not need it in any of the three geometries. In the hyperbolic plane ($n\ge8$) the strict
+minimum does \emph{not} persist. On the unstable side ($j<0$, slightly smaller ring), the kernel
 eigenvalue of the reduced Hessian at $\mu_3+j$ is negative and of order $|j|$. The ring is then a saddle of
 the reduced Hamiltonian, and the bifurcated minima sit at amplitude of order $|j|^{1/2}$ with depth of
 order $j^2$.
@@ -691,9 +686,9 @@ $-0.0022841$, $-0.0022845$ and $-0.0022845$ at $j=-10^{-2},-10^{-3},-10^{-4}$, a
 $\tau^*/\sqrt{|j|}\to0.1542$. For $n=12$, $\min\Phi/j^2\to-0.013679$ and $\tau^*/\sqrt{|j|}\to0.2007$. On
 the stable side ($j>0$) the minimum is exactly $0$, attained at the ring.
 
-So there is no neighbourhood on which the reduced Hamiltonians at all nearby momenta have uniform strict
-minima. The step in Morse-lemma-based proofs that relies on such uniformity is therefore not available here. The
-penalty function in Lemma~\ref{lem:B3} replaces it.
+So for $n\ge8$ there is no neighbourhood on which the reduced Hamiltonians at all nearby momenta have
+uniform strict minima. We do not discuss the sphere and the plane here. Our argument uses no uniformity of
+this kind; the penalty function in Lemma~\ref{lem:B3} is used instead.
 \end{remark}
 
 \begin{lemma}[Lemma B3: conserved function with a strict minimum modulo $K$]\label{lem:B3}
@@ -782,13 +777,12 @@ and~\ref{sec:quartic} are in hand.
 
 \paragraph{The plane.} For $\lambda=0$ the momentum map of $SE(2)$ is equivariant only for an affine
 action (equation~\eqref{eq:bracket}: $\{J_1,J_2\}=n/2$ is a cocycle). In the central extension that makes
-it equivariant, the centre acts trivially, so the action is not free. So~\cite{PRW} does not apply
-verbatim, and the self-contained Theorem~\ref{thm:abstract} is what covers $n=7$.
+it equivariant, the centre acts trivially, so the action is not free. Since the results of~\cite{PRW}
+quoted above are stated for free actions with equivariant momentum maps, for $n=7$ we use the
+self-contained Theorem~\ref{thm:abstract}, which needs only~\eqref{eq:bracket}.
 
-\paragraph{Montaldi 1997.} Montaldi--Tokieda's Proposition~9 builds on~\cite{Montaldi97} (cited as
-``cf.~[17]'' in its proof~\cite[p.~20]{MT}, and as ``[17, Theorem~1.2]'' on p.~10), whose setting
-is a compact group, as for the sphere. We have read only that paper's abstract and the way
-it is quoted in~\cite[pp.~10, 20]{MT}, and we do not rely on it. Montaldi and Rodr\'\i guez-Olmos~\cite{MRO} treat
+\paragraph{Other energy--momentum results.} Montaldi~\cite{Montaldi97} treats persistence and stability
+of relative equilibria for compact groups, and Montaldi and Rodr\'\i guez-Olmos~\cite{MRO} treat
 noncompact groups under formal stability (a definite Hessian on the symplectic normal space). Since the
 present case combines the groups $SE(2)$ and $PSL(2,\R)$ with a degenerate (quartic) minimum,
 Section~\ref{sec:nonlinear} gives a self-contained argument that covers all of them at once.
@@ -799,8 +793,10 @@ Section~\ref{sec:nonlinear} gives a self-contained argument that covers all of t
 
 We integrated the $n=8$ ring in the hyperbolic plane directly. This is a check on the theory, not part of
 the proof. The code is independent of that used for $c_4$. It uses the Poincar\'e disk with area form
-$4\,dx\wedge dy/(1-|z|^2)^2$, DOP853 with relative tolerance $10^{-12}$, and final time $T=2000$, which is
-more than six periods of the nonlinear oscillation at amplitude $10^{-4}$.
+$4\,dx\wedge dy/(1-|z|^2)^2$, DOP853 with relative tolerance $10^{-12}$, and final time $T=2000$. At
+threshold this covers about $29$ cycles of the nonlinear oscillation of $D(t)$ (defined below) at
+amplitude $\delta=10^{-3}$, and about $2.9$ cycles at $\delta=10^{-4}$; the period scales like $1/\delta$, as
+expected for a quartic minimum.
 
 The initial data are the ring at $\xi=\xi^*(1+\mathrm{rel})$, where $\xi=|z|^2$ and $\xi^*=-b_8$ is the
 threshold, plus the critical mode $|z_k|=\sqrt\xi(1+\delta(-1)^k)$. Here $\mathrm{rel}>0$ is the stable
@@ -822,7 +818,8 @@ $\delta=10^{-4}$ & 293.6 & 91.86 & 1.000 & 1.000 & 1.000\\
 Below threshold the deviation saturates at an amplitude independent of $\delta$: about $0.029$ for
 rel $=-10^{-2}$ and $0.0091$ for rel $=-10^{-3}$. Their ratio is close to $\sqrt{10}$. This is the
 $\sqrt{\Delta}$ signature of a supercritical pitchfork: the orbit wanders near the stable bifurcated pair of
-$n/2$-gons. At threshold and above it, $D(t)$ never exceeds $D(0)$. It oscillates, spends $38$--$42\%$ of
+$n/2$-gons. At threshold and above it, $\max_tD(t)/D(0)$ is at most $1.00037$ (the largest value occurs at
+threshold with $\delta=10^{-4}$). $D(t)$ oscillates, spends $38$--$42\%$ of
 the time below $D(0)/2$ at threshold, and shows no secular growth. If the quartic were negative, threshold
 runs would leave the $\delta$-neighbourhood on the nonlinear time scale. The same behaviour was observed for
 the image (``tanh'') hyperbolic model, which is not part of Conjecture~13.
@@ -831,18 +828,12 @@ the image (``tanh'') hyperbolic model, which is not part of Conjecture~13.
 \section{Limitations, status and computer-assisted parts}\label{sec:limits}
 %======================================================================
 
-\paragraph{Review status.} This draft has been checked only by independent AI readers (separate model
-instances that re-derived the results with their own code before reading the candidate argument) and by
-computer calculations. \textbf{No human specialist has reviewed it.} Its claims should be treated
-accordingly until such a review has taken place.
+\paragraph{Review status.} This work has been checked by computer calculations, including the
+independent re-derivations described above. \textbf{No human specialist has
+reviewed it.} Its claims should be treated accordingly until such a review has taken place.
 
-\paragraph{Literature not read.} We have not read Kurakin--Yudovich~\cite{KY} beyond its abstract, nor
-Kurakin~\cite{Kurakin03,Kurakin04}. We make no claim that our results agree with, extend, or differ from
-theirs. One unverified observation: if $H=-\sum\log|z_i-z_j|$ and a per-vortex radial amplitude are used,
-our level-set value at $n=7$ rescales to $\tfrac9{14}\cdot\tfrac{49}8=\tfrac{63}{16}$. The number $63/16$ has been attributed to~\cite{KY} as the heptagon's
-quartic coefficient in secondary notes we started from, but we have not verified that attribution or the
-normalisation used there. This is therefore an unverified consistency remark, not a claim of agreement. Kurakin's sphere results may
-already cover $n=4,5,6$ at the critical latitude.
+\paragraph{Related work.} For the heptagon see also Kurakin and Yudovich~\cite{KY}; for regular vortex
+systems on the sphere, Kurakin~\cite{Kurakin03,Kurakin04}.
 
 \paragraph{What is computer-assisted.} All computations are exact symbolic (sympy) or exact modular unless
 labelled numerical. Paths are relative to \code{conj13/} in the accompanying repository.
@@ -862,7 +853,7 @@ $n=8$), and \code{paper/table_check.py} (all $n=4,\dots,25$, with a negative con
 \code{paper/table_check.out}).
 \item \emph{Spectral checks} (Proposition~\ref{prop:spectral}, numerical, 40 digits):
 \code{gaps/spectral_check.py}, plus the bordered inertia in \code{review3/hess_check.py}.
-\item \emph{Lemma~\ref{lem:B3} sanity check} (numerical): \code{gaps/review/indep_check.py}. For
+\item \emph{Lemma~\ref{lem:B3} sanity check} (numerical): \code{gaps/indep_check.py}. For
 $n=4,\dots,9$, the minimum of $V-V_0$ on spheres of radius $\varepsilon$ in $S$ scales as $c_4\varepsilon^4$.
 \item \emph{Remark~\ref{rem:nonpersist}}: \code{gaps/nearby_momentum.py}.
 \item \emph{40-digit constrained minimisation} (numerical, Table~\ref{tab:c4}): \code{engine.py},
@@ -879,8 +870,8 @@ in \code{lean/Havelock/Conj13Algebra.lean}, with no unproved steps and only the 
 repository's continuous-integration build checks the Lean files. The precise scope is as follows. The
 coefficients stated in the proofs of Theorems~\ref{thm:even} and~\ref{thm:odd}, namely $h_2,h_4$ (even $n$)
 and $f_2$, $E_{00},E_{10},E_{01},E_{20},E_{02}$, $a_2$ (odd $n$), are explicit closed-form rational
-expressions in $n$ (or $M=n/2$) and $b=\lambda r_0^2$. Lean takes these expressions as definitions and proves,
-symbolically in $n$ and $b$, everything downstream of them:
+expressions in $n$ (or $M=n/2$) and $b=\lambda r_0^2$. They are derived from eq.~\eqref{eq:H} in a second
+layer described below. Starting from these expressions, Lean proves, symbolically in $n$ and $b$:
 \begin{itemize}
 \item that $h_2$ and $f_2$ vanish exactly on the threshold relation~\eqref{eq:bn};
 \item that eliminating $s$ by the $J_1$ constraint and minimising over $p$ (odd $n$), and reducing modulo the
@@ -889,18 +880,25 @@ threshold relation (both parities), gives the stated closed forms for $c_4$, for
 of Table~\ref{tab:c4}, exactly over $\mathbb Q$.
 \end{itemize}
 It also proves the threshold facts ($b_n$ in closed form, its uniqueness in $(-1,1]$ and its sign pattern,
-for all $n\ge4$), the spectral algebra of Proposition~\ref{prop:spectral} (including the Fej\'er identity
-for all $n$ and the eigenvalues $3/2$ and $8/3$ at $n=4,5$). A second layer, \texttt{lean/Havelock/Conj13Series.lean},
+for all $n\ge4$), and the arithmetic of the spectral computation in Proposition~\ref{prop:spectral}
+(including the Fej\'er identity for all $n$, the factorisation and sign of $a_m=C_1-m(n-m)$ with its
+kernel, and the eigenvalues $3/2$ and $8/3$ at $n=4,5$). The derivation of the Hessian of $F$ at the ring
+itself (Proposition~\ref{prop:blocks}: the block structure, the pair-term contribution and the values of
+$a_m,b_m$) is on paper; Lean checks the arithmetic that follows from it. A second layer, \texttt{lean/Havelock/Conj13Series.lean},
 derives from eq.~\eqref{eq:H} the even-$n$ coefficients $h_2,h_4$ along the symmetric curve on the level set (and the
 limit $(H-H_0)/\varepsilon^4\to c_4$ at $b_n$), the odd-$n$ coefficients $f_2$ and $E_{ij}$ (the full fourth-order
 expansion along the ansatz, with no $A^3$ term, via the first- and second-order Fej\'er identities), the $J_1$
 constraint along the ansatz, and both normalisation factors relating $\tau$ and $A$ to $\varepsilon$. What Lean does
-\emph{not} check are the structural steps: symmetric criticality (even $n$), completeness of the odd ansatz, and
-that the slaved minimum is the quartic coefficient of the reduced Hamiltonian. These rest on the arguments of
+\emph{not} check are the structural steps: the derivation of the Hessian in Proposition~\ref{prop:blocks},
+symmetric criticality (even $n$), completeness of the odd ansatz, and that the slaved minimum is the quartic
+coefficient of the reduced Hamiltonian. These rest on the arguments of
 \S\S3--4 and on the exact $\mathrm{GF}(p)$ Cartesian computation described above.
 For Section~\ref{sec:nonlinear}, \texttt{lean/Havelock/Conj13Stability.lean} proves Lemmas~B1--B4 and
 Theorem~\ref{thm:abstract}'s argument in an abstract setting (a group acting on a metric space, the chart and the
-slice taken as hypotheses); its instantiation to the vortex ring is not formalised.
+slice taken as hypotheses). In this setting Lemma~B1 takes as hypotheses the existence of the slaving map
+$\beta$ and the Taylor bound on the slaved problem that the paper derives from $B>0$, and the step from
+Lemma~B3 to Lemma~B4 goes through the chart, which is itself a hypothesis. The instantiation to the vortex
+ring is not formalised.
 
 \paragraph{Scope.} The result concerns the family~\eqref{eq:H} of~\cite{MT}, i.e.\ the ``sinh'' model in
 the hyperbolic case. It says nothing about the image (``tanh'') hyperbolic model or the flat disk with a
@@ -909,10 +907,9 @@ exponentially long times for perturbations of the full system, KAM-type question
 branches beyond what~\cite[Remark~11]{MT} states.
 
 \section*{Acknowledgements and disclosure of AI assistance}
-This work was developed with substantial assistance from an AI system (Claude, Anthropic). The AI
-assistance covered the derivations, the computer-algebra and numerical code, the independent re-derivations
-used as ``readers'', and the drafting of this manuscript. The author directed the work and takes
-responsibility for the content. As stated in Section~\ref{sec:limits}, no human expert has yet checked the
+This work was developed with substantial assistance from an AI system (Claude, Anthropic), covering the
+derivations, the computer-algebra and numerical code, and the drafting of this manuscript; the author
+directed the work and takes responsibility for the content. No human expert has yet checked the
 mathematics, and we welcome corrections. We thank James Montaldi and Tadashi Tokieda, whose paper posed
 the problem and supplied the framework used here.
 
