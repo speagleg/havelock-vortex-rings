@@ -46,7 +46,9 @@ value, and `nonlinear()` at the bifurcation point (the threshold's `r`).
   this package. The threshold's basis states this gap only when the certificate proves it: the exact sign of D_crit
   is negative at the rational point just above the threshold interval. At ξ* itself a_m = 0, so the critical block
   is not positive definite (D_m = −g_m² ≤ 0). For N > 16 the basis cites note_tanh Theorem 7 as "proved there for
-  N <= 16"; the certification itself is done at run time.
+  N <= 16"; the certification itself is done at run time. That b_m > 0 and that the critical mode is ⌊N/2⌋ are now
+  proved for every N (note_tanh Lemmas 12–13), and for large N, cosh r* = κ∞N + O(1/N) with κ∞ = 0.1343122…
+  (note_tanh Theorem 16).
 - **stability(): CERTIFIED** (exact signs). For odd N the window (ξ*, ξ_EM) gives the verdict
   "spectrally-stable-only".
 - **c4: NUMERICAL** (level-set engine), even N only. Odd N raises OutOfValidityRange: at ξ* the critical block is

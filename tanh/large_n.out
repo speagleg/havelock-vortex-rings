@@ -1,0 +1,60 @@
+1. Exact symbol form (Theorem: exact symbol), 400 random (N, m, xi), N <= 300
+   max relative difference from blocks.py: 7.88e-59
+
+2. The constant
+   y_inf   (L(y)^2 = 2 tanh(y)/y)     = 3.722669622474509343613663092673311697395
+   kappa_inf = 1/(2 y_inf)             = 0.1343122142726281390560092925858030628701
+   ell* = 2 pi kappa_inf = pi/y_inf    = 0.8439085312925334729607259424357889525518
+   residual of the note's earlier eq. (kappa) at kappa_inf: -1.58e-62
+   algebraic approximation y = 2+sqrt3: kappa = 1-sqrt3/2 = 0.133974596216 , ell ~ pi(2-sqrt3) = 0.841787214477
+   Phi(1e-8) = 0.25 (limit 1/4);  Phi(200) = -0.1200125 (limit -1/8);  Phi'(s_inf) = -0.0153242426449
+
+3. Even-N closed form 8 a_{N/2}/N^2 = 2 mu tanh y - (coth y - mu)^2 - 4/N^2, mu = (2/N) coth(2y/N)
+   max difference from blocks.py: 3.14e-56
+   planar limit xi -> 0, N = 6: 8 a_crit/N^2 = 0.111111111111, predicted 0.111111111111
+   planar limit xi -> 0, N = 7: 8 a_crit/N^2 = 1.95918367347e-30, predicted 0.0
+   planar limit xi -> 0, N = 8: 8 a_crit/N^2 = -0.125, predicted -0.125
+   planar limit xi -> 0, N = 9: 8 a_crit/N^2 = -0.197530864198, predicted -0.197530864198
+
+4. Thresholds against the second-order expansion cosh r* = kappa_inf N + C1/N + O(N^-3)
+   C1(even) = 0.541218839951061   C1(odd) = 0.401038240289955
+      N   (cosh r* - kappa_inf N) N    C1(parity)
+      8      0.559550114080431   0.541218839951061
+      9      0.410884094544524   0.401038240289955
+     16      0.545682869798631   0.541218839951061
+     17      0.403513125408975   0.401038240289955
+     50      0.541669203752253   0.541218839951061
+     51      0.401303667297227   0.401038240289955
+    100       0.54133127934322   0.541218839951061
+    101      0.401105700086698   0.401038240289955
+    200      0.541246940291171   0.541218839951061
+    201      0.401055259485464   0.401038240289955
+    400      0.541225864441299   0.541218839951061
+    401      0.401042515448833   0.401038240289955
+    800      0.541220596036438   0.541218839951061
+    801       0.40103931169407   0.401038240289955
+
+5. Odd N: the extra term P3 of 8a/N^2 against the strictly decreasing part P12 (NUMERICAL margin)
+   N=    3: max_v P3'/|P12'| (where P3' > 0) = 0.375
+   N=    5: max_v P3'/|P12'| (where P3' > 0) = 0.0284
+   N=    7: max_v P3'/|P12'| (where P3' > 0) = 0.01113
+   N=    9: max_v P3'/|P12'| (where P3' > 0) = 0.006048
+   N=   11: max_v P3'/|P12'| (where P3' > 0) = 0.003833
+   N=   15: max_v P3'/|P12'| (where P3' > 0) = 0.001958
+   N=   21: max_v P3'/|P12'| (where P3' > 0) = 0.00097
+   N=   51: max_v P3'/|P12'| (where P3' > 0) = 0.0001603
+   N=  101: max_v P3'/|P12'| (where P3' > 0) = 4.072e-5
+   N= 1001: max_v P3'/|P12'| (where P3' > 0) = 4.14e-7
+
+6. Infinite vortex row on the horocycle y = 1 (upper half-plane), spacing ell (NUMERICAL, K = 2e5 terms)
+   max |(ell/2pi)^2 Hess(row) - limit symbol (alpha, beta, gamma)| over ell in {0.5, ell*, 1.5, 3}, theta in {0.5, 0.3, 0.1}: 3.8e-12
+   radial entry at ell = ell*, theta = 1/2: 2.1e-10
+
+7. Limit symbol off the critical mode, s <= s_inf: min (alpha beta - gamma^2)/beta (NUMERICAL)
+   min over s = s_inf k/40, x = i/100: 1.1905e-5
+   predicted odd-N Krein window xi_EM - xi_* ~ W/N^3 with W = 0.00370893
+   N=   9: N^3 (xi_EM - xi_*) = 2.34727e-5
+   N=  15: N^3 (xi_EM - xi_*) = 0.000636501
+   N=  31: N^3 (xi_EM - xi_*) = 0.00197334
+   N=  61: N^3 (xi_EM - xi_*) = 0.00280024
+   N= 121: N^3 (xi_EM - xi_*) = 0.00324945

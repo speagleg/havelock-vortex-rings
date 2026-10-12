@@ -36,8 +36,13 @@ unit of degree $10$; for $9\le N\le16$, $\xi_*(N)$ is not an algebraic integer. 
 automatic once the blocks are rational; the content is their explicit structure.) Rings with $N\le7$ are stable at
 every radius. For odd $N$ the energy--momentum (Hessian-definiteness) threshold lies strictly above the spectral
 threshold. In the gap the ring is linearly (spectrally) stable, and its nonlinear stability is undecided (a Krein
-window). Numerically $\cosh r_*/N$ approaches $\kappa_\infty\approx0.1343122$, the root of a transcendental equation
-obtained by a formal limit; the convergence is not proved. In the sinh model, $\cosh r_*\sim\sqrt N/2$.
+window). In the variable $\tau=-\frac N2\ln\xi$ the blocks are, up to an $m$-independent term of order $N^{-2}$, a
+function of $m/N$. From this exact identity we prove, for every $N$ and every radius, that $b_m>0$ and that the critical
+mode is $\lfloor N/2\rfloor$, and for every even $N\ge8$ that the threshold is unique. We also prove
+$\cosh r_*=\kappa_\infty N+O(1/N)$, with $\kappa_\infty=1/(2\eta_\infty)\approx0.1343122$ and $\eta_\infty$ the root of
+$(\coth\eta-1/\eta)^2=2\tanh(\eta)/\eta$. Physically, a large ring stabilises once neighbouring vortices are more than
+$\ell_*=\pi/\eta_\infty\approx0.844$ curvature radii apart; numerically, the limit problem is a vortex row on a horocycle. In
+the sinh model, $\cosh r_*\sim\sqrt N/2$.
 \end{abstract}
 
 \section{Motivation and prior work}\label{sec:motivation}
@@ -54,7 +59,8 @@ first sentence, for linear stability. The Hessian at the ring reduces to explici
 (Thm.~\ref{thm:blocks}). The threshold is the root of an explicit polynomial equation (\S\ref{sec:recip}), and for
 $N\le16$ it is certified together with its minimal polynomial (\S\ref{sec:cert}). On the guess in the second sentence:
 the stability picture of their \S2 carries over qualitatively. Rings with $N\le7$ are stable at every radius; for
-$N\ge8$ a ring is stable exactly beyond a threshold radius, and the critical mode is $\lfloor N/2\rfloor$. There is
+$N\ge8$ a ring is stable exactly beyond a threshold radius, and the critical mode is $\lfloor N/2\rfloor$ (proved for
+every $N$ for the critical mode, and for every even $N$ for the uniqueness of the threshold; \S\ref{sec:asym}). There is
 one structural difference. The tanh blocks have a radial--tangential coupling, and for odd $N$ it separates the spectral
 threshold from the energy--momentum threshold (\S\ref{sec:krein}); this has no counterpart in the sinh model. We do not
 study the bifurcations themselves, which are the subject of their \S3. So their guess about the bifurcation types
@@ -96,7 +102,10 @@ treats the sinh model, where everything is known~\cite{MT}. We use these labels:
 \begin{center}
 \begin{tabular}{p{0.30\textwidth}p{0.62\textwidth}}\toprule
 \textbf{PROVED} (all $N$) & Fourier-block theorem (Thm.~\ref{thm:blocks}); linearisation and stability criteria
-(Prop.~\ref{prop:lin}); reciprocity (Prop.~\ref{prop:recip}); threshold equation and even-$N$ form.\\
+(Prop.~\ref{prop:lin}); reciprocity (Prop.~\ref{prop:recip}); threshold equation and even-$N$ form. Exact symbol form
+of the blocks (Thm.~\ref{thm:symbol}); $b_m>0$ and critical mode $\lfloor N/2\rfloor$ for every $N$ and radius
+(Lemmas~\ref{lem:bpos}, \ref{lem:crit}); a unique threshold for every even $N\ge8$ (Prop.~\ref{prop:evenN}); the large-$N$
+limit $\cosh r_*=\kappa_\infty N+O(1/N)$ and the critical spacing $\ell_*$ (Thm.~\ref{thm:largeN}).\\
 \textbf{CERTIFIED} (exact arithmetic, $N\le16$) & $b_m>0$ on $(0,1)$; critical mode $\lfloor N/2\rfloor$; the value of
 $\xi_*(N)$ and the sign change of $a_{\rm crit}$ at $\xi_*$; $N\le7$ stable for all $r$; odd-$N$ energy--momentum
 threshold strictly above $\xi_*$. Exact rational root isolation (sympy) and Arb balls (python-flint), \S\ref{sec:cert}.\\
@@ -113,11 +122,11 @@ with $\xi_*$ located to within $10^{-20}$ in a rational interval;
 (iv)~the odd-$N$ Krein window is non-empty for $N=9,11,13,15$.
 Lean does \emph{not} check irreducibility (that is the PARI item above), the derivation of the blocks, or the
 dynamics.\\
-\textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$; $b_m>0$ and critical mode
-$\lfloor N/2\rfloor$ for all $N$.\\
-\textbf{NUMERICAL} & $\kappa_\infty$: a numerically evaluated root of an explicit equation obtained by a formal limit;
-its identification with $\lim\cosh r_*/N$ is unproved. The $1/N$ correction in \S\ref{sec:asym} is a fit. Critical mode
-up to $N=800$.\\\bottomrule
+\textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$; uniqueness of the
+threshold for odd $N\ge17$.\\
+\textbf{NUMERICAL} & The identification of the large-$N$ limit with a horocyclic vortex row; the $1/N$ coefficients
+$C_1$ (derived, remainder not bounded); the limit of the energy--momentum threshold and the $N^{-3}$ closing of the
+Krein window (\S\ref{sec:asym}).\\\bottomrule
 \end{tabular}
 \end{center}
 Nonlinear (Lyapunov) stability is claimed only in the form ``positive-definite Hessian on the non-rotational
@@ -455,14 +464,14 @@ neither Pisot nor Salem. In the sinh model $\xi_*(8)=8-3\sqrt7$ is also a unit, 
 coincidence has a reason.
 
 \begin{conjecture}\label{conj:deg}
-For every $N\ge8$: $b_m>0$ on $(0,1)$; the critical mode is $\lfloor N/2\rfloor$; the factor of $A_{\lfloor N/2\rfloor}$
+For every $N\ge8$: the factor of $A_{\lfloor N/2\rfloor}$
 carrying $\xi_*$ is irreducible and palindromic, so that $1/\xi_*$ is a Galois conjugate of $\xi_*$; and its degree is given by
 (\ref{eq:deg}).
 \end{conjecture}
 Reciprocity alone shows that $1/\xi_*$ is a root of $A_{\lfloor N/2\rfloor}$. It does not show that $1/\xi_*$ is a conjugate
 of $\xi_*$. That needs irreducibility of the factor, which is why palindromy of the minimal polynomial is certified
-only for $N\le16$. The critical mode and $b_m>0$
-near the threshold were checked numerically up to $N=800$.
+only for $N\le16$. An earlier version of this conjecture also asserted $b_m>0$ and critical mode $\lfloor N/2\rfloor$
+for every $N$; these are now proved (Lemmas~\ref{lem:bpos} and~\ref{lem:crit}).
 
 \section{Odd $N$: the Krein window}\label{sec:krein}
 For even $N$, $g_{N/2}=0$, so $D_{N/2}=A_{N/2}B_{N/2}$ and the two thresholds coincide. This is certified: the
@@ -481,29 +490,209 @@ on the coordinate-free Cartesian Hessian (count of negative eigenvalues, Krein s
 \texttt{review/krein\_em.py}), so it is not a coordinate artefact. The energy--momentum method gives no conclusion there:
 the ring is linearly (spectrally) stable, and nonlinear stability is \textbf{undecided}. In the sinh model $g_m\equiv0$, and no such window exists.
 
-\section{Large $N$ (NUMERICAL)}\label{sec:asym}
-Set $c=\kappa N$. Then $\xi=(c-1)/(c+1)$ and $y=\xi^{N/2}\to u:=e^{-1/\kappa}$. Dividing (\ref{eq:even}) by $N^2$ and
-formally letting $N\to\infty$ gives the limit equation
-\begin{equation}\label{eq:kappa}
-\kappa-\frac{\kappa^2}2+\frac{2\kappa u^2}{1-u^2}-\frac18-\frac{u}{2(1-u)^2}=0,\qquad u=e^{-1/\kappa}.
+\section{Large $N$: the continuum limit and a critical spacing}\label{sec:asym}
+This section proves that $\cosh r_*/N$ converges, identifies the limit, and interprets it. The key is an exact identity:
+in a suitable radial variable the blocks of Thm.~\ref{thm:blocks} are, up to a term that does not depend on $m$, a function
+of $m/N$ alone. Throughout, put
+\[
+\tau:=-\tfrac N2\ln\xi=N\operatorname{artanh}\tfrac1c\in(0,\infty),\qquad x:=1-\tfrac{2m}N\in(-1,1),\qquad
+\theta:=\tfrac mN=\tfrac{1-x}2,
+\]
+so that $\xi^N=e^{-2\tau}$, $c=\cosh r=\coth(\tau/N)$, and $\tau\to0$ as $r\to\infty$. Let
+$Q(x,\tau):=\cosh\tau\cosh(x\tau)-x\sinh\tau\sinh(x\tau)$, and let $\mathcal L(\eta):=\coth\eta-1/\eta$ be the Langevin
+function.
+
+\begin{theorem}[exact symbol; PROVED]\label{thm:symbol}
+For every $N\ge2$, $1\le m\le N-1$ and $\xi\in(0,1)$, with $k:=c/N=\coth(\tau/N)/N$,
+\begin{align*}
+\frac{b_m}{N^2}&=\beta(x,\tau):=\frac{1-x^2}8+\frac{1-Q(x,\tau)}{4\sinh^2\tau},\\
+\frac{a_m}{N^2}&=E_N(\tau)-\frac1{4\sinh^2\tau}-\psi(x,\tau),\qquad
+\psi(x,\tau):=\frac{1-x^2}8+\frac{Q(x,\tau)}{4\sinh^2\tau},\qquad E_N(\tau):=k\coth\tau-\frac{k^2}2-\frac1{2N^2},\\
+\frac{g_m}{N^2}&=\gamma(x,\tau):=\frac12\Big[\frac{\theta e^{x\tau}-(1-\theta)e^{-x\tau}}{2\sinh\tau}
++\frac{e^{-\tau}\sinh(x\tau)}{2\sinh^2\tau}\Big].
+\end{align*}
+The dependence on $m$ enters only through $x$, and in $a_m$ only through $\psi$.
+\end{theorem}
+\begin{proof}
+Substitute $\xi^j=e^{-2j\tau/N}$, so $\xi^m=e^{-(1-x)\tau}$, $\xi^{N-m}=e^{-(1+x)\tau}$, $1-X=2e^{-\tau}\sinh\tau$. From the
+closed form of $W_k$, $W_m/N=\theta e^{x\tau}/(2\sinh\tau)+e^{-\tau}e^{x\tau}/(4\sinh^2\tau)$ and
+$W_{N-m}/N=(1-\theta)e^{-x\tau}/(2\sinh\tau)+e^{-\tau}e^{-x\tau}/(4\sinh^2\tau)$, and $NW_N=N^2/(4\sinh^2\tau)$. Since
+$\theta e^{x\tau}+(1-\theta)e^{-x\tau}=\cosh(x\tau)-x\sinh(x\tau)$ and $\sinh\tau+e^{-\tau}=\cosh\tau$,
+\[
+\frac{W_m+W_{N-m}}N=\frac{\sinh\tau\,(\cosh x\tau-x\sinh x\tau)+e^{-\tau}\cosh x\tau}{2\sinh^2\tau}=\frac{Q(x,\tau)}{2\sinh^2\tau}.
+\]
+With $m(N-m)=N^2(1-x^2)/4$ this gives $b_m$ and $g_m$. For $a_m$ use the form
+$a_m=V''(0)-\frac{m(N-m)}2-NW_N-\frac N2(W_m+W_{N-m})$ from the proof of Thm.~\ref{thm:blocks}, where
+$V''(0)=(N-1)c-\frac12(c-1)^2+\frac{2NcX}{1-X}=Nc\,\frac{1+X}{1-X}-\frac{c^2}2-\frac12$ and $\frac{1+X}{1-X}=\coth\tau$.
+\end{proof}
+The identity holds exactly; \texttt{large\_n.py} confirms it against \texttt{blocks.py} at 400 random $(N,m,\xi)$, $N\le300$, to
+$8\cdot10^{-59}$.
+
+\begin{lemma}[tangential stiffness; PROVED]\label{lem:bpos}
+Put $a=(1+x)\tau$, $b=(1-x)\tau$ and $f(t)=\sinh^2(t/2)/t$. Then
+\[
+\beta(x,\tau)=\frac{ab}{4\tau\sinh^2\tau}\big[f(a+b)-f(a)-f(b)\big]>0\qquad(|x|<1,\ \tau>0).
+\]
+Hence $b_m>0$ for every $N\ge2$, every $1\le m\le N-1$ and every radius.
+\end{lemma}
+\begin{proof}
+$1-x=b/\tau$, $1+x=a/\tau$ and $a+b=2\tau$ give $2Q=(b\cosh a+a\cosh b)/\tau=2+2\big(b\sinh^2\frac a2+a\sinh^2\frac b2\big)/\tau$ and
+$(1-x^2)\sinh^2\tau=ab\sinh^2\tau/\tau^2=2ab\,f(a+b)/\tau$. Substituting into $8\sinh^2\tau\,\beta=(1-x^2)\sinh^2\tau+2-2Q$ gives the
+formula. The function $f(t)/t=(\sinh(t/2)/t)^2$ is strictly increasing, so
+$f(a+b)=a\frac{f(a+b)}{a+b}+b\frac{f(a+b)}{a+b}>a\frac{f(a)}a+b\frac{f(b)}b=f(a)+f(b)$ for $a,b>0$.
+\end{proof}
+
+\begin{lemma}[critical mode; PROVED]\label{lem:crit}
+For every $\tau>0$, $\psi(\cdot,\tau)$ is even and strictly decreasing on $[0,1]$. Hence, for every $N\ge2$ and every radius,
+$a_m\ge a_{\lfloor N/2\rfloor}$, with equality only for $m\in\{\lfloor N/2\rfloor,N-\lfloor N/2\rfloor\}$.
+\end{lemma}
+\begin{proof}
+Evenness is clear. Write $h=x\tau\in(0,\tau]$, $T=\tau\coth\tau$ and $S(t)=\sinh t/t$. A direct computation gives
+\[
+4\sinh^2\tau\;\partial_x\psi=\sinh\tau\;v(h),\qquad v(h):=(T-1)\sinh h-h\cosh h-h\,S(\tau),
+\]
+and $v(h)/\sinh h=(T-1)-h\coth h-S(\tau)/S(h)$. So we must show $T-1-h\coth h<S(\tau)/S(h)$ for $0<h\le\tau$. Let
+$\lambda(t)=\ln S(t)$, so $\lambda'=\coth t-1/t$, $\lambda''=t^{-2}-\sinh^{-2}t\ge0$, and $(t\coth t)'=\lambda'+t\lambda''$.
+With $D:=\lambda(\tau)-\lambda(h)\ge0$ and $I:=\int_h^\tau t\lambda''(t)\,dt\ge0$ we have $T-h\coth h=D+I$, and the claim
+becomes
+\[
+I<1+e^D-D .
+\]
+The right side is increasing in $D\ge0$ and exceeds $2$ when $h<\tau$ (then $D>0$); at $h=\tau$, $I=0$. We use
+$\lambda''(t)\le\min(\frac13,t^{-2})$. (The bound $\frac13$ is $3(\sinh^2t-t^2)\le t^2\sinh^2t$; compare the Taylor
+coefficients of $t^{2j}$, which are $3\cdot2^{2j-1}/(2j)!$ and $2^{2j-3}/(2j-2)!$, with ratio $(2j)(2j-1)/12\ge1$ for $j\ge2$.)
+Hence $I\le\int_0^\tau t\min(\frac13,t^{-2})\,dt$, which is $\tau^2/6$ for $\tau\le\sqrt3$ and $\frac12+\ln(\tau/\sqrt3)$
+otherwise; both are $\le2$ when $\tau\le\sqrt3\,e^{3/2}\approx7.76$. For $\tau>\sqrt3\,e^{3/2}$: if $h\ge\tau/2$ then
+$I\le\int_{\tau/2}^\tau dt/t=\ln2<2$; if $h<\tau/2$ then $e^D\ge S(\tau)/S(\tau/2)=\cosh(\tau/2)$, so the right side is at least
+$1+\frac12e^{\tau/2}-\frac\tau2$, which exceeds $\frac12+\ln(\tau/\sqrt3)\ge I$ for $\tau\ge7.76$. So $\partial_x\psi<0$ on $(0,1]$.
+The statement about $a_m$ follows from Thm.~\ref{thm:symbol}, since $|x|=|1-2m/N|$ is smallest at $m=\lfloor N/2\rfloor$ and
+$N-\lfloor N/2\rfloor$.
+\end{proof}
+
+\begin{corollary}[PROVED, all $N$]\label{cor:alln}
+For every $N\ge2$ and every radius, the ring is spectrally stable if and only if $a_{\lfloor N/2\rfloor}\ge0$; when
+$a_{\lfloor N/2\rfloor}<0$ the modes $m=\lfloor N/2\rfloor$ and $N-\lfloor N/2\rfloor$ grow exponentially. This removes the
+restriction $N\le16$ from the statements ``$b_m>0$'' and ``the critical mode is $\lfloor N/2\rfloor$'' of
+Thm.~\ref{thm:cert}(b); an earlier version of Conjecture~\ref{conj:deg} conjectured them for all $N$.
+\end{corollary}
+\begin{proof}
+Prop.~\ref{prop:lin} with Lemmas~\ref{lem:bpos} and~\ref{lem:crit}.
+\end{proof}
+
+\begin{proposition}[even $N$: one threshold; PROVED]\label{prop:evenN}
+Let $N$ be even, $\eta=\tau/2$ and $\mu=\frac2N\coth\frac{2\eta}N$. Then
+\[
+\frac{8a_{N/2}}{N^2}=2\mu\tanh\eta-(\coth\eta-\mu)^2-\frac4{N^2},
+\]
+which for $N\ge4$ is strictly decreasing in $\eta$, from $2-4/N^2$ ($r\to\infty$) to $-(N^2-8N+8)/N^2$ ($r\to0$). Hence
+every even $N\le6$ is stable at every radius, and every even $N\ge8$ has exactly one spectral threshold, at a simple
+sign change of $a_{N/2}$.
+\end{proposition}
+\begin{proof}
+At $x=0$, $\psi+\frac1{4\sinh^2\tau}=\frac18+\frac1{8\sinh^2\eta}$; with $\coth\tau=\frac12(\coth\eta+\tanh\eta)$, $k=\mu/2$ and
+$\sinh^{-2}\eta=\coth^2\eta-1$ the formula follows from Thm.~\ref{thm:symbol}. For $N=2$, $\mu=\coth\eta$ and the
+expression is identically $1$, so the ring is stable at every radius. For $N\ge4$, with $v=2\eta/N$ and $q=N/2>1$,
+$\mu\tanh\eta=\frac2N\tanh(qv)/\tanh v$, and $\frac d{dv}\ln\frac{\tanh(qv)}{\tanh v}=\frac{2q}{\sinh2qv}-\frac2{\sinh2v}<0$,
+because $t/\sinh t$ is strictly decreasing. Since $t\coth t$ is increasing, $\mu\le\coth\eta$; and
+$\frac d{d\eta}(\coth\eta-\mu)=\frac{(2/N)^2}{\sinh^2(2\eta/N)}-\frac1{\sinh^2\eta}\ge0$, again because $t/\sinh t$ decreases. So
+$(\coth\eta-\mu)^2$ is non-decreasing and the whole expression is strictly decreasing. The limits are direct.
+\end{proof}
+At $r\to0$ the limit $-(N^2-8N+8)/N^2$ is the planar (Thomson--Havelock) value, negative exactly for $N\ge7$. For odd
+$N$ the same computation gives $8a_{(N-1)/2}/N^2=P_{12}+P_3-3/N^2$, where $P_{12}=2\mu\tanh\eta-(\coth\eta-\mu)^2$ and
+$P_3=\big[\frac2N\sinh v\sinh Nv-2\cosh Nv(\cosh v-1)\big]/\sinh^2Nv$, $v=\tau/N$; its planar limit is $-(N-1)(N-7)/N^2$. The
+term $P_3$ is not monotone, but where it increases its slope is below $0.61\%$ of $|P_{12}'|$ for the sampled odd
+$N\in\{9,11,15,21,51,101,1001\}$, and below $37.5\%$ for $N=3$ (\texttt{large\_n.out}, NUMERICAL). So for odd $N$ the threshold is unique numerically; we have not proved it.
+
+\paragraph{The limit.} Let $E_\infty(\tau)=\coth\tau/\tau-1/(2\tau^2)$ and
+$\Phi(\tau):=E_\infty(\tau)-\frac1{4\sinh^2\tau}-\psi(0,\tau)$, the $N\to\infty$ limit of $a_{\lfloor N/2\rfloor}/N^2$. With $\eta=\tau/2$,
+\begin{equation}\label{eq:phi}
+8\,\Phi=\frac{2\tanh\eta}\eta-\mathcal L(\eta)^2 .
 \end{equation}
-We \emph{define} $\kappa_\infty$ as the root of (\ref{eq:kappa}) near $0.134$:
+Since $(\tanh\eta/\eta)'=(\eta-\sinh\eta\cosh\eta)/(\eta^2\cosh^2\eta)<0$ and $(\mathcal L^2)'=2\mathcal L\mathcal L'>0$
+($\mathcal L>0$, $\mathcal L'=\eta^{-2}-\sinh^{-2}\eta>0$), we have $\Phi'<0$ everywhere: $\Phi$ decreases strictly
+from $\frac14$ at $\tau=0$ to $-\frac18$ at $\tau=\infty$. Let $\eta_\infty$ be its unique zero:
+\begin{equation}\label{eq:kappa}
+\Big(\coth\eta_\infty-\frac1{\eta_\infty}\Big)^2=\frac{2\tanh\eta_\infty}{\eta_\infty},\qquad
+\eta_\infty=3.7226696224745093436\ldots,\qquad \kappa_\infty:=\frac1{2\eta_\infty}=0.1343122142726281390560\ldots
+\end{equation}
+This is the constant of the earlier draft: its defining equation, in $\kappa=1/\tau$, is $\Phi(1/\kappa)=0$ rewritten with
+$u=e^{-1/\kappa}$. Dropping the exponentially small terms ($\tanh\eta,\coth\eta\to1$) turns (\ref{eq:kappa}) into
+$\eta^2-4\eta+1=0$, so $\eta_\infty\approx2+\sqrt3$ (off by $9.4\cdot10^{-3}$) and $\kappa_\infty\approx1-\sqrt3/2$ (off by
+$3.4\cdot10^{-4}$).
+
+\begin{theorem}[large-$N$ limit; PROVED]\label{thm:largeN}
+Let $r_*(N)$ be the spectral threshold radius, i.e.\ $\xi_*(N)=\inf\{\xi_0:\text{the ring is spectrally stable for all }
+\xi\in(\xi_0,1)\}$. Then, for both parities,
 \[
-\kappa_\infty=0.1343122142726281390560\ldots
+\cosh r_*(N)=\kappa_\infty N+O(1/N),\qquad
+\ell_N:=\frac{2\pi\sinh r_*(N)}N=\ell_*+O(N^{-2}),\qquad \ell_*:=2\pi\kappa_\infty=\frac\pi{\eta_\infty}=0.8439085\ldots
 \]
-(evaluated with \texttt{mpmath.findroot} at 40 digits, \texttt{asymptotics.py}; re-solved independently in
-\texttt{review/kappa\_check.py}). Status: this is a numerically evaluated constant with an explicit defining equation.
-It is not a fit. We know no closed form; (\ref{eq:kappa}) is transcendental in $\kappa$ through $u=e^{-1/\kappa}$.
-Dropping the exponentially small $u$-terms leaves $\kappa^2-2\kappa+\frac14=0$, whose root $1-\sqrt3/2\approx0.13397$ is
-within $3.4\cdot10^{-4}$ of $\kappa_\infty$. What is \emph{not} proved is the asymptotic statement
-$\cosh r_*/N\to\kappa_\infty$: equation (\ref{eq:kappa}) comes from a formal limit of the even-$N$ equation, and neither
-the uniformity of that limit, nor the persistence of the critical mode $\lfloor N/2\rfloor$, nor the odd-$N$ case is
-proved. It is supported numerically for $N\le800$ (\texttt{asymptotics.out}). The correction term below is an empirical
-fit to the same data:
+In words: at threshold, the arc length along the ring between neighbouring vortices tends to $\ell_*\approx0.844$
+curvature radii. (The geodesic distance between neighbours tends to $2\operatorname{arsinh}(\ell_*/2)\approx0.821$.)
+\end{theorem}
+\begin{proof}
+Let $\tau_*(N)=-\frac N2\ln\xi_*(N)$. By Thm.~\ref{thm:symbol},
+$a_{\lfloor N/2\rfloor}/N^2=\Phi(\tau)+\Delta_N(\tau)+\varepsilon_N(\tau)$ with $\Delta_N=E_N-E_\infty$ and
+$\varepsilon_N=\psi(0,\tau)-\psi(x_N,\tau)$, where $x_N=0$ ($N$ even) or $1/N$ ($N$ odd). By Lemma~\ref{lem:crit},
+$\varepsilon_N\ge0$; by Taylor's theorem $\varepsilon_N(\tau)\le\frac1{2N^2}\max_{|x|\le1/N}|\psi_{xx}(x,\tau)|$, bounded by
+$C/N^2$ for $\tau$ in a compact set. For $\Delta_N$, put $\delta=k-1/\tau=\tau^{-1}(u\coth u-1)$, $u=\tau/N$; then
+$0<\delta<\tau/(3N^2)$ and $\Delta_N=\delta(\coth\tau-\frac1\tau-\frac\delta2)-\frac1{2N^2}$. Since $0<\coth\tau-1/\tau<1$,
+$-\frac1{2N^2}-\frac{\delta^2}2\le\Delta_N\le\frac\tau{3N^2}$, so $|\Delta_N|\le C_T/N^2$ on $(0,T]$, uniformly down to $\tau\to0$.
+Fix $T>\tau_\infty=2\eta_\infty$ and let $c_0=\frac12|\Phi'(\tau_\infty)|>0$. For $0<d\le d_0$ we have $\Phi(\tau_\infty-d)\ge c_0d$
+and $\Phi(\tau_\infty+d)\le-c_0d$. Take $d=K/N^2$ with $K$ large. On $(0,\tau_\infty-d]$,
+$a_{\lfloor N/2\rfloor}/N^2\ge c_0d-C_T/N^2>0$, so every $a_m>0$ (Lemma~\ref{lem:crit}) and every $b_m>0$
+(Lemma~\ref{lem:bpos}): the ring is spectrally stable. At $\tau_\infty+d$,
+$a_{\lfloor N/2\rfloor}/N^2\le-c_0d+(C_T+C)/N^2<0$ while $b_{\lfloor N/2\rfloor}>0$, so by Prop.~\ref{prop:lin} the ring is
+unstable. Hence $|\tau_*(N)-\tau_\infty|\le K/N^2$ for large $N$. Finally
+$\cosh r_*=\coth(\tau_*/N)=N/\tau_*+O(1/N)$ and $\sinh r_*=1/\sinh(\tau_*/N)$, so $\ell_N=2\pi/(N\sinh(\tau_*/N))=2\pi/\tau_*+O(N^{-2})$.
+\end{proof}
+Also $r_*=\ln(2\kappa_\infty N)+o(1)$ and $1-\xi_*\sim2/(\kappa_\infty N)\approx14.89/N$. The second-order expansion
+below gives $\ell_N-\ell_*\approx2\pi(C_1-\tfrac1{2\kappa_\infty})/N^2\approx-20/N^2$: finite rings reach stability at a slightly
+smaller spacing.
+
+\paragraph{Second order (DERIVED, NUMERICAL check).} Expanding $\Delta_N=\frac1{N^2}\big[\frac{\tau\coth\tau-1}3-\frac12\big]+O(N^{-4})$
+and $\varepsilon_N=-\psi_{xx}(0,\tau)/(2N^2)+O(N^{-4})$ (odd $N$) in the threshold equation gives
 \[
-\cosh r_*=\kappa_\infty N+\frac{0.541}N+O(N^{-2})\ \ \text{(fit)},\qquad r_*=\ln(2\kappa_\infty N)+o(1),\qquad 1-\xi_*\sim\frac2{\kappa_\infty N}\approx\frac{14.89}N .
+\cosh r_*=\kappa_\infty N+\frac{C_1}N+O(N^{-3}),\qquad C_1=\frac{\tau_\infty}3-\frac{\mathcal D}{|\Phi'(\tau_\infty)|\,\tau_\infty^2},
 \]
-The second reader re-solved (\ref{eq:kappa}) and checked $\cosh r_*/N$ up to $N=1024$ (\texttt{review/kappa\_check.py}).
+with $\mathcal D=\frac{\tau_\infty\coth\tau_\infty-1}3-\frac12$ for even $N$ and $\mathcal D-\frac12\psi_{xx}(0,\tau_\infty)$ for odd $N$.
+Numerically $C_1^{\rm even}=0.5412188400$ and $C_1^{\rm odd}=0.4010382403$. The even value explains the coefficient $0.541$ that an
+earlier draft obtained by fitting; the odd value is different. Against the certified and the computed thresholds,
+$(\cosh r_*-\kappa_\infty N)N$ equals $0.54122060$ at $N=800$ and $0.40103931$ at $N=801$ (\texttt{large\_n.out}). We have
+not written out the remainder bounds for this second-order statement.
+
+\subsection*{Physical interpretation}
+\paragraph{A critical spacing.} Theorem~\ref{thm:largeN} says that a large tanh-model ring becomes spectrally stable once
+neighbouring vortices are more than $\ell_*=0.8439\,R$ apart in arc length along the ring (asymptotically), where $R$ is the curvature radius (here
+$R=1$). Equivalently, the line density $N/(2\pi\sinh r)$ must be below $1/\ell_*\approx1.185/R$. The approximation
+$\eta_\infty\approx2+\sqrt3$ gives $\ell_*\approx\pi(2-\sqrt3)R=0.8418R$. In the sinh model there is no such scale:
+$\cosh r_*\sim\sqrt N/2$, so the threshold spacing $\approx\pi/\sqrt N$ tends to $0$ (\S\ref{sec:compare}).
+
+\paragraph{The limit object is a vortex row on a horocycle.} As $N\to\infty$ at fixed $\tau$, the ring radius tends to
+infinity while the spacing $2\pi\sinh r/N\to2\pi/\tau$ stays fixed, and the geodesic curvature $\coth r$ of the ring
+tends to $1$, that of a horocycle. In the upper half-plane take the horocycle $\operatorname{Im}z=1$ and the infinite row
+$z_k=k\ell+i$, translating along it under the parabolic isometries, with $F=H-vJ$, $J=-\sum1/y_j$ the momentum of
+$x$-translation for the area form $dx\,dy/y^2$. The Bloch symbol of $\operatorname{Hess}F$ at wavenumber $\theta$ (phase
+$2\pi\theta$ between neighbours), multiplied by $(\ell/2\pi)^2$, agrees with $(\alpha,\beta,\gamma)$ at $x=1-2\theta$,
+$\tau=2\pi/\ell$, where $\alpha=E_\infty-\frac1{4\sinh^2\tau}-\psi$ is the limit of $a_m/N^2$. The agreement is to
+$4\cdot10^{-12}$ at four spacings and three wavenumbers (\texttt{large\_n.out}, item~6; NUMERICAL, from lattice sums; we have
+not derived it by Poisson summation). So $m/N$ becomes the Bloch wavenumber. The critical mode $\theta=\frac12$
+displaces neighbours in opposite normal directions (its growing eigenvector also has a tangential part): it is the
+pairing instability of a vortex row. By
+Lemmas~\ref{lem:bpos} and~\ref{lem:crit} applied to the limit symbol, the horocyclic row is spectrally stable exactly when
+$\ell\ge\ell_*$, granted the numerically verified identification.
+
+\paragraph{Why curvature stabilises.} In (\ref{eq:phi}) the dense limit $\ell\ll R$ ($\eta=\pi/\ell\to\infty$) gives
+$8\Phi\to-1$, unstable at every spacing, as for a straight row in the plane (the classical row instability~\cite{Lamb}).
+The sparse limit $\ell\gg R$ gives $8\Phi\to2$, stable. Heuristically: the tanh interaction is screened beyond one curvature radius
+($-\ln\tanh(d/2)\approx2e^{-d}$), so for large spacing the coupling between neighbours is too weak to drive the pairing
+mode, and $\ell_*$ is where the two effects balance.
+
+\paragraph{Energy--momentum threshold (NUMERICAL).} Off the critical mode the limit symbol is definite:
+$\min(\alpha\beta-\gamma^2)/\beta>0$ on the grid $\tau\le\tau_\infty$, $0.01\le x\le0.99$ (\texttt{large\_n.out}, item~7). So the
+energy--momentum threshold should have the same limit $\kappa_\infty$, and the odd-$N$ Krein window should close like
+$\xi_{\rm EM}-\xi_*\approx W/N^3$ with $W=2\gamma_x(0,\tau_\infty)^2/(\beta(0,\tau_\infty)|\Phi'(\tau_\infty)|)\approx0.0037$. The data
+($N^3(\xi_{\rm EM}-\xi_*)=0.0028$ at $N=61$, $0.0032$ at $N=121$) approach this slowly. None of this is proved.
 
 \section{Comparison with the sinh model and the flat disk}\label{sec:compare}
 \begin{center}
@@ -515,7 +704,8 @@ $s\theta$ coupling & none & $g_m=\frac N2(W_m-W_{N-m})$\\
 threshold & $\cosh^2r_*=q(N)\in\mathbb Q$ & algebraic, degree (\ref{eq:deg})\\
 $N\le7$ & stable for all $r$ & stable for all $r$ (cert.)\\
 $\xi_*(8)$ & $8-3\sqrt7$ (unit, deg 2) & unit, deg 10\\
-large $N$ & $\cosh r_*\sim\sqrt N/2$ & $\cosh r_*\sim\kappa_\infty N$ (num.)\\
+large $N$ & $\cosh r_*\sim\sqrt N/2$ & $\cosh r_*\sim\kappa_\infty N$ (Thm.~\ref{thm:largeN})\\
+threshold spacing & $\to0$ & $\to\ell_*=0.8439$\\
 odd-$N$ Krein window & none & width $\sim10^{-7}$\\\bottomrule
 \end{tabular}
 \end{center}
@@ -554,9 +744,10 @@ Hwang--Kim 2013 already contains ring stability thresholds for this model. Until
 \S\ref{sec:motivation} is provisional.
 \item \textbf{No human specialist review.} The derivation has been re-derived and checked by an independent AI reader
 (verdict: confirmed with scope fixes, all applied here). No human expert in point-vortex dynamics has reviewed it.
-\item \textbf{Heuristic limit.} $\kappa_\infty$ is the numerically evaluated root of (\ref{eq:kappa}), which comes from a formal
-limit; $\cosh r_*/N\to\kappa_\infty$ is not proved, and the $1/N$ correction is a fit.
-\item \textbf{Finite range.} Palindromy, irreducibility, the degree pattern, $b_m>0$ and the critical mode are certified only for
+\item \textbf{Large $N$.} The limit $\cosh r_*/N\to\kappa_\infty$ and the critical spacing are proved
+(Thm.~\ref{thm:largeN}); the $1/N$ coefficients are derived without remainder bounds, and the horocyclic-row
+interpretation rests on a numerically verified identity. For odd $N\ge17$ uniqueness of the threshold is numerical only.
+\item \textbf{Finite range.} Palindromy, irreducibility and the degree pattern are certified only for
 $N\le16$ (Conjecture~\ref{conj:deg}). Irreducibility is certified by PARI/GP, not by Lean.
 \item \textbf{Nonlinear stability.} This is stated only via Hessian definiteness and modulo $SO(2,1)$ (Remark~\ref{rem:em}). In the
 odd-$N$ Krein window the ring is linearly (spectrally) stable and nonlinear stability is undecided; at the threshold
@@ -566,7 +757,7 @@ itself it is open.
 \section*{Files}
 \texttt{tanh/}: \texttt{derivation.txt} (full derivation), \texttt{blocks.py}, \texttt{exact.py},
 \texttt{check\_jacobian.py/.out}, \texttt{identities.py/.out}, \texttt{certify\_v2.py/.out} (certification),
-\texttt{asymptotics.py/.out}, \texttt{irreducibility/} (PARI/GP irreducibility certificates: \texttt{extract.py/.out},
+\texttt{asymptotics.py/.out}, \texttt{large\_n.py/.out} (\S\ref{sec:asym}), \texttt{irreducibility/} (PARI/GP irreducibility certificates: \texttt{extract.py/.out},
 \texttt{irreducibility.gp/.out}, \texttt{polys.gp}), and \texttt{review/} (second reader). Literature record:
 \texttt{literature.md}.
 
@@ -591,6 +782,8 @@ Ser.\ B 10 (2008) 349--375.
 (1999) 245--259 (abstract only; cited via~\cite{MT,MNG,NG,Boatto}).
 \bibitem{HK} S.~Hwang, S.-C.~Kim, Relative equilibria of point vortices on the hyperbolic sphere, J.\ Math.\ Phys.\ 54
 (2013) 063101 (abstract only).
+\bibitem{Lamb} H.~Lamb, \emph{Hydrodynamics}, 6th ed., Cambridge University Press (1932), \S156 (not re-read for this
+note; cited for the classical instability of a single infinite row of point vortices).
 \bibitem{Havelock} T.~H.~Havelock, The stability of motion of rectilinear vortices in ring formation, Phil.\ Mag.\ (7) 11
 (1931) (not read; cited for context only).
 \end{thebibliography}

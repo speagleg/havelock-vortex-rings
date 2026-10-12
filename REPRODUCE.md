@@ -24,7 +24,7 @@ times; see below). gmpy2 is not installed; sympy then uses Python integers, whic
 ```bash
 python scripts/reproduce.py --list                  # the manifest: id, tier, kind, command
 python scripts/reproduce.py --tier fast             # ~25 min: 35 outputs + the Lean-generator check
-python scripts/reproduce.py --tier medium           # fast + medium = all 72 outputs, ~2.3 h
+python scripts/reproduce.py --tier medium           # fast + medium = all 73 outputs, ~2.3 h
 python scripts/reproduce.py --tier slow             # same set today (no output is in the slow tier)
 python scripts/reproduce.py --only int_tanh --tier medium   # substring filter on ids
 ```
@@ -90,6 +90,7 @@ were first recorded, but about 9 min each here, so they are filed as medium. On 
 | `tanh/certify.out` | `cd tanh && python certify.py` (writes the file itself) | 54 s | fast | certified-interval | tanh note Thm 6 (v1, superseded by certify_v2): Sturm + Arb certification N <= 16 | PASS |
 | `tanh/certify_v2.out` | `cd tanh && python certify_v2.py` (writes the file itself) | 44 s | fast | certified-interval | tanh note Thm 6 / Table 1: N <= 7 stable for all r; xi*(N) N = 8..16 in Arb balls inside exact isolating intervals; minimal polynomials, discriminants; odd-N EM threshold | PASS |
 | `tanh/asymptotics.out` | `cd tanh && python asymptotics.py > asymptotics.out` | 4 s | fast | numerical | tanh note Sec. 7: kappa_inf, cosh r* ~ kappa_inf N (N <= 800) | PASS |
+| `tanh/large_n.out` | `cd tanh && python large_n.py > large_n.out` | 30 s | fast | numerical | tanh note Sec. "Large N" (added 2026-10-12): exact symbol identity, kappa_inf, even-N closed form, C1 even/odd vs thresholds to N = 801, odd-N margins, horocyclic-row symbol, Krein-window scaling | PASS |
 | `tanh/review/indep_9.out` | `cd tanh/review && python indep_lin.py 9 > indep_9.out` | 6.4 min | medium | numerical | tanh note (second reader): independent Cartesian xi*(9) to 45 digits | PASS |
 | `tanh/review/indep_10.out` | `cd tanh/review && python indep_lin.py 10 > indep_10.out` | 7.0 min | medium | numerical | tanh note (second reader): independent Cartesian xi*(10) to 45 digits | PASS |
 | `tanh/review/indep_12.out` | `cd tanh/review && python indep_lin.py 12 > indep_12.out` | 11.3 min | medium | numerical | tanh note (second reader): independent Cartesian xi*(12) to 45 digits | PASS |
@@ -156,6 +157,9 @@ were first recorded, but about 9 min each here, so they are filed as medium. On 
 | `lean/Havelock/TanhAlgebra.lean`, `lean/Havelock/Tanh/*.lean` | `cd tanh/lean_gen && python gen.py OUT && python ../../lean/scripts/split_tanh.py OUT DIR` (then cmp DIR with `lean/`) | 28 s | fast | exact | lean/Havelock/TanhAlgebra.lean + Tanh/*.lean are what gen.py + lean/scripts/split_tanh.py emit | PASS |
 
 ## Result of the 2026-10-11 reproduction
+
+(`tanh/large_n.out` was added on 2026-10-12, after this run; it was checked separately with
+`python scripts/reproduce.py --only large_n`: PASS.)
 
 All 72 recorded outputs were rerun with the environment above, plus the Lean-generator check:
 **72 PASS, 0 DIFF, 0 FAIL**, and lean_gen PASS (19/19 modules identical).

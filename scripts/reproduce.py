@@ -57,6 +57,9 @@ add('certify_v2', 'tanh', ['certify_v2.py'], 'tanh/certify_v2.out', 'fast', 'cer
     'isolating intervals; minimal polynomials, discriminants; odd-N EM threshold', how='file')
 add('asymptotics', 'tanh', ['asymptotics.py'], 'tanh/asymptotics.out', 'fast', 'numerical',
     'tanh note Sec. 7: kappa_inf, cosh r* ~ kappa_inf N (N <= 800)')
+add('large_n', 'tanh', ['large_n.py'], 'tanh/large_n.out', 'fast', 'numerical',
+    'tanh note Sec. "Large N": exact symbol identity, kappa_inf, even-N closed form, C1 even/odd vs thresholds '
+    'to N = 801, odd-N margins, horocyclic-row symbol, Krein-window scaling')
 for N in (9, 10, 12):
     add(f'indep_{N}', 'tanh/review', ['indep_lin.py', str(N)], f'tanh/review/indep_{N}.out', 'medium',
         'numerical', f'tanh note (second reader): independent Cartesian xi*({N}) to 45 digits')

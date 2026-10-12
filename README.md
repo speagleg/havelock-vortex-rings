@@ -45,6 +45,11 @@ tractable analytically".
 - Each threshold is a root of an irreducible palindromic integer polynomial. The thresholds are certified to 25 digits
   for N ≤ 16.
 - ξ*(8) is an algebraic unit of degree 10.
+- For every N, not just N ≤ 16: the tangential stiffness b_m is positive and the critical mode is ⌊N/2⌋; every even
+  N ≥ 8 has exactly one threshold.
+- Large rings: cosh r* = κ∞N + O(1/N) with κ∞ = 0.13431… defined by (coth η − 1/η)² = 2 tanh(η)/η, η = 1/(2κ∞).
+  Physically, a large ring stabilises once neighbouring vortices are more than ℓ* ≈ 0.844 curvature radii apart,
+  measured along the ring.
 - Implemented as written, Boatto's equations reproduce our values exactly. Her plotted hyperbolic-plane curves sit
   slightly elsewhere; the note discusses a likely reason, which leaves her qualitative conclusions unchanged.
 
@@ -59,7 +64,7 @@ The sinh model, whose thresholds Montaldi and Tokieda already know, is written u
 |---|---|---|
 | Lean formalisation of the exact algebra | `cd lean && lake exe cache get && lake build`, then `lake env lean AxiomAudit.lean`. With less than 16 GB of RAM, build module by module as in [docs/lean.md](docs/lean.md). | about 25 min |
 | Package test suite | `pip install -e ".[dev]" && pytest -q` | ~3 min |
-| Re-run the computations behind the papers | `pip install -r requirements.txt`, then `python scripts/reproduce.py --tier fast`. See [REPRODUCE.md](REPRODUCE.md). All 72 recorded outputs reproduce byte for byte. | fast tier ~25 min; medium ~2 h |
+| Re-run the computations behind the papers | `pip install -r requirements.txt`, then `python scripts/reproduce.py --tier fast`. See [REPRODUCE.md](REPRODUCE.md). All 73 recorded outputs reproduce byte for byte. | fast tier ~25 min; medium ~2 h |
 | Irreducibility certificates (tanh) | `cd tanh/irreducibility && gp -q irreducibility.gp` | seconds |
 | Boatto comparison | [tanh/boatto_check/RESULT.md](tanh/boatto_check/RESULT.md) | — |
 
