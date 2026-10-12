@@ -58,3 +58,26 @@
    N=  31: N^3 (xi_EM - xi_*) = 0.00197334
    N=  61: N^3 (xi_EM - xi_*) = 0.00280024
    N= 121: N^3 (xi_EM - xi_*) = 0.00324945
+
+8. Energy-momentum threshold (Lemma 17, Theorem 18)
+   identity beta G = (cosh+1)^2 K/(32 sinh^4), max rel err: 6.89e-55
+   K > 0 on the grid tau = 10^(-3..2), x = 0.01..0.99: True
+   even N: min_m (a_m b_m - g_m^2) just above / below xi* (EM threshold = spectral threshold)
+   N=   8: above 1.26e-28   below -1.26e-28
+   N=  20: above 5.85e-27   below -5.85e-27
+   N=  50: above 3.95e-25   below -3.95e-25
+   N= 100: above 1.1e-23   below -1.1e-23
+   odd N: xi* < xi_EM <= xi(first zero of Phi_N), the bound of Theorem 18(b)
+   N=   9: N^3 (xi_EM - xi*) = 2.34727e-5   N^3 (bound - xi*) = 4.58246   xi* < xi_EM <= bound: True
+   N=  15: N^3 (xi_EM - xi*) = 0.000636501   N^3 (bound - xi*) = 6.88816   xi* < xi_EM <= bound: True
+   N=  31: N^3 (xi_EM - xi*) = 0.00197334   N^3 (bound - xi*) = 10.0777   xi* < xi_EM <= bound: True
+   N=  61: N^3 (xi_EM - xi*) = 0.00280024   N^3 (bound - xi*) = 12.3337   xi* < xi_EM <= bound: True
+   N= 121: N^3 (xi_EM - xi*) = 0.00324945   N^3 (bound - xi*) = 13.7885   xi* < xi_EM <= bound: True
+   N= 241: N^3 (xi_EM - xi*) = 0.0034787   N^3 (bound - xi*) = 14.6228   xi* < xi_EM <= bound: True
+   odd N: on 9 interior points of (xi*, xi_EM): critical block indefinite, all other blocks definite (NUMERICAL)
+   N=  17: True
+   N=  21: True
+   N=  31: True
+   N=  61: True
+   N= 121: True
+   N= 241: True

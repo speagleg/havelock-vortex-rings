@@ -156,3 +156,67 @@ for N in [9, 15, 31, 61, 121]:
         a, b, g, _ = blocks(N, x, m); return a*b - g*g
     xe = mp.findroot(Dm, xs + W/N**3)
     print(f"   N={N:4d}: N^3 (xi_EM - xi_*) = {mp.nstr(N**3*(xe-xs), 6)}")
+
+print("\n8. Energy-momentum threshold (Lemma 17, Theorem 18)")
+mp.mp.dps = 60
+
+
+def psi(x, t): return (1-x**2)/8 + Q(x, t)/(4*mp.sinh(t)**2)
+
+
+def Kf(x, t):
+    c = mp.cosh(t)
+    return c*(1-mp.cosh(x*t)) + x*mp.sinh(t)*mp.sinh(x*t) - x**2*(c-1)/2*(2-(1-x**2)*(c-1))
+
+
+worst = 0
+for x, t in [(mp.mpf('0.3'), mp.mpf(2)), (mp.mpf('0.7'), mp.mpf(9)), (mp.mpf('0.05'), mp.mpf('0.4')), (mp.mpf('0.99'), mp.mpf(30))]:
+    a, b, g = limit_symbol(x, t); G = psi(0, t) - psi(x, t) - g*g/b
+    worst = max(worst, abs(b*G - (mp.cosh(t)+1)**2*Kf(x, t)/(32*mp.sinh(t)**4))/abs(b*G))
+print("   identity beta G = (cosh+1)^2 K/(32 sinh^4), max rel err:", mp.nstr(worst, 3))
+ts = [mp.mpf(10)**(mp.mpf(e)/10) for e in range(-30, 21)]; xg = [mp.mpf(i)/100 for i in range(1, 100)]
+print("   K > 0 on the grid tau = 10^(-3..2), x = 0.01..0.99:", all(Kf(x, t) > 0 for t in ts for x in xg))
+print("   even N: min_m (a_m b_m - g_m^2) just above / below xi* (EM threshold = spectral threshold)")
+for N in [8, 20, 50, 100]:
+    s0 = sinf + D_even/(-dPhi)/N**2
+    xs = mp.findroot(lambda x: blocks(N, x, N//2)[0], mp.e**(-2*s0/N))
+
+    def minD(xi):
+        return min(blocks(N, xi, m)[0]*blocks(N, xi, m)[1] - blocks(N, xi, m)[2]**2 for m in range(1, N//2+1))
+    e = mp.mpf('1e-30')
+    print(f"   N={N:4d}: above {mp.nstr(minD(xs+e), 3)}   below {mp.nstr(minD(xs-e), 3)}")
+print("   odd N: xi* < xi_EM <= xi(first zero of Phi_N), the bound of Theorem 18(b)")
+for N in [9, 15, 31, 61, 121, 241]:
+    m = (N-1)//2
+
+    def PhiN(t):
+        k = mp.coth(t/N)/N
+        return k*mp.coth(t) - k**2/2 - 1/(2*mp.mpf(N)**2) - 1/(4*mp.sinh(t)**2) - psi(0, t)
+    tPhi = mp.findroot(PhiN, sinf)
+    tspec = mp.findroot(lambda t: PhiN(t) + psi(0, t) - psi(mp.mpf(1)/N, t), sinf)
+    xs, xb = mp.e**(-2*tspec/N), mp.e**(-2*tPhi/N)
+
+    def Dm(xi):
+        a, b, g, _ = blocks(N, xi, m); return a*b - g*g
+    xe = mp.findroot(Dm, (xs+xb)/2)
+    print(f"   N={N:4d}: N^3 (xi_EM - xi*) = {mp.nstr(N**3*(xe-xs), 6)}   N^3 (bound - xi*) = {mp.nstr(N**3*(xb-xs), 6)}"
+          f"   xi* < xi_EM <= bound: {xs < xe <= xb}")
+print("   odd N: on 9 interior points of (xi*, xi_EM): critical block indefinite, all other blocks definite (NUMERICAL)")
+for N in [17, 21, 31, 61, 121, 241]:
+    m0 = (N-1)//2
+
+    def PhiN(t):
+        k = mp.coth(t/N)/N
+        return k*mp.coth(t) - k**2/2 - 1/(2*mp.mpf(N)**2) - 1/(4*mp.sinh(t)**2) - psi(0, t)
+    tPhi = mp.findroot(PhiN, sinf)
+    tspec = mp.findroot(lambda t: PhiN(t) + psi(0, t) - psi(mp.mpf(1)/N, t), sinf)
+    xs, xb = mp.e**(-2*tspec/N), mp.e**(-2*tPhi/N)
+
+    def Dm(xi, m):
+        a, b, g, _ = blocks(N, xi, m); return a*b - g*g
+    xe = mp.findroot(lambda xi: Dm(xi, m0), (xs+xb)/2)
+    ok = True
+    for j in range(1, 10):
+        xi = xs + (xe-xs)*j/10
+        ok &= Dm(xi, m0) < 0 and all(Dm(xi, m) > 0 and blocks(N, xi, m)[0] > 0 for m in range(1, N//2+1) if m != m0)
+    print(f"   N={N:4d}: {ok}")

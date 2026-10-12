@@ -46,7 +46,8 @@ tractable analytically".
   for N ≤ 16.
 - ξ*(8) is an algebraic unit of degree 10.
 - For every N, not just N ≤ 16: the tangential stiffness b_m is positive and the critical mode is ⌊N/2⌋; every even
-  N ≥ 8 has exactly one threshold.
+  N ≥ 8 has exactly one threshold, which is also its energy–momentum threshold; every odd N ≥ 9 has a non-empty Krein
+  window, of width O(N⁻³).
 - Large rings: cosh r* = κ∞N + O(1/N) with κ∞ = 0.13431… defined by (coth η − 1/η)² = 2 tanh(η)/η, η = 1/(2κ∞).
   Physically, a large ring stabilises once neighbouring vortices are more than ℓ* ≈ 0.844 curvature radii apart,
   measured along the ring.

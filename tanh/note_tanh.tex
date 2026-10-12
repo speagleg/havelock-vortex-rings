@@ -38,7 +38,8 @@ every radius. For odd $N$ the energy--momentum (Hessian-definiteness) threshold 
 threshold. In the gap the ring is linearly (spectrally) stable, and its nonlinear stability is undecided (a Krein
 window). In the variable $\tau=-\frac N2\ln\xi$ the blocks are, up to an $m$-independent term of order $N^{-2}$, a
 function of $m/N$. From this exact identity we prove, for every $N$ and every radius, that $b_m>0$ and that the critical
-mode is $\lfloor N/2\rfloor$, and for every even $N\ge8$ that the threshold is unique. We also prove
+mode is $\lfloor N/2\rfloor$; for every even $N\ge8$ that the threshold is unique and equals the energy--momentum
+threshold; and for every odd $N\ge9$ that the Krein window is non-empty, of width $O(N^{-3})$. We also prove
 $\cosh r_*=\kappa_\infty N+O(1/N)$, with $\kappa_\infty=1/(2\eta_\infty)\approx0.1343122$ and $\eta_\infty$ the root of
 $(\coth\eta-1/\eta)^2=2\tanh(\eta)/\eta$. Physically, a large ring stabilises once neighbouring vortices are more than
 $\ell_*=\pi/\eta_\infty\approx0.844$ curvature radii apart; numerically, the limit problem is a vortex row on a horocycle. In
@@ -105,7 +106,9 @@ treats the sinh model, where everything is known~\cite{MT}. We use these labels:
 (Prop.~\ref{prop:lin}); reciprocity (Prop.~\ref{prop:recip}); threshold equation and even-$N$ form. Exact symbol form
 of the blocks (Thm.~\ref{thm:symbol}); $b_m>0$ and critical mode $\lfloor N/2\rfloor$ for every $N$ and radius
 (Lemmas~\ref{lem:bpos}, \ref{lem:crit}); a unique threshold for every even $N\ge8$ (Prop.~\ref{prop:evenN}); the large-$N$
-limit $\cosh r_*=\kappa_\infty N+O(1/N)$ and the critical spacing $\ell_*$ (Thm.~\ref{thm:largeN}).\\
+limit $\cosh r_*=\kappa_\infty N+O(1/N)$ and the critical spacing $\ell_*$ (Thm.~\ref{thm:largeN}); energy--momentum
+threshold equal to the spectral one for every even $N$, a non-empty Krein window of width $O(N^{-3})$ for every odd
+$N\ge9$, and the same limit $\kappa_\infty$ (Thm.~\ref{thm:em}).\\
 \textbf{CERTIFIED} (exact arithmetic, $N\le16$) & $b_m>0$ on $(0,1)$; critical mode $\lfloor N/2\rfloor$; the value of
 $\xi_*(N)$ and the sign change of $a_{\rm crit}$ at $\xi_*$; $N\le7$ stable for all $r$; odd-$N$ energy--momentum
 threshold strictly above $\xi_*$. Exact rational root isolation (sympy) and Arb balls (python-flint), \S\ref{sec:cert}.\\
@@ -125,8 +128,8 @@ dynamics.\\
 \textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$; uniqueness of the
 threshold for odd $N\ge17$.\\
 \textbf{NUMERICAL} & The identification of the large-$N$ limit with a horocyclic vortex row; the $1/N$ coefficients
-$C_1$ (derived, remainder not bounded); the limit of the energy--momentum threshold and the $N^{-3}$ closing of the
-Krein window (\S\ref{sec:asym}).\\\bottomrule
+$C_1$ (derived, remainder not bounded); the constant $W$ in the Krein-window width, and the critical block being the
+only indefinite block on the whole window for odd $N\ge17$ (\S\ref{sec:asym}).\\\bottomrule
 \end{tabular}
 \end{center}
 Nonlinear (Lyapunov) stability is claimed only in the form ``positive-definite Hessian on the non-rotational
@@ -478,7 +481,7 @@ For even $N$, $g_{N/2}=0$, so $D_{N/2}=A_{N/2}B_{N/2}$ and the two thresholds co
 same irreducible factor carries both. For odd $N$, $g_{\rm crit}\ne0$. At $\xi_*$ we have $a_{\rm crit}b_{\rm crit}-g_{\rm crit}^2=-g_{\rm crit}^2<0$, and
 the Hessian becomes definite only at a larger value $\xi_{\rm EM}$.
 
-\begin{proposition}[CERTIFIED, odd $9\le N\le15$]
+\begin{proposition}[CERTIFIED, odd $9\le N\le15$]\label{prop:kreincert}
 $\xi_{\rm EM}(N)>\xi_*(N)$ strictly (disjoint exact rational intervals). The gaps are
 $3.220\cdot10^{-8}$ $(N=9)$, $1.244\cdot10^{-7}$ $(11)$, $1.777\cdot10^{-7}$ $(13)$ and $1.886\cdot10^{-7}$ $(15)$.
 On $(\xi_*,\xi_{\rm EM})$ the ring is linearly (spectrally) stable, with distinct purely imaginary eigenvalues, but the
@@ -661,6 +664,77 @@ earlier draft obtained by fitting; the odd value is different. Against the certi
 $(\cosh r_*-\kappa_\infty N)N$ equals $0.54122060$ at $N=800$ and $0.40103931$ at $N=801$ (\texttt{large\_n.out}). We have
 not written out the remainder bounds for this second-order statement.
 
+\paragraph{The energy--momentum threshold.} Positive definiteness of the Hessian on the non-rotational modes requires
+$a_mb_m-g_m^2>0$ for every $m$ (Prop.~\ref{prop:lin}). Let $\Phi_N(\tau):=E_N(\tau)-\frac1{4\sinh^2\tau}-\psi(0,\tau)$, so that
+$a_m/N^2=\Phi_N+\psi(0,\tau)-\psi(x,\tau)$ and, for even $N$, $\Phi_N=a_{N/2}/N^2$. Put
+$R(x,\tau):=\cosh\tau\sinh(x\tau)-x\sinh\tau\cosh(x\tau)$; then $\gamma=R/(4\sinh^2\tau)$ (as in the proof of
+Thm.~\ref{thm:symbol}, using $\theta e^{x\tau}-(1-\theta)e^{-x\tau}=\sinh x\tau-x\cosh x\tau$).
+
+\begin{lemma}[PROVED]\label{lem:em}
+Let $G(x,\tau):=\psi(0,\tau)-\psi(x,\tau)-\gamma(x,\tau)^2/\beta(x,\tau)$ for $|x|<1$. Then
+\[
+\beta\,G=\frac{(\cosh\tau+1)^2}{32\sinh^4\tau}\,K(x,\tau),\qquad
+K:=\cosh\tau\,(1-\cosh x\tau)+x\sinh\tau\sinh x\tau-\frac{x^2(\cosh\tau-1)}2\big[2-(1-x^2)(\cosh\tau-1)\big],
+\]
+and $K>0$ for $0<|x|<1$, $\tau>0$. Hence $G\ge0$, with equality only at $x=0$, and for every $N$, $m$ and radius
+\[
+a_mb_m-g_m^2=N^4\,\beta(x,\tau)\,\big[\Phi_N(\tau)+G(x,\tau)\big].
+\]
+\end{lemma}
+\begin{proof}
+Write $C=\cosh\tau$, $S=\sinh^2\tau$. Then $8S(\psi(0)-\psi(x))=A:=x^2S+2C-2Q$, $8S\beta=B:=(1-x^2)S+2-2Q>0$
+(Lemma~\ref{lem:bpos}) and $\gamma^2/\beta=R^2/(2SB)$, so $8SB\,G=AB-4R^2$. Expanding gives $Q^2-R^2=C^2-x^2S$, so
+$AB-4R^2$ is linear in $Q$; using $S+2C+2=(C+1)^2$ one finds $AB-4R^2=2(C+1)^2K$. For the sign, $K(x,0)=0$ and
+\[
+\partial_\tau K=\sinh\tau\,(1-x^2)\big[x^2(\cosh\tau-1)-(\cosh x\tau-1)\big]>0\qquad(0<|x|<1,\ \tau>0),
+\]
+because $\cosh x\tau-1=\sum_{k\ge1}x^{2k}\tau^{2k}/(2k)!<x^2\sum_{k\ge1}\tau^{2k}/(2k)!$. With $\beta>0$ this gives
+$G\ge0$. The last identity combines
+$a_m/N^2=\Phi_N+\psi(0)-\psi(x)$ with $b_m/N^2=\beta$ and $g_m/N^2=\gamma$.
+\end{proof}
+
+\begin{theorem}[energy--momentum threshold; PROVED]\label{thm:em}
+\begin{enumerate}
+\item[(a)] For every even $N$ and every radius, the Hessian is positive definite on the non-rotational modes if and only
+if $a_{N/2}>0$. Hence for every even $N$ the energy--momentum threshold equals the spectral threshold, and there is no
+Krein window. (For $N=2,4,6$ there is no threshold at all: the ring is stable, with definite Hessian, at every radius.)
+\item[(b)] For every odd $N\ge9$ the Krein window is non-empty: $\xi_{\rm EM}(N)>\xi_*(N)$; the ring is spectrally
+stable on $(\xi_*,1)$, and the critical block is indefinite on a right-neighbourhood of $\xi_*$. Moreover
+$\xi_{\rm EM}(N)-\xi_*(N)=O(N^{-3})$.
+\item[(c)] For both parities, $\cosh r_{\rm EM}(N)=\kappa_\infty N+O(1/N)$.
+\end{enumerate}
+Here $\xi_{\rm EM}(N)=\inf\{\xi_0:\text{the Hessian is positive definite on the non-rotational modes for all }\xi\in(\xi_0,1)\}$.
+\end{theorem}
+\begin{proof}
+(a) $a_m\ge a_{N/2}=N^2\Phi_N$ (Lemma~\ref{lem:crit}). If $a_{N/2}>0$, Lemma~\ref{lem:em} gives $a_mb_m-g_m^2>0$ for every $m$; if
+$a_{N/2}\le0$ the Hessian is not positive definite. Spectral stability is $a_{N/2}\ge0$ (Cor.~\ref{cor:alln}). By
+Prop.~\ref{prop:evenN}, $a_{N/2}$ has no zero for $N\le6$ and a single simple sign change for $N\ge8$, so the two thresholds
+coincide.
+(b) For odd $N\ge9$ the planar limit $-(N-1)(N-7)/N^2<0$ of $8a_{\rm crit}/N^2$ and its limit $2-2/N^2>0$ as $r\to\infty$ show
+that $\xi_*\in(0,1)$ exists, and $a_{\rm crit}(\xi_*)=0$. There $a_{\rm crit}b_{\rm crit}-g_{\rm crit}^2=-g_{\rm crit}^2<0$,
+because $R(1/N,\tau)>0$: $R/(\cosh\tau\cosh x\tau)=\tanh x\tau-x\tanh\tau>0$ by strict concavity of $\tanh$ on
+$[0,\infty)$. By continuity the Hessian is indefinite on a neighbourhood of $\xi_*$, so $\xi_{\rm EM}>\xi_*$; by the definition
+of $\xi_*$ the ring is spectrally stable on $(\xi_*,1)$. For the width, Lemma~\ref{lem:em} shows the Hessian is positive
+definite wherever $\Phi_N>0$ (then also every $a_m>0$). In the proof of Thm.~\ref{thm:largeN},
+$\Phi_N=\Phi+\Delta_N$ and $\Phi_N+\varepsilon_N=a_{\rm crit}/N^2$, with $|\Delta_N|,\varepsilon_N=O(N^{-2})$ near $\tau_\infty$. Also
+$|\Delta_N'|=O(N^{-2})$: $\delta=\mathcal L(\tau/N)/N$, so $0<\delta'=\mathcal L'(\tau/N)/N^2\le1/(3N^2)$, and differentiating
+$\Delta_N=\delta(\coth\tau-\frac1\tau-\frac\delta2)-\frac1{2N^2}$ gives $|\Delta_N'|\le(1+\tau/3)/(3N^2)$. Since $|\Phi'|\ge\frac32c_0$ near
+$\tau_\infty$ (shrinking $d_0$ if needed), $\Phi_N'\le-c_0$ there for large $N$. So $\Phi_N$ is positive below its first zero
+$\tau_\Phi$ and strictly decreasing near it, and
+$\tau_\Phi\le\tau_{\rm EM}\le\tau_*$ with $\tau_*-\tau_\Phi\le\varepsilon_N(\tau_*)/c_0=O(N^{-2})$. Since
+$\xi=e^{-2\tau/N}$, $\xi_{\rm EM}-\xi_*\le\frac2N(\tau_*-\tau_\Phi)=O(N^{-3})$.
+(c) $\tau_\Phi$ and $\tau_*$ are both $\tau_\infty+O(N^{-2})$, so $\tau_{\rm EM}$ is too, and the conversion is as in
+Thm.~\ref{thm:largeN}.
+\end{proof}
+Part~(a) extends to all even $N$ what Thm.~\ref{thm:cert} certifies for $N\le16$. Part~(b) extends the non-emptiness in
+Prop.~\ref{prop:kreincert} (certified for $N=9,11,13,15$) to every odd $N\ge9$. That the critical block stays indefinite on the
+whole window, with every other block definite, is certified for $N\le15$ (Prop.~\ref{prop:kreincert}) and checked numerically
+for $N\in\{17,21,31,61,121,241\}$; it is not proved in general. The bound in~(b) is crude: the intermediate bound
+$\xi_{\rm EM}\le\xi_\Phi:=e^{-2\tau_\Phi/N}$ gives $N^3(\xi_{\rm EM}-\xi_*)\le14.62$ at $N=241$, while the actual value is $0.00348$. Expanding the critical block alone
+suggests $N^3(\xi_{\rm EM}-\xi_*)\to W=2\gamma_x(0,\tau_\infty)^2/(\beta(0,\tau_\infty)|\Phi'(\tau_\infty)|)\approx0.0037$; the data
+($0.0028$ at $N=61$, $0.0032$ at $N=121$) approach it slowly. That constant is DERIVED, not proved: it assumes that the
+critical mode is the last to become definite.
+
 \subsection*{Physical interpretation}
 \paragraph{A critical spacing.} Theorem~\ref{thm:largeN} says that a large tanh-model ring becomes spectrally stable once
 neighbouring vortices are more than $\ell_*=0.8439\,R$ apart in arc length along the ring (asymptotically), where $R$ is the curvature radius (here
@@ -688,12 +762,6 @@ The sparse limit $\ell\gg R$ gives $8\Phi\to2$, stable. Heuristically: the tanh 
 ($-\ln\tanh(d/2)\approx2e^{-d}$), so for large spacing the coupling between neighbours is too weak to drive the pairing
 mode, and $\ell_*$ is where the two effects balance.
 
-\paragraph{Energy--momentum threshold (NUMERICAL).} Off the critical mode the limit symbol is definite:
-$\min(\alpha\beta-\gamma^2)/\beta>0$ on the grid $\tau\le\tau_\infty$, $0.01\le x\le0.99$ (\texttt{large\_n.out}, item~7). So the
-energy--momentum threshold should have the same limit $\kappa_\infty$, and the odd-$N$ Krein window should close like
-$\xi_{\rm EM}-\xi_*\approx W/N^3$ with $W=2\gamma_x(0,\tau_\infty)^2/(\beta(0,\tau_\infty)|\Phi'(\tau_\infty)|)\approx0.0037$. The data
-($N^3(\xi_{\rm EM}-\xi_*)=0.0028$ at $N=61$, $0.0032$ at $N=121$) approach this slowly. None of this is proved.
-
 \section{Comparison with the sinh model and the flat disk}\label{sec:compare}
 \begin{center}
 \begin{tabular}{lll}\toprule
@@ -706,7 +774,7 @@ $N\le7$ & stable for all $r$ & stable for all $r$ (cert.)\\
 $\xi_*(8)$ & $8-3\sqrt7$ (unit, deg 2) & unit, deg 10\\
 large $N$ & $\cosh r_*\sim\sqrt N/2$ & $\cosh r_*\sim\kappa_\infty N$ (Thm.~\ref{thm:largeN})\\
 threshold spacing & $\to0$ & $\to\ell_*=0.8439$\\
-odd-$N$ Krein window & none & width $\sim10^{-7}$\\\bottomrule
+odd-$N$ Krein window & none & width $\sim10^{-7}$ ($N\le15$), $\approx0.0037/N^3$ (large $N$)\\\bottomrule
 \end{tabular}
 \end{center}
 For $8\le N\le16$ the tanh threshold is larger:
