@@ -1,0 +1,16 @@
+1. Check: a2 is proportional to B(pi) (the q = pi transverse stiffness), so it vanishes at l*:
+   kappa 0.8, l 2.0: a2 = -0.02383678645,  B(pi) s^2 = -0.0238367864,  ratio a2/(B s^2) = 1.0
+   kappa 0.8, l 2.6: a2 = 0.01348345183,  B(pi) s^2 = 0.0134834518,  ratio a2/(B s^2) = 1.0
+   kappa 0.9, l 1.3: a2 = -0.03959446159,  B(pi) s^2 = -0.0395944616,  ratio a2/(B s^2) = 1.0
+   kappa 0.9, l 1.7: a2 = 0.03819988773,  B(pi) s^2 = 0.0381998877,  ratio a2/(B s^2) = 1.0
+
+2. At the threshold l*(kappa): quartic coefficients (fixed l', Y0) and (relaxed at fixed forces)
+   kappa     l*        a2(l*)        a4_fixed       a4_relaxed     M positive definite
+   0.720   4.76351       6.12e-18   -0.0093818675   -0.087290729     True
+   0.750   3.18633       1.81e-16   -0.029849507    -0.13298079     True
+   0.800   2.25548       3.19e-17   -0.046273357    -0.15040996     True
+   0.850   1.76977       4.28e-16   -0.035998794    -0.11157181     True
+   0.900   1.43658        1.4e-16   -0.0098978808   -0.050442941     True
+   0.950   1.16947       1.52e-15    0.007992679   -0.0042805727     True
+   0.980   1.01386       2.17e-15   0.0046293238   0.0023230881     True
+   0.995   0.91695      -6.24e-14   0.00057045794   0.00040531425     True

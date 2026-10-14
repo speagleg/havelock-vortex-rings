@@ -291,7 +291,12 @@ See `quantum/README.md`. Vortex coordinates are conjugate, so a quantised row li
 - *Zero-point fluctuations* (Lindemann ratio^2 = Lambda/N_l, N_l = fluid particles per spacing^2, Lambda <~ 0.3)
   matter only for a few particles per vortex, or in an exponentially narrow window around l*.
 
-Next: the quartic term (Ising vs first order) and the anharmonic lifting of the flat band.
+- *Landau theory of the zigzag transition* (exact lattice energy, 30 digits). The quartic a4 changes sign along the
+  threshold. The transition is first order (subcritical, the row unzips rather than buckles) for kappa below a
+  tricritical point kappa_t = 0.920 (fixed spacing and impulse) or 0.960 (relaxed), and continuous above it, with
+  a6 > 0. Exact 2-vortex dynamics reaches the quartic bound to 2e-4 above kappa_t (`quantum/landau.png`,
+  `quantum/zigzag_dynamics.png`). Quantum reading: an Ising line ending at a tricritical point, a candidate for the
+  1+1D supersymmetric tricritical Ising theory (c = 7/10). This is interpretation; kappa_t is a mean-field value.
 
 **Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 3 (template in item 16);
 on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal

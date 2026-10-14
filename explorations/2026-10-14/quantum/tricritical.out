@@ -1,0 +1,2 @@
+fixed (l', Y0)          : kappa_t = 0.920274,  l*(kappa_t) = 1.323489,  a6(kappa_t, fixed) = 0.001669,  hypercycle distance artanh(kappa_t) = 1.59081
+relaxed (fixed forces)  : kappa_t = 0.960198,  l*(kappa_t) = 1.117846,  a6(kappa_t, fixed) = 0.000411566,  hypercycle distance artanh(kappa_t) = 1.94844

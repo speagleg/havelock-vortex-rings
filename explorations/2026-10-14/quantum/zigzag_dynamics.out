@@ -1,0 +1,4 @@
+kappa 0.98, l = 0.98 l*: a2 = -3.4322e-03, a4 = 5.1942e-03;  max |eta| = 8.1304e-01  (Landau bound sqrt(-a2/a4) = 8.1288e-01);  final |eta| = 5.070e-01; integrator status 0
+kappa 0.94, l = 0.98 l*: a2 = -6.4266e-03, a4 = 8.1194e-03;  max |eta| = 8.5463e-01  (Landau bound sqrt(-a2/a4) = 8.8967e-01);  final |eta| = 2.503e-01; integrator status 0
+kappa 0.9, l = 0.98 l*: a2 = -6.8237e-03, a4 = -8.6034e-03;  max |eta| = 1.4345e+00  (Landau bound sqrt(-a2/a4) = nan);  final |eta| = 3.132e-01; integrator status 0
+kappa 0.8, l = 0.98 l*: a2 = -3.0597e-03, a4 = -4.7971e-02;  max |eta| = 1.2675e+00  (Landau bound sqrt(-a2/a4) = nan);  final |eta| = 2.445e-03; integrator status 0
