@@ -183,5 +183,14 @@ curves of constant geodesic curvature" at the end of the large-N section (Prop. 
 theorem numbers unchanged), with entries in `docs/results.md`. The note's earlier heuristic ("screening explains the
 stability") is corrected there.
 
+## sphere/ — the K = +1 member and all three geometries
+
+See `sphere/README.md`. Latitude rings on the sphere reproduce the classical criterion (Polvani & Dritschel 1993):
+stable iff (N-1)(1 + cos^2 theta) >= floor(N^2/4), with closed-form Fourier blocks. In geodesic curvature the N = 4
+threshold is exactly kappa = 1/sqrt 2 (the square is a face of the inscribed cube), the same value and the same form
+2 kappa^2 - 1 >= 0 as the hypercycle criterion on H^2 (an observation, not explained). `sphere/three_geometries.png`
+puts sphere, plane and H^2 in one (kappa, spacing) picture: positive curvature confines stability to small dense rings
+(N <= 6), the plane allows N <= 7, negative curvature makes large spacing stabilising for every N.
+
 **Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 1; a closed form for the Q_1 horocycle threshold 1.4491;
-the analogous family on the sphere (latitude circles only).
+whether the shared 1/sqrt 2 (sphere N = 4 ring, H^2 hypercycle rows) has a common cause.

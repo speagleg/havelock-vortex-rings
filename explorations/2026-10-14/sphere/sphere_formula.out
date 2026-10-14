@@ -1,0 +1,8 @@
+closed forms A_m, B_m, C_m = 0 agree with the exact block sums (N = 3..9, all m, three latitudes, 40 digits): True
+N = 2: stable at every latitude
+N = 3: stable at every latitude
+N = 4: stable iff cos^2(theta) >= 1/3,  i.e. kappa = cot(theta) >= sqrt(2)/2
+N = 5: stable iff cos^2(theta) >= 1/2,  i.e. kappa = cot(theta) >= 1
+N = 6: stable iff cos^2(theta) >= 4/5,  i.e. kappa = cot(theta) >= 2
+N = 7: stable only at the pole
+N = 8: never stable
