@@ -1,0 +1,25 @@
+(1) edge self-term stiffness B_self at the parallel of curvature kappa (sign decides large-spacing stability)
+   band half-width Hb = 1.0: -1.34e+00  -4.66e+00  -3.28e+01     (off)     (off)   (kappa = 0.3, 0.6, 0.7071, 0.8, 0.9)
+   band half-width Hb = 1.5: -4.65e-01  -6.00e-01  -9.22e-01  -2.28e+00  -6.32e+02   (kappa = 0.3, 0.6, 0.7071, 0.8, 0.9)
+   band half-width Hb = 2.0: -2.18e-01  -2.07e-01  -2.29e-01  -3.21e-01  -1.10e+00   (kappa = 0.3, 0.6, 0.7071, 0.8, 0.9)
+   band half-width Hb = 3.0: -6.46e-02  -4.98e-02  -4.37e-02  -4.07e-02  -5.28e-02   (kappa = 0.3, 0.6, 0.7071, 0.8, 0.9)
+   band half-width Hb = 5.0: -7.92e-03  -5.64e-03  -4.47e-03  -3.34e-03  -2.12e-03   (kappa = 0.3, 0.6, 0.7071, 0.8, 0.9)
+(2) supercell stability (S = stable) for arc spacings 1, 2, 3, 5, 8, 12
+   Hb = 2.0
+      kappa 0.5: u u u u u u
+      kappa 0.7: u u u u u u
+      kappa 0.75: u u u u u u
+      kappa 0.8: u u u u u u
+      kappa 0.9: u u u u u u
+   Hb = 3.0
+      kappa 0.5: u u u u u u
+      kappa 0.7: u u u u u u
+      kappa 0.75: u u u u u u
+      kappa 0.8: u u u u u u
+      kappa 0.9: u S S u u u
+   Hb = 5.0
+      kappa 0.5: u u u u u u
+      kappa 0.7: u u u u u u
+      kappa 0.75: u u u S u u
+      kappa 0.8: u u S S u u
+      kappa 0.9: u S S S S S

@@ -37,6 +37,7 @@ A row equally spaced along any of them is a relative equilibrium.
 | `dual_series.py` | Item 13: theta-function form, exact modular dual series, elementary closed-form threshold -> `dual_series.out` |
 | `plot_closed_form.py` | `closed_form.png`: exact threshold vs the closed form and the proved bound |
 | `single_root_cert.py` | Item 14: Arb certificate that each kappa has exactly one threshold (needs `pip install python-flint`; ~5 s) -> `single_root_cert.out` |
+| `q1_instability_cert.py`, `q1_mode_consistency.py` | Item 15: Arb certificate of instability below 1/sqrt 2 at every spacing for the Q_1 kernel (Delta = 2) -> `.out` |
 
 **Results.**
 
@@ -173,6 +174,17 @@ A row equally spaced along any of them is a relative equilibrium.
     beats R), and 113 boxes in between. Consequences: the stable set is exactly {l >= l*(kappa)} with l* real-analytic;
     l'* = l* sin(alpha) is strictly decreasing in kappa (every g_j increases with kappa^2, item 9).
 
+15. *kappa_c = 1/sqrt 2 is exact for Delta = 2 too: CERTIFIED (Arb).* For the Q_1 kernel every hypercycle row with
+    kappa <= 1/sqrt 2 is unstable at every spacing (F_1(pi) < 0 on alpha in [pi/4, pi/2], all l'). Three regions:
+    - l' >= 4.5: F_1 = (8/3) s^4 cos 2a r^2 + c3 r^3 + E, with c3 = (16/3) s^4 (6s^4 - 9s^2 + 2) <= -4/3 and r Eb = 1.047 < 4/3.
+    - 0.05 <= l' <= 4.5: 6,781 Arb boxes on the mode form, with an exact polynomial tail constant.
+    - l' <= 0.05: elementary bounds. b is positive and decreasing, and d < 0, both from the mode expansion. The
+      remainder e = a - d = 2 Q1(C) + 2 k^2 (C-1)|Q1'(C)| is positive and decreasing, with integral <= 9 pi/4.
+      Dropping a log term gives d <= D_up. Then F_1 <= (s^2/l'^2)[P(l') + (9 pi/4) l'/s^2] < 0 (Arb, margin 0.004).
+    Closed forms and mode expansions agree to 6e-30 (`q1_mode_consistency.py`). Together with item 12 (leading-order
+    stability above 1/sqrt 2 for every nu), the critical curvature is exact for the massless (Delta = 1) and the
+    Delta = 2 fields.
+
 **Figures.** `rows/rows_boundary.png` (one boundary for all curve types), `rows/collar.png` (Bolza systole),
 `rows/closed_form.png` (exact threshold vs the elementary closed form).
 
@@ -216,6 +228,16 @@ sin^2(phi). Exact identity: B_H2(q) = sin^2(a) B_ch(q) + sin(2a) V_ch - cos(2a)/
 is never stable (25,600-point scan, min_q B_ch <= -1/2; at large spacing B_ch(pi) -> -csc^2(a)/2), while the H^2 row is
 stable beyond l*(kappa) for kappa > 1/sqrt 2. Walls destabilise; constant negative curvature stabilises.
 
-**Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 1; a closed form for the Q_1 horocycle threshold 1.4491;
+## realize/ — physical surfaces and their edges
+
+See `realize/README.md`. The three curve types are the parallels of Minding's three K = -1 surfaces of revolution
+(pseudosphere: horocycles; hyperboloid type: hypercycles; cone type: circles). On an embedded hyperboloid-type surface
+with waist radius a the 45 degree parallel exists iff a <= R; for a = R it is the rim. On a finite film band, edges add
+a self-term that destabilises large spacings, so the rule becomes a stability window l* <= l <= l_max, which needs
+bands several curvature radii wide. On embedded Minding surfaces stable necklaces (N = 2, near the rim) were found
+only for waists a <~ 0.09 R. A flat-space design (E x B plasma with B ~ csc^2 and a compensating potential) follows
+from the channel identity.
+
+**Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 2; a closed form for the Q_1 horocycle threshold 1.4491;
 on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal
 H^2 rule).

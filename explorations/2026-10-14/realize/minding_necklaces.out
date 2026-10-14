@@ -1,0 +1,12 @@
+waist radius a = 0.02: edge He = 4.605, max kappa on surface = 1.000; first stable necklace: (2, np.float64(3.4922104963061766), np.float64(0.9981493152677151), np.float64(1.0332363534587887))
+waist radius a = 0.05: edge He = 3.690, max kappa on surface = 0.999; first stable necklace: (2, np.float64(2.525152441528783), np.float64(0.9872668269797834), np.float64(0.9874689881736946))
+waist radius a = 0.06: edge He = 3.507, max kappa on surface = 0.998; first stable necklace: (2, np.float64(2.4013373122950488), np.float64(0.98371810799256), np.float64(1.04883871382514))
+waist radius a = 0.07: edge He = 3.354, max kappa on surface = 0.998; first stable necklace: (2, np.float64(2.2551098304859587), np.float64(0.9782471067648489), np.float64(1.060105600652509))
+waist radius a = 0.08: edge He = 3.220, max kappa on surface = 0.997; first stable necklace: (2, np.float64(2.365866316852957), np.float64(0.9825315355024081), np.float64(1.3505244210507277))
+waist radius a = 0.09: edge He = 3.103, max kappa on surface = 0.996; first stable necklace: (2, np.float64(2.0494303492261703), np.float64(0.9673584397750706), np.float64(1.1157455955453015))
+waist radius a =  0.1: edge He = 2.998, max kappa on surface = 0.995; first stable necklace: None
+waist radius a =  0.2: edge He = 2.312, max kappa on surface = 0.981; first stable necklace: None
+waist radius a =  0.4: edge He = 1.647, max kappa on surface = 0.928; first stable necklace: None
+waist radius a =  0.7: edge He = 1.154, max kappa on surface = 0.819; first stable necklace: None
+waist radius a =  1.0: edge He = 0.881, max kappa on surface = 0.707; first stable necklace: None
+waist radius a =  1.5: edge He = 0.625, max kappa on surface = 0.555; first stable necklace: None

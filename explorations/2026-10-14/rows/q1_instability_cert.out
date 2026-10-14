@@ -1,0 +1,6 @@
+lemmas: {'f(C) <= 1/(2C)': True, "f' < 0 (g' = 4t^2/((1-t)(1+t)^3))": True, '6y^2-9y+2 < 0 on [1/2,1]': True, 'c3 <= -4/3 on the domain': True, 'c2 formula': True, 'c3 formula': True}
+tail constant: g(n) <= 5n for n >= 30: (n**4/2 - 6*n**3 - 29*n**2/2 - 14*n - 10, True)
+L (l' >= 4.5): r1*Eb = 1.0471 < 4/3: True
+S (l' <= 0.05): 31 boxes, max of P + (9pi/4) l'/s^2 <= -0.0038 < 0
+M (0.05 <= l' <= 4.5): 6781 boxes, F(pi) < 0 on all
+total 7 s
