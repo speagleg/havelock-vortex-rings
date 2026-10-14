@@ -187,10 +187,15 @@ stability") is corrected there.
 
 See `sphere/README.md`. Latitude rings on the sphere reproduce the classical criterion (Polvani & Dritschel 1993):
 stable iff (N-1)(1 + cos^2 theta) >= floor(N^2/4), with closed-form Fourier blocks. In geodesic curvature the N = 4
-threshold is exactly kappa = 1/sqrt 2 (the square is a face of the inscribed cube), the same value and the same form
-2 kappa^2 - 1 >= 0 as the hypercycle criterion on H^2 (an observation, not explained). `sphere/three_geometries.png`
+threshold is exactly kappa = 1/sqrt 2 (the square is a face of the inscribed cube), the same value as the hypercycle
+criterion on H^2. Tested (sphere/README item 3): both criteria contain the same geometric stiffness 2 kappa^2 + K from the
+conformal background, but on H^2 it is the whole criterion (kernel terms cancel at q = pi), while on the sphere it
+competes with the flat interaction, giving the mirror criterion 2 kappa^2 - K >= 0. Changing the kernel decides it:
+screening moves the sphere square's threshold (0.691 ... 0.871 for mu = -0.5 ... 6), but leaves the H^2 value at 1/sqrt 2.
+So the two share an ingredient but not a mechanism. `sphere/three_geometries.png`
 puts sphere, plane and H^2 in one (kappa, spacing) picture: positive curvature confines stability to small dense rings
 (N <= 6), the plane allows N <= 7, negative curvature makes large spacing stabilising for every N.
 
 **Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 1; a closed form for the Q_1 horocycle threshold 1.4491;
-whether the shared 1/sqrt 2 (sphere N = 4 ring, H^2 hypercycle rows) has a common cause.
+on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal
+H^2 rule).

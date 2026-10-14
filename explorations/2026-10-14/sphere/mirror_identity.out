@@ -1,0 +1,6 @@
+H^2:    kappa = cos(y)  K = -1
+        2 kappa^2 + K = cos(2*y)  = cos(2 phi): True
+        e^{-2 sigma}(2 sigma'^2 - sigma'') - (2 kappa^2 + K) = 0
+sphere: kappa = sinh(y)  K = 1
+        (3 z^2 - 1)/(2 kappa^2 - K) = cosh(y)**(-2) (positive factor sech^2 u)
+        e^{-2 sigma}(2 sigma'^2 + sigma'') - (2 kappa^2 - K) = 0

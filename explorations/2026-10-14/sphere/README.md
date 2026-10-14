@@ -9,6 +9,9 @@ the sphere's Green's function, W = -ln sin(d/2) (with a uniform compensating bac
 | `sphere_blocks.py` | sympy: pair second derivatives and the exact Fourier blocks per mode m |
 | `sphere_formula.py` | Closed form of the blocks and the stability thresholds -> `sphere_formula.out` |
 | `plot_three_geometries.py` | `three_geometries.png`: sphere, plane and hyperbolic plane in (kappa, spacing) |
+| `n4_generic.py` | Pairing block of the square ring for an arbitrary kernel w(cos d) -> `n4_generic.out` |
+| `sphere_screened.py` | Square-ring threshold for the screened sphere kernels (-Delta + mu) -> `sphere_screened.out` |
+| `mirror_identity.py` | Both 1/sqrt 2 criteria in conformal language -> `mirror_identity.out` |
 
 **Results (classical; reproduced here).**
 
@@ -21,10 +24,26 @@ the sphere's Green's function, W = -ln sin(d/2) (with a uniform compensating bac
 2. *In geodesic curvature.* With kappa = cot(theta), the criterion reads kappa^2 (2(N-1) - M) >= M - (N-1), M = floor(N^2/4).
    N = 4: 2 kappa^2 - 1 >= 0, i.e. kappa >= 1/sqrt 2. At that threshold the square ring is a face of the inscribed cube
    (cos^2 theta = 1/3). N = 5: kappa >= 1; N = 6: kappa >= 2.
-3. *Observation.* The sphere's N = 4 criterion, 2 kappa^2 - 1 >= 0, has the same form as the large-spacing criterion of
-   hypercycle rows on H^2 (cos 2 alpha = 2 kappa^2 - 1 >= 0, ../rows/ items 3, 12). Both concern the pairing mode
-   (m = N/2 = 2 on the sphere, q = pi on H^2). Whether this is more than a coincidence is not known; on H^2 the
-   criterion comes from the lowest Poschl-Teller mode, on the sphere from the two neighbour distances of a square.
+3. *Is the shared 1/sqrt 2 a coincidence? Tested; answer: a shared ingredient, but not a shared mechanism.*
+   - *Shared ingredient.* Write either surface as e^{2 sigma(y)}|dw|^2 with the curve at y = y0, so kappa = -e^{-sigma} sigma'
+     and K = -e^{-2 sigma} sigma''. The conformal background contributes the same normal stiffness to both,
+     e^{-2 sigma}(2 sigma'^2 - sigma'') = 2 kappa^2 + K. On H^2 this is the whole pairing-mode criterion: at q = pi every
+     kernel-dependent term cancels (../rows/ items 3, 12), so rows need 2 kappa^2 + K >= 0. In the sphere's block it is
+     the term (N-1)(1 + cos^2 theta) = (N-1) sin^2 theta (2 kappa^2 + K) (`mirror_identity.py`).
+   - *Different balance.* On the sphere that stiffness competes with the flat interaction, m(N - m). For the square,
+     3 sin^2 theta (2 kappa^2 + 1) >= 4 with sin^2 theta = 1/(1 + kappa^2) gives 2 kappa^2 - K >= 0. This is the mirror
+     image of the H^2 criterion 2 kappa^2 + K >= 0 under K -> -K, and both read 2 kappa^2 >= 1 because |K| = 1. At the
+     sphere threshold the geometric stiffness is 2, not 0.
+   - *Decisive test: change the kernel.* For an arbitrary kernel w(cos d) the square's pairing block is
+     A_2 = 2[w'(c2) - w'(c1) + 4 z^2 w''(c2)], with c1 = z^2 and c2 = 2z^2 - 1 (`n4_generic.py`). It depends on the
+     kernel's shape at the two neighbour distances, and only the Laplace kernel gives 3 z^2 = 1. With the screened sphere
+     kernels (-Delta + mu), the square's critical curvature moves:
+     kappa_4 = 0.6909, 0.7071, 0.7229, 0.7679, 0.8710 for mu = -0.5, 0, 0.5, 2, 6. The same numbers follow from the
+     closed-form block (`sphere_screened.py`). On H^2 the corresponding screened family Q_nu keeps
+     kappa_c = 1/sqrt 2 exactly at leading order for every nu (lowest mode gives m sin^{2m}(a) cos 2a; ../rows/ item 12).
+   - *Verdict.* The H^2 value is geometric and kernel-universal. The sphere value is a property of the Laplace kernel
+     and of N = 4. The two meet at 1/sqrt 2 because both criteria are built on 2 kappa^2 + K, with opposite signs of
+     the curvature term, and |K| = 1. They agree only for the unscreened sphere kernel.
 4. *Three geometries* (`three_geometries.png`). In (kappa, arc spacing):
    - sphere: stable rings exist only near the poles and only for N <= 6;
    - plane: no length scale, rings stable iff N <= 7;
