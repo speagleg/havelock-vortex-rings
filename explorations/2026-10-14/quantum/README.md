@@ -17,6 +17,16 @@ per particle of the fluid (Haldane & Wu 1985). Harmonic (Gaussian) theory throug
 | `tricritical.py` | The tricritical curvature kappa_t where a4 = 0 on the threshold, and a6 there -> `tricritical.out` |
 | `zigzag_dynamics.py` | Exact 2-vortex-cell dynamics just past threshold vs the Landau bound -> `zigzag_dynamics.out`, `zigzag_dynamics.png` |
 | `plot_landau.py` | `landau.png` |
+| `phonon_coupling.py` | Couplings of eta^2 to the long-wavelength sector, Larkin-Pikin shift, critical vs sound velocities -> `phonon_coupling.out` |
+| `pinned.py` | Tricritical point when the spacing is pinned (long-wavelength sector gapped) -> `pinned.out` |
+| `chain_model.py`, `chain_check.py` | The pinned row as a 1D quantum chain, its pair interactions compressed into exponentially decaying separable couplings, and a classical check against the exact lattice energy -> `chain_check.out` |
+| `dmrg_chain.py` | iDMRG (TeNPy 1.1) of the chain, two-site unit cell |
+| `scan_ising.py`, `scan_tau.py` | Scans in spacing (weak quantum strength) and in quantum strength tau -> `scan_ising.out`, `scan_tau_coarse/fine/window.out` |
+| `central_charge.py` | Finite-entanglement scaling S vs ln xi -> `central_charge_0.98_0.95_*.out` |
+| `plot_dmrg.py` | `dmrg_scan.png` |
+| `flat_nonlinear.py` | Nearest-neighbour model: spacings eliminated exactly, flat band to all orders, thermal factorisation, single-site potential and barrier, checked against the full tanh symbol -> `flat_nonlinear.out` |
+| `flat_lifting.py` | sympy: relaxed transverse stiffness of the exact symbol through e^{-2l'} (the lifting of the flat band) -> `flat_lifting.out` |
+| `plot_site_potential.py` | `site_potential.png` |
 
 **1. One chiral branch** (DERIVED; `row_phonons.py`). Per Bloch wavenumber the quadratic form of H - V I (where
 I = sum Y generates translation along u) is h(q) = [[-C/s^2, -i delta], [i delta, B s^2]]. There is one degree of
@@ -109,20 +119,123 @@ h_uu(pi) = -C(pi)/s^2 > 0. Integrating xi out gives a relativistic (Doppler-tilt
 - *at kappa_t:* the tricritical Ising point, whose continuum theory has central charge 7/10 and emergent spacetime
   supersymmetry (Friedan, Qiu & Shenker 1984).
 
-So a quantised hypercycle row is a candidate realisation of the supersymmetric tricritical Ising point, tuned by the
-geodesic curvature of the curve. Caveats:
-- the location kappa_t is a mean-field (Landau) value and depends on the ensemble;
-- quantum fluctuations shift it, although only weakly for many fluid particles per vortex (section 5);
-- the coupling of eta^2 to the gapless acoustic phonons (the relaxed-vs-fixed difference) could change the
-  universality class;
-- the chiral (Doppler) term is harmless only while |delta'(pi)| < v (section 2).
+Correction (section 8): a free row is NOT a clean candidate for the tricritical Ising point, because the acoustic
+phonons couple relevantly there. A row with pinned spacing is.
 
-**Not yet done.** A field-theory treatment of the eta^2-phonon coupling (does it preserve the tricritical point?). The
-anharmonic lifting of the flat band near kappa_c. Finite temperature, where the flat
-band makes thermal fluctuations large.
+**8. Coupling to the acoustic phonons; pinned rows** (scaling from the literature; numbers NUMERICAL;
+`phonon_coupling.py`, `pinned.py`).
+
+*Scaling.* For a critical point coupled to elastic (acoustic) modes, the coupling is relevant iff
+alpha_q = 2 - nu(d + z) > 0 (Larkin-Pikin, Sak; quantum form in Chandra et al. and arXiv:2307.03062).
+- *1+1D Ising line* (nu = 1): alpha_q = 0, so the coupling is marginal. Its sign is not determined here.
+- *Tricritical Ising point* (energy operator of dimension 1/5, nu = 5/9): alpha_q = 8/9 > 0, so the coupling is
+  relevant, with eigenvalue 2 - 2/5 = 8/5. The supersymmetric fixed point is unstable to the eta^2-phonon coupling.
+
+*Numbers* (`phonon_coupling.out`). The Larkin-Pikin shift a4_fixed - a4_relaxed is comparable to a4 itself
+(0.3-1 times |a4| for kappa = 0.94-0.995), so the coupling is not weak. The sound is 2.8-3.6 times faster than the
+critical mode (c0/v). With the chiral drifts, though, the slowest sound mover is only 1.0-1.6 times faster than the
+fastest critical mover, so neither the static (relaxed) nor the instantaneous (fixed) limit is controlled.
+
+*Pinned spacing* (`pinned.out`). A periodic potential along the curve that pins each u_j (for vortices in a BEC, an
+optical pinning lattice; Tung, Schweikhard & Cornell 2006):
+- It gaps the whole long-wavelength sector: u and Y are conjugate, so Y0 pairs with the pinned u0 into a gapped
+  oscillator.
+- It leaves a2, the threshold l*, and the fixed-spacing Landau function untouched (the pinning potential vanishes on
+  the zigzag configurations).
+- Below the gap, Y0 follows adiabatically, which shifts a4 locally: a4_pinned = a4_fixed - g_Y^2/(2 M_YY).
+- The tricritical point is then at kappa_t = 0.95991 (l* = 1.1193), almost the relaxed value 0.96020. Nearly all of
+  the Larkin-Pikin shift comes from the impulse channel; the strain channel moves kappa_t by only 3e-4.
+
+With no gapless mode left, the eta^4-eta^6 theory is the standard Z2 one. So a pinned quantised row at kappa ~ 0.96 is
+a genuine mean-field candidate for the 1+1D tricritical Ising point. A free row has the relevant phonon coupling;
+how much, and over what length scales, only a numerical quantum computation (DMRG on the LLL chain) can say.
+
+**9. First quantum many-body numerics: quantum melting of the zigzag in a pinned row** (NUMERICAL, iDMRG;
+`dmrg_chain.py`, `dmrg_scan.png`).
+
+*Model.* In the stiff-pinning limit each vortex keeps one quantum coordinate y_j = Y_j - Y0, and the chain is
+    H = sum_j (tau/2)(-d^2/dy_j^2) + sum_{i<j} W(|i-j| l'; Y0 + y_i, Y0 + y_j) - V sum_j y_j,
+with tau = k eps^2 (pinning stiffness times ħ_eff^2). The -V term is the uniform counterflow that holds the row at
+rest in the pinning lattice; without it the pinning cannot stop the drift along u.
+- *Compression.* The pair interactions decay like 1/r^2 out to r ~ 1/l' and exponentially beyond, so they are
+  compressed into 34 exponentially decaying separable couplings (MPO bond dimension 36) with pair error <= 4e-6.
+- *Classical check* (`chain_check.out`, with the DMRG compression settings). The compressed model reproduces the exact
+  zigzag energy profile to ~1e-6 per cell for |eta| <= 0.5 and to 8e-6 (1-10% of f) at eta = 0.8. Its curvature error
+  corresponds to a threshold shift of ~1e-4 in l/l*.
+- *Local space.* A sinc-DVR grid of 12 points.
+
+*Results at kappa = 0.98, l = 0.95 l* (classically zigzag-ordered), bond dimension chi = 16:*
+- *Weak quantum strength* (tau = 5e-4, scan in spacing): the quantum zigzag amplitude follows the classical Landau
+  value (0.565 vs 0.59 at l = 0.99 l*). Quantum effects are negligible, as section 5 predicts.
+- *Raising tau melts the order:* |eta| = 0.72, 0.68, 0.62, 0.55, 0.51, 0.43, 0.07, 0.02, 0, 0 at
+  tau = 0.004-0.010. The correlation length peaks sharply (xi = 4 -> 19.5) at tau_c ~ 0.0079. At this resolution it
+  looks like a continuous quantum phase transition.
+- *Central charge: NOT determined.* At tau = 0.0079 the finite-entanglement slopes 6 dS/d ln xi are 1.03, 0.72 and
+  0.28 for chi = 12-16, 16-20 and 20-24 (all-point fit 0.81). Meanwhile eta -> 0 with chi, so that point is slightly on
+  the disordered side and the slopes measure a crossover. The test of c = 1/2 here (and c = 7/10 at kappa_t) needs the
+  pseudo-critical point tau_c(chi) at each bond dimension and chi >~ 64. At about 2 s per sweep at chi = 16 on 2 cores
+  (cost ~ chi^3), that is beyond this machine.
+
+**10. The flat band beyond quadratic order and at finite temperature: independent sites and a conjugate-curvature
+barrier** (classical; DERIVED for the nearest-neighbour model, which is the exact leading order in e^{-l'}; checked
+against the full tanh model; `flat_nonlinear.py`, `flat_lifting.py`, `site_potential.png`).
+
+*(a) Spacings eliminated exactly.* Take H = sum w_j with w_j = 2 sin(phi_j) sin(phi_{j+1}) e^{-D_j}, and
+F = H + V sum cot(phi_j), at fixed period sum D_j = N l'. Minimising over the spacings D_j makes every bond weight
+equal, so
+    F_rel(phi) = 2N e^{-l'} (prod_j sin^2 phi_j)^{1/N} + V sum_j cot(phi_j)
+(numerical minimisation agrees to 1e-15). The first term depends only on the MEAN of ln sin(phi_j), so every
+non-uniform deformation sees a sum of independent single-site potentials:
+- *Flat to all orders.* The relaxed transverse "band" is exactly flat in q, not just at quadratic order. Its
+  stiffness is k_perp = 2P csc^2(alpha) cos(2 alpha), with P = 2 sin^2(alpha) e^{-l'} the bond energy; this matches
+  the numerical Hessian to 7 digits.
+- *At kappa_c all N - 1 non-uniform modes go soft together.*
+
+*(b) Finite temperature: the transverse coordinates are exactly independent.* Work in the pressure ensemble with
+Liouville measure du dY = du dphi/sin^2(phi). Integrating each spacing gives
+    int exp(-beta(c e^{-D} + P D)) dD = Gamma(beta P)(beta c)^{-beta P}
+(checked), with c_j = 2 sin phi_j sin phi_{j+1}. The joint weight therefore factorises into independent sites:
+    p(phi) ~ exp(-beta h_T(phi)),   h_T(phi) = 2(P + T) ln sin(phi) + V cot(phi).
+The thermal row is a gas of independent vortices, each in its own potential well. Temperature enters only as
+P -> P + T, an entropic stiffening from the measure.
+
+*(c) The 45 degree rule as a saddle-node of the single-site potential.* At T = 0, h'(phi) = 0 <=> sin(2 phi) = V/P.
+- The row is the minimum (phi = alpha).
+- The barrier sits at phi = pi/2 - alpha, the CONJUGATE hypercycle, with curvature sqrt(1 - kappa^2).
+- They merge at the self-conjugate curvature kappa_c = 1/sqrt 2.
+- *Barrier per vortex:* Delta E = 2P[ln cot(alpha) - cos(2 alpha)]
+  = 4(1 - kappa^2) e^{-l'} [ (1/2) ln(kappa^2/(1 - kappa^2)) - (2 kappa^2 - 1) ]
+  = (16/3) P (pi/4 - alpha)^3 + ... ~ (32 sqrt 2/3)(kappa - kappa_c)^3 e^{-l'}.
+- *Beyond the barrier* h falls without bound towards the far side of the geodesic. That is the same unzipping
+  direction as the subcritical Landau branch (section 6).
+
+So near kappa_c a thermal row loses vortices one at a time, at an Arrhenius rate ~ exp(-Delta E/T) with a barrier
+that vanishes cubically. This is a fourth reading of the 45 degree rule, after the boundary angle, the ground-mode
+balance and free bending: minimum and barrier sit at conjugate curvatures kappa and sqrt(1 - kappa^2), and 1/sqrt 2
+is where they coincide.
+
+*(d) How next-nearest neighbours lift the flat band* (exact series, `flat_lifting.out`). For the full tanh symbol,
+the relaxed transverse stiffness (spacings relaxed: the Schur complement Sigma(q) = s^2(B|C| - delta^2)/|C|, which is
+>= 0 exactly when E(q) >= 0) is
+    Sigma(q) = 4 s^4 [ (2 kappa^2 - 1) e^{-l'} + (8 kappa^4 - 1 + 2 cos q) e^{-2l'} ] + O(e^{-3l'}).
+- *Width.* The band acquires a cos q dispersion of width 16 s^4 e^{-2l'} only at second order. Numerically the mean
+  tends to 4 s^4 (2 kappa^2 - 1) e^{-l'} (ratio 4.0002) and the width to 16 s^4 e^{-2l'}.
+- *At q = pi* it reproduces the threshold series of ../rows/ item 7.
+- *At kappa_c,* Sigma = (1 + 2 cos q) e^{-2l'}, negative exactly for |q| > 2 pi/3. That band of modes makes kappa_c
+  itself unstable.
+- *Away from threshold* the sites are therefore nearly independent: transverse thermal fluctuations are spatially
+  white, with <delta Y_j^2> ~ T/Sigma, up to O(e^{-l'}) correlations.
+
+**Not yet done.** The central charge at the pinned-row critical line and at kappa_t (larger chi, or a faster DMRG
+code). Which quantum strengths are physical depends on the platform: tau = k eps^2 with eps = 1/(2 pi n R^2). The fate
+of the free (unpinned) row at the marginal/relevant phonon coupling (DMRG). A rigorous (non-leading-order) version of
+section 10, and the full-model thermal statistics beyond the nearest-neighbour factorisation (Monte Carlo).
 
 References: Comtet, Ann. Phys. 173, 185 (1987) (Landau levels on H^2); Haldane & Wu, PRL 55, 2887 (1985) (vortex
 quantisation in superfluids); Shimshoni, Morigi & Fishman, PRL 106, 010401 (2011) (quantum zigzag transition);
 Sinova, Hanna & MacDonald, PRL 89, 030403 (2002) and Cooper, Wilkin & Gunn, PRL 87, 120405 (2001) (quantum vortex
 matter, Tkachenko modes, melting); Friedan, Qiu & Shenker, PRL 52, 1575 (1984) and Phys. Lett. B 151, 37 (1985)
-(unitarity and supersymmetry of the tricritical Ising model).
+(unitarity and supersymmetry of the tricritical Ising model); Larkin & Pikin, Sov. Phys. JETP 29, 891 (1969); Sak, PRB 10,
+3957 (1974) (critical points on compressible lattices); Chandra, Coleman, Continentino & Lonzarich, PRR 2, 043440 (2020) and
+arXiv:2307.03062 (quantum versions); Tung, Schweikhard & Cornell, PRL 97, 240402 (2006) (optical pinning of BEC vortices); Pollmann, Mukerjee, Turner & Moore, PRL 102, 255701 (2009) (finite-entanglement scaling);
+Hauschild & Pollmann, SciPost Phys. Lect. Notes 5 (2018) (TeNPy).

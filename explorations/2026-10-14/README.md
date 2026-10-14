@@ -295,8 +295,26 @@ See `quantum/README.md`. Vortex coordinates are conjugate, so a quantised row li
   threshold. The transition is first order (subcritical, the row unzips rather than buckles) for kappa below a
   tricritical point kappa_t = 0.920 (fixed spacing and impulse) or 0.960 (relaxed), and continuous above it, with
   a6 > 0. Exact 2-vortex dynamics reaches the quartic bound to 2e-4 above kappa_t (`quantum/landau.png`,
-  `quantum/zigzag_dynamics.png`). Quantum reading: an Ising line ending at a tricritical point, a candidate for the
-  1+1D supersymmetric tricritical Ising theory (c = 7/10). This is interpretation; kappa_t is a mean-field value.
+  `quantum/zigzag_dynamics.png`). Quantum reading: an Ising line ending at a tricritical point.
+- *Phonon coupling* (scaling from the literature): marginal on the Ising line (alpha_q = 0) but relevant at the
+  tricritical Ising point (alpha_q = 8/9). So a FREE row is not a clean candidate for the supersymmetric tricritical
+  Ising theory.
+- *Pinned spacing* (a periodic potential along the curve) gaps the long-wavelength sector, leaving a standard Z2
+  theory with mean-field tricritical point kappa_t = 0.9599 (`quantum/pinned.out`). A pinned quantised row is the
+  candidate.
+- *First quantum many-body numerics* (iDMRG, TeNPy). In the pinned row at kappa = 0.98, raising the quantum strength
+  melts the zigzag order at tau_c ~ 0.0079, with the correlation length peaking sharply (`quantum/dmrg_scan.png`).
+  The central charge is not yet determined: chi <= 24 is not enough on this machine.
+- *The flat band, nonlinear and thermal* (classical; exact in the nearest-neighbour model).
+  - Eliminating the spacings gives F = 2N e^{-l'} (prod sin^2 phi_j)^{1/N} + V sum cot phi_j. Every non-uniform mode
+    therefore sees independent single-site potentials: the flat band is flat to ALL orders.
+  - In the pressure ensemble the transverse coordinates are exactly independent at any temperature, with site weight
+    exp(-beta[2(P+T) ln sin phi + V cot phi]).
+  - That single-site potential has its minimum on the row's hypercycle and its barrier on the CONJUGATE hypercycle
+    (curvature sqrt(1 - kappa^2)). They merge at the self-conjugate kappa_c = 1/sqrt 2, with a per-vortex barrier
+    2P[ln cot alpha - cos 2 alpha] ~ (32 sqrt 2/3)(kappa - kappa_c)^3 e^{-l'}.
+  - Next-nearest neighbours lift the band (exact series): Sigma(q) = 4s^4[(2 kappa^2-1) e^{-l'} +
+    (8 kappa^4 - 1 + 2 cos q) e^{-2l'}] (`quantum/site_potential.png`).
 
 **Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 3 (template in item 16);
 on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal

@@ -1,0 +1,14 @@
+kappa 0.98, l = 1.0 l*: f(eta) = E(eta) - E(0), exact vs compressed
+   eta = 0.133: exact  1.463250e-06   compressed  1.644299e-06   diff  1.8e-07
+   eta = 0.267: exact  2.341949e-05   compressed  2.388972e-05   diff  4.7e-07
+   eta = 0.400: exact  1.186251e-04   compressed  1.188765e-04   diff  2.5e-07
+   eta = 0.533: exact  3.752013e-04   compressed  3.741379e-04   diff -1.1e-06
+   eta = 0.667: exact  9.169405e-04   compressed  9.134074e-04   diff -3.5e-06
+   eta = 0.800: exact  1.903764e-03   compressed  1.897481e-03   diff -6.3e-06
+kappa 0.98, l = 0.98 l*: f(eta) = E(eta) - E(0), exact vs compressed
+   eta = 0.133: exact -5.937555e-05   compressed -5.916298e-05   diff  2.1e-07
+   eta = 0.267: exact -2.178042e-04   compressed -2.172593e-04   diff  5.4e-07
+   eta = 0.400: exact -4.161998e-04   compressed -4.159437e-04   diff  2.6e-07
+   eta = 0.533: exact -5.561049e-04   compressed -5.574657e-04   diff -1.4e-06
+   eta = 0.667: exact -4.996904e-04   compressed -5.040713e-04   diff -4.4e-06
+   eta = 0.800: exact -6.970284e-05   compressed -7.747193e-05   diff -7.8e-06

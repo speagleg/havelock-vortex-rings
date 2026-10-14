@@ -1,0 +1,6 @@
+kappa 0.98, r 0.95, tau 0.0079
+  chi  12: xi    13.518  S 0.50921  eta  1.90e-01
+  chi  16: xi    19.255  S 0.56993  eta  7.89e-02
+  chi  20: xi    22.072  S 0.58620  eta  1.11e-02
+  chi  24: xi    25.815  S 0.59343  eta  4.23e-03
+  fit S = (c/6) ln xi + const: c = 0.8145;  last-pair slope c = 0.2767
