@@ -907,8 +907,9 @@ The row $u_k=k\ell'$, $\varphi_k=\alpha$ (arc spacing $\ell=\ell'/\sin\alpha$) t
 
 \begin{proposition}[large-spacing criterion; DERIVED at leading order]\label{prop:kappac}
 Let $W(d)\sim A\,e^{-\gamma d}$ as $d\to\infty$, with $A,\gamma>0$ (the tanh model has $A=2$, $\gamma=1$). To leading order in
-$e^{-\gamma\ell'}$, the row on the hypercycle of curvature $\kappa$ is spectrally stable if and only if $\kappa\ge1/\sqrt2$,
-whatever $A$ and $\gamma$. The critical mode is the pairing mode $\theta=\frac12$.
+$e^{-\gamma\ell'}$, the row on the hypercycle of curvature $\kappa$ is spectrally stable if $\kappa>1/\sqrt2$ and unstable if
+$\kappa<1/\sqrt2$, whatever $A$ and $\gamma$. (At $\kappa=1/\sqrt2$ the leading term vanishes; for the tanh model the row is then
+unstable at every spacing, (c) below.) The critical mode is the pairing mode $\theta=\frac12$.
 \end{proposition}
 \begin{proof}[Derivation]
 At large spacing only nearest neighbours contribute at leading order, and $e^{-\gamma d}\simeq(\sin\varphi_i\sin\varphi_j)^\gamma
@@ -1022,7 +1023,7 @@ $45^\circ$. For $\nu=1$ the roots of $F_1(\pi)$ reproduce the supercell threshol
 $\kappa=0.75$, $0.8$, $0.9$). As $\kappa\to1$ they tend to $1.4491$, the critical spacing of the horocyclic row for this
 kernel, which is the zero of the $\alpha\to0$ integral. For $\nu=1,2$, $F_\nu(\pi)<0$ at every computed point with
 $\kappa\le1/\sqrt2$, and instability at every spacing is proved for $\nu=0$ in (c) and CERTIFIED for $\nu=1,2$
-(Arb; \texttt{explorations/2026-10-14/rows/q1\_instability\_cert.py}, \texttt{q2\_instability\_cert.py}). For
+(Arb; \texttt{explorations/2026-10-14/rows/q1\_instability\_cert.py}, \texttt{q2\_instability\_cert.py}; its analytic inputs are proved symbolically in \texttt{q2\_lemmas.py}). For
 $\nu=1$: when $\ell'\ge4.5$ an explicit expansion $F_1=\tfrac83\sin^4\!\alpha\cos2\alpha\,r^2+c_3r^3+O(r^4)$ with $c_3\le-\tfrac43$;
 when $0.05\le\ell'\le4.5$, 6781 boxes; when $\ell'\le0.05$, elementary bounds from the positivity and monotonicity of the mode
 expansions. For $\nu=2$: $F_2=\tfrac{16}5\sin^6\!\alpha\cos2\alpha\,r^3+c_4r^4+O(r^5)$ with $c_4\le-0.76$, $10^5$ boxes, and
@@ -1146,10 +1147,20 @@ once $\cosh r\sim\sqrt N/2$. In the tanh model the interaction is screened by cu
 one curvature radius. The stiffness is then only linear in $\cosh r$, up to exponentially small image terms, so stabilisation needs
 $\cosh r\sim0.134N$.
 
-\paragraph{Flat hard-wall disk} (context only). This model has the Euclidean area form, image vortices, and the
-non-constant Robin self-image term (ring stability: Havelock~\cite{Havelock}).
-It is not treated here. The point is only that the same image Green's function, with a different area form and a
-non-constant Robin function, is a different stability problem.
+\paragraph{Flat hard-wall disk, and a laboratory reading} (NUMERICAL; scripts in \texttt{realize/} of
+\texttt{explorations/2026-10-14}). In the Poincar\'e disk, $-\ln\tanh(d/2)=\ln|1-z\bar w|-\ln|z-w|$ is exactly the Green's function of the flat unit disk with a
+conducting wall. That flat system (uniform mobility, Robin term $\frac12\ln(1-|z|^2)$) is Havelock's problem~\cite{Havelock},
+realised by electron columns in a Penning--Malmberg trap~\cite{DF}. The two problems differ only in mobility and self
+term. For a ring at $|z|=r_0$, these enter the linearisation through the single number
+$S=U''+(\mu'/\mu)(W_r+U')$, where $\mu=m/r$ and $W_r$ is the radial interaction force. Equal $S$ means proportional
+spectra. A central vortex of strength $g$ (ring vortex $=1$) changes $S$ by $2g/r_0^2$ and moves only the modes
+$k\equiv\pm1$. Hence, with $r_0=\tanh(r/2)$, the tanh ring is stable iff $g^*(N,r_0)\ge g_{\rm lo}(N,r_0)$. Here
+$g^*=\tfrac12 r_0^2(S_{H^2}-S_{\rm trap})$, and $g_{\rm lo}$ is Havelock's lower limit on the central strength, which in
+every case checked is set by the modes $k\not\equiv\pm1$ (for a fixed centre the equivalence is exact; with a mobile
+centre the sector $k\equiv\pm1$ was checked case by case). The trap ring with $g=g^*$ changes stability at $r_0=\tanh(r_*/2)$ (checked for
+$N=8,9,10$). At the ring radius $r_0=0.25$ used in~\cite{DF}: $g_{\rm lo}=0.500$, $g^*=0.462$ for $N=8$ (whose
+threshold is $r_0=0.2595$). The same code gives $-0.2478\le g\le6.2498$ for $N=6$, against the $-0.25\le g\le6.25$
+quoted there.
 
 \section{Limitations}
 \begin{itemize}
@@ -1201,6 +1212,7 @@ Ser.\ B 10 (2008) 349--375.
 \bibitem{HK} S.~Hwang, S.-C.~Kim, Relative equilibria of point vortices on the hyperbolic sphere, J.\ Math.\ Phys.\ 54
 (2013) 063101.
 \bibitem{Lamb} H.~Lamb, \emph{Hydrodynamics}, 6th ed., Cambridge University Press (1932), \S156.
+\bibitem{DF} D.~Durkin and J.~Fajans, Experiments on two-dimensional vortex patterns, Phys.\ Fluids 12 (2000) 289--293.
 \bibitem{Havelock} T.~H.~Havelock, The stability of motion of rectilinear vortices in ring formation, Phil.\ Mag.\ (7) 11
 (1931).
 \end{thebibliography}

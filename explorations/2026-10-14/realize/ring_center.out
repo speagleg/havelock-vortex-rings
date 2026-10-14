@@ -1,0 +1,21 @@
+1. Full (N+1)-vortex trap spectrum with g = g* vs the H^2 ring (rescaled by ((1-r0^2)/2)^2):
+  N =  5, r0 = 0.4: g* = 0.72582;  max Re: H^2 2.32e-16, trap+centre 5.45e-16;  H^2 eigenvalues found in trap spectrum to 5.8e-02; 4 largest trap-side mismatches [0.0029 0.0029 0.017  0.017 ]  (k = +-1 sector, where the centre moves)
+  N =  8, r0 = 0.3: g* = 0.68253;  max Re: H^2 9.11e-16, trap+centre 9.12e-16;  H^2 eigenvalues found in trap spectrum to 8.3e-01; 4 largest trap-side mismatches [0. 0. 0. 0.]  (k = +-1 sector, where the centre moves)
+  N =  8, r0 = 0.5: g* = 2.22230;  max Re: H^2 3.36e-16, trap+centre 6.63e-16;  H^2 eigenvalues found in trap spectrum to 2.9e-02; 4 largest trap-side mismatches [0.0005 0.0005 0.0023 0.0023]  (k = +-1 sector, where the centre moves)
+  N = 10, r0 = 0.6: g* = 4.74651;  max Re: H^2 5.40e-17, trap+centre 5.70e-16;  H^2 eigenvalues found in trap spectrum to 6.4e-02; 4 largest trap-side mismatches [0.0009 0.0009 0.0032 0.0032]  (k = +-1 sector, where the centre moves)
+  N = 12, r0 = 0.45: g* = 2.72863;  max Re: H^2 4.14e+00, trap+centre 4.14e+00;  H^2 eigenvalues found in trap spectrum to 2.7e-01; 4 largest trap-side mismatches [0. 0. 0. 0.]  (k = +-1 sector, where the centre moves)
+  N = 12, r0 = 0.55: g* = 4.58253;  max Re: H^2 6.99e-32, trap+centre 8.76e-32;  H^2 eigenvalues found in trap spectrum to 9.7e-02; 4 largest trap-side mismatches [0.     0.     0.0001 0.0001]  (k = +-1 sector, where the centre moves)
+
+2. Validation: N = 6 at r0 = 0.25 (the ring radius of Durkin & Fajans 2000, who quote -0.25 <= g <= 6.25):
+  stable g-interval(s): [(-0.2478, 6.2498)]
+
+3. Havelock interval: trap ring with a mobile central column is stable iff g in [g_lo, g_hi]; vs g*:
+  N =  3, r0 = 0.4: g* = 0.3494; stable g-intervals [(-1.0, 0.8051)]; g* inside: True;  H^2 ring stable: True
+  N =  5, r0 = 0.4: g* = 0.7258; stable g-intervals [(-0.4198, 3.9436)]; g* inside: True;  H^2 ring stable: True
+  N =  8, r0 = 0.25: g* = 0.4622; stable g-intervals [(0.5002, 12.25)]; g* inside: False;  H^2 ring stable: False
+  N =  8, r0 = 0.27: g* = 0.5442; stable g-intervals [(0.5005, 12.25)]; g* inside: True;  H^2 ring stable: True
+  N =  8, r0 = 0.5: g* = 2.2223; stable g-intervals [(0.5629, 12.2184)]; g* inside: True;  H^2 ring stable: True
+  N = 10, r0 = 0.39: g* = 1.5823; stable g-intervals [(1.752, 20.2499)]; g* inside: False;  H^2 ring stable: False
+  N = 10, r0 = 0.42: g* = 1.8818; stable g-intervals [(1.7543, 20.2497)]; g* inside: True;  H^2 ring stable: True
+  N = 12, r0 = 0.48: g* = 3.2035; stable g-intervals [(3.5054, 30.2497)]; g* inside: False;  H^2 ring stable: False
+  N = 12, r0 = 0.52: g* = 3.9394; stable g-intervals [(3.5141, 30.2485)]; g* inside: True;  H^2 ring stable: True

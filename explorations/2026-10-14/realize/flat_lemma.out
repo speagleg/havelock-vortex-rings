@@ -1,0 +1,12 @@
+disk gradient check: 3.5e-09
+strip: H^2 row vs channel row + Couette shear Sigma* (eigenvalues, channel rescaled by sin^2 a):
+  alpha 0.4, l' 0.8: max |eig diff| = 2.4e-11  (max |Re eig| H^2 = 0.000, channel without shear = 1.169),  Sigma* = 11.6183
+  alpha 0.6, l' 1.5: max |eig diff| = 3.0e-11  (max |Re eig| H^2 = 0.000, channel without shear = 0.699),  Sigma* = 3.2966
+  alpha 0.9, l' 1.0: max |eig diff| = 4.3e-11  (max |Re eig| H^2 = 2.220, channel without shear = 3.028),  Sigma* = 2.3145
+  alpha 1.2, l' 2.0: max |eig diff| = 1.6e-11  (max |Re eig| H^2 = 0.740, channel without shear = 1.071),  Sigma* = 0.7140
+disk: H^2 ring vs trap ring + background shear (eigenvalues, trap rescaled by ((1-r^2)/2)^2):
+  N 3, r0 0.3: max |eig diff| = 1.1e-06  (max |Re eig| = 0.000),  r dOmega_b/dr = 4.1879
+  N 5, r0 0.5: max |eig diff| = 9.7e-08  (max |Re eig| = 0.000),  r dOmega_b/dr = 9.8038
+  N 8, r0 0.6: max |eig diff| = 5.6e-07  (max |Re eig| = 0.000),  r dOmega_b/dr = 20.1313
+  N 8, r0 0.85: max |eig diff| = 2.2e-06  (max |Re eig| = 0.000),  r dOmega_b/dr = 40.9348
+  N 10, r0 0.9: max |eig diff| = 2.0e-06  (max |Re eig| = 0.000),  r dOmega_b/dr = 78.9990

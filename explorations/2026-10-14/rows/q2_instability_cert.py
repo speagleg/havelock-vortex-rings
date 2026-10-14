@@ -6,12 +6,14 @@ Modes (Darboux ladder, nu = 2): psi_n = (1 - n^2 + 3q^2) sin(n a) - 3 n q cos(n 
   F = sum_n w_n [A_n r^n/(1-r^n) - B_n r^n/(1+r^n)],  r = e^{-l'}.   On the domain |q| <= 1, so
   |psi_n| <= (n+1)(n+2), |psi_n'| <= n^3 + 3n^2 + 10n + 12.
 Regions:
- L  l' >= L1: F = c3 r^3 + c4 r^4 + E, c3 = (16/5) s^6 cos 2a <= 0, c4 <= -4/5 (Arb over alpha), |E| <= Eb r^5; need r1 Eb < 4/5.
+ L  l' >= L1: F = c3 r^3 + c4 r^4 + E, c3 = (16/5) s^6 cos 2a <= 0, c4 <= c4max (Arb over alpha; c4max = -0.760, true max -4/5), |E| <= Eb r^5;
+    need r1 Eb < -c4max.
  M  l0 <= l' <= L1: Arb boxes on the mode form with an exact polynomial tail constant.
  S  l' <= l0: F <= sum d_j + sum e_j + sum (-1)^j b_j with b > 0 decreasing and d < 0 (mode expansion), so
     F <= d(l') + sum_j e(j l');  e = a - d = 6 Q2(C) - 2 k^2 (C-1) Q2'(C). From Laplace's integral
-    Q_nu(C) = int_0^inf (C + sqrt(C^2-1) cosh t)^{-nu-1} dt and C + sqrt(C^2-1) cosh t >= C:
-    Q2 <= Q0/C^2 and -Q2' <= 3/(C^2 (C^2-1)), so e <= 3 ln(1 + 4/x^2) sech^2 x + 3 sech^2(x)/(cosh x + 1) =: e_up(x),
+    Q_nu(C) = int_0^inf (C + sqrt(C^2-1) cosh t)^{-nu-1} dt and C + sqrt(C^2-1) cosh t >= C: Q2 <= Q0/C^2. And
+    -Q2' <= 3/(C^2 (C^2-1)) (in fact <= 1/(C^2(C^2-1))): with t = 1/C, C^2(C^2-1)(-Q2')/3 = sum_{k>=2} 2 t^(2k-4)/(4k^2-1),
+    whose coefficients are positive, so its sup is the value at t = 1, sum_{k>=2} 2/(4k^2-1) = 1/3 (proof: q2_lemmas.py), so e <= 3 ln(1 + 4/x^2) sech^2 x + 3 sech^2(x)/(cosh x + 1) =: e_up(x),
     which is positive and decreasing, giving sum_j e_j <= (1/l') int_0^inf e_up = K/l' (K by a rigorous Riemann sum).
     Dropping the (negative) Q0 terms of d gives d <= D_up(x) (rational in c = cosh x, X = c - 1, s^2), and
     F <= (s^2/l'^2)[P(l') + K l'/s^2],  P = x^2 D_up/s^2 -> -1, checked < 0 in Arb.
@@ -54,7 +56,7 @@ def checks():
     ok['c3 = (16/5) s^6 cos 2a'] = max(abs(c3_mp(mp.mpf(i)/41*mp.pi)) for i in range(1, 41)) < mp.mpf(10)**-35
     # norm N_4 by quadrature (Darboux: N_n = pi (n^2-1)(n^2-4)/2)
     ok['norm N_4'] = abs(mp.quad(lambda t: psi_mp(4, t)**2, [0, mp.pi/2, mp.pi]) - mp.pi*15*12/2) < 1e-20
-    # c4 <= -4/5 on the domain (Arb boxes)
+    # Arb upper bound c4max of c4 over the domain (true max -4/5 at a = pi/4)
     worst = -1e9
     for i in range(400):
         al = iv(A_LO + (A_HI - A_LO)*i/400, A_LO + (A_HI - A_LO)*(i + 1)/400)

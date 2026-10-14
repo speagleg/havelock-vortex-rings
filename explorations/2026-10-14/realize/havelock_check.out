@@ -1,0 +1,2 @@
+N = 2: blocks threshold r_H = 0.462320628 (p = 0.213740363);  sympy max|Re eig| at 0.999 r_H: 1.14e-16,  at 1.001 r_H: 7.81e-02
+N = 3: blocks threshold r_H = 0.566816685 (p = 0.321281155);  sympy max|Re eig| at 0.999 r_H: 2.78e-16,  at 1.001 r_H: 1.26e-01

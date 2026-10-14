@@ -1,0 +1,35 @@
+Havelock check (s = 0): the unsheared trap ring is stable iff s_c(N, r0) <= 0; sign changes of s_c in (0, 0.99):
+  N = 2: s_c < 0 at r0 = 0.005: True;  sign changes at r0 = [np.float64(0.462321)]  (p = r0^2 = 0.213740)
+  N = 3: s_c < 0 at r0 = 0.005: True;  sign changes at r0 = [np.float64(0.566817)]  (p = r0^2 = 0.321281)
+  N = 4: s_c < 0 at r0 = 0.005: True;  sign changes at r0 = [np.float64(0.574317)]  (p = r0^2 = 0.329840)
+  N = 5: s_c < 0 at r0 = 0.005: True;  sign changes at r0 = [np.float64(0.588303)]  (p = r0^2 = 0.346101)
+  N = 6: s_c < 0 at r0 = 0.005: True;  sign changes at r0 = [np.float64(0.54692)]  (p = r0^2 = 0.299121)
+  N = 7: s_c < 0 at r0 = 0.005: False;  sign changes at r0 = []
+  N = 8: s_c < 0 at r0 = 0.005: False;  sign changes at r0 = []
+
+Trap: H^2 ring <-> trap ring with background shear s* = s*(N, r0); H^2 stable iff s* >= s_c
+  N =  3: s* - s_c changes sign at r0 = [];  s*(0.5) = 4.698, s_c(0.5) = -1.424
+  N =  5: s* - s_c changes sign at r0 = [];  s*(0.5) = 9.804, s_c(0.5) = -2.217
+  N =  7: s* - s_c changes sign at r0 = [];  s*(0.5) = 15.113, s_c(0.5) = 0.884
+  N =  8: s* - s_c changes sign at r0 = [np.float64(0.259531)];  note threshold r0* = tanh(arccoth(a*)/2) = 0.259531;  s*(0.5) = 17.778, s_c(0.5) = 4.503
+  N = 10: s* - s_c changes sign at r0 = [np.float64(0.407571)];  note threshold r0* = tanh(arccoth(a*)/2) = 0.407571;  s*(0.5) = 23.111, s_c(0.5) = 14.196
+  N = 12: s* - s_c changes sign at r0 = [np.float64(0.497411)];  note threshold r0* = tanh(arccoth(a*)/2) = 0.497411;  s*(0.5) = 28.444, s_c(0.5) = 28.070
+  N = 16: s* - s_c changes sign at r0 = [np.float64(0.609657)];  note threshold r0* = tanh(arccoth(a*)/2) = 0.609657;  s*(0.5) = 39.111, s_c(0.5) = 68.008
+  physical scale: required background vorticity contrast zeta_mean_inside - zeta_at_ring = s* Gamma/(2 pi R^2);
+  relative to a column of radius a: (s*/2)(a/R)^2. Durkin-Fajans 2000 trap (a/R = 0.025): factor 3.1e-4.
+    N = 8, r0 = 0.3: s* =  15.167,  contrast / column vorticity = 4.74e-03
+    N = 8, r0 = 0.5: s* =  17.778,  contrast / column vorticity = 5.56e-03
+    N = 8, r0 = 0.7: s* =  23.892,  contrast / column vorticity = 7.47e-03
+    N = 10, r0 = 0.3: s* =  19.563,  contrast / column vorticity = 6.11e-03
+    N = 10, r0 = 0.5: s* =  23.111,  contrast / column vorticity = 7.22e-03
+    N = 10, r0 = 0.7: s* =  31.589,  contrast / column vorticity = 9.87e-03
+    N = 12, r0 = 0.3: s* =  23.958,  contrast / column vorticity = 7.49e-03
+    N = 12, r0 = 0.5: s* =  28.444,  contrast / column vorticity = 8.89e-03
+    N = 12, r0 = 0.7: s* =  39.388,  contrast / column vorticity = 1.23e-02
+
+Channel (width pi): Couette shear Sigma_c(alpha, l') needed, and the H^2 value Sigma*
+  alpha = 0.3927 (kappa 0.924): Sigma_c at l' = 0.1, 1, 6: [493.48    6.942   3.424];  Sigma* - Sigma_c >= 0 for l' >= 0.5288296086359171
+  alpha = 0.5236 (kappa 0.866): Sigma_c at l' = 0.1, 1, 6: [493.48    5.738   2.01 ];  Sigma* - Sigma_c >= 0 for l' >= 0.859573187903895
+  alpha = 0.7854 (kappa 0.707): Sigma_c at l' = 0.1, 1, 6: [493.48    5.089   1.01 ];  Sigma* - Sigma_c >= 0 for l' >= None
+  alpha = 1.0472 (kappa 0.500): Sigma_c at l' = 0.1, 1, 6: [493.48    4.973   0.677];  Sigma* - Sigma_c >= 0 for l' >= None
+  minimum over the grid of Sigma_c: 0.6766

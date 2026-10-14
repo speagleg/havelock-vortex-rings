@@ -39,6 +39,7 @@ A row equally spaced along any of them is a relative equilibrium.
 | `single_root_cert.py` | Item 14: Arb certificate that each kappa has exactly one threshold (needs `pip install python-flint`; ~5 s) -> `single_root_cert.out` |
 | `q1_instability_cert.py`, `q1_mode_consistency.py` | Item 15: Arb certificate of instability below 1/sqrt 2 at every spacing for the Q_1 kernel (Delta = 2) -> `.out` |
 | `q2_instability_cert.py`, `q2_mode_consistency.py` | Item 16: the same for Q_2 (Delta = 3), ~1 min -> `.out` |
+| `q2_lemmas.py` | Item 16: symbolic proofs of the certificate's inputs (mode equation for symbolic n, norms, c3, the Q2' bound) -> `q2_lemmas.out` |
 | `q1_horocycle_closed.py` | Item 17: closed form (polylogarithms) of the Q_1 horocycle-row criterion; l* = 1.449125953770 -> `.out` |
 
 **Results.**
@@ -48,13 +49,14 @@ A row equally spaced along any of them is a relative equilibrium.
 2. *Geodesic and weakly curved rows are never stable.* kappa = 0 and 0.5: unstable at every spacing tested
    (0.5 to 80 curvature radii). So ambient curvature alone does not stabilise a row; the curve must bend.
 3. *Critical curvature kappa_c = 1/sqrt 2.* Bisection at spacing 40 and 80 gives kappa_c = 0.7071064 (1/sqrt 2 =
-   0.7071068). DERIVED (leading order, large spacing): only nearest neighbours matter, W ~ 2 sin(phi_i) sin(phi_j)
+   0.7071068; the value just below 1/sqrt 2 is a resolution artifact, since growth rates there are ~ e^{-l'}). DERIVED (leading order, large spacing): only nearest neighbours matter, W ~ 2 sin(phi_i) sin(phi_j)
    exp(-|u_i - u_j|); the linearised Bloch symbol has equal diagonal entries and off-diagonal entries proportional
    to cos^2(alpha) cos q + 2 cos^2(alpha) - sin^2(alpha) and to cos q - 1 <= 0. Stability for all q therefore needs
    the first to be >= 0; the worst mode is the pairing mode q = pi, where it equals cos(2 alpha). Hence stable at
-   large spacing iff kappa = cos(alpha) >= 1/sqrt 2 (alpha = 45 deg in the upper half-plane; the hypercycle at
-   distance arsinh 1 = 0.8814 from its geodesic). Not proved: error bounds on the asymptotics, and instability for
-   kappa < 1/sqrt 2 at every finite spacing (numerical only).
+   large spacing if kappa = cos(alpha) > 1/sqrt 2 and unstable if kappa < 1/sqrt 2 (at kappa = 1/sqrt 2 the leading term
+   vanishes; the row is unstable at every spacing, item 9) (alpha = 45 deg in the upper half-plane; the hypercycle at
+   distance arsinh 1 = 0.8814 from its geodesic). [Superseded: instability at every
+   spacing for kappa <= 1/sqrt 2 is proved in item 9, and an explicit stable spacing in item 10(a).]
 4. *One boundary for all four curve types.* l*(kappa): 4.76 (kappa = 0.72), 3.19 (0.75), 2.26 (0.80), 1.44 (0.90),
    1.01 (0.98), 0.874 (0.999), approaching the horocycle value 0.8439 roughly like sqrt(1 - kappa); the rings
    continue it for kappa > 1: (1.007, 0.839) at N = 64 down to (2.056, 0.437) at N = 8. The finite rings, the
@@ -63,7 +65,8 @@ A row equally spaced along any of them is a relative equilibrium.
 5. *kappa_c does not depend on the kernel.* Redoing the asymptotics for any kernel decaying like exp(-gamma d)
    gives the normal-stiffness factor gamma cos^2(alpha) cos q + gamma cos^2(alpha) + 2 cos^2(alpha) - 1, whose minimum
    over q (at q = pi) is cos(2 alpha) for every gamma: kappa_c = 1/sqrt 2 is universal for exponentially screened
-   interactions on H^2. Numerical check with W = Q_1(cosh d): kappa_c = 0.7071061 at spacings 30 and 60. The critical
+   interactions on H^2. Numerical check with W = Q_1(cosh d): kappa_c = 0.7071061 at spacings 30 and 60 (below 1/sqrt 2 only by resolution;
+   item 15 proves instability at and below 1/sqrt 2). The critical
    spacing itself is kernel-dependent: Q_1 gives l* = 4.09 (kappa = 0.75), 3.01 (0.8), 1.98 (0.9), 1.69 (0.95),
    1.49 (0.99), versus 3.19, 2.26, 1.44, 1.17, 0.95 for the tanh kernel.
 
@@ -100,7 +103,7 @@ A row equally spaced along any of them is a relative equilibrium.
    So A_UP(pi) < 0 < -A_PU(pi), and the q = pi symbol (zero diagonal) has the real exponent sqrt(A_UP A_PU) > 0.
    The even terms are not individually negative for 1/4 < K < 1/2 (`pair_sign.py`); only their sum against the
    odd terms is. Combined with item 3 this makes kappa_c = 1/sqrt 2 exact for the tanh model: no spacing is stable
-   at or below it, and every spacing large enough is stable above it (the latter still leading-order only).
+   at or below it, and every spacing large enough is stable above it (the latter made explicit in item 10(a)).
    Consequence for item 8: the Bolza-collar result for even N is now a theorem of the cylinder model for all N
    with an exact pairing mode (any even N, any h inside the collar), not only N <= 12 (superseded by item 10(b)).
 
@@ -151,7 +154,7 @@ A row equally spaced along any of them is a relative equilibrium.
     Q_1 (nu = 1): roots of F_1(pi) give l* = 5.7296, 4.0856, 3.0055, 1.9820, 1.6859, 1.4949 at kappa = 0.72, 0.75, 0.8,
     0.9, 0.95, 0.99 (supercell: 4.09, 3.01, 1.98, 1.69, 1.49), one sign change each. New: the horocyclic row with the
     Q_1 kernel has critical spacing l* = 1.4491260 (zero of the alpha -> 0 integral; kappa = 0.9999 gives 1.4496).
-    For nu = 1, 2, F_nu(pi) < 0 at all 3000 grid points with kappa <= 1/sqrt 2 (NUMERICAL; proved only for nu = 0).
+    For nu = 1, 2, F_nu(pi) < 0 at all 3000 grid points with kappa <= 1/sqrt 2 (NUMERICAL here; now CERTIFIED for nu = 1, 2 in items 15-16).
 
 13. *Closed-form threshold: DERIVED (theta functions + modular transformation; checked to 1e-36).*
     Using r/(1+r) = r/(1-r) - 2r^2/(1-r^2), F(pi) = sin2a S(a; r) - 2s^2[E(r) - E(r^2)] + 2s^2 C(a; r^2), i.e. log-derivatives
@@ -194,6 +197,8 @@ A row equally spaced along any of them is a relative equilibrium.
     - l' <= 0.02: the Q_1 argument, with Laplace's integral Q_nu(C) = int (C + sqrt(C^2-1) cosh t)^{-nu-1} dt. It gives
       Q2 <= Q0/C^2 and -Q2' <= 3/(C^2 (C^2-1)), so sum e_j <= K/l' with K <= 10.86 (rigorous Riemann sum), and margin 0.063.
     So kappa_c = 1/sqrt 2 is exact for Delta = 1, 2, 3. The same template should work for any integer nu.
+    Inputs that the certificate checks only numerically (Darboux modes, norms N_n, the c3 identity, the bound on -Q2')
+    are proved symbolically in `q2_lemmas.py` (-Q2' <= 1/(C^2(C^2-1)), three times sharper than the bound used).
 17. *Closed form for the Q_1 horocycle row.* Using sum ln(1 + b^2/j^2) = ln(sinh(pi b)/(pi b)), its alternating version
     ln(tanh(pi b/2)/(pi b/2)), partial fractions, and sum (-1)^j (j^2 ln(1 + b^2/j^2) - b^2) = b^2/2 - pi int_0^b t^2 csch(pi t) dt,
     the criterion F(pi) is an explicit combination of coth, csch, zeta(3) and the Legendre chi functions chi_2, chi_3 of
@@ -251,9 +256,28 @@ See `realize/README.md`. The three curve types are the parallels of Minding's th
 with waist radius a the 45 degree parallel exists iff a <= R; for a = R it is the rim. On a finite film band, edges add
 a self-term that destabilises large spacings, so the rule becomes a stability window l* <= l <= l_max, which needs
 bands several curvature radii wide. On embedded Minding surfaces stable necklaces (N = 2, near the rim) were found
-only for waists a <~ 0.09 R. A flat-space design (E x B plasma with B ~ csc^2 and a compensating potential) follows
-from the channel identity.
+only for waists a <~ 0.09 R.
+
+**Laboratory realisation (Penning trap).** Linear stability of a row or ring depends on the mobility and self term only
+through one number at the row, S = U'' + (mu'/mu)(W_y + U') (an exact lemma). The H^2 tanh kernel is the Green's
+function of a flat channel and of a flat disk with a conducting wall. So:
+- the H^2 row is linearly equivalent to a channel row in a uniform counter-vorticity (Couette) shear Sigma*; the
+  shear flow is an exact 2D Euler solution;
+- the H^2 ring is a Havelock trap ring plus a background shear s* at the ring;
+- buildably, the H^2 ring is a trap ring with a central column of strength g*(N, r0) = s* r0^2/2.
+
+The H^2 ring theorem then reads (in every case checked): the ring is stable iff g* >= Havelock's lower central-column
+limit g_lo(N, r0). In those cases that limit comes from the modes the centre does not touch. Checks:
+- the trap with g = g* switches stability at the note's r0*(N) (N = 8, 9, 10);
+- the code reproduces Durkin & Fajans' (2000) N = 6 interval -0.25 <= g <= 6.25;
+- nonlinear runs at small amplitude (1e-4) track H^2.
+
+Their experiment (r0 = 0.25, 0 <= g <= 4, lower limits measured for N = 7-10) sits close to the N = 8 equivalence
+point (g_lo = 0.500 vs g* = 0.462). A laboratory analogue of the H^2 threshold would vary r0 across 0.2595 at g = g*(8, r0), inside their
+injection range. It would test Havelock's point-vortex theory there, not the (mathematical) H^2 statement, and the
+margins (+-0.04 in g) are comparable to their 10% strength control and to finite-core corrections. A smooth active background instead of a column is inconclusive (graininess).
 
 **Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 3 (template in item 16);
 on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal
-H^2 rule).
+H^2 rule); whether a smooth, self-consistently advected trap background (instead of a central column) preserves the
+equivalence; the k = +-1 sector of ring + mobile centre in general (checked only at the cases listed in realize/).

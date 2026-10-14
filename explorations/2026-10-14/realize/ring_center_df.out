@@ -1,0 +1,5 @@
+ N   g_lo(N, 0.25)   g*(N, 0.25)   H^2 ring at r0 = 0.25 | trap with g = g*(N, r0) at r0 = r0*(N)(1 -+ 0.003)
+ 7       0.001389      0.395556     stable            | N = 7: H^2 ring stable at every radius
+ 8       0.500244      0.462222   unstable            | r0* = 0.259531: unstable / stable
+ 9       1.000148      0.528889   unstable            | r0* = 0.335963: unstable / stable
+10       1.750024      0.595556   unstable            | r0* = 0.407571: unstable / stable

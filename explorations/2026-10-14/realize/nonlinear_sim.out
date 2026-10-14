@@ -1,0 +1,15 @@
+TRAP N = 8, r0 = 0.5: s* = 17.7784, s_c = 4.5030; background circulation for s*: pi s*/r0^2 = 223.4 (columns: 50.3)
+  H^2 (time rescaled)   : max radial spread over 100 periods = 4.04e-04 (initial 2.2e-04)
+  trap, no background   : max radial spread over 100 periods = 6.44e-01 (initial 2.2e-04)
+  trap, s = s*          : max radial spread over 100 periods = 4.04e-04 (initial 2.2e-04)
+  trap, s = s_c - 2     : max radial spread over 100 periods = 6.17e-01 (initial 2.2e-04)
+  trap, s = s_c + 2     : max radial spread over 100 periods = 7.09e-04 (initial 2.2e-04)
+  (period Tp = 0.0824 in trap units at s = s*)
+CHANNEL alpha = pi/8, l' = 1.0: Sigma* = 9.1823, Sigma_c = 6.9334
+  H^2 (time rescaled)     : max transverse spread up to t = 60 = 2.45e-04 (initial 1.1e-04)
+  channel, no shear       : max transverse spread up to t = 60 = 1.30e+00 (initial 1.1e-04)
+  channel, Sigma = Sigma* : max transverse spread up to t = 60 = 2.44e-04 (initial 1.1e-04)
+TRAP + CENTRAL COLUMN, N = 8, r0 = 0.5: g* = 2.2223, Havelock lower limit g_lo = 0.5629
+  centre g = g*         : max radial spread over 100 periods = 4.28e-04 (initial 2.8e-04)
+  centre g = g_lo - 0.1 : max radial spread over 100 periods = 1.14e-01 (initial 2.8e-04)
+  centre g = g_lo + 0.1 : max radial spread over 100 periods = 8.76e-04 (initial 2.8e-04)
