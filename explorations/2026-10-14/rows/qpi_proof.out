@@ -1,0 +1,29 @@
+1. b - 2s^2 sum n cos^2(na) z^n      = 0
+   d + 2s^2 sum n sin^2(na) z^n      = 0
+   a - d - sin(2a) sum sin(2na) z^n  = 0
+   b - d - s^2/(c-1)                 = 0
+   a - d - sin^2(2a)/(2(c - cos2a))  = 0
+   dP/dq = r*(r - 1)*(r + 1)*sin(q)/(r**2 - 2*r*cos(q) + 1)**2
+2. Lambert series vs direct lattice sum for F(pi): max relative difference 4.3e-12
+3. grid points where F(q) increases: 0 (of 12 x 15 x 99)
+4. l*(kappa) from F(pi) = 0; number of sign changes of F(pi) on l' in [0.005, 40]
+   kappa  0.7200: l* = 4.7635102682   sign changes 1
+   kappa  0.7500: l* = 3.1863292497   sign changes 1
+   kappa  0.8000: l* = 2.2554766253   sign changes 1
+   kappa  0.9000: l* = 1.4365846813   sign changes 1
+   kappa  0.9500: l* = 1.1694721423   sign changes 1
+   kappa  0.9900: l* = 0.9537651073   sign changes 1
+   kappa  0.9990: l* = 0.8740556005   sign changes 1
+   kappa  0.9999: l* = 0.8530342205   sign changes 1
+5. Bolza necklaces: threshold h* from F(2 pi floor(N/2)/N) = 0 at l' = L/N
+   N =  2: h* = 1.0574
+   N =  3: h* = 1.1494
+   N =  4: h* = 1.3583
+   N =  5: h* = 1.4608
+   N =  6: h* = 1.6014
+   N =  7: h* = 1.6901
+   N =  8: h* = 1.7989
+   N =  9: h* = 1.8755
+   N = 10: h* = 1.9645
+   N = 11: h* = 2.0316
+   N = 12: h* = 2.1070

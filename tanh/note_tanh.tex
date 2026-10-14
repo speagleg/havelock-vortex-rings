@@ -140,8 +140,8 @@ nonlinear (Lyapunov) stability.\\
 \textbf{NUMERICAL} & The $1/N$ coefficients
 $C_1$ (derived, remainder not bounded); the constant $W$ in the Krein-window width, and the critical block being the
 only indefinite block on the whole window for odd $N\ge17$ (\S\ref{sec:asym}); the stability boundary of rows on
-hypercycles between the proved bounds (the critical curvature $1/\sqrt2$, an explicit sufficient spacing above it, and
-instability at every spacing at and below it are DERIVED for the tanh model; end of \S\ref{sec:asym}).\\\bottomrule
+hypercycles: the criterion $F(\pi)\ge0$, the critical curvature $1/\sqrt2$ and an explicit sufficient spacing are DERIVED for
+the tanh model, while the roots $\ell^*(\kappa)$ and their uniqueness are computed (end of \S\ref{sec:asym}).\\\bottomrule
 \end{tabular}
 \end{center}
 Nonlinear (Lyapunov) stability is claimed only in the form ``positive-definite Hessian on the non-rotational
@@ -889,8 +889,9 @@ The constants are crude: on $[5,10]$ the true values are $-\Phi'\ge0.0089$, $|\D
 $|\varepsilon_N'|\le0.012\,x^2$ (\texttt{large\_n.out}, item~9). For $N\le15$ the certified Thm.~\ref{thm:cert} gives uniqueness.
 
 \subsection*{Rows on curves of constant geodesic curvature}
-\emph{Status: for the tanh model the exact critical curvature, an explicit stability bound and instability below
-$1/\sqrt2$ are DERIVED (by hand, sympy-checked, unrefereed); the exact boundary $\ell^*(\kappa)$ is NUMERICAL; exploratory, scripts in
+\emph{Status: for the tanh model the exact stability criterion (a one-variable series), the critical curvature
+$1/\sqrt2$ and an explicit stability bound are DERIVED (by hand, sympy-checked, unrefereed); the roots $\ell^*(\kappa)$ of the
+criterion and their uniqueness are NUMERICAL; exploratory, scripts in
 \texttt{explorations/2026-10-14/rows/}.} The horocycle belongs to a one-parameter family of homogeneous curves in
 $\mathbb H^2$, distinguished by their geodesic curvature $\kappa$: geodesics ($\kappa=0$), hypercycles ($0<\kappa<1$, the
 curves at constant distance $h$ from a geodesic, $\kappa=\tanh h$), horocycles ($\kappa=1$) and circles ($\kappa=\coth r>1$).
@@ -938,7 +939,7 @@ stable if and only if
 F(q):=\sum_{j\ge1}\big[a(c_j)+b(c_j)\cos qj\big]\ \ge\ 0\qquad\text{for all }q .
 \]
 This reproduces the supercell growth rates to $7$ digits and the thresholds $\ell^*(\kappa)$ below to $6$--$7$ digits, up to
-$\kappa=0.999$ (\texttt{exact\_symbol.py}). In every case computed the minimum over $q$ is at $q=\pi$ (NUMERICAL). Two
+$\kappa=0.999$ (\texttt{exact\_symbol.py}). The minimum over $q$ is always at $q=\pi$; see (d) below. Two
 identities do the work: $b(c)>0$ for $c>1$ (in $t=c-1$ its numerator has coefficients $K$, $1-K$, $2(1-K)^2$), and
 \[
 a-b=\sin^2\!\alpha\,\frac{(2K-1)c-1}{(c-1)D},\qquad a+b=\sin^2\!\alpha\,\frac{(4K-1)c-(4K^2-2K+1)}{D^2}.
@@ -969,6 +970,35 @@ $1.2$. So $B(\pi)<0<-C(\pi)$ and the pairing mode grows at the real rate $\sqrt{
 (\texttt{instability\_proof\_check.py}). The even terms alone are positive at large $c_j$ when $\frac14<K<\frac12$
 (\texttt{pair\_sign.py}); only the sum is signed.
 
+(d) \emph{The critical mode is the pairing mode, and the exact threshold.} With $z=e^{-x}$ and $c=\cosh x$, the pair
+functions expand as
+\[
+b=2\sin^2\!\alpha\sum_{n\ge1}n\cos^2(n\alpha)\,z^n,\qquad d=-2\sin^2\!\alpha\sum_{n\ge1}n\sin^2(n\alpha)\,z^n,\qquad
+a=d+\frac{\sin^22\alpha}{2(c-\cos2\alpha)}
+\]
+(equivalently $b-d=\sin^2\alpha/(c-1)$; exact identities, \texttt{qpi\_proof.py}). All coefficients of $b$ are $\ge0$, so with
+$r_n=e^{-n\ell'}$,
+\[
+\sum_{j\ge1}b(c_j)\cos qj=2\sin^2\!\alpha\sum_{n\ge1}n\cos^2(n\alpha)\,P(r_n,q),\qquad
+P(r,q)=\sum_{j\ge1}r^j\cos qj=\frac{r\cos q-r^2}{1-2r\cos q+r^2},
+\]
+and $\partial_qP=-r(1-r^2)\sin q/(1-2r\cos q+r^2)^2<0$ on $(0,\pi)$. So $F$ is strictly decreasing on $(0,\pi)$. The row is
+stable if and only if $F(\pi)\ge0$, and a necklace of $N$ vortices (allowed $q=2\pi m/N$) is stable if and only if
+$F(2\pi\lfloor N/2\rfloor/N)\ge0$. Summing the geometric series gives the threshold function as one rapidly convergent series,
+\[
+F(\pi)=\sum_{n\ge1}\Big[\big(\sin2\alpha\sin2n\alpha-2n\sin^2\!\alpha\sin^2n\alpha\big)\frac{r_n}{1-r_n}
+-2n\sin^2\!\alpha\cos^2n\alpha\,\frac{r_n}{1+r_n}\Big],
+\]
+whose leading term at large spacing is $2\sin^2\!\alpha\cos2\alpha\,e^{-\ell'}$. Its root reproduces the supercell thresholds (to $10^{-6}$), and
+for every $\kappa$ tested it changes sign exactly once in $\ell'$ (NUMERICAL); e.g.\ $\ell^*(0.8)=2.2554766253$. As $\alpha\to0$
+at fixed arc spacing $\ell=\ell'/\sin\alpha$, $n\alpha\to t$ and the series becomes
+\[
+\int_0^\infty\Big[\frac{2\sin2t-2t\sin^2t}{e^{\ell t}-1}-\frac{2t\cos^2t}{e^{\ell t}+1}\Big]dt
+=-\tfrac14\eta^2\coth^2\eta+\eta\coth2\eta-\tfrac14,\qquad \eta=\pi/\ell .
+\]
+This vanishes exactly when $(\coth\eta-1/\eta)^2=2\tanh\eta/\eta$, the horocycle criterion of
+Cor.~\ref{cor:row} (\texttt{horo\_limit.py}). So the hypercycle family limits onto the horocycle row, with the same $\ell_*$.
+
 By (a) and (c), $1/\sqrt2$ is the exact critical curvature of the tanh model: at and below it no spacing is stable, and above
 it every spacing beyond $\ell_A(\kappa)$ is. The kernel-independence in Prop.~\ref{prop:kappac} remains a leading-order
 statement.
@@ -995,7 +1025,7 @@ hypercycles carry one continuous stability boundary (Fig.~\ref{fig:rows}).
 \begin{figure}[ht]\centering
 \includegraphics[width=0.82\textwidth]{figures/rows_boundary.png}
 \caption{Critical spacing of vortex rows on curves of geodesic curvature $\kappa$ in $\mathbb H^2$ (tanh model). Hypercycle
-branch: NUMERICAL; dashed, the proved sufficient bound $\ell_A(\kappa)$. Horocycle point: Cor.~\ref{cor:row}. Ring branch: the
+branch: roots of the exact criterion $F(\pi)=0$; dashed, the proved sufficient bound $\ell_A(\kappa)$. Horocycle point: Cor.~\ref{cor:row}. Ring branch: the
 certified thresholds for $N=8$--$64$. At and below $\kappa=1/\sqrt2$ no spacing is stable (proved).}\label{fig:rows}
 \end{figure}
 
@@ -1004,8 +1034,10 @@ $\mathbb H^2/\langle u\mapsto u+L\rangle$, and a necklace of $N$ vortices at dis
 with period $L$. By the collar lemma the collar has half-width $w=\operatorname{arsinh}(1/\sinh(L/2))$, so curvatures inside it
 satisfy $\kappa\le\tanh w$. For the systole of the Bolza surface ($\cosh(L/2)=1+\sqrt2$) this bound is exactly $\sqrt2-1<\frac12$,
 so by Consequence (b) every Bloch mode of every necklace inside the collar grows: no necklace of $N\ge2$ vortices, of either
-parity, is stable there (DERIVED; \texttt{collar.py} agrees for $2\le N\le12$). By (a) the necklace is stable once
-$\tanh^2h\ge\frac12\big(1+1/\cosh(L/N)\big)$, e.g.\ $h\ge1.22$ for $N=2$ (the computed threshold is $1.06$). Both statements
+parity, is stable there (DERIVED). By (d) the necklace is stable exactly when $F(2\pi\lfloor N/2\rfloor/N)\ge0$ at
+$\ell'=L/N$, $\kappa=\tanh h$; this gives the thresholds $h^*=1.0574$, $1.1494$, \dots, $2.1070$ for $N=2,\dots,12$, as
+\texttt{collar.py} found by direct computation. The explicit bound (a) gives $\tanh^2h\ge\frac12\big(1+1/\cosh(L/N)\big)$, e.g.\
+$h\ge1.22$ for $N=2$. Both statements
 are for the cylinder model only: the rest of the surface and the zero-net-circulation constraint are not modelled.
 
 \section{Comparison with the sinh model and the flat disk}\label{sec:compare}
@@ -1055,8 +1087,8 @@ independent numerical recomputation). No human expert in point-vortex dynamics h
 (Thm.~\ref{thm:largeN}), and so is the horocyclic-row picture (Prop.~\ref{prop:row}); the $1/N$ coefficients are derived
 without remainder bounds.
 \item \textbf{Rows on hypercycles.} For the tanh model the critical curvature $1/\sqrt2$, instability at and below it at every
-spacing, and the sufficient bound $\ell_A(\kappa)$ are derived by hand with sympy checks (unrefereed); that the critical mode is
-always $q=\pi$, and hence the exact boundary $\ell^*(\kappa)$, are numerical. For other kernels
+spacing, the sufficient bound $\ell_A(\kappa)$, the criterion $F(\pi)\ge0$ and its horocycle limit are derived by hand with
+sympy checks (unrefereed); that $F(\pi)$ has a single root in $\ell'$ is numerical. For other kernels
 (Prop.~\ref{prop:kappac}) only the leading-order criterion is derived.
 \item \textbf{Finite range.} Palindromy, irreducibility and the degree pattern are certified only for
 $N\le16$ (Conjecture~\ref{conj:deg}). Irreducibility for $N\le16$ is certified by PARI/GP and checked in Lean.

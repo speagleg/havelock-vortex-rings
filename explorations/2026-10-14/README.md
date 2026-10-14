@@ -28,6 +28,8 @@ A row equally spaced along any of them is a relative equilibrium.
 | `symbol_q.py` | sympy: pair terms of the full Bloch symbol at every wavenumber q |
 | `exact_symbol.py` | The exact symbol and the criterion F(q) >= 0, checked against the supercell -> `exact_symbol.out` |
 | `stability_bound.py` | Proofs of item 10 (explicit stability bound, all-mode instability for kappa <= 1/2) -> `stability_bound.out` |
+| `qpi_proof.py` | Item 11: generating-function identities, the critical mode is q = pi, the threshold series, odd-N necklaces -> `qpi_proof.out` |
+| `horo_limit.py` | Item 11: the alpha -> 0 limit of the threshold series is the horocycle criterion of Cor. 20 -> `horo_limit.out` |
 
 **Results.**
 
@@ -108,6 +110,23 @@ A row equally spaced along any of them is a relative equilibrium.
     (h >= 1.22 for N = 2; computed threshold 1.06).
     `rows_boundary.png` now shows the proved bound l_A (dashed).
 
+11. *The critical mode is always the pairing mode; exact threshold series: DERIVED (exact sympy identities).*
+    In z = e^{-x}, c = cosh x, the pair functions are Chebyshev-type generating functions:
+    b = 2 s^2 sum_n n cos^2(n alpha) z^n,  d = -2 s^2 sum_n n sin^2(n alpha) z^n,  a = d + sin^2(2 alpha)/(2(c - cos 2alpha))
+    (so b - d = s^2/(c - 1)). Every coefficient of b is >= 0, so sum_j b(c_j) cos(qj) is a positive combination of
+    Poisson kernels P(r_n, q) = sum_j r_n^j cos(qj), r_n = e^{-n l'}, each strictly decreasing in q on (0, pi).
+    Hence F(q) is strictly decreasing: the row is stable iff F(pi) >= 0, and a necklace of N is stable iff
+    F(2 pi floor(N/2)/N) >= 0. Summing the geometric series,
+    F(pi) = sum_n [(sin 2a sin 2na - 2n s^2 sin^2 na) r_n/(1 - r_n) - 2n s^2 cos^2 na r_n/(1 + r_n)],
+    a one-variable series converging like e^{-n l'}. Its root agrees with the supercell thresholds to 1e-6
+    (l*(0.8) = 2.2554766253, l*(0.9999) = 0.8530342); F(pi) changes sign exactly once in l' for every kappa
+    tested (NUMERICAL). The Bolza necklace thresholds h* = 1.0574 ... 2.1070 (N = 2..12, both parities) from this
+    criterion agree with `collar.out` to all printed digits. Horocycle limit: alpha -> 0 at fixed arc spacing turns
+    the series into int_0^inf [(2 sin 2t - 2t sin^2 t)/(e^{lt} - 1) - 2t cos^2 t/(e^{lt} + 1)] dt
+    = -eta^2 coth^2(eta)/4 + eta coth(2 eta) - 1/4, eta = pi/l, which vanishes exactly when
+    (coth eta - 1/eta)^2 = 2 tanh(eta)/eta: the note's horocycle criterion (Cor. 20), l* = 0.8439085312925335.
+    So the hypercycle family limits onto the horocycle row by an independent route.
+
 **Figures.** `rows/rows_boundary.png` (one boundary for all curve types), `rows/collar.png` (Bolza systole).
 
 **What this says.** On H^2 the stabilising agent is the geodesic curvature of the curve carrying the vortices, with a
@@ -117,5 +136,5 @@ curves of constant geodesic curvature" at the end of the large-N section (Prop. 
 theorem numbers unchanged), with entries in `docs/results.md`. The note's earlier heuristic ("screening explains the
 stability") is corrected there.
 
-**Open.** A proof that the critical mode is always q = pi (this would make l*(kappa) the exact zero of F(pi));
+**Open.** A proof that F(pi) has a single root in l' for each kappa > 1/sqrt 2 (the threshold is then a curve);
 the same exact-symbol argument for other kernels (Q_1); the analogous family on the sphere (latitude circles only); why 45 degrees (the hypercycle at distance arsinh 1).

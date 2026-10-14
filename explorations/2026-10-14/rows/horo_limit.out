@@ -1,0 +1,4 @@
+numerical zero of I(l): 0.8439085312925334
+closed form I(pi/eta) = -eta**2/(4*tanh(eta)**2) + eta/tanh(2*eta) - 1/4
+eta root = 3.72266962247450934361366309267 -> l* = pi/eta = 0.843908531292533472960725942436
+note's eta_inf (root of (coth e - 1/e)^2 = 2 tanh(e)/e) = 3.72266962247450934361366309267
