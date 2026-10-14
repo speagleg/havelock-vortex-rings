@@ -36,6 +36,7 @@ A row equally spaced along any of them is a relative equilibrium.
 | `modes_general.py` | Item 12: mode-sum criterion F_nu(pi) for the kernels Q_nu; Q_1 thresholds and horocycle value -> `modes_general.out` |
 | `dual_series.py` | Item 13: theta-function form, exact modular dual series, elementary closed-form threshold -> `dual_series.out` |
 | `plot_closed_form.py` | `closed_form.png`: exact threshold vs the closed form and the proved bound |
+| `single_root_cert.py` | Item 14: Arb certificate that each kappa has exactly one threshold (needs `pip install python-flint`; ~5 s) -> `single_root_cert.out` |
 
 **Results.**
 
@@ -162,6 +163,16 @@ A row equally spaced along any of them is a relative equilibrium.
     at fixed arc spacing F0 is exactly the horocycle criterion. This is the hypercycle generalisation of the note's
     Cor. 20: one closed formula for the whole family between kappa ~ 0.8 and the horocycle. Figure `closed_form.png`.
 
+14. *The threshold is a single curve: CERTIFIED (Arb ball arithmetic, python-flint).* For every kappa in (1/sqrt 2, 1),
+    F(pi) has exactly one root in l', crossed transversally (unstable below, stable above). Method: show dF/dl' > 0 at
+    every zero with alpha < pi/4 (zeros with alpha >= pi/4 are excluded by item 9), so each F(alpha, .) can only cross
+    upwards; F < 0 at small spacing and F > 0 for cosh l' >= 1/(2k^2-1) (item 10). Coverage of all zeros:
+    l' >= 6 analytic with an explicit O(r^3) remainder (-P2 in [1.95, 2.01] vs needed 0.32); 0.25 <= l' <= 6 by 15,225
+    adaptive boxes (sign of G, or dG/dl' > 0) with Lambert-series tail bounds; l' < 0.25 in (alpha, eta = pi alpha/l')
+    via the dual series of item 13: eta >= 7 elementary (F <= F0 < 0), eta <= 2.5 elementary (F0 >= h(eta) - O(eta^2 t)
+    beats R), and 113 boxes in between. Consequences: the stable set is exactly {l >= l*(kappa)} with l* real-analytic;
+    l'* = l* sin(alpha) is strictly decreasing in kappa (every g_j increases with kappa^2, item 9).
+
 **Figures.** `rows/rows_boundary.png` (one boundary for all curve types), `rows/collar.png` (Bolza systole),
 `rows/closed_form.png` (exact threshold vs the elementary closed form).
 
@@ -172,6 +183,5 @@ curves of constant geodesic curvature" at the end of the large-N section (Prop. 
 theorem numbers unchanged), with entries in `docs/results.md`. The note's earlier heuristic ("screening explains the
 stability") is corrected there.
 
-**Open.** A proof that F(pi) has a single root in l' for each kappa > 1/sqrt 2 (the threshold is then a curve);
-instability below 1/sqrt 2 at every spacing for nu >= 1; a closed form for the Q_1 horocycle threshold 1.4491;
+**Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 1; a closed form for the Q_1 horocycle threshold 1.4491;
 the analogous family on the sphere (latitude circles only).

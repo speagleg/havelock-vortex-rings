@@ -1,0 +1,6 @@
+A  (l' >= 6):  -P2 in [1.950164, 2.010096],  needed > 0.3192:  True
+B  (0.25 <= l' <= 6): 15225 boxes, 2719 decided by dG/dl' > 0, all others by the sign of G  [3 s]
+C3 (2.5 <= eta <= 7, l' < 0.25): 113 boxes, 29 by dF0/deta < 0; R <= 6.78e-09, |dR/deta| <= 6.20e-07
+C2 (eta <= 2.5): min over eta of h/eta^2 - bound >= 0.0222 > R/eta^2 <= 3.04e-32: True
+C1 (eta >= 7): F <= F0 <= (pi s/l')[coth 2eta - (eta/2pi) coth^2 eta] < 0, since 7/(2pi) > coth 14: True
+total 3 s

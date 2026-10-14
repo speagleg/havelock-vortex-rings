@@ -141,7 +141,8 @@ nonlinear (Lyapunov) stability.\\
 $C_1$ (derived, remainder not bounded); the constant $W$ in the Krein-window width, and the critical block being the
 only indefinite block on the whole window for odd $N\ge17$ (\S\ref{sec:asym}); the stability boundary of rows on
 hypercycles: the criterion $F(\pi)\ge0$, the critical curvature $1/\sqrt2$ and an explicit sufficient spacing are DERIVED for
-the tanh model, while the roots $\ell^*(\kappa)$ and their uniqueness are computed (end of \S\ref{sec:asym}).\\\bottomrule
+the tanh model, that each $\kappa$ has exactly one threshold is CERTIFIED (Arb), and the threshold values $\ell^*(\kappa)$ are
+computed (end of \S\ref{sec:asym}).\\\bottomrule
 \end{tabular}
 \end{center}
 Nonlinear (Lyapunov) stability is claimed only in the form ``positive-definite Hessian on the non-rotational
@@ -890,8 +891,8 @@ $|\varepsilon_N'|\le0.012\,x^2$ (\texttt{large\_n.out}, item~9). For $N\le15$ th
 
 \subsection*{Rows on curves of constant geodesic curvature}
 \emph{Status: for the tanh model the exact stability criterion (a one-variable series), the critical curvature
-$1/\sqrt2$ and an explicit stability bound are DERIVED (by hand, sympy-checked, unrefereed); the roots $\ell^*(\kappa)$ of the
-criterion and their uniqueness are NUMERICAL; exploratory, scripts in
+$1/\sqrt2$ and an explicit stability bound are DERIVED (by hand, sympy-checked, unrefereed); that the threshold is a single
+curve is CERTIFIED (Arb ball arithmetic); the values $\ell^*(\kappa)$ are computed; exploratory, scripts in
 \texttt{explorations/2026-10-14/rows/}.} The horocycle belongs to a one-parameter family of homogeneous curves in
 $\mathbb H^2$, distinguished by their geodesic curvature $\kappa$: geodesics ($\kappa=0$), hypercycles ($0<\kappa<1$, the
 curves at constant distance $h$ from a geodesic, $\kappa=\tanh h$), horocycles ($\kappa=1$) and circles ($\kappa=\coth r>1$).
@@ -990,7 +991,7 @@ F(\pi)=\sum_{n\ge1}\Big[\big(\sin2\alpha\sin2n\alpha-2n\sin^2\!\alpha\sin^2n\alp
 -2n\sin^2\!\alpha\cos^2n\alpha\,\frac{r_n}{1+r_n}\Big],
 \]
 whose leading term at large spacing is $2\sin^2\!\alpha\cos2\alpha\,e^{-\ell'}$. Its root reproduces the supercell thresholds (to $10^{-6}$), and
-for every $\kappa$ tested it changes sign exactly once in $\ell'$ (NUMERICAL); e.g.\ $\ell^*(0.8)=2.2554766253$. As $\alpha\to0$
+for every $\kappa\in(1/\sqrt2,1)$ it changes sign exactly once in $\ell'$ (CERTIFIED, (g) below); e.g.\ $\ell^*(0.8)=2.2554766253$. As $\alpha\to0$
 at fixed arc spacing $\ell=\ell'/\sin\alpha$, $n\alpha\to t$ and the series becomes
 \[
 \int_0^\infty\Big[\frac{2\sin2t-2t\sin^2t}{e^{\ell t}-1}-\frac{2t\cos^2t}{e^{\ell t}+1}\Big]dt
@@ -1035,6 +1036,26 @@ so $F(\pi)<F_0$ there. So the elementary equation $F_0=0$ is a closed-form thres
 $10^{-4}$ at $\kappa=0.8$, $10^{-11}$ at $0.9$ and $10^{-20}$ at $0.95$, and wherever $F_0<0$ the row is unstable
 (Fig.~\ref{fig:closed}). As $\alpha\to0$ at fixed arc spacing, $F_0$ becomes the horocycle criterion of (d) exactly. Near
 $\kappa=1/\sqrt2$, where $\ell'$ is large, the original series is the useful one.
+
+(g) \emph{The threshold is a single curve} (CERTIFIED; \texttt{single\_root\_cert.py}, Arb ball arithmetic via python-flint,
+a few seconds). For every $\kappa\in(1/\sqrt2,1)$, $F(\pi)$ has exactly one root $\ell'^*(\kappa)$, and it is transversal: the
+row is unstable for $\ell'<\ell'^*$ and stable for $\ell'>\ell'^*$. It suffices to show $\partial_{\ell'}F>0$ at every zero with
+$\alpha<\pi/4$. Then $F(\alpha,\cdot)$ can only cross zero upwards, and it does cross, since $F<0$ at small spacing and $F>0$ by (a).
+Zeros with $\alpha\ge\pi/4$ are excluded by (c). The zeros are covered by three regions.
+\begin{itemize}
+\item $\ell'\ge6$: here $G=F/\sin^2\alpha=P_1r+P_2r^2+E$, with $r=e^{-\ell'}$, $P_1=2\cos2\alpha$ and $|E|+|rE_r|\le0.32\,r^2$. At a
+zero this gives $\partial_{\ell'}G=-P_2r^2+E-rE_r$. By (a) every zero has $2\kappa^2-1<1/\cosh6$, so there $-P_2\in[1.95,2.01]$.
+\item $0.25\le\ell'\le6$: $15{,}225$ adaptive boxes. On each box the Lambert series of $G$, with tail bounds, either excludes
+$0$ or gives $\partial_{\ell'}G>0$.
+\item $\ell'<0.25$, in the variables $(\alpha,\eta)$ with $\eta=\pi\alpha/\ell'$ and the dual series $F=F_0-R$, $0\le R$:
+for $\eta\ge7$, $F\le F_0<0$ by an elementary estimate; for $\eta\le2.5$, $F_0\ge h(\eta)-\eta^2\big[\tfrac{2t^2}3(\tfrac12+\eta)+\tfrac{2t}\pi\big]$
+with $t=0.25/\pi$ and $h$ the horocycle function, which exceeds $R$ (margin $0.022\,\eta^2$ against $R\le3\cdot10^{-32}\eta^2$);
+in between, $113$ boxes, each with $F_0-R_{\max}>0$, $F_0<0$, or $\partial_\eta F_0+\max|\partial_\eta R|<0$, using
+$\partial_{\ell'}F|_\alpha=-(\eta/\ell')\partial_\eta F$.
+\end{itemize}
+So the stable set of hypercycle rows is exactly $\{\ell\ge\ell^*(\kappa)\}$, with $\ell^*$ real-analytic (by transversality).
+Since every $g_j$ in (c) increases with $\kappa^2$, $\ell'^*(\kappa)$ is strictly decreasing. By (a), $\ell'^*\to\infty$ as
+$\kappa\downarrow1/\sqrt2$. In arc length the computed $\ell^*(\kappa)$ decreases to the horocyclic value $0.8439$.
 
 By (a) and (c), $1/\sqrt2$ is the exact critical curvature of the tanh model: at and below it no spacing is stable, and above
 it every spacing beyond $\ell_A(\kappa)$ is. The kernel-independence in Prop.~\ref{prop:kappac} remains a leading-order
@@ -1131,7 +1152,7 @@ independent numerical recomputation). No human expert in point-vortex dynamics h
 without remainder bounds.
 \item \textbf{Rows on hypercycles.} For the tanh model the critical curvature $1/\sqrt2$, instability at and below it at every
 spacing, the sufficient bound $\ell_A(\kappa)$, the criterion $F(\pi)\ge0$ and its horocycle limit are derived by hand with
-sympy checks (unrefereed); that $F(\pi)$ has a single root in $\ell'$ is numerical. For the screened kernels $Q_\nu$
+sympy checks (unrefereed); that $F(\pi)$ has a single root in $\ell'$ is certified with Arb (g), not proved on paper. For the screened kernels $Q_\nu$
 the mode expansion (d)--(e) gives the same criterion and critical mode; instability below $1/\sqrt2$ is numerical there. For kernels outside the family $Q_\nu$ (Prop.~\ref{prop:kappac}) only the leading-order criterion is derived.
 \item \textbf{Finite range.} Palindromy, irreducibility and the degree pattern are certified only for
 $N\le16$ (Conjecture~\ref{conj:deg}). Irreducibility for $N\le16$ is certified by PARI/GP and checked in Lean.
