@@ -1,0 +1,24 @@
+1. Checks: symbol from the closed forms vs the q -> pi and q -> 0 expansions
+   kappa 0.8, l 3.0: B''(pi) fd 0.092302 vs 0.092302;  delta'(pi) fd 0.096023 vs 0.096023
+   kappa 0.95, l 1.5: B''(pi) fd 0.323474 vs 0.323474;  delta'(pi) fd 0.128654 vs 0.128654
+
+2. At the spectral threshold l*(kappa): critical-mode velocity v vs the chiral shift delta'(pi), and the q -> 0 sound
+   kappa     l*        v = sqrt(|C| B''/2)   delta'(pi)    |delta'|/v    c0 (q->0)   delta'(0)   |delta'(0)|/c0
+   0.720   4.76351     3.540475e-02      3.28927e-02     0.9290   4.0620e-02  -3.8085e-02     0.9376
+   0.750   3.18633     1.101503e-01      8.54764e-02     0.7760   1.6499e-01  -1.3866e-01     0.8405
+   0.800   2.25548     2.326698e-01      1.24885e-01     0.5367   4.7244e-01  -3.4886e-01     0.7384
+   0.850   1.76977     3.972012e-01      1.30910e-01     0.3296   9.5950e-01  -6.4140e-01     0.6685
+   0.900   1.43658     6.460368e-01      1.16277e-01     0.1800   1.7553e+00  -1.0823e+00     0.6166
+   0.950   1.16947     1.043521e+00      8.68864e-02     0.0833   3.1796e+00  -1.8318e+00     0.5761
+   0.980   1.01386     1.441456e+00      6.25088e-02     0.0434   4.8060e+00  -2.6662e+00     0.5548
+   0.995   0.91695     1.798096e+00      4.57926e-02     0.0255   6.4406e+00  -3.4984e+00     0.5432
+
+3. Energetic (ground-state) threshold l_E(kappa) = smallest spacing with E(q) >= 0 for all q, vs spectral l*(kappa)
+   kappa 0.720: spectral l* = 4.763510, energetic l_E = 4.765892  (ratio 1.0005; E >= 0 for all larger l on grid: True)
+   kappa 0.750: spectral l* = 3.186329, energetic l_E = 3.187922  (ratio 1.0005; E >= 0 for all larger l on grid: True)
+   kappa 0.800: spectral l* = 2.255477, energetic l_E = 2.256604  (ratio 1.0005; E >= 0 for all larger l on grid: True)
+   kappa 0.850: spectral l* = 1.769771, energetic l_E = 1.770656  (ratio 1.0005; E >= 0 for all larger l on grid: True)
+   kappa 0.900: spectral l* = 1.436585, energetic l_E = 1.437303  (ratio 1.0005; E >= 0 for all larger l on grid: True)
+   kappa 0.950: spectral l* = 1.169472, energetic l_E = 1.170057  (ratio 1.0005; E >= 0 for all larger l on grid: True)
+   kappa 0.980: spectral l* = 1.013864, energetic l_E = 1.014371  (ratio 1.0005; E >= 0 for all larger l on grid: True)
+   kappa 0.995: spectral l* = 0.916952, energetic l_E = 0.917411  (ratio 1.0005; E >= 0 for all larger l on grid: True)

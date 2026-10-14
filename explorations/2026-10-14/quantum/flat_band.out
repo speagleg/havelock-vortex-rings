@@ -1,0 +1,11 @@
+V = 4*sqrt(K)*(1 - K)**(3/2)*exp(-lp)
+h_uu(q) = 4*(K - 1)*(cos(q) - 1) * e^{-l'}
+h_YY(q) = 4*(K - 1)**2*(K*cos(q) + 3*K - 1) * e^{-l'}
+h_uY(q) = 2*sqrt(K)*(1 - K)**(3/2)*(-exp(lp) + exp(lp + 2*I*q))*exp(-lp - I*q) * e^{-l'}
+(ii) det h(q) / e^{-2l'} - 16 s^6 (2K-1)(1-cos q) = 0
+(i) exact-symbol leading terms minus nearest-neighbour Hessian (uu, YY, uY): [0, 0, 0]
+(iii) K = 1/2: Hessian - w * sum (d ln w)^2, coefficients in vortex 1 rows: {0}
+(iv) K = 1/2: E(q)/e^{-l'} at q = [-3.1  -2.58 -2.07 -1.55 -1.03 -0.52  0.    0.52  1.03  1.55  2.07  2.58
+  3.1 ] -> [0.08316132 1.05942119 1.75910988 1.99956753 1.71802057 0.9879693
+ 0.         0.         0.         0.         0.         0.
+ 0.        ]

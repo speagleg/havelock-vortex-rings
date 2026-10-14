@@ -277,6 +277,22 @@ point (g_lo = 0.500 vs g* = 0.462). A laboratory analogue of the H^2 threshold w
 injection range. It would test Havelock's point-vortex theory there, not the (mathematical) H^2 statement, and the
 margins (+-0.04 in g) are comparable to their 10% strength control and to finite-core corrections. A smooth active background instead of a column is inconclusive (graininess).
 
+## quantum/ — quantised rows: chiral phonons and a flat band at kappa_c
+
+See `quantum/README.md`. Vortex coordinates are conjugate, so a quantised row lives in the lowest Landau level on H^2
+(eps = 1/(2 pi n R^2) for superfluid vortices). Results:
+- *One chiral phonon branch,* E(q) = eps[sqrt(-BC) + delta(q)].
+- *Spectral and energetic (ground-state) thresholds coincide* for every kappa tested, so rows have no Krein window.
+- *The critical point is a Doppler-tilted z = 1 soft mode at q = pi.*
+- *Flat band at kappa_c* (DERIVED, sympy, leading order). The quadratic Hamiltonian has det h(q) =
+  16 e^{-2l'} s^6 (2 kappa^2 - 1)(1 - cos q), so at kappa = 1/sqrt 2 it is singular at EVERY wavenumber. The energy is
+  then w sum (delta ln w_j)^2: bending the chain at fixed bond lengths is free. Half the Brillouin zone is an exactly
+  flat zero-energy band, and the other half propagates one way only (`quantum/dispersion.png`).
+- *Zero-point fluctuations* (Lindemann ratio^2 = Lambda/N_l, N_l = fluid particles per spacing^2, Lambda <~ 0.3)
+  matter only for a few particles per vortex, or in an exponentially narrow window around l*.
+
+Next: the quartic term (Ising vs first order) and the anharmonic lifting of the flat band.
+
 **Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 3 (template in item 16);
 on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal
 H^2 rule); whether a smooth, self-consistently advected trap background (instead of a central column) preserves the
