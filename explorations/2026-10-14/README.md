@@ -207,6 +207,15 @@ comoving vortices in an open universe follow the H^2 dynamics exactly in tau = i
 comoving units. In the Milne wedge of Minkowski space tau is finite, so instabilities freeze out (growth map
 `lorentzian/growth_map.png`).
 
+## channel/ — walls versus curvature
+
+See `channel/README.md`. In strip coordinates the tanh kernel is exactly the Green's function of a flat channel with
+walls at phi = 0, pi, so a hypercycle row and a channel row share the pair interaction. They differ only by the walls'
+image self-term (1/2) ln sin(phi) = -sigma/2, which the H^2 geometric self-energy cancels, and by the mobility
+sin^2(phi). Exact identity: B_H2(q) = sin^2(a) B_ch(q) + sin(2a) V_ch - cos(2a)/2, C_H2 = sin^2(a) C_ch. Result: the channel row
+is never stable (25,600-point scan, min_q B_ch <= -1/2; at large spacing B_ch(pi) -> -csc^2(a)/2), while the H^2 row is
+stable beyond l*(kappa) for kappa > 1/sqrt 2. Walls destabilise; constant negative curvature stabilises.
+
 **Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 1; a closed form for the Q_1 horocycle threshold 1.4491;
 on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal
 H^2 rule).

@@ -1,0 +1,20 @@
+H2: rows = alpha (angle with the wall/ideal boundary), columns = spacing l' in u; S = stable
+          0.2   0.5   1.0   1.5   2.0   3.0   5.0
+  0.300     u     S     S     S     S     S     S
+  0.500     u     u     S     S     S     S     S
+  0.700     u     u     u     u     S     S     S
+  0.785     u     u     u     u     u     u     u
+  0.900     u     u     u     u     u     u     u
+  1.100     u     u     u     u     u     u     u
+  1.300     u     u     u     u     u     u     u
+  1.571     u     u     u     u     u     u     u
+channel: rows = alpha (angle with the wall/ideal boundary), columns = spacing l' in u; S = stable
+          0.2   0.5   1.0   1.5   2.0   3.0   5.0
+  0.300     u     u     u     u     u     u     u
+  0.500     u     u     u     u     u     u     u
+  0.700     u     u     u     u     u     u     u
+  0.785     u     u     u     u     u     u     u
+  0.900     u     u     u     u     u     u     u
+  1.100     u     u     u     u     u     u     u
+  1.300     u     u     u     u     u     u     u
+  1.571     u     u     u     u     u     u     u
