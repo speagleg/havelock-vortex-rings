@@ -196,6 +196,17 @@ So the two share an ingredient but not a mechanism. `sphere/three_geometries.png
 puts sphere, plane and H^2 in one (kappa, spacing) picture: positive curvature confines stability to small dense rings
 (N <= 6), the plane allows N <= 7, negative curvature makes large spacing stabilising for every N.
 
+## lorentzian/ — Lorentzian spacetimes and gravity
+
+See `lorentzian/README.md`. (1) Exact Euclidean-AdS2 dictionary: the strip coordinates are Euclidean global AdS2, a
+hypercycle of curvature kappa is the worldline of a static observer with acceleration a = kappa, a horocycle is the
+extremal (T = 0) horizon, a circle is a thermal circle with the Deser-Levin temperature sqrt(a^2 - 1)/(2 pi), and the
+kernels Q_nu are AdS2 scalar propagators with Delta = nu + 1. So the 1/sqrt 2 rule is a critical acceleration
+a_c = 1/(sqrt 2 L_AdS), and the ring thresholds are temperatures, N T*_N -> 1/l* = 1.18497. (2) Real-time dynamics:
+comoving vortices in an open universe follow the H^2 dynamics exactly in tau = int dt/a^2, so all thresholds hold in
+comoving units. In the Milne wedge of Minkowski space tau is finite, so instabilities freeze out (growth map
+`lorentzian/growth_map.png`).
+
 **Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 1; a closed form for the Q_1 horocycle threshold 1.4491;
 on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal
 H^2 rule).

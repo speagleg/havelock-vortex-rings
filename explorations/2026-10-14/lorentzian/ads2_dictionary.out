@@ -1,0 +1,6 @@
+(1) Wick-rotated strip metric: [[-1/sin(phi)**2, 0], [0, sin(phi)**(-2)]]  = (-dt^2 + dphi^2)/sin^2 phi (global AdS2)
+    check a - |cos phi| on (0, pi/2): 0 0
+(2) proper acceleration of the static observer at sigma = phi: sin(phi)/Abs(tan(phi)) (= geodesic curvature cos(alpha) of the hypercycle)
+(3) T - sqrt(kappa^2 - 1)/(2 pi) = 0
+(4) Delta Q_0 = 0 ;  Delta Q_1 - 2 Q_1 = 0
+    fall-off: Q_0 ~ 2 e^{-d};  Q_1 ~ 4/3 e^{-2d}  (Delta = 1, 2)

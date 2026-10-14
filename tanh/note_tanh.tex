@@ -1013,7 +1013,10 @@ For $\nu=0$ ($\psi_n=\sin n\varphi$) these are the expansions in (d). So for eve
 critical mode is $q=\pi$, and the threshold is the zero of the analogous one-variable series $F_\nu(\pi)$
 (\texttt{modes\_general.py}; checked against direct lattice sums to $10^{-11}$). The lowest mode is $\psi\propto\sin^m\!\varphi$,
 $m=\nu+1$, and its bracket in $F_\nu(\pi)$ equals $m\sin^{2m}\!\alpha\cos2\alpha$ exactly. So the leading large-spacing term is
-$\propto\cos2\alpha\,e^{-m\ell'}$ for every $\nu$, which is the content of Prop.~\ref{prop:kappac} for this family. Geometrically,
+$\propto\cos2\alpha\,e^{-m\ell'}$ for every $\nu$, which is the content of Prop.~\ref{prop:kappac} for this family. The reason $\nu$ drops out: in proper coordinates along the curve the bracket is $\kappa\,\partial_\rho(\psi^2)-P$, where
+$P=(\partial_\rho\psi)^2+(\partial_\tau\psi)^2-\nu(\nu+1)\psi^2$ and the lowest mode has frequency $m$. For $\psi=\sin^m\!\varphi$ one finds
+$P=m\psi^2$ and $\kappa\,\partial_\rho(\psi^2)=2m\kappa^2\psi^2$, so both terms scale with $m$
+(\texttt{explorations/2026-10-14/lorentzian/ground\_mode.py}). Geometrically,
 the hypercycle $\varphi=\alpha$ meets the ideal boundary at angle $\alpha$, so the critical hypercycle is the one meeting it at
 $45^\circ$. For $\nu=1$ the roots of $F_1(\pi)$ reproduce the supercell thresholds ($\ell^*=4.0856$, $3.0055$, $1.9820$ at
 $\kappa=0.75$, $0.8$, $0.9$). As $\kappa\to1$ they tend to $1.4491$, the critical spacing of the horocyclic row for this

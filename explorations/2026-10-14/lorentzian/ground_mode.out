@@ -1,0 +1,4 @@
+P / phi^2              = m
+a d_rho(phi^2) / phi^2 = 2*m*cos(sigma)**2   (a = cos sigma)
+bracket / (m phi^2)    = cos(2*sigma)  = 2 a^2 - 1 = cos 2 sigma
+matches modes_general bracket: True

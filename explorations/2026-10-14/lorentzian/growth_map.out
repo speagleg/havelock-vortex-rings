@@ -1,0 +1,11 @@
+max growth rate lambda_max (Gamma = 2 pi, unit curvature) and critical q/pi
+kappa  0.0, l  1.0: lambda_max = 4.678236  at q/pi = 1.000
+kappa  0.0, l  3.0: lambda_max = 0.304798  at q/pi = 1.000
+kappa  0.5, l  1.0: lambda_max = 4.238359  at q/pi = 1.000
+kappa  0.5, l  3.0: lambda_max = 0.247329  at q/pi = 1.000
+kappa  0.7, l  3.0: lambda_max = 0.136589  at q/pi = 1.000
+kappa  0.8, l  1.5: lambda_max = 0.976425  at q/pi = 1.000
+kappa  0.9, l  1.0: lambda_max = 2.469587  at q/pi = 1.000
+kappa 0.95, l  0.8: lambda_max = 4.088403  at q/pi = 1.000
+Milne freeze-out: total amplification after t0 is exp(lambda_max * Gamma/(2 pi c^2 t0));
+superfluid 4He (Gamma = h/m4 = 9.97e-8 m^2/s): Gamma/c^2 = 1.1e-24 s, so for any t0 >> 1e-24 s the pattern is frozen
