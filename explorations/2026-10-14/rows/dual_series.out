@@ -1,0 +1,16 @@
+1. three forms of F(pi): Lambert series / theta functions / dual series
+   kappa  0.3, l' 5.0:   -0.01030021570406353  rel diff theta  5.2e-40  dual  7.7e-40
+   kappa 0.72, l' 3.0:  -0.000770544772020741  rel diff theta  3.1e-40  dual  1.5e-38
+   kappa 0.72, l' 8.0:   1.179843777401582e-5  rel diff theta  2.3e-37  dual  6.4e-37
+   kappa  0.8, l' 1.5:    0.01523781531973147  rel diff theta  1.2e-40  dual  2.4e-41
+   kappa 0.95, l' 0.3:    -0.4097380153962409  rel diff theta  2.4e-40  dual  1.4e-41
+2. both correction sums positive for kappa >= 1/sqrt 2 (grid): True
+3. arc-length threshold: root of the elementary F0 vs root of the exact series
+   kappa   0.72: l*_F0 =   3.79592725507   l* =    4.7635102681634   relative gap 0.2
+   kappa   0.75: l*_F0 =   3.13347452461   l* =   3.18632924971343   relative gap 0.017
+   kappa    0.8: l*_F0 =     2.255254025   l* =   2.25547662533048   relative gap 9.9e-5
+   kappa   0.85: l*_F0 =    1.7697707254   l* =   1.76977106656359   relative gap 1.9e-7
+   kappa    0.9: l*_F0 =   1.43658468126   l* =   1.43658468127757   relative gap 1.1e-11
+   kappa   0.95: l*_F0 =   1.16947214232   l* =    1.1694721423247   relative gap 3.9e-21
+   kappa   0.99: l*_F0 =  0.953765107288   l* =  0.953765107287605   relative gap -6.1e-47
+   kappa  0.999: l*_F0 =  0.874055600518   l* =    0.8740556005179   relative gap -3.5e-47

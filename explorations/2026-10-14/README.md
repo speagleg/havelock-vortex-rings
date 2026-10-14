@@ -34,6 +34,8 @@ A row equally spaced along any of them is a relative equilibrium.
 | `kernel_coeffs.py` | Item 12: series coefficients of the pair functions for the tanh and Q_1 kernels (Cauchy integral) |
 | `pt_modes.py` | Item 12: the coefficients are Poschl-Teller mode weights (checked for Q_0 and Q_1) |
 | `modes_general.py` | Item 12: mode-sum criterion F_nu(pi) for the kernels Q_nu; Q_1 thresholds and horocycle value -> `modes_general.out` |
+| `dual_series.py` | Item 13: theta-function form, exact modular dual series, elementary closed-form threshold -> `dual_series.out` |
+| `plot_closed_form.py` | `closed_form.png`: exact threshold vs the closed form and the proved bound |
 
 **Results.**
 
@@ -147,7 +149,21 @@ A row equally spaced along any of them is a relative equilibrium.
     Q_1 kernel has critical spacing l* = 1.4491260 (zero of the alpha -> 0 integral; kappa = 0.9999 gives 1.4496).
     For nu = 1, 2, F_nu(pi) < 0 at all 3000 grid points with kappa <= 1/sqrt 2 (NUMERICAL; proved only for nu = 0).
 
-**Figures.** `rows/rows_boundary.png` (one boundary for all curve types), `rows/collar.png` (Bolza systole).
+13. *Closed-form threshold: DERIVED (theta functions + modular transformation; checked to 1e-36).*
+    Using r/(1+r) = r/(1-r) - 2r^2/(1-r^2), F(pi) = sin2a S(a; r) - 2s^2[E(r) - E(r^2)] + 2s^2 C(a; r^2), i.e. log-derivatives
+    of Jacobi theta_1 at nomes e^{-l'/2}, e^{-l'} and the Eisenstein sum E(r) = sum n r^n/(1-r^n). The modular transformation
+    gives the exact dual series (eta = pi a/l', Q1 = e^{-4pi^2/l'}, Q2 = e^{-2pi^2/l'}):
+      F(pi) = F0 - (2pi/l') sum Q1^n/(1-Q1^n)[sin2a sinh(4pi n a/l') - 4pi n s^2/l']
+                 - (2pi^2 s^2/l'^2) sum n Q2^n/(1-Q2^n)[1 + cosh(2pi n a/l')],
+      F0 = (pi sin2a/(2l')) coth(2 eta) - (pi^2 s^2/(4 l'^2)) coth^2(eta) - a sin2a/l' - cos2a/4.
+    Corrections are O(e^{-2pi(pi - a)/l'}) and, for kappa >= 1/sqrt 2, both positive, so F < F0 (F0 < 0 => unstable).
+    The ELEMENTARY equation F0 = 0 is the threshold to 1e-4 at kappa = 0.8, 2e-7 at 0.85, 1e-11 at 0.9, 4e-21 at 0.95;
+    it degrades only near kappa_c (20% at 0.72, where l' is large and the original series is the right tool). As a -> 0
+    at fixed arc spacing F0 is exactly the horocycle criterion. This is the hypercycle generalisation of the note's
+    Cor. 20: one closed formula for the whole family between kappa ~ 0.8 and the horocycle. Figure `closed_form.png`.
+
+**Figures.** `rows/rows_boundary.png` (one boundary for all curve types), `rows/collar.png` (Bolza systole),
+`rows/closed_form.png` (exact threshold vs the elementary closed form).
 
 **What this says.** On H^2 the stabilising agent is the geodesic curvature of the curve carrying the vortices, with a
 sharp minimum kappa_c = 1/sqrt 2, not the ambient curvature by itself. The flat-plane statement "straight rows are

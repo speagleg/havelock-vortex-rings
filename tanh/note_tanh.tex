@@ -1019,6 +1019,23 @@ $\kappa=0.75$, $0.8$, $0.9$). As $\kappa\to1$ they tend to $1.4491$, the critica
 kernel, which is the zero of the $\alpha\to0$ integral. For $\nu=1,2$, $F_\nu(\pi)<0$ at every computed point with
 $\kappa\le1/\sqrt2$, but instability at every spacing is proved only for $\nu=0$, in (c).
 
+(f) \emph{Closed form.} Since $r/(1+r)=r/(1-r)-2r^2/(1-r^2)$, the series for $F(\pi)$ collapses to Jacobi theta functions with
+nomes $e^{-\ell'/2}$ and $e^{-\ell'}$, plus the Eisenstein sum $E(r)=\sum nr^n/(1-r^n)$. The modular transformation
+$\tau\mapsto-1/\tau$ then gives an exact dual series. With $\eta=\pi\alpha/\ell'$, $Q_1=e^{-4\pi^2/\ell'}$ and $Q_2=e^{-2\pi^2/\ell'}$,
+\begin{multline*}
+F(\pi)=F_0-\frac{2\pi}{\ell'}\sum_{n\ge1}\frac{Q_1^n}{1-Q_1^n}\Big[\sin2\alpha\sinh\frac{4\pi n\alpha}{\ell'}-\frac{4\pi n\sin^2\!\alpha}{\ell'}\Big]\\
+-\frac{2\pi^2\sin^2\!\alpha}{\ell'^2}\sum_{n\ge1}\frac{nQ_2^n}{1-Q_2^n}\Big[1+\cosh\frac{2\pi n\alpha}{\ell'}\Big],
+\end{multline*}
+\[
+F_0=\frac{\pi\sin2\alpha}{2\ell'}\coth2\eta-\frac{\pi^2\sin^2\!\alpha}{4\ell'^2}\coth^2\eta-\frac{\alpha\sin2\alpha}{\ell'}-\frac{\cos2\alpha}4
+\]
+(\texttt{dual\_series.py}; the three forms agree to $10^{-36}$). The corrections are $O(e^{-2\pi(\pi-\alpha)/\ell'})$. For
+$\kappa\ge1/\sqrt2$ both sums are positive, since $\sinh x\ge x$ and $\alpha\sin2\alpha-\sin^2\!\alpha=\sin\alpha\,(2\alpha\cos\alpha-\sin\alpha)>0$,
+so $F(\pi)<F_0$ there. So the elementary equation $F_0=0$ is a closed-form threshold. Its root agrees with $\ell^*(\kappa)$ to
+$10^{-4}$ at $\kappa=0.8$, $10^{-11}$ at $0.9$ and $10^{-20}$ at $0.95$, and wherever $F_0<0$ the row is unstable
+(Fig.~\ref{fig:closed}). As $\alpha\to0$ at fixed arc spacing, $F_0$ becomes the horocycle criterion of (d) exactly. Near
+$\kappa=1/\sqrt2$, where $\ell'$ is large, the original series is the useful one.
+
 By (a) and (c), $1/\sqrt2$ is the exact critical curvature of the tanh model: at and below it no spacing is stable, and above
 it every spacing beyond $\ell_A(\kappa)$ is. The kernel-independence in Prop.~\ref{prop:kappac} remains a leading-order
 statement.
@@ -1047,6 +1064,12 @@ hypercycles carry one continuous stability boundary (Fig.~\ref{fig:rows}).
 \caption{Critical spacing of vortex rows on curves of geodesic curvature $\kappa$ in $\mathbb H^2$ (tanh model). Hypercycle
 branch: roots of the exact criterion $F(\pi)=0$; dashed, the proved sufficient bound $\ell_A(\kappa)$. Horocycle point: Cor.~\ref{cor:row}. Ring branch: the
 certified thresholds for $N=8$--$64$. At and below $\kappa=1/\sqrt2$ no spacing is stable (proved).}\label{fig:rows}
+\end{figure}
+
+\begin{figure}[ht]\centering
+\includegraphics[width=\textwidth]{figures/closed_form.png}
+\caption{Left: the exact threshold of hypercycle rows (root of $F(\pi)$), the elementary closed form $F_0=0$ of (f), and the
+proved upper bound $\ell_A(\kappa)$. Right: relative gap between the exact and closed-form thresholds.}\label{fig:closed}
 \end{figure}
 
 \paragraph{Remark (closed surfaces).} Near a closed geodesic of length $L$ a hyperbolic surface is the cylinder
