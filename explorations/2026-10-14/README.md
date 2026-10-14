@@ -38,6 +38,8 @@ A row equally spaced along any of them is a relative equilibrium.
 | `plot_closed_form.py` | `closed_form.png`: exact threshold vs the closed form and the proved bound |
 | `single_root_cert.py` | Item 14: Arb certificate that each kappa has exactly one threshold (needs `pip install python-flint`; ~5 s) -> `single_root_cert.out` |
 | `q1_instability_cert.py`, `q1_mode_consistency.py` | Item 15: Arb certificate of instability below 1/sqrt 2 at every spacing for the Q_1 kernel (Delta = 2) -> `.out` |
+| `q2_instability_cert.py`, `q2_mode_consistency.py` | Item 16: the same for Q_2 (Delta = 3), ~1 min -> `.out` |
+| `q1_horocycle_closed.py` | Item 17: closed form (polylogarithms) of the Q_1 horocycle-row criterion; l* = 1.449125953770 -> `.out` |
 
 **Results.**
 
@@ -185,6 +187,20 @@ A row equally spaced along any of them is a relative equilibrium.
     stability above 1/sqrt 2 for every nu), the critical curvature is exact for the massless (Delta = 1) and the
     Delta = 2 fields.
 
+16. *Delta = 3 as well: CERTIFIED (Arb).* For Q_2 the modes come from the Darboux ladder,
+    psi_n = (1 - n^2 + 3 cot^2 a) sin(na) - 3n cot(a) cos(na), with N_n = pi(n^2-1)(n^2-4)/2. Three regions:
+    - l' >= 5: F_2 = (16/5) s^6 cos 2a r^3 + c4 r^4 + E, with c4 <= -0.760 (Arb) and r1 Eb = 0.736.
+    - 0.02 <= l' <= 5: 103,627 boxes.
+    - l' <= 0.02: the Q_1 argument, with Laplace's integral Q_nu(C) = int (C + sqrt(C^2-1) cosh t)^{-nu-1} dt. It gives
+      Q2 <= Q0/C^2 and -Q2' <= 3/(C^2 (C^2-1)), so sum e_j <= K/l' with K <= 10.86 (rigorous Riemann sum), and margin 0.063.
+    So kappa_c = 1/sqrt 2 is exact for Delta = 1, 2, 3. The same template should work for any integer nu.
+17. *Closed form for the Q_1 horocycle row.* Using sum ln(1 + b^2/j^2) = ln(sinh(pi b)/(pi b)), its alternating version
+    ln(tanh(pi b/2)/(pi b/2)), partial fractions, and sum (-1)^j (j^2 ln(1 + b^2/j^2) - b^2) = b^2/2 - pi int_0^b t^2 csch(pi t) dt,
+    the criterion F(pi) is an explicit combination of coth, csch, zeta(3) and the Legendre chi functions chi_2, chi_3 of
+    e^{-2 pi/l} (b = 2/l). Agreement with the direct lattice sum is 1e-10 (lattice truncation). Root:
+    l* = 1.449125953770052, matching the alpha -> 0 limit of item 12. The tanh threshold needs only coth (Cor. 20); Delta = 2
+    needs trilogarithms.
+
 **Figures.** `rows/rows_boundary.png` (one boundary for all curve types), `rows/collar.png` (Bolza systole),
 `rows/closed_form.png` (exact threshold vs the elementary closed form).
 
@@ -238,6 +254,6 @@ bands several curvature radii wide. On embedded Minding surfaces stable necklace
 only for waists a <~ 0.09 R. A flat-space design (E x B plasma with B ~ csc^2 and a compensating potential) follows
 from the channel identity.
 
-**Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 2; a closed form for the Q_1 horocycle threshold 1.4491;
+**Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 3 (template in item 16);
 on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal
 H^2 rule).

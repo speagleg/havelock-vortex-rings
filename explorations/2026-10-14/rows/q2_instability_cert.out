@@ -1,0 +1,7 @@
+checks: {'mode equation (n=5)': True, 'c3 = (16/5) s^6 cos 2a': True, 'norm N_4': True, 'c4max': -0.7601727189564766, 'g(n) <= 7n for n >= 30': True}
+L (l' >= 5.0): r1*Eb = 0.7355 < -c4max = 0.7602: True
+sanity D_up >= d: True
+K = int e_up <= 10.8587
+S (l' <= 0.02): 41 boxes, max of P + K l'/s^2 <= -0.0627 < 0
+M (0.02 <= l' <= 5.0): 103627 boxes, F_2(pi) < 0 on all
+total 57 s
