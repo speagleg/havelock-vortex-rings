@@ -1,0 +1,7 @@
+Q0 check alpha=0.3: max|b_n - 2n s^2 cos^2(n a)| = 3.6e-13, max|d_n + 2n s^2 sin^2(n a)| = 6.5e-13
+Q0 check alpha=0.5: max|b_n - 2n s^2 cos^2(n a)| = 1.3e-12, max|d_n + 2n s^2 sin^2(n a)| = 9.4e-13
+Q0 check alpha=1.0: max|b_n - 2n s^2 cos^2(n a)| = 3.9e-12, max|d_n + 2n s^2 sin^2(n a)| = 5.1e-12
+Q1: min over n <= 30 of b_n (scaled by max|b_n|), on an alpha grid
+   worst (min b_n/max|b_n|, alpha, n): (np.float64(-3.9075603152436805e-17), np.float64(0.05871347554761046), np.int64(1))
+   alpha = 1: b_n = [-0.      0.7806  0.0413  3.8181  5.5613  0.24    5.0612 10.5151  1.4912
+  4.983  15.3346  4.0446]

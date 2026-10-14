@@ -999,6 +999,26 @@ at fixed arc spacing $\ell=\ell'/\sin\alpha$, $n\alpha\to t$ and the series beco
 This vanishes exactly when $(\coth\eta-1/\eta)^2=2\tanh\eta/\eta$, the horocycle criterion of
 Cor.~\ref{cor:row} (\texttt{horo\_limit.py}). So the hypercycle family limits onto the horocycle row, with the same $\ell_*$.
 
+(e) \emph{Why this works, and other kernels.} In the coordinates $(u,\varphi)$ the operator $-\Delta+\nu(\nu+1)$ becomes
+$\sin^2\!\varphi\,[-\partial_u^2-\partial_\varphi^2+\nu(\nu+1)/\sin^2\!\varphi]$, which separates. The P\"oschl--Teller modes on
+$(0,\pi)$ are $\psi_n=\sin^{\nu+1}\!\varphi\;C^{(\nu+1)}_{n-\nu-1}(\cos\varphi)$, with eigenvalue $n^2$ and $n\ge\nu+1$. So the kernel
+$W_\nu=2\pi G_\nu$ ($\nu=0$: the tanh model; $\nu=1$: $Q_1(\cosh d)$) is
+$W_\nu=2\pi\sum_n e^{-n|u-u_0|}\psi_n(\varphi)\psi_n(\varphi_0)/(2nN_n)$, $N_n=\int_0^\pi\psi_n^2$. With $w_n(x)=2\pi e^{-nx}/(2nN_n)$,
+\begin{gather*}
+b=\sin^2\!\alpha\sum_n w_n\,\psi_n'(\alpha)^2\ \ge0,\qquad d=-\sin^2\!\alpha\sum_n n^2w_n\,\psi_n(\alpha)^2\ \le0,\\
+a=\sum_n w_n\big[2\sin\alpha\cos\alpha\,\psi_n\psi_n'+(\nu(\nu+1)-n^2\sin^2\!\alpha)\psi_n^2\big].
+\end{gather*}
+For $\nu=0$ ($\psi_n=\sin n\varphi$) these are the expansions in (d). So for every $\nu\ge0$ the symbol has the same structure, the
+critical mode is $q=\pi$, and the threshold is the zero of the analogous one-variable series $F_\nu(\pi)$
+(\texttt{modes\_general.py}; checked against direct lattice sums to $10^{-11}$). The lowest mode is $\psi\propto\sin^m\!\varphi$,
+$m=\nu+1$, and its bracket in $F_\nu(\pi)$ equals $m\sin^{2m}\!\alpha\cos2\alpha$ exactly. So the leading large-spacing term is
+$\propto\cos2\alpha\,e^{-m\ell'}$ for every $\nu$, which is the content of Prop.~\ref{prop:kappac} for this family. Geometrically,
+the hypercycle $\varphi=\alpha$ meets the ideal boundary at angle $\alpha$, so the critical hypercycle is the one meeting it at
+$45^\circ$. For $\nu=1$ the roots of $F_1(\pi)$ reproduce the supercell thresholds ($\ell^*=4.0856$, $3.0055$, $1.9820$ at
+$\kappa=0.75$, $0.8$, $0.9$). As $\kappa\to1$ they tend to $1.4491$, the critical spacing of the horocyclic row for this
+kernel, which is the zero of the $\alpha\to0$ integral. For $\nu=1,2$, $F_\nu(\pi)<0$ at every computed point with
+$\kappa\le1/\sqrt2$, but instability at every spacing is proved only for $\nu=0$, in (c).
+
 By (a) and (c), $1/\sqrt2$ is the exact critical curvature of the tanh model: at and below it no spacing is stable, and above
 it every spacing beyond $\ell_A(\kappa)$ is. The kernel-independence in Prop.~\ref{prop:kappac} remains a leading-order
 statement.
@@ -1088,8 +1108,8 @@ independent numerical recomputation). No human expert in point-vortex dynamics h
 without remainder bounds.
 \item \textbf{Rows on hypercycles.} For the tanh model the critical curvature $1/\sqrt2$, instability at and below it at every
 spacing, the sufficient bound $\ell_A(\kappa)$, the criterion $F(\pi)\ge0$ and its horocycle limit are derived by hand with
-sympy checks (unrefereed); that $F(\pi)$ has a single root in $\ell'$ is numerical. For other kernels
-(Prop.~\ref{prop:kappac}) only the leading-order criterion is derived.
+sympy checks (unrefereed); that $F(\pi)$ has a single root in $\ell'$ is numerical. For the screened kernels $Q_\nu$
+the mode expansion (d)--(e) gives the same criterion and critical mode; instability below $1/\sqrt2$ is numerical there. For kernels outside the family $Q_\nu$ (Prop.~\ref{prop:kappac}) only the leading-order criterion is derived.
 \item \textbf{Finite range.} Palindromy, irreducibility and the degree pattern are certified only for
 $N\le16$ (Conjecture~\ref{conj:deg}). Irreducibility for $N\le16$ is certified by PARI/GP and checked in Lean.
 \item \textbf{Nonlinear stability.} This is stated only via Hessian definiteness and modulo $SO(2,1)$ (Remark~\ref{rem:em}). In the

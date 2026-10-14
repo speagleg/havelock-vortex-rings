@@ -30,6 +30,10 @@ A row equally spaced along any of them is a relative equilibrium.
 | `stability_bound.py` | Proofs of item 10 (explicit stability bound, all-mode instability for kappa <= 1/2) -> `stability_bound.out` |
 | `qpi_proof.py` | Item 11: generating-function identities, the critical mode is q = pi, the threshold series, odd-N necklaces -> `qpi_proof.out` |
 | `horo_limit.py` | Item 11: the alpha -> 0 limit of the threshold series is the horocycle criterion of Cor. 20 -> `horo_limit.out` |
+| `pair_generic.py` | Item 12: pair functions for any kernel w(cosh d) |
+| `kernel_coeffs.py` | Item 12: series coefficients of the pair functions for the tanh and Q_1 kernels (Cauchy integral) |
+| `pt_modes.py` | Item 12: the coefficients are Poschl-Teller mode weights (checked for Q_0 and Q_1) |
+| `modes_general.py` | Item 12: mode-sum criterion F_nu(pi) for the kernels Q_nu; Q_1 thresholds and horocycle value -> `modes_general.out` |
 
 **Results.**
 
@@ -127,6 +131,22 @@ A row equally spaced along any of them is a relative equilibrium.
     (coth eta - 1/eta)^2 = 2 tanh(eta)/eta: the note's horocycle criterion (Cor. 20), l* = 0.8439085312925335.
     So the hypercycle family limits onto the horocycle row by an independent route.
 
+12. *Why it works: a mode expansion, valid for the whole screened family Q_nu. DERIVED (identities checked).*
+    In (u, phi) the operator -Delta + nu(nu+1) is sin^2(phi)[-d_u^2 - d_phi^2 + nu(nu+1)/sin^2(phi)] and separates.
+    Poschl-Teller modes psi_n = sin^{nu+1}(phi) C^{(nu+1)}_{n-nu-1}(cos phi), eigenvalue n^2, n >= nu+1, so
+    W_nu = 2 pi G_nu = 2 pi sum_n e^{-n|u|} psi_n(phi) psi_n(phi0)/(2 n N_n). Then, with w_n = 2 pi e^{-n x}/(2 n N_n),
+    b = s^2 sum w_n psi_n'(alpha)^2 >= 0,  d = -s^2 sum n^2 w_n psi_n(alpha)^2 <= 0,
+    a = sum w_n [2 s k psi_n psi_n' + (nu(nu+1) - n^2 s^2) psi_n^2].
+    (nu = 0, psi_n = sin(n phi), gives item 11.) So for every nu: same symbol structure, critical mode q = pi, threshold =
+    zero of a one-variable mode series F_nu(pi) (matches direct lattice sums to 6e-12). The lowest mode
+    psi ~ sin^m(phi), m = nu + 1, contributes exactly m sin^{2m}(alpha) cos(2 alpha): the leading term is ~ cos(2 alpha) e^{-m l'}
+    for every nu. This answers "why 45 degrees": the hypercycle phi = alpha meets the ideal boundary at angle alpha, and the
+    critical one meets it at 45 degrees, where the lowest mode's along-curve (psi'^2) and normal (psi^2) weights balance.
+    Q_1 (nu = 1): roots of F_1(pi) give l* = 5.7296, 4.0856, 3.0055, 1.9820, 1.6859, 1.4949 at kappa = 0.72, 0.75, 0.8,
+    0.9, 0.95, 0.99 (supercell: 4.09, 3.01, 1.98, 1.69, 1.49), one sign change each. New: the horocyclic row with the
+    Q_1 kernel has critical spacing l* = 1.4491260 (zero of the alpha -> 0 integral; kappa = 0.9999 gives 1.4496).
+    For nu = 1, 2, F_nu(pi) < 0 at all 3000 grid points with kappa <= 1/sqrt 2 (NUMERICAL; proved only for nu = 0).
+
 **Figures.** `rows/rows_boundary.png` (one boundary for all curve types), `rows/collar.png` (Bolza systole).
 
 **What this says.** On H^2 the stabilising agent is the geodesic curvature of the curve carrying the vortices, with a
@@ -137,4 +157,5 @@ theorem numbers unchanged), with entries in `docs/results.md`. The note's earlie
 stability") is corrected there.
 
 **Open.** A proof that F(pi) has a single root in l' for each kappa > 1/sqrt 2 (the threshold is then a curve);
-the same exact-symbol argument for other kernels (Q_1); the analogous family on the sphere (latitude circles only); why 45 degrees (the hypercycle at distance arsinh 1).
+instability below 1/sqrt 2 at every spacing for nu >= 1; a closed form for the Q_1 horocycle threshold 1.4491;
+the analogous family on the sphere (latitude circles only).
