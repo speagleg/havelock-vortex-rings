@@ -95,6 +95,7 @@ and on any main theorem that depends on an axiom other than `propext`, `Classica
 | `src/` | The `havelock` Python package (`src/havelock`) |
 | `tests/` | The package's pytest suite |
 | `independent_check/` | An independent from-scratch implementation (no shared code) that checks both results numerically, with its outputs; see its README |
+| `explorations/` | Dated exploratory work (NUMERICAL unless marked): independent review checks, screened and shell-BEC rings, Rossby/strip roll-up, Saturn jets, acoustic ergoregions, and rows on curves of constant geodesic curvature (now in the tanh note as Prop. 22). Each dated folder has its own README |
 | `literature.md` | The works cited, each with one sentence on what it contains |
 | `scripts/`, `REPRODUCE.md` | The reproduction driver and the table of every recorded output |
 

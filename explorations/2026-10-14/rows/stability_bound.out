@@ -1,0 +1,31 @@
+(I)  numerator of b in t = c - 1: [K, 1 - K, 2*K**2 - 4*K + 2] -> coefficients K, 1-K, 2(1-K)^2, all > 0
+(II) a - b = -(K - 1)*(2*K*c - c - 1)/((c - 1)*(-2*K + c + 1))
+     a + b = -(K - 1)*(-4*K**2 + 4*K*c + 2*K - c - 1)/(-2*K + c + 1)**2
+     check vs stated forms: 0 0
+
+Theorem A: sufficient arc spacing l_A = arccosh(1/(2k^2-1))/sqrt(1-k^2) vs exact threshold l*
+   kappa 0.720: l_A = 5.7568   l* = 4.7635   ratio 1.209
+   kappa 0.750: l_A = 4.1858   l* = 3.1863   ratio 1.314
+   kappa 0.800: l_A = 3.2432   l* = 2.2555   ratio 1.438
+   kappa 0.850: l_A = 2.7510   l* = 1.7698   ratio 1.554
+   kappa 0.900: l_A = 2.4255   l* = 1.4366   ratio 1.688
+   kappa 0.950: l_A = 2.1864   l* = 1.1695   ratio 1.870
+   kappa 0.990: l_A = 2.0340   l* = 0.9538   ratio 2.133
+   kappa 0.999: l_A = 2.0033   l* = 0.8741   ratio 2.292
+   kappa -> 1 limit of l_A: 2 (horocycle exact value 0.8439);  kappa -> 1/sqrt2: l_A - l* -> ln2/sqrt(1-k^2) =  0.9802581434685472
+
+Theorem B check: max_q F over spacings, kappa <= 1/2 (must be < 0)
+   max over kappa, l', q of F/|sum a| = -5.613e-13
+
+Bolza systole necklaces (cylinder model): Theorem A gives a sufficient distance h_A from the geodesic
+   N =  2: stable for all h >= h_A = 1.2242  (kappa_A = 0.8409)
+   N =  3: stable for all h >= h_A = 1.5001  (kappa_A = 0.9052)
+   N =  4: stable for all h >= h_A = 1.7339  (kappa_A = 0.9395)
+   N =  5: stable for all h >= h_A = 1.9300  (kappa_A = 0.9587)
+   N =  6: stable for all h >= h_A = 2.0971  (kappa_A = 0.9703)
+   N =  7: stable for all h >= h_A = 2.2418  (kappa_A = 0.9777)
+   N =  8: stable for all h >= h_A = 2.3691  (kappa_A = 0.9826)
+   N =  9: stable for all h >= h_A = 2.4826  (kappa_A = 0.9861)
+   N = 10: stable for all h >= h_A = 2.5848  (kappa_A = 0.9887)
+   N = 11: stable for all h >= h_A = 2.6778  (kappa_A = 0.9906)
+   N = 12: stable for all h >= h_A = 2.7631  (kappa_A = 0.9921)

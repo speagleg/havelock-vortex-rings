@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,booktabs,mathtools}
+\usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -138,7 +139,9 @@ nonlinear (Lyapunov) stability.\\
 \textbf{CONJECTURE} & the degree pattern (\ref{eq:deg}) and irreducibility/palindromy for all $N$.\\
 \textbf{NUMERICAL} & The $1/N$ coefficients
 $C_1$ (derived, remainder not bounded); the constant $W$ in the Krein-window width, and the critical block being the
-only indefinite block on the whole window for odd $N\ge17$ (\S\ref{sec:asym}).\\\bottomrule
+only indefinite block on the whole window for odd $N\ge17$ (\S\ref{sec:asym}); the stability boundary of rows on
+hypercycles between the proved bounds (the critical curvature $1/\sqrt2$, an explicit sufficient spacing above it, and
+instability at every spacing at and below it are DERIVED for the tanh model; end of \S\ref{sec:asym}).\\\bottomrule
 \end{tabular}
 \end{center}
 Nonlinear (Lyapunov) stability is claimed only in the form ``positive-definite Hessian on the non-rotational
@@ -835,9 +838,11 @@ eigenvector also has a tangential part): it is the pairing instability of a vort
 
 \paragraph{Why curvature stabilises.} In (\ref{eq:phi}) the dense limit $\ell\ll R$ ($\eta=\pi/\ell\to\infty$) gives
 $8\Phi\to-1$, unstable at every spacing, as for a straight row in the plane (the classical row instability~\cite{Lamb}).
-The sparse limit $\ell\gg R$ gives $8\Phi\to2$, stable. Heuristically: the tanh interaction is screened beyond one curvature radius
-($-\ln\tanh(d/2)\approx2e^{-d}$), so for large spacing the coupling between neighbours is too weak to drive the pairing
-mode, and $\ell_*$ is where the two effects balance.
+The sparse limit $\ell\gg R$ gives $8\Phi\to2$, stable. Screening alone does not explain this. The tanh interaction is screened beyond one curvature radius
+($-\ln\tanh(d/2)\approx2e^{-d}$), but a row along a \emph{geodesic} of $\mathbb H^2$, with the same interaction and the same
+screening, is unstable at every spacing (subsection ``Rows on curves of constant geodesic curvature'' at the end of
+this section). What stabilises the horocyclic row at large spacing is the bending of the horocycle itself, whose geodesic
+curvature is $1$.
 
 \subsection*{Odd $N$: the threshold is unique}
 \begin{proposition}[PROVED]\label{prop:oddN}
@@ -882,6 +887,126 @@ $N\ge17$.
 \end{proof}
 The constants are crude: on $[5,10]$ the true values are $-\Phi'\ge0.0089$, $|\Delta_N'|\le1/(3N^2)$ and
 $|\varepsilon_N'|\le0.012\,x^2$ (\texttt{large\_n.out}, item~9). For $N\le15$ the certified Thm.~\ref{thm:cert} gives uniqueness.
+
+\subsection*{Rows on curves of constant geodesic curvature}
+\emph{Status: for the tanh model the exact critical curvature, an explicit stability bound and instability below
+$1/\sqrt2$ are DERIVED (by hand, sympy-checked, unrefereed); the exact boundary $\ell^*(\kappa)$ is NUMERICAL; exploratory, scripts in
+\texttt{explorations/2026-10-14/rows/}.} The horocycle belongs to a one-parameter family of homogeneous curves in
+$\mathbb H^2$, distinguished by their geodesic curvature $\kappa$: geodesics ($\kappa=0$), hypercycles ($0<\kappa<1$, the
+curves at constant distance $h$ from a geodesic, $\kappa=\tanh h$), horocycles ($\kappa=1$) and circles ($\kappa=\coth r>1$).
+Vortices equally spaced along any of them form a relative equilibrium; for circles these are the rings of the earlier
+sections. In the upper half-plane write $z=e^{u+i\varphi}$. The hypercycle $\varphi=\alpha$ has $\kappa=\cos\alpha$, the metric
+is $|du+i\,d\varphi|^2/\sin^2\varphi$, and
+\[
+\cosh d_{ij}=1+\frac{\cosh(u_i-u_j)-\cos(\varphi_i-\varphi_j)}{\sin\varphi_i\sin\varphi_j},\qquad
+\dot u_i=\sin^2\varphi_i\,\partial_{\varphi_i}H,\qquad \dot\varphi_i=-\sin^2\varphi_i\,\partial_{u_i}H .
+\]
+The row $u_k=k\ell'$, $\varphi_k=\alpha$ (arc spacing $\ell=\ell'/\sin\alpha$) translates along the hypercycle.
+
+\begin{proposition}[large-spacing criterion; DERIVED at leading order]\label{prop:kappac}
+Let $W(d)\sim A\,e^{-\gamma d}$ as $d\to\infty$, with $A,\gamma>0$ (the tanh model has $A=2$, $\gamma=1$). To leading order in
+$e^{-\gamma\ell'}$, the row on the hypercycle of curvature $\kappa$ is spectrally stable if and only if $\kappa\ge1/\sqrt2$,
+whatever $A$ and $\gamma$. The critical mode is the pairing mode $\theta=\frac12$.
+\end{proposition}
+\begin{proof}[Derivation]
+At large spacing only nearest neighbours contribute at leading order, and $e^{-\gamma d}\simeq(\sin\varphi_i\sin\varphi_j)^\gamma
+e^{-\gamma|u_i-u_j|}$ up to a constant factor. Linearise at $u_k=k\ell'+U_k$, $\varphi_k=\alpha+P_k$ and take Bloch waves
+$e^{iqk}$. The $2\times2$ symbol has equal diagonal entries, and its off-diagonal entries are positive multiples of
+\[
+\gamma\cos^2\!\alpha\,(1+\cos q)+2\cos^2\!\alpha-1\qquad\text{and}\qquad \cos q-1\le0 .
+\]
+So the exponents are purely imaginary for every $q$ if and only if the first is $\ge0$ for every $q$. Its minimum, at
+$q=\pi$, is $\cos2\alpha$, which is $\ge0$ if and only if $\cos\alpha\ge1/\sqrt2$ (sympy: \texttt{asymptotic\_check.py}).
+\end{proof}
+For the tanh model the conclusion holds exactly, at every spacing:
+
+\paragraph{Exact symbol (tanh model; DERIVED, sympy-checked).} Write $K=\kappa^2$, $c_j=\cosh(j\ell')$ and
+$D_j=c_j+1-2K=c_j-\cos2\alpha>0$. Each pair contribution to $\dot u_0$ is even in $u_0-u_j$ and each contribution to
+$\dot\varphi_0$ is odd. Hence at Bloch wavenumber $q$ the symbol is $\left(\begin{smallmatrix}i\delta&B\\C&i\delta\end{smallmatrix}\right)$,
+with equal, purely imaginary diagonal entries, $\delta(q)=-2\sqrt K\sin^3\!\alpha\sum_{j\ge1}\sinh(j\ell')\sin(qj)/D_j^2$, and
+\[
+B(q)=2\sum_{j\ge1}\big[a(c_j)+b(c_j)\cos qj\big],\qquad C(q)=2\sum_{j\ge1}d(c_j)\,(1-\cos qj),
+\]
+\begin{gather*}
+a(c)=\sin^2\!\alpha\,\frac{(3K-1)c^2-(4K^2-K+1)c+2K^2}{(c-1)D^2},\\
+b(c)=\sin^2\!\alpha\,\frac{Kc^2+(1-3K)c+2K^2-2K+1}{(c-1)D^2},\qquad
+d(c)=-\sin^4\!\alpha\,\frac{c^2+c-2K}{(c-1)D^2}
+\end{gather*}
+(\texttt{symbol\_q.py}). Since $d<0$, $C(q)<0$ for $q\ne0$, and the exponents are $i\delta\pm\sqrt{BC}$. So the row is spectrally
+stable if and only if
+\[
+F(q):=\sum_{j\ge1}\big[a(c_j)+b(c_j)\cos qj\big]\ \ge\ 0\qquad\text{for all }q .
+\]
+This reproduces the supercell growth rates to $7$ digits and the thresholds $\ell^*(\kappa)$ below to $6$--$7$ digits, up to
+$\kappa=0.999$ (\texttt{exact\_symbol.py}). In every case computed the minimum over $q$ is at $q=\pi$ (NUMERICAL). Two
+identities do the work: $b(c)>0$ for $c>1$ (in $t=c-1$ its numerator has coefficients $K$, $1-K$, $2(1-K)^2$), and
+\[
+a-b=\sin^2\!\alpha\,\frac{(2K-1)c-1}{(c-1)D},\qquad a+b=\sin^2\!\alpha\,\frac{(4K-1)c-(4K^2-2K+1)}{D^2}.
+\]
+
+\paragraph{Consequences (tanh model; DERIVED, sympy-checked).}
+(a) \emph{Stability.} If $\kappa>1/\sqrt2$ and $\cosh\ell'\ge1/(2\kappa^2-1)$, then $a_j-b_j\ge0$ for every $j$ (strictly for
+$j\ge2$), so $F(q)\ge\sum_j(a_j-b_j)>0$ and the row is stable. In arc length the condition is
+$\ell\ge\ell_A(\kappa)=\operatorname{arcosh}\!\big(1/(2\kappa^2-1)\big)/\sqrt{1-\kappa^2}$, which exceeds the true threshold by a
+factor $1.2$--$2.3$ (dashed in Fig.~\ref{fig:rows}) and tends to $2$ as $\kappa\to1$ (\texttt{stability\_bound.py}).
+(b) \emph{All-mode instability for $\kappa\le\frac12$.} Then $4K-1\le0$, so $a_j+b_j<0$ for every $j$ and
+$F(q)\le\sum_j(a_j+b_j)<0$ for every $q$: every Bloch mode $q\ne0$ grows, at every spacing.
+(c) \emph{Instability for $\kappa\le1/\sqrt2$ at every spacing.} At $q=\pi$, $F(\pi)=\sin^2\!\alpha\sum_{j\ge1}g_j$ with
+$g_j=(a_j-b_j)/\sin^2\alpha$ for odd $j$ and $(a_j+b_j)/\sin^2\alpha$ for even $j$, i.e.
+\[
+g_j=\frac{(2K-1)c_j-1}{(c_j-1)D_j}\ (j\ \text{odd}),\qquad g_j=\frac{(4K-1)c_j-(4K^2-2K+1)}{D_j^2}\ (j\ \text{even}).
+\]
+Every $g_j$ is strictly increasing in $K$ ($\partial_Kg=2(c+1)/D^2$ for odd $j$ and $2(2c^2+c-1-2K)/D^3$ for even $j$), so for
+$K\le\frac12$ the sum is at most its value at $K=\frac12$,
+\[
+G(\ell')=\sum_{m\ge1}\Big[-\frac1{(c_{2m-1}-1)c_{2m-1}}+\frac{c_{2m}-1}{c_{2m}^2}\Big],
+\]
+and $G<0$ for every $\ell'>0$. For $\ell'\ge0.75$ keep only $j=1$ among the odd terms and use $(c-1)/c^2<\operatorname{sech}(j\ell')
+<2e^{-j\ell'}$: with $q_0=e^{-2\ell'}$, $G<-4q_0/(1+q_0)^2+2q_0/(1-q_0)$, which is negative for $q_0<\sqrt5-2$, i.e.\ $\ell'>0.722$.
+For $\ell'\le1.2$ bound the even terms by $\int_0^\infty\operatorname{sech}(2\ell'x)\,dx=\pi/(4\ell')$; then $G<0$ follows from
+$(\cosh x-1)\cosh x<4x/\pi$ on $(0,1.2]$, which holds because the difference is convex, vanishes at $0$ and is $-0.060$ at
+$1.2$. So $B(\pi)<0<-C(\pi)$ and the pairing mode grows at the real rate $\sqrt{B(\pi)C(\pi)}$
+(\texttt{instability\_proof\_check.py}). The even terms alone are positive at large $c_j$ when $\frac14<K<\frac12$
+(\texttt{pair\_sign.py}); only the sum is signed.
+
+By (a) and (c), $1/\sqrt2$ is the exact critical curvature of the tanh model: at and below it no spacing is stable, and above
+it every spacing beyond $\ell_A(\kappa)$ is. The kernel-independence in Prop.~\ref{prop:kappac} remains a leading-order
+statement.
+
+\paragraph{Numerical results (tanh model).} The full linearisation (supercells of $40$ vortices with periodic images,
+\texttt{rows.py}) gives the following. (i) Rows on geodesics and on the hypercycle $\kappa=0.5$ are unstable at every spacing
+tested, $0.5\le\ell\le80$. (ii) At spacings $40$ and $80$ the critical curvature is $0.7071064$. (iii) The critical spacing
+$\ell^*(\kappa)$ is $4.76$, $3.19$, $2.26$, $1.44$, $1.01$, $0.874$ at $\kappa=0.72$, $0.75$, $0.8$, $0.9$, $0.98$, $0.999$; it
+diverges at $\kappa=1/\sqrt2$ and approaches the horocyclic value $\ell_*=0.8439$ as $\kappa\to1$. (iv) Just below threshold
+the growing mode is always $\theta=\frac12$, and the threshold is the zero of a single lattice sum, the $\theta=\frac12$
+off-diagonal entry $A_{UP}(\pi)=B(\pi)$ (to $6$--$7$ digits with the closed forms above). (v) For the screened kernel $W=Q_1(\cosh d)$ (the
+Green's function of $\Delta-2$, $\gamma=2$) the critical curvature is again $0.7071061$, while $\ell^*(\kappa)$ is larger
+($1.98$ at $\kappa=0.9$). With $\epsilon=e^{-\ell'}$ the pairing sum of the tanh model expands as
+\[
+\frac{A_{UP}(\pi)}{4\sin^2\alpha}=(2\kappa^2-1)\,\epsilon+(8\kappa^4-3)\,\epsilon^2+4(8\kappa^6-8\kappa^4+2\kappa^2-1)\,\epsilon^3+O(\epsilon^4)
+\]
+(sympy, \texttt{next\_order.py}, checked against the exact sum), so $\ell^*(\kappa)\simeq-\ln(2\kappa^2-1)/\sqrt{1-\kappa^2}$ as
+$\kappa\downarrow1/\sqrt2$, within $0.1\%$ at $\kappa=0.72$. The series is only asymptotic.
+
+For $\kappa>1$ the same boundary is traced by the rings. The threshold ring of $N$ vortices has $\kappa=\coth r_*$ and spacing
+$\ell_N=2\pi\sinh r_*/N$, and Thm.~\ref{thm:largeN} gives $(\kappa,\ell_N)\to(1,\ell_*)$. So circles, the horocycle and
+hypercycles carry one continuous stability boundary (Fig.~\ref{fig:rows}).
+
+\begin{figure}[ht]\centering
+\includegraphics[width=0.82\textwidth]{figures/rows_boundary.png}
+\caption{Critical spacing of vortex rows on curves of geodesic curvature $\kappa$ in $\mathbb H^2$ (tanh model). Hypercycle
+branch: NUMERICAL; dashed, the proved sufficient bound $\ell_A(\kappa)$. Horocycle point: Cor.~\ref{cor:row}. Ring branch: the
+certified thresholds for $N=8$--$64$. At and below $\kappa=1/\sqrt2$ no spacing is stable (proved).}\label{fig:rows}
+\end{figure}
+
+\paragraph{Remark (closed surfaces).} Near a closed geodesic of length $L$ a hyperbolic surface is the cylinder
+$\mathbb H^2/\langle u\mapsto u+L\rangle$, and a necklace of $N$ vortices at distance $h$ from the geodesic is a hypercycle row
+with period $L$. By the collar lemma the collar has half-width $w=\operatorname{arsinh}(1/\sinh(L/2))$, so curvatures inside it
+satisfy $\kappa\le\tanh w$. For the systole of the Bolza surface ($\cosh(L/2)=1+\sqrt2$) this bound is exactly $\sqrt2-1<\frac12$,
+so by Consequence (b) every Bloch mode of every necklace inside the collar grows: no necklace of $N\ge2$ vortices, of either
+parity, is stable there (DERIVED; \texttt{collar.py} agrees for $2\le N\le12$). By (a) the necklace is stable once
+$\tanh^2h\ge\frac12\big(1+1/\cosh(L/N)\big)$, e.g.\ $h\ge1.22$ for $N=2$ (the computed threshold is $1.06$). Both statements
+are for the cylinder model only: the rest of the surface and the zero-net-circulation constraint are not modelled.
 
 \section{Comparison with the sinh model and the flat disk}\label{sec:compare}
 \begin{center}
@@ -929,6 +1054,10 @@ independent numerical recomputation). No human expert in point-vortex dynamics h
 \item \textbf{Large $N$.} The limit $\cosh r_*/N\to\kappa_\infty$ and the critical spacing are proved
 (Thm.~\ref{thm:largeN}), and so is the horocyclic-row picture (Prop.~\ref{prop:row}); the $1/N$ coefficients are derived
 without remainder bounds.
+\item \textbf{Rows on hypercycles.} For the tanh model the critical curvature $1/\sqrt2$, instability at and below it at every
+spacing, and the sufficient bound $\ell_A(\kappa)$ are derived by hand with sympy checks (unrefereed); that the critical mode is
+always $q=\pi$, and hence the exact boundary $\ell^*(\kappa)$, are numerical. For other kernels
+(Prop.~\ref{prop:kappac}) only the leading-order criterion is derived.
 \item \textbf{Finite range.} Palindromy, irreducibility and the degree pattern are certified only for
 $N\le16$ (Conjecture~\ref{conj:deg}). Irreducibility for $N\le16$ is certified by PARI/GP and checked in Lean.
 \item \textbf{Nonlinear stability.} This is stated only via Hessian definiteness and modulo $SO(2,1)$ (Remark~\ref{rem:em}). In the

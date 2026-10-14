@@ -1,0 +1,13 @@
+Bolza systole L = 3.057142, collar half-width w = 0.440687, max kappa in collar = 0.4142
+N   stable inside the collar?   first stable distance h* (kappa*, spacing*)
+ 2      no                    h* = 1.0574  (kappa* = 0.7846, spacing 2.4657)
+ 3      no                    h* = 1.1494  (kappa* = 0.8176, spacing 1.7697)
+ 4      no                    h* = 1.3583  (kappa* = 0.8760, spacing 1.5846)
+ 5      no                    h* = 1.4608  (kappa* = 0.8978, spacing 1.3884)
+ 6      no                    h* = 1.6014  (kappa* = 0.9219, spacing 1.3149)
+ 7      no                    h* = 1.6901  (kappa* = 0.9342, spacing 1.2239)
+ 8      no                    h* = 1.7989  (kappa* = 0.9467, spacing 1.1862)
+ 9      no                    h* = 1.8755  (kappa* = 0.9541, spacing 1.1341)
+10      no                    h* = 1.9645  (kappa* = 0.9614, spacing 1.1116)
+11      no                    h* = 2.0316  (kappa* = 0.9662, spacing 1.0779)
+12      no                    h* = 2.1070  (kappa* = 0.9709, spacing 1.0630)

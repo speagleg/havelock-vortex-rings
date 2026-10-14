@@ -1,0 +1,20 @@
+1. relative growth max Re(lambda)/max|lambda|: exact symbol vs supercell (rows.stab_hyper, M = 40)
+   kappa 0.5, l 2.0: symbol 1.000000e+00   supercell 1.000000e+00
+   kappa 0.7, l 3.0: symbol 5.874158e-01   supercell 5.874158e-01
+   kappa 0.8, l 1.5: symbol 1.000000e+00   supercell 1.000000e+00
+   kappa 0.95, l 0.9: symbol 1.000000e+00   supercell 1.000000e+00
+   kappa 0.9, l 2.0: symbol 0.000000e+00   supercell 1.540507e-10
+2. critical arc spacing: exact criterion vs supercell bisection; critical q
+   kappa  0.720: 4.763510  vs 4.763478   q_crit/pi = 1.000
+   kappa  0.730: 3.995984  vs 3.995968   q_crit/pi = 1.000
+   kappa  0.740: 3.523838  vs 3.523828   q_crit/pi = 1.000
+   kappa  0.750: 3.186329  vs 3.186323   q_crit/pi = 1.000
+   kappa  0.770: 2.714999  vs 2.714995   q_crit/pi = 1.000
+   kappa  0.800: 2.255477  vs 2.255475   q_crit/pi = 1.000
+   kappa  0.850: 1.769771  vs 1.769770   q_crit/pi = 1.000
+   kappa  0.900: 1.436585  vs 1.436584   q_crit/pi = 1.000
+   kappa  0.950: 1.169472  vs 1.169472   q_crit/pi = 1.000
+   kappa  0.980: 1.013864  vs 1.013864   q_crit/pi = 1.000
+   kappa  0.990: 0.953765  vs 0.953765   q_crit/pi = 1.000
+   kappa  0.995: 0.916952  vs 0.916952   q_crit/pi = 1.000
+   kappa  0.999: 0.874056  vs 0.874055   q_crit/pi = 1.000

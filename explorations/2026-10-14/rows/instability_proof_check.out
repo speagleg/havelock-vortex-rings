@@ -1,0 +1,6 @@
+0. closed form vs finite-difference lattice sum: max relative difference 3.3e-06
+1. d g_odd/dK  = 2*(c + 1)/(-2*K + c + 1)**2    (> 0 for c > 1)
+   d g_even/dK = 2*(-2*K + 2*c**2 + c - 1)/(-2*K + c + 1)**3    (> 0 for c > 1, K < 1: (2c-1)(c+1) > 2 > 2K)
+2a. 2(1-q) - (1+q)^2 = -q**2 - 4*q + 1 ; root q = -2 + sqrt(5) -> l' > 0.7218177375894052
+2b. phi(1.2) = -0.06006943752381648 ; phi'' = -cosh(x) + 2*cosh(2*x) (> 0)
+3. max over 650 spacings of G(l') = -7.550e-11 (must be < 0); G*e^(2l') at l'=12: -2.0000 (asymptote -2)
