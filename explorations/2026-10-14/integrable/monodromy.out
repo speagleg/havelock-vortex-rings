@@ -1,0 +1,6 @@
+Volterra (g = 1)        : 149 loops (1 failed); b-mismatch: fraction > 1e-6 = 0.00 (median 2.3e-14);  Y-mismatch: fraction > 1e-6 = 0.09, of which |dY|/2pi near an integer: 1.00
+lam = -2 (vortex row)   : 150 loops (0 failed); b-mismatch: fraction > 1e-6 = 0.61 (median 5.7e-01);  Y-mismatch: fraction > 1e-6 = 0.61, of which |dY|/2pi near an integer: 0.00
+lam = -4 (control)      : 150 loops (0 failed); b-mismatch: fraction > 1e-6 = 0.82 (median 6.2e-01);  Y-mismatch: fraction > 1e-6 = 0.82, of which |dY|/2pi near an integer: 0.00
+lam = +2 (phi = 1+Y^2)  : 114 loops (36 failed); b-mismatch: fraction > 1e-6 = 0.00 (median 5.2e-14);  Y-mismatch: fraction > 1e-6 = 0.00, of which |dY|/2pi near an integer: nan
+lam = -1                : 150 loops (0 failed); b-mismatch: fraction > 1e-6 = 0.36 (median 2.5e-14);  Y-mismatch: fraction > 1e-6 = 0.36, of which |dY|/2pi near an integer: 0.00
+lam = +1                : 150 loops (0 failed); b-mismatch: fraction > 1e-6 = 0.35 (median 2.8e-14);  Y-mismatch: fraction > 1e-6 = 0.35, of which |dY|/2pi near an integer: 0.00

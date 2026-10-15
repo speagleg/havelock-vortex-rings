@@ -27,6 +27,8 @@ per particle of the fluid (Haldane & Wu 1985). Harmonic (Gaussian) theory throug
 | `flat_nonlinear.py` | Nearest-neighbour model: spacings eliminated exactly, flat band to all orders, thermal factorisation, single-site potential and barrier, checked against the full tanh symbol -> `flat_nonlinear.out` |
 | `flat_lifting.py` | sympy: relaxed transverse stiffness of the exact symbol through e^{-2l'} (the lifting of the flat band) -> `flat_lifting.out` |
 | `plot_site_potential.py` | `site_potential.png` |
+| `toda_test.py`, `toda_long.py` | Largest Lyapunov exponents: Toda-limit vortex row, full tanh row, periodic Toda (integrable control), Toda + sin (chaotic control) -> `toda_test.out`, `toda_long.out` |
+| `kernel_integrability.py`, `cosh_long.py` | The same test for nearest-neighbour chains with kernels -ln sinh, -ln tanh, 2e^{-d}, -ln cosh of d/2 -> `kernel_integrability.out`, `cosh_long.out` |
 
 **1. One chiral branch** (DERIVED; `row_phonons.py`). Per Bloch wavenumber the quadratic form of H - V I (where
 I = sum Y generates translation along u) is h(q) = [[-C/s^2, -i delta], [i delta, B s^2]]. There is one degree of
@@ -226,10 +228,44 @@ the relaxed transverse stiffness (spacings relaxed: the Schur complement Sigma(q
 - *Away from threshold* the sites are therefore nearly independent: transverse thermal fluctuations are spatially
   white, with <delta Y_j^2> ~ T/Sigma, up to O(e^{-l'}) correlations.
 
+**11. Integrable limits hidden in the row?** (NUMERICAL evidence, not proofs: finite-time largest Lyapunov exponents of
+periodic 4-vortex chains, Benettin method; an integrable chain's estimate decays ~ 1/T, a chaotic one plateaus).
+**Superseded in part by ../integrable/:** the Toda-limit row is regular at small amplitude, but so is a control in its
+gauge family (phi = 1/(1+Y^2)^2), and no extra integral of low degree exists. Its exact integrability is UNPROVEN; read
+"looks integrable" below as "regular in these tests".
+
+*The Toda limit of the row looks integrable.* The leading-order row H = sum 2 sin phi_j sin phi_{j+1} e^{-(u_{j+1}-u_j)}
+(canonical u, Y = -cot phi; with Y = sinh theta, H = sum 2 sech theta_j sech theta_{j+1} e^{-(u_{j+1}-u_j)}) is a
+Toda-type chain. Its exponent decays in lockstep with the periodic Toda lattice:
+- 0.0196 -> 0.0060 -> 0.0018 for T = 300, 1200, 4800, against 0.0171 -> 0.0054 -> 0.0016 for Toda;
+- a second initial condition gives 0.014 -> 0.0049 -> 0.0014.
+
+The full tanh row is chaotic (0.19-0.23, plateau), so the long-range tail breaks the integrability. The form suggests
+a relativistic (Ruijsenaars) Toda chain; the identification is not made here.
+
+*Which geometric nearest-neighbour kernels look integrable* (`kernel_integrability.out`, `cosh_long.out`):
+
+| nearest-neighbour kernel | exponent at T = 300 / 1200 (/ 4800) | behaviour |
+|---|---|---|
+| -ln sinh(d/2) | 0.352 / 0.343 | chaotic |
+| -ln tanh(d/2) | 0.235 / 0.214 | chaotic |
+| 2 e^{-d} (exact geometric) | 0.151 / 0.153 | chaotic |
+| -ln cosh(d/2) | 0.0116 / 0.0041 / 0.0016 (second start 0.0108 / 0.0038 / 0.0012) | integrable-looking |
+
+The -ln cosh(d/2) chain is the SU(1,1) analogue of the integrable classical lattice Landau-Lifshitz chain of
+Ishimori and Haldane, H = sum ln(1 + S_j.S_{j+1}). A vortex is a classical spin on the hyperboloid with
+S.S' = -cosh d, so 1 - S.S' = 1 + cosh d = 2 cosh^2(d/2), and the sign of H does not affect integrability.
+
+The connection to the note is direct: -ln tanh(d/2) = -ln sinh(d/2) + ln cosh(d/2). The term the note singles out
+as the difference between the sinh and tanh models (Section 10: "the models differ by the pair term ln cosh(d/2)")
+is, by itself and truncated to nearest neighbours, an integrable lattice. Integrability of the Toda-limit row is a
+property of the strict large-spacing limit: the exact 2 e^{-d} kernel is chaotic.
+
 **Not yet done.** The central charge at the pinned-row critical line and at kappa_t (larger chi, or a faster DMRG
 code). Which quantum strengths are physical depends on the platform: tau = k eps^2 with eps = 1/(2 pi n R^2). The fate
 of the free (unpinned) row at the marginal/relevant phonon coupling (DMRG). A rigorous (non-leading-order) version of
-section 10, and the full-model thermal statistics beyond the nearest-neighbour factorisation (Monte Carlo).
+section 10, and the full-model thermal statistics beyond the nearest-neighbour factorisation (Monte Carlo). Lax pairs for the
+Toda-limit row and the -ln cosh(d/2) chain (section 11), turning the numerical evidence into proofs.
 
 References: Comtet, Ann. Phys. 173, 185 (1987) (Landau levels on H^2); Haldane & Wu, PRL 55, 2887 (1985) (vortex
 quantisation in superfluids); Shimshoni, Morigi & Fishman, PRL 106, 010401 (2011) (quantum zigzag transition);
@@ -238,4 +274,6 @@ matter, Tkachenko modes, melting); Friedan, Qiu & Shenker, PRL 52, 1575 (1984) a
 (unitarity and supersymmetry of the tricritical Ising model); Larkin & Pikin, Sov. Phys. JETP 29, 891 (1969); Sak, PRB 10,
 3957 (1974) (critical points on compressible lattices); Chandra, Coleman, Continentino & Lonzarich, PRR 2, 043440 (2020) and
 arXiv:2307.03062 (quantum versions); Tung, Schweikhard & Cornell, PRL 97, 240402 (2006) (optical pinning of BEC vortices); Pollmann, Mukerjee, Turner & Moore, PRL 102, 255701 (2009) (finite-entanglement scaling);
-Hauschild & Pollmann, SciPost Phys. Lect. Notes 5 (2018) (TeNPy).
+Hauschild & Pollmann, SciPost Phys. Lect. Notes 5 (2018) (TeNPy); Ishimori, J. Phys. Soc. Jpn. 51, 3417 (1982) and
+Haldane, J. Phys. C 15, L1309 (1982) (integrable lattice Landau-Lifshitz chain); Ruijsenaars, Commun. Math. Phys. 133,
+217 (1990) (relativistic Toda).

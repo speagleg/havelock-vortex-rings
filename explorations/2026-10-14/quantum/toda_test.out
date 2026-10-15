@@ -1,0 +1,2 @@
+trial 0: max Lyapunov (T = 600): NN vortex row 1.091e-02 | full tanh row 1.931e-01 | periodic Toda 9.689e-03 | Toda + sin 6.604e-02
+trial 1: max Lyapunov (T = 600): NN vortex row 7.191e-03 | full tanh row 2.123e-01 | periodic Toda 9.716e-03 | Toda + sin 4.584e-02

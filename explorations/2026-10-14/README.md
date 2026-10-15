@@ -315,6 +315,18 @@ See `quantum/README.md`. Vortex coordinates are conjugate, so a quantised row li
     2P[ln cot alpha - cos 2 alpha] ~ (32 sqrt 2/3)(kappa - kappa_c)^3 e^{-l'}.
   - Next-nearest neighbours lift the band (exact series): Sigma(q) = 4s^4[(2 kappa^2-1) e^{-l'} +
     (8 kappa^4 - 1 + 2 cos q) e^{-2l'}] (`quantum/site_potential.png`).
+- *Integrable limits?* (numerical; see `integrable/README.md`).
+  - The Toda limit of the row, H = sum 2 sin phi_j sin phi_{j+1} e^{-(u_{j+1}-u_j)}, is regular at small amplitude,
+    while the full tanh row is chaotic.
+  - A control in the same gauge family (phi = 1/(1+Y^2)^2) is equally regular, and no low-degree extra integral
+    exists, so exact integrability is UNPROVEN.
+  - A numerical Painleve (complex-time monodromy) test, calibrated on the Volterra lattice, finds the vortex row's
+    solutions infinitely branched (no return after 8 loops), so it is probably NOT integrable: near-integrable at
+    small amplitude.
+  - Exact: the member phi = e^Y of the family H = sum phi(Y_j) e^{-D_j} is the integrable Volterra lattice.
+  - Among geometric nearest-neighbour kernels only -ln cosh(d/2) looks integrable. It is the SU(1,1) version of the
+    Ishimori-Haldane integrable lattice Landau-Lifshitz chain, and exactly the term (ln cosh(d/2)) by which the tanh
+    model differs from the sinh model.
 
 **Open.** A pen-and-paper version of item 14 (the certificate is computer-assisted); instability below 1/sqrt 2 at every spacing for nu >= 3 (template in item 16);
 on the sphere, a configuration whose threshold is set by 2 kappa^2 + K alone (a sphere counterpart of the kernel-universal

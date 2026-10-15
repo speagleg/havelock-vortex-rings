@@ -1,0 +1,4 @@
+sinh  -ln sinh(d/2)   : lambda(T=300) = 3.521e-01, lambda(T=1200) = 3.427e-01, ratio  1.03  (integrable ~4, chaotic ~1)
+tanh  -ln tanh(d/2)   : lambda(T=300) = 2.346e-01, lambda(T=1200) = 2.139e-01, ratio  1.10  (integrable ~4, chaotic ~1)
+asym  2 e^{-d}        : lambda(T=300) = 1.511e-01, lambda(T=1200) = 1.532e-01, ratio  0.99  (integrable ~4, chaotic ~1)
+cosh  -ln cosh(d/2)   : lambda(T=300) = 1.156e-02, lambda(T=1200) = 4.063e-03, ratio  2.85  (integrable ~4, chaotic ~1)

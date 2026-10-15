@@ -1,0 +1,6 @@
+seed 7 T    300: -ln cosh(d/2) chain 1.156e-02
+seed 7 T   1200: -ln cosh(d/2) chain 4.063e-03
+seed 7 T   4800: -ln cosh(d/2) chain 1.643e-03
+seed 11 T    300: -ln cosh(d/2) chain 1.080e-02   Toda-limit row 1.432e-02
+seed 11 T   1200: -ln cosh(d/2) chain 3.848e-03   Toda-limit row 4.947e-03
+seed 11 T   4800: -ln cosh(d/2) chain 1.176e-03   Toda-limit row 1.393e-03

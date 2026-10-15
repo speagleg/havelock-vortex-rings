@@ -1,0 +1,22 @@
+N 3 ic 0: lambda(800) = 8.048e-03
+N 3 ic 1: lambda(800) = 6.158e-03
+N 3 ic 2: lambda(800) = 4.080e-03
+N 3 ic 3: lambda(800) = 6.201e-03
+N 3 ic 4: lambda(800) = 4.025e-03
+N 3 ic 5: lambda(800) = 5.414e-03
+N 3 ic 6: lambda(800) = 6.255e-03
+N 3 ic 7: lambda(800) = 6.099e-03
+N 3 ic 8: lambda(800) = 6.140e-03
+N 3 ic 9: lambda(800) = 2.737e-03
+N 3: row max 8.048e-03, median 6.119e-03;  Toda controls [0.00671 0.00513 0.00535]
+N 4 ic 0: lambda(800) = 7.647e-03
+N 4 ic 1: lambda(800) = 7.441e-03
+N 4 ic 2: lambda(800) = 7.872e-03
+N 4 ic 3: lambda(800) = 9.230e-03
+N 4 ic 4: lambda(800) = 7.117e-03
+N 4 ic 5: lambda(800) = 1.006e-02
+N 4 ic 6: lambda(800) = 8.363e-03
+N 4 ic 7: lambda(800) = 8.784e-03
+N 4 ic 8: lambda(800) = 8.374e-03
+N 4 ic 9: lambda(800) = 8.939e-03
+N 4: row max 1.006e-02, median 8.369e-03;  Toda controls [0.00764 0.00714 0.00748]

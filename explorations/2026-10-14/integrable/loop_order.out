@@ -1,0 +1,5 @@
+Volterra (g = 1): no loop with nontrivial monodromy in b found in 60 tries
+lam = -2 (vortex row): loop 1 (T 2.16, A 1.32): |b - b0| after k = 1..8 circuits: 7.5e-01 1.6e+00 9.9e-01 5.5e-01 1.4e+00 1.0e+00 1.7e+00 1.1e+00
+lam = -2 (vortex row): loop 2 (T 1.47, A 2.46): |b - b0| after k = 1..8 circuits: 7.5e-01 8.6e-01 6.1e-01 6.1e-01 8.5e-01 7.1e-01 4.5e-01 7.2e-01
+lam = -2 (vortex row): loop 3 (T 1.52, A 2.01): |b - b0| after k = 1..8 circuits: 1.2e+00 1.2e+00 1.6e+00 9.1e-01 9.8e-01 1.4e+00 1.6e+00 1.6e+00
+lam = -2 (vortex row): loop 4 (T 1.79, A 1.94): |b - b0| after k = 1..8 circuits: 1.4e+00 1.5e+00 1.8e+00 1.8e+00 1.8e+00 1.8e+00 1.8e+00 1.8e+00

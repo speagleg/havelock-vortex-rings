@@ -1,0 +1,2 @@
+2/(1+Y^2)  (vortex row): crossings per trajectory [0, 0, 383, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 280, 1, 1, 1, 0, 1, 1]
+1/(1+Y^2)^2  (control): crossings per trajectory [1, 0, 106, 1, 2, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 56, 1, 1, 1, 1, 1, 1]

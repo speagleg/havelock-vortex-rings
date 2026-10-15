@@ -1,0 +1,5 @@
+2/(1+Y^2) (vortex row)      : lambda(300) = 1.601e-02, lambda(1200) = 5.143e-03 (ratio 3.11); lambda(300) = 1.747e-02, lambda(1200) = 5.520e-03 (ratio 3.16)
+exp(Y)                      : lambda(300) = 1.937e-02, lambda(1200) = 5.814e-03 (ratio 3.33); lambda(300) = 1.532e-02, lambda(1200) = 4.979e-03 (ratio 3.08)
+1 + Y^2                     : lambda(300) = 4.028e-02, lambda(1200) = 4.955e-02 (ratio 0.81); lambda(300) = 1.427e-01, lambda(1200) = 1.608e-01 (ratio 0.89)
+1 + 0.5 sin(2Y) + 0.1 Y^2   : lambda(300) = 1.513e-01, lambda(1200) = 1.321e-01 (ratio 1.15); lambda(300) = 1.701e-01, lambda(1200) = 1.716e-01 (ratio 0.99)
+cosh(Y)                     : lambda(300) = 1.697e-02, lambda(1200) = 1.837e-02 (ratio 0.92); lambda(300) = 5.978e-02, lambda(1200) = 4.290e-02 (ratio 1.39)
